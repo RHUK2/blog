@@ -25,6 +25,7 @@
     - [initial connection](#initial-connection)
     - [blocked:mixed-content](#blockedmixed-content)
     - [content-disposition](#content-disposition)
+  - [라이트세일 DB 연결 시](#라이트세일-db-연결-시)
 
 ## 브라우저 렌더링
 
@@ -205,3 +206,10 @@ content-dispositon의 경우 서버에서 값을 노출시켜주지 않으면 ax
 
 헤더 값을 통한 작업 시 헤더의 값이 대문자일수도 소문자일수도 있기에 해당 처리를 해줄 필요가 있다.
 한마디로 헤더는 대소문자를 구분하지 않음 -> axios에서 다 소문자 처리해서 필요없음..
+
+## 라이트세일 DB 연결 시
+
+SSH tunnel
+
+라이트세일 DB는 또 다른 하나의 서버이지만 퍼블릭/프라이빗 모드에 따라서 같은
+![Alt text](image.png)

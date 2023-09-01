@@ -5,6 +5,7 @@
     - [git init](#git-init)
     - [git remote](#git-remote)
     - [git clone](#git-clone)
+    - [git 비활성화](#git-비활성화)
   - [Source Control](#source-control)
     - [git add](#git-add)
     - [git commit](#git-commit)
@@ -70,6 +71,14 @@ git clone <URL> <프로젝트명> # 원격 레포지토리 이름과 다르게 �
 git init
 git remote add origin <URL>
 git pull origin master
+```
+
+### git 비활성화
+
+로컬 저장소에서 git을 비활성화 시킨다.
+
+```sh
+rm -rf .git
 ```
 
 ## Source Control
