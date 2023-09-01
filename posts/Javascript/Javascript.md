@@ -1,0 +1,267 @@
+# Javascript
+
+- [Javascript](#javascript)
+  - [target vs currentTarget](#target-vs-currenttarget)
+  - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)
+  - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
+  - [좌표](#좌표)
+    - [요소의 너비와 높이](#요소의-너비와-높이)
+    - [브라우저 창, 문서의 너비와 높이](#브라우저-창-문서의-너비와-높이)
+    - [스크롤](#스크롤)
+    - [요소의 좌표](#요소의-좌표)
+    - [마우스 좌표](#마우스-좌표)
+  - [모듈](#모듈)
+    - [모듈 번들러](#모듈-번들러)
+    - [번들러 파일 구조](#번들러-파일-구조)
+    - [개발/프로덕션 모드에 따른 번들링 방식](#개발프로덕션-모드에-따른-번들링-방식)
+      - [개발 모드(dev 모드)](#개발-모드dev-모드)
+      - [프로덕션 모드(prod 모드)](#프로덕션-모드prod-모드)
+  - [값, 리터럴, 표현식, 문](#값-리터럴-표현식-문)
+  - [parse](#parse)
+
+## target vs currentTarget
+
+이벤트 발생 시 콜백 함수에는 `Event` 객체를 인자로 받게 되는데, 해당 객체의 `target` 속성은 이벤트가 발생하고 버블링되는 과정에서 첫번째 단계의 엘리먼트를 가리킨다. `currentTarget`은 버블링을 따라 올라오면서 이벤트와 직접 바인딩된 엘리먼트를 가리킨다. `currentTarget`은 `console`로 찍어보면 `null`로 나타나게 되는데, 해당 데이터는 이벤트가 처리되는 동안에만 사용되기 때문이다.
+
+## onclick vs addEventListener('click')
+
+onclick과 addEventListener는 둘 다 웹 개발에서 이벤트 처리를 위해 사용되는 JavaScript의 메커니즘입니다. 하지만 두 가지 접근 방식에는 몇 가지 중요한 차이점이 있습니다.
+
+단일 핸들러 vs. 다중 핸들러:
+
+onclick: HTML 요소의 onclick 속성을 통해 한 번에 하나의 이벤트 핸들러만 연결할 수 있습니다. 이는 요소당 하나의 클릭 이벤트 핸들러만 할당할 수 있다는 의미입니다.
+addEventListener: 이 방법을 사용하면 하나의 요소에 여러 개의 이벤트 핸들러를 연결할 수 있습니다. 동일한 이벤트 유형에 대해 여러 핸들러를 등록할 수 있습니다.
+동적인 핸들러 추가:
+
+onclick: 요소의 onclick 속성은 HTML 코드에서 직접 지정되며, 이렇게 정적으로 할당되어 바꾸기 어렵습니다.
+addEventListener: JavaScript 코드 내에서 동적으로 이벤트 핸들러를 추가하거나 제거할 수 있습니다. 이는 런타임 중에 이벤트 핸들러를 동적으로 조작하고 업데이트하는 데 유용합니다.
+이벤트 핸들러 우선순위:
+
+onclick: onclick 속성으로 할당된 핸들러는 다른 핸들러보다 우선순위가 높습니다. 이는 동일한 이벤트에 대해 여러 개의 핸들러를 등록할 수 없다는 것을 의미합니다.
+addEventListener: 여러 개의 핸들러를 등록한 경우, 등록된 순서대로 호출됩니다. 이를 통해 여러 핸들러 간에 순서를 조절할 수 있습니다.
+이벤트 제거:
+
+onclick: onclick 속성을 제거하거나 빈 문자열로 설정하여 이벤트 핸들러를 제거할 수 있습니다.
+addEventListener: removeEventListener를 사용하여 등록한 이벤트 핸들러를 제거할 수 있습니다. 단, 제거하려는 핸들러는 반드시 동일한 함수의 참조여야 합니다.
+이벤트 유형:
+
+onclick: 주로 클릭 이벤트에 사용됩니다.
+addEventListener: 여러 종류의 이벤트에 사용될 수 있으며, 이벤트 유형을 문자열로 지정해야 합니다.
+
+## throttle vs debounce(feat. lodash 라이브러리)
+
+이벤트에 병목 현상을 주고 싶거나, 사용자의 입력에 딜레이를 주고 싶은 상황이 빈번하게 발생하는데 이를 `lodash`의 `throttle`과 `debounce`로 쉽게 해결이 가능하다.
+
+보통 스크롤 이벤트 같이 매우 빈번하게 발생하는 이벤트의 경우 `throttle`을 통해 병목 현상을 준다. 사용자가 고의로 빈번하게 입력하는 것을 방지하기 위해서는 `debounce`를 활용해 정해진 딜레이 이상 지나지 않으면 이벤트를 막아준다. 아래의 사진으로 해당 함수들이 어떻게 동작하는 지 이해할 수 있다.
+
+![debounce_vs_throttle](assets/debounce_vs_throttle.png)
+
+사용법은 아래와 같다. 리액트의 경우 리렌더링 시에 컴포넌트를 계속 호출하므로 `useRef` 훅으로 감싸서 매 렌더링마다 새로운 함수가 생성되는 것을 막는다.
+
+```js
+import _ from 'lodash';
+
+...
+
+function onCheckEmail() {
+    ...
+}
+
+const onThrottledCheckEmail = _.throttle(onCheckEmail, 1000, {leading: true, trailling: false});
+
+const onDebouncedCheckEmail = _.debounce(onCheckEmail, 1000, {leading: true, trailling: false});
+```
+
+## 좌표
+
+### 요소의 너비와 높이
+
+```js
+alert(element.offsetWidth); // 보더 + 패딩 + 컨텐츠 + 스크롤바 너비
+alert(element.offsetHeight); // 보더 + 패딩 + 컨텐츠 + 스크롤바 높이
+alert(element.clientWidth); // 패딩 + 컨텐츠 너비
+alert(element.clientHeight); // 패딩 + 컨텐츠 높이
+alert(element.scrollWidth); // 패딩 + 컨텐츠 + 스크롤바에 가려진 패딩 + 컨텐츠 너비
+alert(element.scrollHeight); // 패딩 + 컨텐츠 + 스크롤바에 가려진 패딩 + 컨텐츠 높이
+alert(element.scrollLeft); // 스크롤바에 가려진 왼쪽 영역의 패딩 + 컨텐츠 길이
+alert(element.scrollTop); // 스크롤바에 가려진 위쪽 영역의  패딩 + 컨텐츠 길이
+```
+
+### 브라우저 창, 문서의 너비와 높이
+
+```js
+alert(window.innerWidth); // 세로 스크롤바 + 창 너비
+alert(window.innerHeight); // 가로 스크롤바 + 창 높이
+alert(document.documentElement.clientWidth); // 순수 창 너비
+alert(document.documentElement.clientHeight); // 순수 창 높이
+alert(document.documentElement.scrollWidth); // 스크롤에 가려진 부분 포함 문서 총 너비
+alert(
+  Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.offsetHeight,
+    document.body.clientHeight,
+    document.documentElement.clientHeight,
+  ),
+); // 스크롤에 가려진 부분 포함 문서 총 높이
+```
+
+### 스크롤
+
+```js
+alert(window.scrollX); // 스크롤에 가려진 부분의 왼쪽 영역 너비
+alert(window.scrollY); // 스크롤에 가려진 부분의 위쪽 영역 높이
+
+window.scrollBy(x, y); // 현재 스크롤 위치 기준으로 스크롤 이동
+window.scrollTo(x, y); // 문서 기준으로 스크롤 이동
+element.scrollIntoView(true); // 요소를 창 위쪽 모서리에 맞추도록 이동
+element.scrollIntoView(false); // 요소를 창 아래쪽 모서리에 맞추도록 이동
+
+document.body.style.overflow = 'hidden'; // 스크롤바 고정
+document.body.style.overflow = ''; // 스크롤바 고정 해제
+// 스크롤바 고정 시 스크롤바 너비만큼 보정
+// 창 기준 좌표
+document.body.style.paddingleft = window.innerWidth - right.documentElement.clientWidth;
+// 스크롤바 고정 시 스크롤바 너비만큼 보정 해제
+document.body.style.paddingRight = '';
+```
+
+### 요소의 좌표
+
+자바스크립트에서 `document.querySelector`를 사용하든, 리액트에서 `useRef`를 사용하든, 좌표를 알고싶은 요소의 객체를 가져와서 `getBoundingClientRect` 함수를 사용한다.
+
+```js
+// 창 기준 좌표
+const { x, y, width, height, top, left, bottom, right } = element.getBoundingClientRect();
+
+// 문서 기준 좌표
+function getCoords(elem) {
+  let { top, left, bottom, right } = element.getBoundingClientRect();
+
+  return {
+    top: top + window.pageYOffset,
+    left: left + window.pageXOffset,
+    bottom: bottom + window.pageYOffset,
+    right: right + window.pageXOffset,
+  };
+}
+
+// 주어진 좌표 아래의 가장 가까운 중첩 요소를 반환
+document.elementFromPoint(x, y);
+```
+
+![element_box_diagram](assets/element_box_diagram.png)
+
+### 마우스 좌표
+
+![mouse_coordinate](assets/mouse_coordinate.png)
+
+```js
+element.onmousemove = function (e) {
+  // 모니터 기준
+  console.log(e.screenX);
+  console.log(e.screenY);
+  // 문서 기준
+  console.log(e.pageX);
+  console.log(e.pageY);
+  // 브라우저 창 기준
+  console.log(e.clientX);
+  console.log(e.clientY);
+  // 요소 기준
+  console.log(e.offsetX);
+  console.log(e.offsetY);
+};
+```
+
+## 모듈
+
+모듈은 단순히 파일 하나의 불과하다. 모듈 안에서 `import` 지시자를 이용해서 외부 모듈 내부의 변수나 함수를 가져오거나 `export` 지시자를 이용해 모듈 내부의 변수나 함수를 내보낼 수 있다.
+
+`export`와 `import` 지시자를 스크립트 내에서 사용하려면 아래와 같이 `type='module'` 속성을 추가해서 작성해야 한다.
+
+```html
+<script type='module' src='./module.js' >
+```
+
+자바스크립트 엔진은 `module.js` 파일 안에 `import`문을 만나면 해당 모듈을 가져오기 위해 네트워크 요청 또는 파일 경로를 통해 온다. 브라우저 환경에서는 일반적으로 네트워크 요청을 통해 해당 모듈을 가져오며, Node.js 환경에서는 파일 시스템을 통해 모듈을 가져온다.
+
+### 모듈 번들러
+
+브라우저 환경에서는 모듈 번들러 없이 모듈을 사용한다면, 무수히 많은 네트워크 요청이 발생한다. 이를 방지하기 위해 웹팩(Webpack)과 같은 모듈 번들러 툴을 사용해 하나의 번들러를 생성하고 이를 `script`와 연결한다.
+
+```html
+<script type="module" src="script.js"></script>
+```
+
+```js
+// script.js
+import { a } from './module.js';
+
+// module.js
+import { b } from './module2.js';
+
+export let a = 'a';
+
+// module2.js
+export let b = 'b';
+```
+
+![import_network](assets/import_network.png)
+
+모듈 번들러 툴은 보통 아래와 같이 동작합니다.
+
+1. HTML의 `<script type="module">`에 진입점 역할을 하는 모듈을 넣는다.
+2. 진입점 모듈에 의존하고 있는(`import`되어 있는) 모듈 분석을 시작으로 모듈 간의 의존 관계를 파악한다.
+3. 모듈 전체를 한데 모아 하나의 큰 파일을 만든다(설정에 따라 여러 개의 파일을 만드는 것도 가능하다). 이 과정에서 `import`문이 번들러 내부 함수로 대체되므로 기존 기능은 그대로 유지된다. 4. 위 과정에서 아래와 같은 변형 및 최적화도 함께 수행한다.
+   - 도달하지 못한 코드는 삭제된다.
+   - 내보내진 모듈 중 쓰임처가 없는 모듈을 삭제한다(tree-shaking).
+   - `console`, `debugger` 같은 개발 관련 코드를 삭제한다.
+   - 최신 자바스크립트 문법이 사용된 경우 바벨(Babel)을 사용해 동일한 기능을 하는 낮은 버전의 스크립트로 변환한다.
+   - 공백 제거, 변수 이름 줄이기 등으로 산출물의 크기를 줄인다.
+
+기존 `import`, `export`는 번들러 내부 함수로 대체되기 때문에 `type='module'`이 사라진다.
+
+```html
+<script defer src="bundle.js"></script>
+```
+
+### 번들러 파일 구조
+
+```mermaid
+flowchart LR
+    subgraph bundle.js
+    A("번들러에 의해 변경된 사용자 코드들")
+    B("번들러에 의해 변경된 라이브러리 코드들")
+    A ---|번들러 내부 함수로 한 파일 내에서 라이브러리 참조| B
+    end
+```
+
+### 개발/프로덕션 모드에 따른 번들링 방식
+
+#### 개발 모드(dev 모드)
+
+- 개발용 소스맵: 웹팩은 개발 모드에서 소스맵을 생성하여 번들된 코드와 원본 코드 간의 매핑을 제공해서 개발자 도구에서 원본 코드를 볼 수 있도록 해준다. 이는 디버깅을 용이하게 하고 원본 코드의 오류를 추적하는 데 도움을 준다.
+- 빠른 빌드: 빠른 빌드와 빠른 리로딩을 위해 번들링 속도를 최적화한다. 파일을 변경할 때 필요한 부분만 다시 빌드하고 적용하는 등의 최적화 작업을 수행한다.
+- 개발용 플러그인 및 기능: HMR(Hot Module Replacement)과 같은 기능을 제공하는 플러그인이나 개발 도구와의 통합을 위한 기능들이 포함될 수 있다.
+
+#### 프로덕션 모드(prod 모드)
+
+- 코드 최적화: 코드를 압축하고 최적화하여 번들된 파일의 크기를 최소화한다. 이는 애플리케이션의 다운로드 속도를 향상시키고 사용자 경험을 개선하는 데 도움을 준다.
+- 난독화: 코드 난독화 기법을 적용하여 번들된 코드를 해석하기 어렵게 만든다. 이는 코드의 보안성을 높이고 외부에서의 접근을 어렵게 만드는 데 도움을 준다.
+- 환경 변수 설정: 환경 변수를 설정하여 개발 모드와 다른 설정을 사용할 수 있다. 이를 통해 프로덕션 환경에서 필요한 설정 및 동작을 조정할 수 있다.
+
+## 값, 리터럴, 표현식, 문
+
+| 종류               | 설명                                                                                                                                                                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 값(Value)          | 표현식이 평가되어 생성된 결과                                                                                                                                                                                                                                            |
+| 리터럴(Literal)    | 다양한 자료형을 가진 값을 생성하려면 이를 텍스트로 구분 짓는 것이 필요한데, 이를 위해 미리 약속된 표기법 규칙을 말한다.                                                                                                                                                  |
+| 표현식(Expression) | 표현식은 값을 생성하거나 조작하는 코드 구문이다. 표현식은 값, 변수, 리터럴, 연산자, 함수 호출 등의 조합으로 구성될 수 있다. 표현식은 평가되어 값을 반환한다.                                                                                                             |
+| 문(Statement)      | 문은 프로그램에서 실행되는 동작이나 작업을 나타낸다. 문은 프로그램의 동작을 제어하거나 조작하는 데 사용된다. 문은 변수 선언, 할당, 조건문(`if`/`else`), 반복문(`for`, `while`), 함수 선언 등의 구조를 가질 수 있습니다. 문은 세미콜론(`;`)으로 끝나는 것이 일반적입니다. |
+
+## parse
+
+여러가지 API를 사용하다보면 `parse()` 메서드를 많이 접하게 된다.
+
+해당 메서드는 보통 다른 포맷을 원 객체로 변환시키는 행위
