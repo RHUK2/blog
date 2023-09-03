@@ -3,6 +3,8 @@
 - [Javascript](#javascript)
   - [target vs currentTarget](#target-vs-currenttarget)
   - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)
+    - [onclick](#onclick)
+    - [addEventListener('click')](#addeventlistenerclick)
   - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
   - [좌표](#좌표)
     - [요소의 너비와 높이](#요소의-너비와-높이)
@@ -25,28 +27,21 @@
 
 ## onclick vs addEventListener('click')
 
-onclick과 addEventListener는 둘 다 웹 개발에서 이벤트 처리를 위해 사용되는 JavaScript의 메커니즘입니다. 하지만 두 가지 접근 방식에는 몇 가지 중요한 차이점이 있습니다.
+onclick과 addEventListener는 이벤트 처리를 위해 사용되는 JavaScript의 메커니즘이다. 하지만 두 가지 접근 방식에는 몇 가지 중요한 차이점이 있다.
 
-단일 핸들러 vs. 다중 핸들러:
+### onclick
 
-onclick: HTML 요소의 onclick 속성을 통해 한 번에 하나의 이벤트 핸들러만 연결할 수 있습니다. 이는 요소당 하나의 클릭 이벤트 핸들러만 할당할 수 있다는 의미입니다.
-addEventListener: 이 방법을 사용하면 하나의 요소에 여러 개의 이벤트 핸들러를 연결할 수 있습니다. 동일한 이벤트 유형에 대해 여러 핸들러를 등록할 수 있습니다.
-동적인 핸들러 추가:
+- HTML 요소의 onclick 속성을 통해 한 번에 하나의 이벤트 핸들러만 연결할 수 있다.
+- HTML 요소의 onclick 속성은 HTML 코드에서 직접 지정되며, 정적으로 할당되기 때문에 바꾸기가 어렵다.
+- onclick 속성으로 할당된 핸들러는 다른 핸들러보다 우선순위가 높다.
+- onclick 속성에 빈 문자열을 설정하여 이벤트 핸들러를 제거할 수 있다.
 
-onclick: 요소의 onclick 속성은 HTML 코드에서 직접 지정되며, 이렇게 정적으로 할당되어 바꾸기 어렵습니다.
-addEventListener: JavaScript 코드 내에서 동적으로 이벤트 핸들러를 추가하거나 제거할 수 있습니다. 이는 런타임 중에 이벤트 핸들러를 동적으로 조작하고 업데이트하는 데 유용합니다.
-이벤트 핸들러 우선순위:
+### addEventListener('click')
 
-onclick: onclick 속성으로 할당된 핸들러는 다른 핸들러보다 우선순위가 높습니다. 이는 동일한 이벤트에 대해 여러 개의 핸들러를 등록할 수 없다는 것을 의미합니다.
-addEventListener: 여러 개의 핸들러를 등록한 경우, 등록된 순서대로 호출됩니다. 이를 통해 여러 핸들러 간에 순서를 조절할 수 있습니다.
-이벤트 제거:
-
-onclick: onclick 속성을 제거하거나 빈 문자열로 설정하여 이벤트 핸들러를 제거할 수 있습니다.
-addEventListener: removeEventListener를 사용하여 등록한 이벤트 핸들러를 제거할 수 있습니다. 단, 제거하려는 핸들러는 반드시 동일한 함수의 참조여야 합니다.
-이벤트 유형:
-
-onclick: 주로 클릭 이벤트에 사용됩니다.
-addEventListener: 여러 종류의 이벤트에 사용될 수 있으며, 이벤트 유형을 문자열로 지정해야 합니다.
+- 하나의 요소에 여러 개의 이벤트 핸들러를 연결할 수 있다.
+- 동적으로 이벤트 핸들러를 추가하거나 제거할 수 있따. 이는 런타임 중에 이벤트 핸들러를 동적으로 조작하고 업데이트하는 데 유용하다.
+- 여러 개의 핸들러를 등록한 경우, 등록된 순서대로 호출된다. 이를 통해 여러 핸들러 간에 순서를 조절할 수 있다.
+- removeEventListener를 사용하여 등록한 이벤트 핸들러를 제거할 수 있다. 단, 제거하려는 핸들러는 반드시 동일한 함수의 참조여야 한다.
 
 ## throttle vs debounce(feat. lodash 라이브러리)
 
@@ -264,4 +259,4 @@ flowchart LR
 
 여러가지 API를 사용하다보면 `parse()` 메서드를 많이 접하게 된다.
 
-해당 메서드는 보통 다른 포맷을 원 객체로 변환시키는 행위
+보통 여러가지 메서드를 가진 거대한 객체가 존재하고, 거대한 객체를 바탕으로 여러 메서드를 이용해서 사용자가 원하는 형태의 데이터를 얻어낸다. 개발을 하다보면 데이터를 다시 조작해서 다른 데이터를 얻어내고 싶을 경우가 있을 것이다. 이런 경우 데이터를 파싱해서 거대한 객체를 다시 만들어내고 데이터를 바탕으로 만들어진 거대한 객체를 통해 다시 사용자가 원하는 형태의 데이터를 출력한다.

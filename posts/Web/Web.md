@@ -25,7 +25,7 @@
     - [initial connection](#initial-connection)
     - [blocked:mixed-content](#blockedmixed-content)
     - [content-disposition](#content-disposition)
-  - [라이트세일 DB 연결 시](#라이트세일-db-연결-시)
+    - [Lightsail DB 연결](#lightsail-db-연결)
 
 ## 브라우저 렌더링
 
@@ -207,9 +207,6 @@ content-dispositon의 경우 서버에서 값을 노출시켜주지 않으면 ax
 헤더 값을 통한 작업 시 헤더의 값이 대문자일수도 소문자일수도 있기에 해당 처리를 해줄 필요가 있다.
 한마디로 헤더는 대소문자를 구분하지 않음 -> axios에서 다 소문자 처리해서 필요없음..
 
-## 라이트세일 DB 연결 시
+### Lightsail DB 연결
 
-SSH tunnel
-
-라이트세일 DB는 또 다른 하나의 서버이지만 퍼블릭/프라이빗 모드에 따라서 같은
-![Alt text](image.png)
+Lightsail의 DB는 동일한 Lightsail 계정에 있는 Lightsail 리소스(인스턴스, 로드 밸런서 등)에서만 액세스할 수 있다. 그래서 SSH Tunnel이 필요하다. 일반적으로 공개되어 있는 Lightsail 인스턴스와 공개적으로 액세스할 수 없는 Lightsail DB를 생성하여 연결한다. 다만 Lightsail DB를 퍼블릭 모드로 설정한다면 데이터베이스 접속 정보만으로 접속 가능하다.
