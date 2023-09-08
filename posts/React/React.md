@@ -12,6 +12,7 @@
   - [manifest.json](#manifestjson)
   - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
   - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
+  - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
 
 ## 가상 돔(Virtual DOM)
 
@@ -65,7 +66,7 @@ HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기
 
 ## useState
 
-`useState`의 첫 번째 인자는 초기값을 설정해주는데, 해당 값은 초기 렌더링 이후 무시된다.
+`useState`의 첫 번째 인자는 초기값을 설정해주는데, 해당 값은 컴포넌트가 마운트 시에만 설정되고, 이후에는 setState를 통해 값을 업데이트한다.
 
 ```js
 const [state, setState] = useState(initialState);
@@ -132,3 +133,11 @@ root.render(
   render={({ field }) => <Select id='select' value={field.value} onChange={field.onChange} />}
 />
 ```
+
+## react-query 사용 시 애니메이션 렌더링 문제
+
+아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 애니메이션이 일어남과 동시에 상태를 바꾸는 API 요청을 하게 된다. 그리고 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
+
+이 과정에서 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다.
+
+![Alt text](image.png)
