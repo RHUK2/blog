@@ -19,7 +19,7 @@
     - [HTML(Hyper Text Markup Language)](#htmlhyper-text-markup-language)
     - [Markdown](#markdown)
     - [XML(eXtensible Markup Language)](#xmlextensible-markup-language)
-    - [JSON(Javascript Object Notation)](#jsonjavascript-object-notation)
+    - [JSON(JavaScript Object Notation)](#jsonJavaScript-object-notation)
     - [YAML(Yet Another Markup Language)](#yamlyet-another-markup-language)
   - [MIME 타입](#mime-타입)
   - [디버깅](#디버깅)
@@ -32,7 +32,7 @@
 
 ## 웹 브라우저란?
 
-브라우저는 HTTP 프로토콜을 해석할 수 있는 프로그램이며, HTTP 요청으로 응답한 컨텐츠를 브라우저 상에 보여주는 역할을 한다. 컨텐츠는 주로 HTML, CSS, Javascript, JSON, 이미지, 폰트, 미디어 등 여러가지가 존재하는데, 그 중에서 HTML, CSS, Javascript는 브라우저 내부에 렌더링 엔진과 자바스크립트 엔진에 의해 파싱 되어 렌더 트리를 생성한 후 화면에 표현한다.
+브라우저는 HTTP 프로토콜을 해석할 수 있는 프로그램이며, HTTP 요청으로 응답한 컨텐츠를 브라우저 상에 보여주는 역할을 한다. 컨텐츠는 주로 HTML, CSS, JavaScript, JSON, 이미지, 폰트, 미디어 등 여러가지가 존재하는데, 그 중에서 HTML, CSS, JavaScript는 브라우저 내부에 렌더링 엔진과 자바스크립트 엔진에 의해 파싱 되어 렌더 트리를 생성한 후 화면에 표현한다.
 
 ### 렌더링 과정
 
@@ -48,7 +48,7 @@ API 서버: DB와 연결되어 사용자의 요청에 따라 GET/POST/PUT/DELETE
 
 SSR 서버: DB와 연결되어 사용자의 요청에 따라 알맞은 데이터를 넣어 렌더링된 HTML 파일을 응답하는 서버
 
-Static 서버: 사용자가 요청한 정적 파일(HTML, Javascript, CSS, Image, Font 등)을 응답하는 서버
+Static 서버: 사용자가 요청한 정적 파일(HTML, JavaScript, CSS, Image, Font 등)을 응답하는 서버
 
 ## 브라우저와 서버의 의사소통
 
@@ -58,8 +58,8 @@ flowchart LR
     B("Cloud Computer(IP)")
     C("Ngnix(:443)")
     D("Front-end Application Server(:3000)")
-    A --> |HTML, JAVASCRIPT 등 요청| B --> |HTTPS 요청| C --> |포트 포워딩| D
-    D --> |HTML, JAVASCRIPT 등 응답| C --> |HTTPS 응답| B --> |HTML, JAVASCRIPT 등 응답| A
+    A --> |HTML, JavaScript 등 요청| B --> |HTTPS 요청| C --> |포트 포워딩| D
+    D --> |HTML, JavaScript 등 응답| C --> |HTTPS 응답| B --> |HTML, JavaScript 등 응답| A
 ```
 
 ```mermaid
@@ -108,7 +108,7 @@ AJAX가 등장하기 전의 웹 방식에서는 페이지 갱신이 발생할 �
 
 ### AJAX 등장 이후의 웹 방식
 
-AJAX(Asynchronous Javascript and XML) 자바스크립트와 XML을 이용한 비동기적 데이터 교환을 의미한다. 그러나 현재에는 XML보다는 사용자 편의성이나 보안 측면에서 유리한 JSON이 보편적으로 사용된다.
+AJAX(Asynchronous JavaScript and XML) 자바스크립트와 XML을 이용한 비동기적 데이터 교환을 의미한다. 그러나 현재에는 XML보다는 사용자 편의성이나 보안 측면에서 유리한 JSON이 보편적으로 사용된다.
 
 AJAX의 등장으로 웹 페이지의 일부분만 갱신하거나 데이터를 비동기적으로 서버와 주고받을 수 있게 되었다. 이는 사용자 경험을 향상시키고 페이지 갱신 시간을 줄이는 데 큰 영향을 미쳤다. AJAX를 통해 데이터를 서버와 주고받을 때 페이지 전체를 새로 렌더링할 필요 없이, 필요한 부분만 업데이트할 수 있다. 이로 인해 웹 애플리케이션은 빠르고 동적인 동작을 보여줄 수 있게 되었다.
 
@@ -150,7 +150,7 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 이런 XML의 특징은 수많은 종류의 데이터를 유연하고 자유롭게 기술하는 데 적용할 수 있어서 다양한 용도로 응용할 수 있으며, 인터넷으로 연결된 시스템끼리 쉽게 식별 가능한 데이터를 주고받을 수 있게 된다. 게임 모드 등을 시도해 봤다면 설정파일이 XML로 된 것을 본 경험이 있을 것이다.
 
-### JSON(Javascript Object Notation)
+### JSON(JavaScript Object Notation)
 
 서버와 클라이언트간의 데이터를 교환할 때 사용하는 데이터 포맷이다. 클라이언트가 사용하는 언어에 관계 없이 통일된 데이터를 주고받을 수 있도록, 일정한 패턴을 지닌 문자열을 생성해 내보내면 클라이언트는 그를 해석해 데이터를 자기만의 방식으로 온전히 저장, 표시할 수 있게 된다.
 
@@ -166,7 +166,7 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유형을 식별하기 위한 표준화된 문자열입니다. MIME 타입은 주로 웹에서 사용되며, 웹 브라우저와 서버가 파일의 내용을 올바르게 처리하도록 도와줍니다. MIME 타입은 파일의 확장자나 내용의 특성에 따라 결정되며, 파일의 실제 형식을 정확하게 식별할 수 있도록 도와줍니다.
 
-- application/javascript
+- application/JavaScript
 - application/json
 - application/x-www-form-urlencoded: 웹 폼 데이터를 URL 인코딩하여 서버로 전송
 - application/xml

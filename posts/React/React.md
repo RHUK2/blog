@@ -37,11 +37,11 @@
 
 ## JSX
 
-JSX(JavaScript XML)는 React와 같은 Javascript 라이브러리를 위해 개발된 문법 확장이다. JSX는 JavaScript 코드 안에서 XML과 유사한 구문을 사용하여 Javascript와 HTML을 함께 작성할 수 있게 해준다.
+JSX(JavaScript XML)는 React와 같은 JavaScript 라이브러리를 위해 개발된 문법 확장이다. JSX는 JavaScript 코드 안에서 XML과 유사한 구문을 사용하여 JavaScript와 HTML을 함께 작성할 수 있게 해준다.
 
 JSX는 JavaScript 표현식을 중괄호({})로 감싸서 삽입할 수도 있다. 이를 통해 동적으로 값을 계산하거나 변수를 사용할 수 있다.
 
-JSX는 바벨(Babel)과 같은 도구를 사용하여 일반 Javascript 코드로 변환된다.
+JSX는 바벨(Babel)과 같은 도구를 사용하여 일반 JavaScript 코드로 변환된다.
 
 ### checked
 
@@ -88,7 +88,7 @@ CRA로 리액트 프로젝트 생성 시 public 폴더 아래에 해당 파일�
 
 회사에서 개발 중 useEffect가 한 번만 호출되도록 설정을 했다. 그런데 두 번씩 호출되서 예상한대로 동작하지 않던 이슈가 있었는데 해당 코드가 기억이 나지 않아서 원인에 대해서만 작성해야겠다.
 
-```javascript
+```JavaScript
 useEffect(() => {
   console.log(mount);
   return () => {
@@ -105,7 +105,7 @@ useEffect(() => {
 
 아래는 리액트에서 엄격 모드를 설정하는 방법이고, Next.js를 사용한다면 다른 방식으로 설정이 필요하다.
 
-```javascript
+```JavaScript
 root.render(
   <React.StrictMode>
     <App />

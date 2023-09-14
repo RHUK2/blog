@@ -1,6 +1,7 @@
-# Javascript
+# JavaScript
 
-- [Javascript](#javascript)
+- [JavaScript](#javascript)
+  - [JavaScript vs ECMAScript](#javascript-vs-ecmascript)
   - [target vs currentTarget](#target-vs-currenttarget)
   - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)
     - [onclick](#onclick)
@@ -20,6 +21,12 @@
       - [프로덕션 모드(prod 모드)](#프로덕션-모드prod-모드)
   - [값, 리터럴, 표현식, 문](#값-리터럴-표현식-문)
   - [parse](#parse)
+
+## JavaScript vs ECMAScript
+
+JavaScript는 ECMAScript 언어의 구현 중 하나로, 대부분의 모던 웹 브라우저에서 지원하며 Node.js와 같은 서버 측 환경에서도 사용된다.
+
+ECMAScript는 JavaScript의 표준 사양을 정의하는 언어이다. 프로그래밍 언어의 규격과 특성을 명시화하여 JavaScript 엔진 개발자와 웹 개발자 간의 일관된 작업 환경을 제공한다. 즉, ECMAScript는 JavaScript의 핵심 기능 및 구문을 정의하고 있으며, JavaScript 엔진 제작자 및 브라우저 개발자는 이 사양을 준수하여 JavaScript를 구현한다. JavaScript는 ECMAScript의 구현 중 하나로, 보통 브라우저나 Node.js 환경에서 실행된다. 여기에 브라우저나 환경에 따라 추가된 다양한 기능과 API를 제공한다.
 
 ## target vs currentTarget
 

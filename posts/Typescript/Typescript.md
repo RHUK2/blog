@@ -4,3 +4,5 @@
 ![TypeScript_Interfaces](TypeScript_Interfaces.png)
 ![TypeScript_Types](TypeScript_Types.png)
 ![TypeScript_Classes](TypeScript_Classes.png)
+
+## .d.ts
