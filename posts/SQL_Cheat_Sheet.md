@@ -36,15 +36,15 @@ SELECT * FROM user WHERE id IS NOT NULL
 ## 정렬
 
 ```sql
-SELECT * FROM user name LIKE "%현%" ORDER BY id ASC
-SELECT * FROM user name LIKE "%현%" ORDER BY id DESC
+SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC
+SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id DESC
 ```
 
 ## 출력 갯수 제한
 
 ```sql
-SELECT * FROM user name LIKE "%현%" ORDER BY id ASC LIMIT 10
-SELECT * FROM user name LIKE "%현%" ORDER BY id ASC LIMIT 5,100
+SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC LIMIT 10
+SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC LIMIT 5,100
 ```
 
 ## 조인

@@ -13,6 +13,7 @@
   - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
   - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
   - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
+  - [useMemo vs useCallback](#usememo-vs-usecallback)
 
 ## 가상 돔(Virtual DOM)
 
@@ -141,3 +142,15 @@ root.render(
 이 과정에서 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다.
 
 ![Alt text](image.png)
+
+## useMemo vs useCallback
+
+```js
+const memo: number = useMemo(() => {
+  return 1;
+}, []);
+
+const callback: () => number = useCallback(() => {
+  return 1;
+}, []);
+```
