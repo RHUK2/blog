@@ -14,6 +14,7 @@
   - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
   - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
   - [useMemo vs useCallback](#usememo-vs-usecallback)
+  - [memo](#memo)
 
 ## 가상 돔(Virtual DOM)
 
@@ -154,3 +155,7 @@ const callback: () => number = useCallback(() => {
   return 1;
 }, []);
 ```
+
+## memo
+
+컴포넌트가 소품에 따른 렌더링 방지
