@@ -19,9 +19,12 @@
     - [HTML(Hyper Text Markup Language)](#htmlhyper-text-markup-language)
     - [Markdown](#markdown)
     - [XML(eXtensible Markup Language)](#xmlextensible-markup-language)
-    - [JSON(JavaScript Object Notation)](#jsonJavaScript-object-notation)
+    - [JSON(JavaScript Object Notation)](#jsonjavascript-object-notation)
     - [YAML(Yet Another Markup Language)](#yamlyet-another-markup-language)
   - [MIME 타입](#mime-타입)
+  - [문자 데이터와 바이너리 데이터](#문자-데이터와-바이너리-데이터)
+  - [HTTP 헤더](#http-헤더)
+  - [파일 다운로드](#파일-다운로드)
   - [디버깅](#디버깅)
     - [initial connection](#initial-connection)
     - [blocked:mixed-content](#blockedmixed-content)
@@ -169,6 +172,7 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 - application/JavaScript
 - application/json
 - application/x-www-form-urlencoded: 웹 폼 데이터를 URL 인코딩하여 서버로 전송
+- application/octet-stream 아무런 특별한 분류나 변환 없이 원시 바이트 데이터로 이루어진 스트림
 - application/xml
 - application/zip
 - application/pdf
@@ -192,6 +196,78 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 - image/png
 - image/jpeg
 - image/gif
+
+## 문자 데이터와 바이너리 데이터
+
+모든 데이터, 텍스트 데이터 포함, 컴퓨터의 궁극적인 저장 및 표현 형태는 바이너리입니다. 그렇기 때문에 텍스트 데이터도 기본적으로는 바이너리 형태로 저장됩니다. 그러나 "텍스트 데이터"와 "바이너리 데이터"라는 용어의 차이점은 그 데이터의 해석 및 사용 방식에 기인합니다.
+
+텍스트 데이터:
+
+텍스트 데이터는 일반적으로 사람이 읽을 수 있는 문자로 구성됩니다.
+이 문자들은 특정 인코딩 방식 (예: UTF-8, ASCII, ISO-8859-1 등)을 사용하여 바이트(들)로 변환됩니다.
+텍스트 파일을 열 때, 우리는 이 바이트들을 해당 인코딩 방식을 사용하여 다시 문자로 해석합니다.
+바이너리 데이터:
+
+바이너리 데이터는 특정 인코딩이나 표준 문자 표현과 연결되지 않은 원시 바이트로 구성됩니다.
+이미지, 오디오, 실행 파일 등이 바이너리 데이터의 예입니다.
+이러한 바이너리 데이터를 제대로 해석하려면 해당 데이터 형식을 이해하는 소프트웨어가 필요합니다.
+따라서, 텍스트 데이터는 기본적으로 바이너리 형태로 저장되지만, "텍스트"와 "바이너리"라는 용어는 주로 데이터의 해석 및 사용 방식을 설명하는 데 사용됩니다.
+
+컴퓨터는 모든 데이터를 0과 1, 즉 바이너리로 처리합니다. 그럼에도 불구하고 우리가 "텍스트 데이터"와 "바이너리 데이터"라는 용어로 구분하는 이유는 그 데이터가 어떻게 사용되고 해석되는지에 기인합니다.
+
+텍스트 데이터:
+
+텍스트 데이터는 '안녕하세요', 'Hello', 'Bonjour'와 같이 사람이 읽을 수 있는 문자들로 구성되어 있습니다.
+이러한 문자들도 결국 0과 1로 변환되어 컴퓨터에 저장됩니다. 그러나 이 데이터는 텍스트 에디터나 메모장과 같은 도구를 사용하여 쉽게 열고 읽을 수 있습니다.
+바이너리 데이터:
+
+바이너리 데이터는 이미지, 음악 파일, 프로그램 실행 파일처럼 사람이 직접 읽기 어려운 데이터를 말합니다.
+이 데이터도 0과 1로 구성되어 있지만, 텍스트 에디터로 열면 의미 없는 기호나 문자로 보일 것입니다.
+이 데이터를 제대로 보려면 해당 형식을 이해할 수 있는 프로그램이 필요합니다. 예를 들어, 이미지 뷰어로 이미지 파일을 열거나 뮤직 플레이어로 음악 파일을 들을 수 있습니다.
+결론적으로, 컴퓨터 내부에서는 모든 데이터가 바이너리 형태로 저장되지만, "텍스트"나 "바이너리"라는 표현은 그 데이터를 어떻게 사용하고 이해하는지에 따라 구분하는 것입니다.
+
+## HTTP 헤더
+
+HTTP 헤더는 요청과 응답 모두에 사용되며, 다양한 메타데이터와 제어 정보를 전송하는 데 사용됩니다. 실무에서 자주 사용되는 HTTP 헤더 속성은 다음과 같습니다:
+
+일반 헤더 (General Headers):
+
+Cache-Control: 캐싱 동작을 지정합니다.
+Connection: 네트워크 연결 관리를 위한 지시어를 제공합니다.
+Date: 메시지가 생성된 날짜와 시간을 나타냅니다.
+요청 헤더 (Request Headers):
+
+Accept: 클라이언트가 이해할 수 있는 미디어 타입을 나타냅니다.
+Authorization: 사용자 인증 정보를 포함합니다.
+Host: 요청의 대상 서버와 포트 번호를 나타냅니다.
+User-Agent: 클라이언트 응용 프로그램의 정보를 제공합니다.
+Referer: 현재 요청 URL을 호출한 이전 웹 페이지의 URL을 나타냅니다.
+응답 헤더 (Response Headers):
+
+Location: 새로운 URL로 리다이렉션하는 데 사용됩니다.
+Server: 웹 서버의 소프트웨어 정보를 나타냅니다.
+WWW-Authenticate: 클라이언트에게 인증 방법을 알려주는 데 사용됩니다.
+표현 헤더 (Representation Headers):
+
+Content-Type: 본문의 미디어 타입을 나타냅니다.
+Content-Length: 응답 본문의 길이를 바이트 단위로 나타냅니다.
+Content-Encoding: 본문 데이터의 인코딩 방식을 나타냅니다.
+Content-Disposition: 본문을 표시할 것인지, 파일로 다운로드할 것인지를 나타내는 지시어를 포함합니다.
+쿠키 관련 헤더:
+
+Set-Cookie: 서버에서 클라이언트로 쿠키를 전송하는 데 사용됩니다.
+Cookie: 클라이언트에서 서버로 쿠키를 전송하는 데 사용됩니다.
+CORS (Cross-Origin Resource Sharing) 관련 헤더:
+
+Access-Control-Allow-Origin: 리소스에 액세스할 수 있는 외부 도메인을 지정합니다.
+Access-Control-Allow-Methods: 허용되는 HTTP 메서드를 지정합니다.
+Access-Control-Allow-Headers: 허용되는 헤더를 지정합니다.
+
+## 파일 다운로드
+
+Access-Control-Expose-Headers: Content-Disposition
+Content-Type: application/octet-stream
+Content-Disposition: attachment; filename="example.dat"
 
 ## 디버깅
 
