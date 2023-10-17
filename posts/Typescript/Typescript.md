@@ -2,9 +2,6 @@
 
 - [Typescript](#typescript)
   - [Cheatsheet](#cheatsheet)
-  - [Cheatsheet에 없는 문법](#cheatsheet에-없는-문법)
-    - [Record\<T, any\>](#recordt-any)
-    - [가변 파라미터](#가변-파라미터)
   - [.d.ts](#dts)
     - [선언 방식의 차이](#선언-방식의-차이)
 
@@ -14,12 +11,6 @@
 ![TypeScript_Interfaces](TypeScript_Interfaces.png)
 ![TypeScript_Control_Flow_Analysis](TypeScript_Control_Flow_Analysis.png)
 ![TypeScript_Classes](TypeScript_Classes.png)
-
-## Cheatsheet에 없는 문법
-
-### Record<T, any>
-
-### 가변 파라미터
 
 ## .d.ts
 
