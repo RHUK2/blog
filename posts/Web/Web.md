@@ -25,7 +25,12 @@
   - [텍스트 데이터와 바이너리 데이터](#텍스트-데이터와-바이너리-데이터)
     - [텍스트 데이터](#텍스트-데이터)
     - [바이너리 데이터](#바이너리-데이터)
-      - [HTTP 요청 시 바이너리 데이터 전송하는 방법](#http-요청-시-바이너리-데이터-전송하는-방법)
+  - [HTTP 통신 시 바이너리 데이터를 다루는 방법](#http-통신-시-바이너리-데이터를-다루는-방법)
+    - [Base64 인코딩해서 다루기](#base64-인코딩해서-다루기)
+    - [바이너리 데이터 그대로 다루기](#바이너리-데이터-그대로-다루기)
+    - [MultiPart Form-Data](#multipart-form-data)
+    - [브라우저 캐시 이용하기](#브라우저-캐시-이용하기)
+  - [브라우저 캐시 vs 브라우저 메모리](#브라우저-캐시-vs-브라우저-메모리)
   - [HTTP 헤더](#http-헤더)
     - [일반 헤더 (General Headers)](#일반-헤더-general-headers)
     - [요청 헤더 (Request Headers)](#요청-헤더-request-headers)
@@ -39,7 +44,7 @@
     - [content-disposition](#content-disposition)
     - [CSS가 안 먹히는 경우](#css가-안-먹히는-경우)
     - [화면이 하얗게 뜨는 경우](#화면이-하얗게-뜨는-경우)
-  - [Lightsail DB 연결](#lightsail-db-연결)
+    - [Lightsail DB 연결](#lightsail-db-연결)
 
 ## 웹 브라우저란?
 
@@ -177,10 +182,12 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유형을 식별하기 위한 표준화된 문자열이다. MIME 타입은 주로 웹에서 사용되며, 웹 브라우저와 서버가 파일의 내용을 올바르게 처리하도록 도와준다. MIME 타입은 파일의 확장자나 내용의 특성에 따라 결정되며, 파일의 실제 형식을 정확하게 식별할 수 있도록 도와준다.
 
-- application/JavaScript
-- application/json
-- application/x-www-form-urlencoded: 웹 폼 데이터를 URL 인코딩하여 서버로 전송
+- multipart/form-data: 여러 데이터 유형(텍스트, 이미지, 파일 등)을 동시에 HTTP 요청으로 전송할 수 있으며 주로 파일 업로드와 폼 데이터 전송에 사용됨
+  - 각 파트에 Content-Type 및 Content-Disposition 헤더가 부여됨
+- application/json: JSON 데이터를 요청 보낼 때 사용
 - application/octet-stream 아무런 특별한 분류나 변환 없이 원시 바이트 데이터로 이루어진 스트림
+- application/x-www-form-urlencoded: 웹 폼 데이터를 URL 인코딩하여 서버로 전송
+- application/JavaScript
 - application/xml
 - application/zip
 - application/pdf
@@ -196,7 +203,6 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 - application/vnd.oasis.opendocument.text (.odt)
 - audio/mpeg
 - audio/vorbis
-- multipart/form-data: 파일 업로드와 같이 바이너리 데이터를 포함하는 폼 데이터를 전송하는 데 사용
 - text/css
 - text/html
 - text/csv
@@ -213,37 +219,48 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 
 텍스트 데이터는 일반적으로 사람이 읽을 수 있는 문자로 된다. 이 텍스트들은 텍스트 전용 인코딩 방식 (예: UTF-8, ASCII, ISO-8859-1 등)을 사용하여 바이트로 변환된다. 텍스트 파일을 열 때, 우리는 이 바이트들을 해당 인코딩 방식을 사용하여 다시 문자로 디코딩한다.
 
-```js
-// "안녕하세요" 텍스트를 UTF-8로 인코딩
-const text = '안녕하세요';
-const encoder = new TextEncoder();
-const utf8EncodedData: Uint8Array = encoder.encode(text);
-
-// UTF-8로 인코딩된 데이터 출력
-console.log(utf8EncodedData);
-
-// DataView를 사용하여 UTF-8 디코딩
-const utf8Decoder = new TextDecoder('utf-8');
-const decodedText = utf8Decoder.decode(utf8EncodedData);
-
-console.log(decodedText); // "안녕하세요"
-```
-
 대부분의 프로그램에서는 텍스트 편집 기능과 텍스트 인코딩&디코딩을 지원하기 때문에 텍스트 데이터는 대부분 표현이 된다.
 
 ### 바이너리 데이터
 
 바이너리 데이터는 이미지, 음악 파일, 프로그램 실행 파일처럼 사람이 직접 읽기 어려운 데이터를 말한다. 이 데이터도 0과 1로 구성되어 있지만, 텍스트 에디터로 열면 의미 없는 기호나 문자로 보인다. 이 데이터를 제대로 보려면 해당 형식을 이해할 수 있는 프로그램이 필요하다. 예를 들어, 이미지 뷰어로 이미지 파일을 열거나 뮤직 플레이어로 음악 파일을 들을 수 있다.
 
-#### HTTP 요청 시 바이너리 데이터 전송하는 방법
+## HTTP 통신 시 바이너리 데이터를 다루는 방법
 
-**Base64 인코딩**:
-바이너리 데이터를 Base64로 인코딩하고, 이를 HTTP 요청의 본문에 첨부한다. Base64로 인코딩하면 데이터를 텍스트로 변환할 수 있으므로 전송이 쉽다.
+### Base64 인코딩해서 다루기
 
-**MultiPart Form-Data**:
+바이너리 데이터를 Base64로 인코딩해서 텍스트 데이터로 변경 후 이를 HTTP 요청 시 body 값의 JSON 형태로 전송한다.
+
+HTTP 응답 시 바이너리 데이터를 받아서 Base64로 인코딩해서 사용하거나, Base64 포맷으로 데이터를 받아서 사용할 수 있다.
+
+이 방식은 데이터의 크기를 약 33% 정도 증가시키기 때문에 파일의 크기가 작을 때 사용하는 것이 좋다.
+
+### 바이너리 데이터 그대로 다루기
+
+Content-Type 헤더를 "application/octet-stream"으로 설정 후 body ㄱ
+blob -> createObjectUrl
+
+### MultiPart Form-Data
+
 MultiPart Form-Data는 여러 부분으로 나누어진 데이터를 전송하는 방식입니다. 바이너리 데이터는 다른 필드와 함께 멀티파트 폼 데이터 형식으로 요청에 추가된다.
+blob -> createObjectUrl
 
-Content-Type 헤더는 "application/octet-stream"를 설정하여 요청 본문의 데이터 형식을 정의해준다.
+### 브라우저 캐시 이용하기
+
+<img src>
+
+## 브라우저 캐시 vs 브라우저 메모리
+
+저장 내용: 브라우저 캐시는 웹 페이지에서 사용되는 이미지, 스크립트, 스타일시트, 폰트 및 기타 웹 자원을 저장한다.
+용도: 브라우저 캐시는 동일한 자원을 나중에 다시 다운로드하지 않고 재사용할 수 있도록 돕는다. 이로써 렌더링 속도를 높이고 대역폭 사용을 줄이는 데 사용된다.
+저장 위치: 브라우저 캐시는 주로 디스크 공간에 저장된다. 캐시된 데이터는 브라우저의 캐시 폴더에 저장되며, 디스크에 캐싱된다.
+유지 기간: 캐시된 데이터는 보통 웹 서버에서 지정한 만료 기간 또는 캐시 제어 헤더를 기반으로 관리됩니다. 만료 기간이 지나면 브라우저는 데이터를 새로 다운로드합니다.
+Google Chrome: C:\Users\<사용자 이름>\AppData\Local\Google\Chrome\User Data\Default\Cache
+
+저장 내용: 브라우저 메모리는 JavaScript 코드, DOM (문서 객체 모델) 요소, 변수 및 객체와 같은 웹 페이지의 실행에 필요한 데이터를 저장한다.
+용도: 브라우저 메모리는 웹 페이지의 동적 상태를 관리하고 JavaScript 코드가 실행 중에 필요한 데이터와 변수를 저장한다. 이것은 웹 페이지의 실행 환경을 제어하는 데 사용된다.
+저장 위치: 브라우저 메모리는 RAM (Random Access Memory) 내에 저장된다. 이것은 빠르게 액세스할 수 있는 메모리로, 웹 페이지의 실행에 필요한 데이터와 코드를 저장한다.
+유지 기간: 브라우저 메모리에 저장된 데이터 및 객체는 해당 웹 페이지나 웹 애플리케이션의 실행 중에만 유지됩니다. 웹 페이지를 새로 고치거나 닫을 때 메모리에서 데이터가 제거됩니다.
 
 ## HTTP 헤더
 
@@ -319,6 +336,8 @@ Content-Disposition: attachment; filename="example.dat"
 
 ### 화면이 하얗게 뜨는 경우
 
-## Lightsail DB 연결
+자바스크립트에서 메서드 참조를 못하거나 값을 참조하지 못했을 때 발생할 확률이 크다
+
+### Lightsail DB 연결
 
 Lightsail의 DB는 동일한 Lightsail 계정에 있는 Lightsail 리소스(인스턴스, 로드 밸런서 등)에서만 액세스할 수 있다. 그래서 SSH Tunnel이 필요하다. 일반적으로 공개되어 있는 Lightsail 인스턴스와 공개적으로 액세스할 수 없는 Lightsail DB를 생성하여 연결한다. 다만 Lightsail DB를 퍼블릭 모드로 설정한다면 데이터베이스 접속 정보만으로 접속 가능하다.
