@@ -21,16 +21,15 @@
     - [XML(eXtensible Markup Language)](#xmlextensible-markup-language)
     - [JSON(JavaScript Object Notation)](#jsonjavascript-object-notation)
     - [YAML(Yet Another Markup Language)](#yamlyet-another-markup-language)
-  - [MIME 타입](#mime-타입)
-  - [텍스트 데이터와 바이너리 데이터](#텍스트-데이터와-바이너리-데이터)
-    - [텍스트 데이터](#텍스트-데이터)
-    - [바이너리 데이터](#바이너리-데이터)
-  - [HTTP 통신 시 바이너리 데이터를 다루는 방법](#http-통신-시-바이너리-데이터를-다루는-방법)
-    - [Base64 인코딩해서 다루기](#base64-인코딩해서-다루기)
-    - [바이너리 데이터 그대로 다루기](#바이너리-데이터-그대로-다루기)
-    - [MultiPart Form-Data](#multipart-form-data)
-    - [브라우저 캐시 이용하기](#브라우저-캐시-이용하기)
+  - [텍스트 렌더링 원리](#텍스트-렌더링-원리)
   - [브라우저 캐시 vs 브라우저 메모리](#브라우저-캐시-vs-브라우저-메모리)
+  - [img src 원리](#img-src-원리)
+  - [MIME 타입](#mime-타입)
+    - [multipart/form-data](#multipartform-data)
+    - [application/json](#applicationjson)
+    - [application/octet-stream](#applicationoctet-stream)
+    - [application/x-www-form-urlencoded](#applicationx-www-form-urlencoded)
+    - [etc](#etc)
   - [HTTP 헤더](#http-헤더)
     - [일반 헤더 (General Headers)](#일반-헤더-general-headers)
     - [요청 헤더 (Request Headers)](#요청-헤더-request-headers)
@@ -178,15 +177,87 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 기존에 주로 사용되던 포맷인 JSON의 불편함을 해소하기 위해 만들어진 superset(상위 호환)이다.
 
+## 텍스트 렌더링 원리
+
+## 브라우저 캐시 vs 브라우저 메모리
+
+저장 내용: 브라우저 캐시는 웹 페이지에서 사용되는 이미지, 스크립트, 스타일시트, 폰트 및 기타 웹 자원을 저장한다.
+용도: 브라우저 캐시는 동일한 자원을 나중에 다시 다운로드하지 않고 재사용할 수 있도록 돕는다. 이로써 렌더링 속도를 높이고 대역폭 사용을 줄이는 데 사용된다.
+저장 위치: 브라우저 캐시는 주로 디스크 공간에 저장된다. 캐시된 데이터는 브라우저의 캐시 폴더에 저장되며, 디스크에 캐싱된다.
+유지 기간: 캐시된 데이터는 보통 웹 서버에서 지정한 만료 기간 또는 캐시 제어 헤더를 기반으로 관리됩니다. 만료 기간이 지나면 브라우저는 데이터를 새로 다운로드합니다.
+Google Chrome: C:\Users\<사용자 이름>\AppData\Local\Google\Chrome\User Data\Default\Cache
+
+저장 내용: 브라우저 메모리는 JavaScript 코드, DOM (문서 객체 모델) 요소, 변수 및 객체와 같은 웹 페이지의 실행에 필요한 데이터를 저장한다.
+용도: 브라우저 메모리는 웹 페이지의 동적 상태를 관리하고 JavaScript 코드가 실행 중에 필요한 데이터와 변수를 저장한다. 이것은 웹 페이지의 실행 환경을 제어하는 데 사용된다.
+저장 위치: 브라우저 메모리는 RAM (Random Access Memory) 내에 저장된다. 이것은 빠르게 액세스할 수 있는 메모리로, 웹 페이지의 실행에 필요한 데이터와 코드를 저장한다.
+유지 기간: 브라우저 메모리에 저장된 데이터 및 객체는 해당 웹 페이지나 웹 애플리케이션의 실행 중에만 유지됩니다. 웹 페이지를 새로 고치거나 닫을 때 메모리에서 데이터가 제거됩니다.
+
+## img src 원리
+
+HTML 파싱: 브라우저는 HTML 문서를 파싱하고, <img> 태그를 만나면 이미지를 로드해야 함을 인식합니다. <img> 태그의 src 속성에 지정된 이미지 파일의 URL을 찾습니다.
+
+이미지 요청: 브라우저는 <img> 태그의 src 속성에 지정된 URL로 HTTP GET 요청을 생성하여 이미지 리소스를 서버에 요청합니다.
+
+서버 응답: 서버는 이미지 요청을 받고, 해당 이미지 파일을 찾아 브라우저에 응답합니다. 서버 응답은 HTTP 상태 코드와 이미지 데이터로 구성됩니다.
+
+이미지 다운로드: 브라우저는 서버로부터 받은 이미지 데이터를 다운로드하고 메모리에 저장합니다. 이 과정에서 이미지의 크기와 형식에 따라 시간이 소요될 수 있습니다.
+
+이미지 렌더링: 이미지 다운로드가 완료되면 브라우저는 이미지를 렌더링하여 화면에 표시합니다. 이때 이미지는 웹 페이지에 있는 해당 <img> 태그의 위치에 나타납니다.
+
+캐싱: 이미지가 캐시 가능한 경우, 브라우저는 이미지를 로컬 캐시에 저장하여 나중에 동일한 이미지에 대한 요청 시 네트워크 요청을 피할 수 있습니다. 이미지의 캐시 유효 기간은 서버의 응답 헤더에서 제공됩니다.
+
+오류 처리: 만약 이미지를 찾을 수 없거나 다운로드 중에 오류가 발생하면 브라우저는 대체 텍스트(alt 속성의 값)나 기본 오류 이미지를 표시할 수 있습니다.
+
 ## MIME 타입
 
 MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유형을 식별하기 위한 표준화된 문자열이다. MIME 타입은 주로 웹에서 사용되며, 웹 브라우저와 서버가 파일의 내용을 올바르게 처리하도록 도와준다. MIME 타입은 파일의 확장자나 내용의 특성에 따라 결정되며, 파일의 실제 형식을 정확하게 식별할 수 있도록 도와준다.
 
-- multipart/form-data: 여러 데이터 유형(텍스트, 이미지, 파일 등)을 동시에 HTTP 요청으로 전송할 수 있으며 주로 파일 업로드와 폼 데이터 전송에 사용됨
-  - 각 파트에 Content-Type 및 Content-Disposition 헤더가 부여됨
-- application/json: JSON 데이터를 요청 보낼 때 사용
-- application/octet-stream 아무런 특별한 분류나 변환 없이 원시 바이트 데이터로 이루어진 스트림
-- application/x-www-form-urlencoded: 웹 폼 데이터를 URL 인코딩하여 서버로 전송
+### multipart/form-data
+
+여러 데이터 유형(텍스트, 이미지, 파일 등)을 동시에 HTTP 요청의 body 값으로 전송할 수 있으며 주로 파일 업로드와 폼 데이터를 같이 전송할 때 사용된다. 각 파트에 Content-Type 및 Content-Disposition 헤더가 부여된다.
+
+자바스크립트에서 바이너리 데이터를 다룰 때 blob 객체로 다뤄지는데 multipart/form-data를 사용하면 해당 객체를 자동으로 바이너리 데이터로 변환하고 서버로 전송한다.
+
+HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
+
+![payload_multipart1](payload_multipart1.png)
+
+![payload_multipart2](payload_multipart2.png)
+
+### application/json
+
+HTTP 요청의 body 값으로 JSON 데이터를 보낼 때 사용한다.
+
+fetch API, axios 방식으로 요청 가능하다.
+
+![payload_json1](payload_json1.png)
+
+바이너리 데이터를 Base64 형식으로 인코딩해서 보내는 경우는 아래와 같다.
+
+![payload_json2](payload_json2.png)
+
+### application/octet-stream
+
+HTTP 요청의 body 값으로 아무런 특별한 분류나 변환 없이 원시 바이트 데이터로 이루어진 스트림을 전송할 때 사용한다. 어떤 종류의 파일인지 알 수 있는 바이너리 데이터는 다른 MIME 타입을 사용해서 명시해준다.
+
+자바스크립트에서 바이너리 데이터를 다룰 때 blob 객체로 다뤄지는데 application/octet-stream을 사용하면 해당 객체를 바이너리 데이터로 변환 후에 서버로 전송해야 한다.
+
+fetch API, axios 방식으로 요청 가능하다.
+
+![payload_octet_stream](payload_octet_stream.png)
+
+### application/x-www-form-urlencoded
+
+HTML 폼 방식으로 HTTP 요청을 할 때 기본값으로 설정되며, HTTP 요청의 body 값으로 데이터를 URL 인코딩하여 보낼 때 사용한다.
+
+![payload_form_urlencoded1](payload_form_urlencoded1.png)
+
+![payload_form_urlencoded2](payload_form_urlencoded2.png)
+
+HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
+
+### etc
+
 - application/JavaScript
 - application/xml
 - application/zip
@@ -210,57 +281,6 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 - image/png
 - image/jpeg
 - image/gif
-
-## 텍스트 데이터와 바이너리 데이터
-
-컴퓨터에 저장되는 모든 데이터의 궁극적인 저장 및 표현 형태는 바이너리다. 그렇기 때문에 텍스트 데이터도 기본적으로는 바이너리 형태로 저장된다. 그러나 "텍스트 데이터"와 "바이너리 데이터"라는 용어의 차이점은 그 데이터의 해석 및 사용 방식에 기인한다.
-
-### 텍스트 데이터
-
-텍스트 데이터는 일반적으로 사람이 읽을 수 있는 문자로 된다. 이 텍스트들은 텍스트 전용 인코딩 방식 (예: UTF-8, ASCII, ISO-8859-1 등)을 사용하여 바이트로 변환된다. 텍스트 파일을 열 때, 우리는 이 바이트들을 해당 인코딩 방식을 사용하여 다시 문자로 디코딩한다.
-
-대부분의 프로그램에서는 텍스트 편집 기능과 텍스트 인코딩&디코딩을 지원하기 때문에 텍스트 데이터는 대부분 표현이 된다.
-
-### 바이너리 데이터
-
-바이너리 데이터는 이미지, 음악 파일, 프로그램 실행 파일처럼 사람이 직접 읽기 어려운 데이터를 말한다. 이 데이터도 0과 1로 구성되어 있지만, 텍스트 에디터로 열면 의미 없는 기호나 문자로 보인다. 이 데이터를 제대로 보려면 해당 형식을 이해할 수 있는 프로그램이 필요하다. 예를 들어, 이미지 뷰어로 이미지 파일을 열거나 뮤직 플레이어로 음악 파일을 들을 수 있다.
-
-## HTTP 통신 시 바이너리 데이터를 다루는 방법
-
-### Base64 인코딩해서 다루기
-
-바이너리 데이터를 Base64로 인코딩해서 텍스트 데이터로 변경 후 이를 HTTP 요청 시 body 값의 JSON 형태로 전송한다.
-
-HTTP 응답 시 바이너리 데이터를 받아서 Base64로 인코딩해서 사용하거나, Base64 포맷으로 데이터를 받아서 사용할 수 있다.
-
-이 방식은 데이터의 크기를 약 33% 정도 증가시키기 때문에 파일의 크기가 작을 때 사용하는 것이 좋다.
-
-### 바이너리 데이터 그대로 다루기
-
-Content-Type 헤더를 "application/octet-stream"으로 설정 후 body ㄱ
-blob -> createObjectUrl
-
-### MultiPart Form-Data
-
-MultiPart Form-Data는 여러 부분으로 나누어진 데이터를 전송하는 방식입니다. 바이너리 데이터는 다른 필드와 함께 멀티파트 폼 데이터 형식으로 요청에 추가된다.
-blob -> createObjectUrl
-
-### 브라우저 캐시 이용하기
-
-<img src>
-
-## 브라우저 캐시 vs 브라우저 메모리
-
-저장 내용: 브라우저 캐시는 웹 페이지에서 사용되는 이미지, 스크립트, 스타일시트, 폰트 및 기타 웹 자원을 저장한다.
-용도: 브라우저 캐시는 동일한 자원을 나중에 다시 다운로드하지 않고 재사용할 수 있도록 돕는다. 이로써 렌더링 속도를 높이고 대역폭 사용을 줄이는 데 사용된다.
-저장 위치: 브라우저 캐시는 주로 디스크 공간에 저장된다. 캐시된 데이터는 브라우저의 캐시 폴더에 저장되며, 디스크에 캐싱된다.
-유지 기간: 캐시된 데이터는 보통 웹 서버에서 지정한 만료 기간 또는 캐시 제어 헤더를 기반으로 관리됩니다. 만료 기간이 지나면 브라우저는 데이터를 새로 다운로드합니다.
-Google Chrome: C:\Users\<사용자 이름>\AppData\Local\Google\Chrome\User Data\Default\Cache
-
-저장 내용: 브라우저 메모리는 JavaScript 코드, DOM (문서 객체 모델) 요소, 변수 및 객체와 같은 웹 페이지의 실행에 필요한 데이터를 저장한다.
-용도: 브라우저 메모리는 웹 페이지의 동적 상태를 관리하고 JavaScript 코드가 실행 중에 필요한 데이터와 변수를 저장한다. 이것은 웹 페이지의 실행 환경을 제어하는 데 사용된다.
-저장 위치: 브라우저 메모리는 RAM (Random Access Memory) 내에 저장된다. 이것은 빠르게 액세스할 수 있는 메모리로, 웹 페이지의 실행에 필요한 데이터와 코드를 저장한다.
-유지 기간: 브라우저 메모리에 저장된 데이터 및 객체는 해당 웹 페이지나 웹 애플리케이션의 실행 중에만 유지됩니다. 웹 페이지를 새로 고치거나 닫을 때 메모리에서 데이터가 제거됩니다.
 
 ## HTTP 헤더
 
