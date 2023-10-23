@@ -22,8 +22,12 @@
     - [JSON(JavaScript Object Notation)](#jsonjavascript-object-notation)
     - [YAML(Yet Another Markup Language)](#yamlyet-another-markup-language)
   - [텍스트 렌더링 원리](#텍스트-렌더링-원리)
-  - [브라우저 캐시 vs 브라우저 메모리](#브라우저-캐시-vs-브라우저-메모리)
-  - [img src 원리](#img-src-원리)
+  - [브라우저 캐시](#브라우저-캐시)
+    - [memory cache vs disk cache](#memory-cache-vs-disk-cache)
+  - [멀티미디어 태그의 src 속성](#멀티미디어-태그의-src-속성)
+    - [외부 서버 주소로 파일 요청](#외부-서버-주소로-파일-요청)
+    - [현재 웹 페이지와 동일한 서버인 경우 상대 경로](#현재-웹-페이지와-동일한-서버인-경우-상대-경로)
+    - [Base64 인코딩](#base64-인코딩)
   - [MIME 타입](#mime-타입)
     - [multipart/form-data](#multipartform-data)
     - [application/json](#applicationjson)
@@ -179,20 +183,56 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 ## 텍스트 렌더링 원리
 
-## 브라우저 캐시 vs 브라우저 메모리
+## 브라우저 캐시
 
-저장 내용: 브라우저 캐시는 웹 페이지에서 사용되는 이미지, 스크립트, 스타일시트, 폰트 및 기타 웹 자원을 저장한다.
-용도: 브라우저 캐시는 동일한 자원을 나중에 다시 다운로드하지 않고 재사용할 수 있도록 돕는다. 이로써 렌더링 속도를 높이고 대역폭 사용을 줄이는 데 사용된다.
-저장 위치: 브라우저 캐시는 주로 디스크 공간에 저장된다. 캐시된 데이터는 브라우저의 캐시 폴더에 저장되며, 디스크에 캐싱된다.
-유지 기간: 캐시된 데이터는 보통 웹 서버에서 지정한 만료 기간 또는 캐시 제어 헤더를 기반으로 관리됩니다. 만료 기간이 지나면 브라우저는 데이터를 새로 다운로드합니다.
-Google Chrome: C:\Users\<사용자 이름>\AppData\Local\Google\Chrome\User Data\Default\Cache
+캐시란, 데이터를 미리 복사해 놓는 임시 장소를 가리킨다. 캐시를 이용하지 않았을 때의 데이터 접근 시간이 오래 걸리는 경우나 값을 다시 연산하는 시간을 단축하기 위해 사용된다. 데이터가 본래 저장되어 있던 장소보다 접근 시간이 더 빠른 별도의 장소에 데이터를 미리 복사해 놓으면 계산이나 접근 시간 없이 더 빠른 속도로 데이터에 접근할 수 있다.
 
-저장 내용: 브라우저 메모리는 JavaScript 코드, DOM (문서 객체 모델) 요소, 변수 및 객체와 같은 웹 페이지의 실행에 필요한 데이터를 저장한다.
-용도: 브라우저 메모리는 웹 페이지의 동적 상태를 관리하고 JavaScript 코드가 실행 중에 필요한 데이터와 변수를 저장한다. 이것은 웹 페이지의 실행 환경을 제어하는 데 사용된다.
-저장 위치: 브라우저 메모리는 RAM (Random Access Memory) 내에 저장된다. 이것은 빠르게 액세스할 수 있는 메모리로, 웹 페이지의 실행에 필요한 데이터와 코드를 저장한다.
-유지 기간: 브라우저 메모리에 저장된 데이터 및 객체는 해당 웹 페이지나 웹 애플리케이션의 실행 중에만 유지됩니다. 웹 페이지를 새로 고치거나 닫을 때 메모리에서 데이터가 제거됩니다.
+브라우저는 웹 페이지에서 사용되는 이미지, 스크립트, 스타일시트, 폰트 및 기타 웹 자원을 캐시에 저장한다. 캐시 덕에 동일한 자원을 나중에 다시 다운로드하지 않고 재사용할 수 있으며 렌더링 속도를 높이고 대역폭 사용을 줄일 수 있다. 캐시된 데이터는 보통 웹 서버에서 지정한 만료 기간 또는 캐시 제어 헤더를 기반으로 관리되며 만료 기간이 지나면 브라우저는 데이터를 새로 다운로드한다.
 
-## img src 원리
+### memory cache vs disk cache
+
+![cache_size](cache_size.png)
+
+위의 개발자 도구에서 확인할 수 있듯이, 브라우저에서는 자원을 캐싱할 때 저장되는 위치에 따라 memory cache와 disk cache로 나뉜다. memory cache는 컴퓨터의 RAM(메모리)에 저장되고, disk cache는 컴퓨터의 하드디스크의 저장된다. 윈도우 운영체제에서 크롬을 사용한다면 아래 경로를 통해 저장된 캐시를 확인할 수 있다.
+
+C:\Users\<사용자 이름>\AppData\Local\Google\Chrome\User Data\Default\Cache
+
+memory cache는 브라우저 종료 시 데이터가 휘발되며, 주로 크기가 작거나 빠른 엑세스가 필요한 자원들이 저장된다. 빠른 엑세스는 디스크보다 메모리가 접근 위치가 가깝기 때문에 상대적으로 빠르게 접근이 가능하다. disk cache는 브라우저가 종료되어도 휘발되지 않으며, 주로 크기가 크고 복잡한 자원들이 저장된다.
+
+memory cache, disk cache, 캐시 안된 자원의 Time 열을 확인하면 속도의 차이를 확인할 수 있다.
+
+## 멀티미디어 태그의 src 속성
+
+HTML 태그 중 img, video, audio와 같은 멀티미디어 태그들은 `src` 속성을 입력해야 한다.
+
+### 외부 서버 주소로 파일 요청
+
+가장 흔한 경우는 외부 정적 자산 서버에서 호스팅되는 외부 이미지 파일의 URL을 `src` 속성에 지정하는 것이다.
+
+```html
+<img src="https://www.example.com/images/myimage.jpg" alt="My Image" />
+```
+
+### 현재 웹 페이지와 동일한 서버인 경우 상대 경로
+
+파일이 현재 웹 페이지와 동일한 서버에 있는 경우, 상대 경로를 사용하여 `src` 속성에 지정할 수 있다.
+
+```html
+<img src="images/myimage.jpg" alt="My Image" />
+```
+
+### Base64 인코딩
+
+파일을 Base64로 인코딩하여 `src` 속성에 지정할 수 있다. 큰 이미지의 경우 데이터 URL은 페이지 크기를 크게 늘릴 수 있습니다.
+
+```html
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..." alt="Base64 Image" />
+```
+
+html
+Copy code
+<img src="icon.svg" alt="SVG Icon">
+스크립트로 동적으로 생성된 이미지 (Dynamically Generated Images via Scripts): JavaScript 코드를 사용하여 이미지를 동적으로 생성하고 src 속성에 이미지 데이터를 설정할 수 있습니다.
 
 HTML 파싱: 브라우저는 HTML 문서를 파싱하고, <img> 태그를 만나면 이미지를 로드해야 함을 인식합니다. <img> 태그의 src 속성에 지정된 이미지 파일의 URL을 찾습니다.
 
