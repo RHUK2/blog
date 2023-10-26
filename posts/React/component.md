@@ -67,7 +67,7 @@ function App() {
 
 버튼을 클릭하면 해당 버튼 요소의 정보가 콘솔에 출력된다.
 
-사용자 정의 컴포넌트 내부에 `ref` 속성을 참조하려는 경우 `forwardRef()` 메서드를 사용해야 한다.
+사용자 정의 컴포넌트 내부 요소의 `ref` 속성을 참조하려는 경우 `forwardRef()` 메서드를 사용해야 한다.
 
 ```js
 const MyButton = forwardRef((props, ref) => {
@@ -99,7 +99,38 @@ function App() {
 
 ## useImperativeHandle
 
-useImperativeHandle(ref, () => inputRef.current);
+`forwardRef()`로 감싸진 컴포넌트는 `ref`가 요소와 연결되면 해당 요소를 컴포넌트 내부에서 조작을 할 수 없게 된다. `useImperativeHandle()`이라는 리액트에서 제공해주는 훅을 사용하면 컴포넌트 내부에서 요소의 연결된 `ref`를 조작할 수 있고 `ref`를 상위 컴포넌트에 내보낼 때
+
+```js
+export const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
+  return (
+    <div>
+      <input css={{ display: 'none' }} ref={ref} type='file' {...inputProps} />
+
+      <Button onClick={(e) => /* ??? */} {...buttonProps}>
+        <span className='material-icons'>file_upload</span>
+      </Button>
+    </div>
+  );
+});
+
+export const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
+  const inputRef = useRef(null);
+
+  useImperativeHandle(ref, () => inputRef.current);
+
+  return (
+    <div>
+      <input css={{ display: 'none' }} ref={inputRef} type='file' {...inputProps} />
+
+      <Button onClick={(e) => inputRef.current.click()} {...buttonProps}>
+        <span className='material-icons'>file_upload</span>
+      </Button>
+    </div>
+  );
+});
+
+```
 
 ## 재사용 가능한 컴포넌트의 특징
 
