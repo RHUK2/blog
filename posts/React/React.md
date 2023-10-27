@@ -9,12 +9,11 @@
   - [사용자 Hook](#사용자-hook)
   - [useState](#usestate)
   - [useEffect](#useeffect)
-  - [manifest.json](#manifestjson)
-  - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
-  - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
-  - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
   - [useMemo vs useCallback](#usememo-vs-usecallback)
   - [memo](#memo)
+  - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
+  - [manifest.json](#manifestjson)
+  - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
 
 ## 가상 돔(Virtual DOM)
 
@@ -78,13 +77,21 @@ const [state, setState] = useState(initialState);
 
 `useEffect`는 화면이 한 번 렌더링된 이후에 동작한다.
 
-## manifest.json
+## useMemo vs useCallback
 
-manifest.json 파일은 Progressive Web App(PWA)에서 사용되는 파일로, 해당 웹 앱의 메타데이터와 구성 요소를 정의하는 역할을 합니다. PWA는 웹과 네이티브 앱의 장점을 결합한 형태이다.
+```js
+const memo: number = useMemo(() => {
+  return 1;
+}, []);
 
-![image_1](image_1.png)
+const callback: () => number = useCallback(() => {
+  return 1;
+}, []);
+```
 
-CRA로 리액트 프로젝트 생성 시 public 폴더 아래에 해당 파일이 있는데 PWA 프로젝트가 아니라면 굳이 필요하지 않아 삭제해도 무방하다. index.html의 관련 코드도 같이 삭제해야 한다.
+## memo
+
+컴포넌트가 소품에 따른 렌더링 방지
 
 ## useEffect 두 번 호출 이슈
 
@@ -101,7 +108,7 @@ useEffect(() => {
 
 위 코드를 실행해보면 아래와 같은 결과가 나타난다.
 
-![image_2](image_2.png)
+![mount_log](mount_log.png)
 
 원인은 리액트의 엄격 모드 설정으로 인해 개발모드에서 나타나는 현상이다. 리액트에서 엄격 모드를 설정하면 안전하지 않은 수명 주기, 레거시 API 사용 및 기타 여러 기능을 식별하는데 도움이 된다고 하니 개발에 영향을 주지 않으면 굳이 비활성화 시킬 필요는 없어보인다.
 
@@ -117,45 +124,18 @@ root.render(
 
 개발에 영향을 줄 경우에만 해당 기능을 잠시 꺼둔 후에 작업을 진행하면 될 거 같다.
 
-## react-hook-form 제어 컴포넌트 연동
+## manifest.json
 
-`useController`, `Controller` API를 이용해서 제어 컴포넌트와 연동한다.
+manifest.json 파일은 Progressive Web App(PWA)에서 사용되는 파일로, 해당 웹 앱의 메타데이터와 구성 요소를 정의하는 역할을 합니다. PWA는 웹과 네이티브 앱의 장점을 결합한 형태이다.
 
-사실상 리액트에서 비제어 컴포넌트로 커스텀 컴포넌트를 제작하는 건 좋지 않고 어렵기도 하다.
+![pwa_install](pwa_install.png)
 
-비제어로 연결해서 사용할 컴포넌트는 최대한 html 입력 태그와 연동하고,
-
-해당 태그들로 제작이 어려운 커스텀 컴포넌트의 경우 제어 컴포넌트로 제작 후 위 api와 연동한다.
-
-```js
-// 디테일한 정보는 공식 문서에서 확인
-<Controller
-  name='select'
-  control={control}
-  render={({ field }) => <Select id='select' value={field.value} onChange={field.onChange} />}
-/>
-```
+CRA로 리액트 프로젝트 생성 시 public 폴더 아래에 해당 파일이 있는데 PWA 프로젝트가 아니라면 굳이 필요하지 않아 삭제해도 무방하다. index.html의 관련 코드도 같이 삭제해야 한다.
 
 ## react-query 사용 시 애니메이션 렌더링 문제
 
-아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 애니메이션이 일어남과 동시에 상태를 바꾸는 API 요청을 하게 된다. 그리고 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
+아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 상태에 따라 트랜지션이 일어나고 리액트 쿼리로 리스트 값을 업데이트하는 API 요청을 하게 된다. 그리고 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
 
-이 과정에서 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다.
+![switch_rendering](switch_rendering.png)
 
-![Alt text](image.png)
-
-## useMemo vs useCallback
-
-```js
-const memo: number = useMemo(() => {
-  return 1;
-}, []);
-
-const callback: () => number = useCallback(() => {
-  return 1;
-}, []);
-```
-
-## memo
-
-컴포넌트가 소품에 따른 렌더링 방지
+이 과정에서 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다. 이를 해결하기 위해 리스트 값을 업데이트하지 않고 리액트 쿼리의 `cacheTime` 속성을 `0`으로 설정하여 해결했다.
