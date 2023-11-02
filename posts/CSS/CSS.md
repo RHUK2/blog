@@ -18,6 +18,7 @@
   - [자동완성 스타일링](#자동완성-스타일링)
   - [pointer-events](#pointer-events)
   - [position](#position)
+  - [justify-self, justify-items, margin auto...](#justify-self-justify-items-margin-auto)
 
 ## font 설정
 
@@ -226,3 +227,15 @@ sticky: 요소가 사용자가 스크롤하는 동안 일반적인 흐름에 따
 z-index 속성을 통해 요소들의 쌓임 순서를 지정할 수 있습니다. 값이 높을수록 위에 표시되며, position 값이 static인 요소에는 z-index가 영향을 미치지 않습니다.
 
 각 position 값은 다양한 레이아웃 시나리오에 사용되며, 원하는 디자인과 배치를 위해 조합하여 활용할 수 있습니다.
+
+## justify-self, justify-items, margin auto...
+
+justify-self, justify-items는 grid에서 사용할 수 있는 속성이며 개별 제어가 필요하면 margin: auto를 사용해서 여백을 채운다.
+
+## display: grid
+
+grid-template-columns 속성으로 열 지정
+
+## min-width, max-width
+
+min-width, max-width는 width 값에 의존한다. 100%로 지정해서 쓰자

@@ -22,6 +22,7 @@
   - [값, 리터럴, 표현식, 문](#값-리터럴-표현식-문)
   - [parse](#parse)
   - [바이너리 데이터 다루기](#바이너리-데이터-다루기)
+  - [함수의 참조값을 넘기는 것과 인자와 함께 실행하는 것의 차이](#함수의-참조값을-넘기는-것과-인자와-함께-실행하는-것의-차이)
 
 ## JavaScript vs ECMAScript
 
@@ -272,3 +273,23 @@ flowchart LR
 서버에서 원시 바이너리 데이터를 보내는 경우 해당 값을 다루기 위해서는 객체화를 시켜야한다.
 
 그 종류로는 Blob, ArrayBuffer 등이 있으나 Blob만 알아보자.
+
+## 함수의 참조값을 넘기는 것과 인자와 함께 실행하는 것의 차이
+
+```js
+export const debounce = (handler: () => void) => (e: any) => {
+  if (debounceTimeId) {
+    clearTimeout(debounceTimeId);
+  }
+
+  if (canRetry) handler();
+
+  canRetry = false;
+
+  debounceTimeId = setTimeout(() => {
+    canRetry = true;
+  }, DEBOUNCE_TIME);
+};
+
+<Button variant='outlined' color='secondary' onClick={debounce(onAuthRequest)}>
+```
