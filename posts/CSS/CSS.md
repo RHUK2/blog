@@ -19,6 +19,9 @@
   - [pointer-events](#pointer-events)
   - [position](#position)
   - [justify-self, justify-items, margin auto...](#justify-self-justify-items-margin-auto)
+  - [display: grid](#display-grid)
+  - [min-width, max-width](#min-width-max-width)
+  - [color 관련](#color-관련)
 
 ## font 설정
 
@@ -208,6 +211,8 @@ input:autofill {
 }
 ```
 
+<!-- todo: 내용 보완 필요(아래 모두) -->
+
 ## pointer-events
 
 포인터 이벤트 삭제시킴
@@ -239,3 +244,5 @@ grid-template-columns 속성으로 열 지정
 ## min-width, max-width
 
 min-width, max-width는 width 값에 의존한다. 100%로 지정해서 쓰자
+
+## color 관련

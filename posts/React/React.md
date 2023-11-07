@@ -91,6 +91,8 @@ const callback: () => number = useCallback(() => {
 
 ## memo
 
+<!-- todo: 내용 보완 필요 -->
+
 컴포넌트가 소품에 따른 렌더링 방지
 
 ## useEffect 두 번 호출 이슈

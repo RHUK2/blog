@@ -18,7 +18,7 @@
     - [git log](#git-log)
     - [git stash](#git-stash)
   - [Sync Control](#sync-control)
-    - [fetch](#fetch)
+    - [git fetch](#git-fetch)
     - [git merge](#git-merge)
     - [git rebase](#git-rebase)
   - [Branch Control](#branch-control)
@@ -197,7 +197,9 @@ git stash drop <인덱스> # 보관한 내용을 제거한다.
 
 ## Sync Control
 
-### fetch
+<!-- todo: 내용 보완 필요 -->
+
+### git fetch
 
 ```sh
 git fetch <원격 레포지토리의 별명>

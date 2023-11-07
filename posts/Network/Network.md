@@ -60,6 +60,8 @@ sequenceDiagram
 
 ### SSL handshake
 
+<!-- todo: 내용 보완 필요 -->
+
 ```mermaid
 sequenceDiagram
     Client->>Server: SYNC
