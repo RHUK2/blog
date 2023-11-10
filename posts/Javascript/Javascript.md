@@ -22,7 +22,8 @@
   - [값, 리터럴, 표현식, 문](#값-리터럴-표현식-문)
   - [parse](#parse)
   - [바이너리 데이터 다루기](#바이너리-데이터-다루기)
-  - [함수의 참조값을 넘기는 것과 인자와 함께 실행하는 것의 차이](#함수의-참조값을-넘기는-것과-인자와-함께-실행하는-것의-차이)
+  - [실무에서 클로저 사용 예시](#실무에서-클로저-사용-예시)
+  - [구조 분해 할당](#구조-분해-할당)
 
 ## JavaScript vs ECMAScript
 
@@ -264,34 +265,54 @@ flowchart LR
 | 표현식(Expression) | 표현식은 값을 생성하거나 조작하는 코드 구문이다. 표현식은 값, 변수, 리터럴, 연산자, 함수 호출 등의 조합으로 구성될 수 있다. 표현식은 평가되어 값을 반환한다.                                                                                                             |
 | 문(Statement)      | 문은 프로그램에서 실행되는 동작이나 작업을 나타낸다. 문은 프로그램의 동작을 제어하거나 조작하는 데 사용된다. 문은 변수 선언, 할당, 조건문(`if`/`else`), 반복문(`for`, `while`), 함수 선언 등의 구조를 가질 수 있습니다. 문은 세미콜론(`;`)으로 끝나는 것이 일반적입니다. |
 
-<!-- todo: 내용 보완 필요(아래 모두) -->
-
 ## parse
 
 보통 라이브러리는 여러가지 메서드를 가진 거대한 객체로 구성이 되고, 해당 객체에 변경할 데이터를 넣은 후 여러 메서드를 사용하여 원하는 형태의 데이터를 얻어낼 수 있다. 반대로 데이터를 기반으로 거대한 객체를 구성할 때 사용하는 것이 `parse()` 파싱 관련 메서드이다. 개발을 하다보면 데이터를 다시 조작해서 다른 데이터를 얻어내고 싶을 경우가 있을 것이다. 이런 경우 데이터를 파싱해서 거대한 객체를 다시 만들어내고 데이터를 바탕으로 만들어진 거대한 객체를 통해 다시 사용자가 원하는 형태의 데이터를 출력한다.
 
 ## 바이너리 데이터 다루기
 
+<!-- todo: 내용 보완 필요 -->
+
 서버에서 원시 바이너리 데이터를 보내는 경우 해당 값을 다루기 위해서는 객체화를 시켜야한다.
 
 그 종류로는 Blob, ArrayBuffer 등이 있으나 Blob만 알아보자.
 
-## 함수의 참조값을 넘기는 것과 인자와 함께 실행하는 것의 차이
+## 실무에서 클로저 사용 예시
+
+이벤트에 이벤트 객체 외에 인자를 포함하는 함수를 연결할 경우 클로저를 사용해서 조금 더 간결하게 작성 가능하다.
 
 ```js
-export const debounce = (handler: () => void) => (e: any) => {
-  if (debounceTimeId) {
-    clearTimeout(debounceTimeId);
-  }
+// 이벤트 객체와 같은 depth에서 인자를 구성한 경우
+const debounce = (event, callback) => {
+  ...
+}
 
-  if (canRetry) handler();
+<button onClick={(event) => debounce(event, callback)}>Click</button>
 
-  canRetry = false;
-
-  debounceTimeId = setTimeout(() => {
-    canRetry = true;
-  }, DEBOUNCE_TIME);
+// 이벤트 객체를 인자로 가진 함수를 클로저로 감싸서 함수를 실행하는 형태로 이벤트에 연결하는 경우
+const debounce = (callback) => (event) => {
+  ...
 };
 
-<Button variant='outlined' color='secondary' onClick={debounce(onAuthRequest)}>
+<button onClick={debounce(callback)}>Click</button>
+```
+
+## 구조 분해 할당
+
+구조 분해 할당 후 기본값을 설정하는 경우, 해당 값이 `undefined`인 경우에만 기본값이 적용된다.
+
+```js
+const {
+  a = 1,
+  b = 2,
+  c = 3,
+  d = 4,
+} = {
+  a: null,
+  b: undefined,
+  c: 3,
+  d: 4,
+};
+
+console.log(a, b, c, d); // null 2 3 4
 ```

@@ -136,13 +136,13 @@ Container > Box > Wrapper
 
 ## white-space
 
-|          | 스페이스와 탭 | 줄바꿈 | 자동 줄바꿈 |
-| -------- | ------------- | ------ | ----------- |
-| normal   | 병합          | 병합   | O           |
-| nowrap   | 병합          | 병합   | X           |
-| pre      | 보존          | 보존   | X           |
-| pre-wrap | 보존          | 보존   | O           |
-| pre-line | 병합          | 보존   | O           |
+|            | 스페이스와 탭 | 줄바꿈 | 자동 줄바꿈 |
+| ---------- | ------------- | ------ | ----------- |
+| `normal`   | 병합          | 병합   | O           |
+| `nowrap`   | 병합          | 병합   | X           |
+| `pre`      | 보존          | 보존   | X           |
+| `pre-wrap` | 보존          | 보존   | O           |
+| `pre-line` | 병합          | 보존   | O           |
 
 ## word-break, overflow-wrap
 
@@ -219,19 +219,13 @@ input:autofill {
 
 ## position
 
-static: 이 값은 position 속성의 기본값입니다. 요소가 문서의 일반적인 흐름에 따라 배치됩니다. top, right, bottom, left, z-index와 같은 위치 조정 속성이 적용되지 않습니다.
-
-relative: 요소가 일반적인 흐름에 따라 배치되지만, top, right, bottom, left와 같은 속성을 사용하여 상대적인 위치 조정을 할 수 있습니다. 이때, 요소가 원래 위치를 차지하며, 다른 요소들과의 상호작용은 원래 위치에 따라 결정됩니다.
-
-absolute: 요소가 부모 요소 중에서 position 속성이 relative, absolute, 또는 fixed로 설정된 가장 가까운 조상 요소를 기준으로 배치됩니다. 다른 요소들과 겹칠 수 있으며, top, right, bottom, left를 사용하여 정확한 위치를 조정할 수 있습니다.
-
-fixed: 요소가 뷰포트를 기준으로 배치됩니다. 스크롤되어도 화면 상에서 고정되어 표시됩니다. top, right, bottom, left를 사용하여 위치를 조정할 수 있습니다.
-
-sticky: 요소가 사용자가 스크롤하는 동안 일반적인 흐름에 따라 배치되다가, 특정 위치에 도달하면 고정되어 뷰포트 내에서 고정됩니다. 주로 헤더나 사이드바 등에 사용됩니다.
-
-z-index 속성을 통해 요소들의 쌓임 순서를 지정할 수 있습니다. 값이 높을수록 위에 표시되며, position 값이 static인 요소에는 z-index가 영향을 미치지 않습니다.
-
-각 position 값은 다양한 레이아웃 시나리오에 사용되며, 원하는 디자인과 배치를 위해 조합하여 활용할 수 있습니다.
+|            | 배치 위치                                                                         | `top`, `bottom`, `left`, `right`, `z-index` |
+| ---------- | --------------------------------------------------------------------------------- | :-----------------------------------------: |
+| `static`   | 문서의 일반적인 흐름                                                              |                      X                      |
+| `relative` | 문서의 일반적인 흐름                                                              |                      O                      |
+| `absolute` | `position` 속성이 `relative`, `absolute`, `fixed`로 설정된 가장 가까운 부모 요소  |                      O                      |
+| `fixed`    | 뷰포트                                                                            |                      O                      |
+| `sticky`   | 문서의 일반적인 흐름에 따라 배치되다가, 스크롤에 의해 화면에서 없어지기 전 고정됨 |                      O                      |
 
 ## justify-self, justify-items, margin auto...
 
@@ -243,6 +237,8 @@ grid-template-columns 속성으로 열 지정
 
 ## min-width, max-width
 
-min-width, max-width는 width 값에 의존한다. 100%로 지정해서 쓰자
+<!-- min-width, max-width는 width 값에 의존한다. 100%로 지정해서 쓰자 -->
 
 ## color 관련
+
+hsl, rgba, hex...

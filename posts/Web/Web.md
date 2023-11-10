@@ -21,7 +21,7 @@
     - [XML(eXtensible Markup Language)](#xmlextensible-markup-language)
     - [JSON(JavaScript Object Notation)](#jsonjavascript-object-notation)
     - [YAML(Yet Another Markup Language)](#yamlyet-another-markup-language)
-  - [텍스트 렌더링 원리](#텍스트-렌더링-원리)
+  - [인코딩 디코딩](#인코딩-디코딩)
   - [브라우저 캐시](#브라우저-캐시)
     - [memory cache vs disk cache](#memory-cache-vs-disk-cache)
   - [멀티미디어 태그의 src 속성](#멀티미디어-태그의-src-속성)
@@ -181,7 +181,17 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 기존에 주로 사용되던 포맷인 JSON의 불편함을 해소하기 위해 만들어진 superset(상위 호환)이다.
 
-## 텍스트 렌더링 원리
+## 인코딩 디코딩
+
+<!-- todo: 내용 보완 필요 -->
+
+문자 인코딩은 문자 코드를 이진 데이터로 저장하는 방식
+
+컴퓨터는 키보드 입력이 들어오면 해당 코드를 문자인코딩을 통해 저장한 후 응용프로그램에서 디코딩해서 출력
+
+https://namu.wiki/w/%EC%9D%B8%EC%BD%94%EB%94%A9
+
+https://www.cloudflare.com/ko-kr/learning/video/video-encoding-formats/
 
 ## 브라우저 캐시
 
@@ -202,6 +212,8 @@ memory cache는 브라우저 종료 시 데이터가 휘발되며, 주로 크기
 memory cache, disk cache, 캐시 안된 자원의 Time 열을 확인하면 속도의 차이를 확인할 수 있다.
 
 ## 멀티미디어 태그의 src 속성
+
+<!-- todo: 내용 보완 필요 -->
 
 HTML 태그 중 img, video, audio와 같은 멀티미디어 태그들은 `src` 속성을 입력해야 한다.
 
