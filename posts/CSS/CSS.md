@@ -22,6 +22,8 @@
   - [display: grid](#display-grid)
   - [min-width, max-width](#min-width-max-width)
   - [color 관련](#color-관련)
+  - [반응형](#반응형)
+  - [user-select](#user-select)
 
 ## font 설정
 
@@ -167,6 +169,8 @@ div {
 
 발생한 오버플로우는 `overflow: hidden`으로 가려버리고 이후에 `text-overflow: eillipsis`를 적용해 해당 텍스트의 `...`을 적용한다.
 
+이 방식은 데이터를 자르기 때문에 작은 화면에서는 데이터를 모두 확인할 수 없기 때문에 이 방식 대신 반응형으로 해결하려고 한다.
+
 ## rem
 
 ```css
@@ -215,7 +219,9 @@ input:autofill {
 
 ## pointer-events
 
-포인터 이벤트 삭제시킴
+pointer-events: none
+
+포인터 이벤트 발생시키지 않음
 
 ## position
 
@@ -235,6 +241,8 @@ justify-self, justify-items는 grid에서 사용할 수 있는 속성이며 개�
 
 grid-template-columns 속성으로 열 지정
 
+로우 높이 일정하게 하려면 grid-auto-rows로 minmax 설정
+
 ## min-width, max-width
 
 <!-- min-width, max-width는 width 값에 의존한다. 100%로 지정해서 쓰자 -->
@@ -242,3 +250,16 @@ grid-template-columns 속성으로 열 지정
 ## color 관련
 
 hsl, rgba, hex...
+
+## 반응형
+
+flex: '1 0 120px'
+flex: '30 0 200px'
+
+큰 레이아웃에 minWidth, overflowX
+
+데이터는 잘리는 것보다 변형을 통해 보여주는 것이 좋음
+
+## user-select
+
+![Alt text](image.png)
