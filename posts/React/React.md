@@ -14,7 +14,6 @@
   - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
   - [manifest.json](#manifestjson)
   - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
-  - [컴포넌트 props의 초기값 설정](#컴포넌트-props의-초기값-설정)
 
 ## 가상 돔(Virtual DOM)
 
@@ -90,9 +89,9 @@ const callback: () => number = useCallback(() => {
 }, []);
 ```
 
-## memo
-
 <!-- todo: 내용 보완 필요 -->
+
+## memo
 
 컴포넌트가 소품에 따른 렌더링 방지
 
@@ -142,7 +141,3 @@ CRA로 리액트 프로젝트 생성 시 public 폴더 아래에 해당 파일�
 ![switch_rendering](switch_rendering.png)
 
 이 과정에서 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다. 이를 해결하기 위해 리스트 값을 업데이트하지 않고 리액트 쿼리의 `cacheTime` 속성을 `0`으로 설정하여 해결했다.
-
-## 컴포넌트 props의 초기값 설정
-
-컴포넌트 props의 초기값은 해당 값이 `undefined`일때만 동작
