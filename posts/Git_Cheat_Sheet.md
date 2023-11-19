@@ -11,16 +11,14 @@
     - [git commit](#git-commit)
     - [git push](#git-push)
     - [git pull](#git-pull)
+    - [git fetch](#git-fetch)
+    - [git merge](#git-merge)
     - [git revert](#git-revert)
     - [git reset](#git-reset)
     - [git restore](#git-restore)
     - [git status](#git-status)
     - [git log](#git-log)
     - [git stash](#git-stash)
-  - [Sync Control](#sync-control)
-    - [git fetch](#git-fetch)
-    - [git merge](#git-merge)
-    - [git rebase](#git-rebase)
   - [Branch Control](#branch-control)
     - [git branch](#git-branch)
     - [git switch](#git-switch)
@@ -32,13 +30,12 @@
 
 ```mermaid
 flowchart TD
-    subgraph Init Way 2
-    A`("git clone <URL>")
-    end
-    subgraph Init Way 1
-    A(git init)-->B("git remote add origin <URL>");
-    B-->C(git pull origin master);
-    end
+    1("git init")
+    2("git add")
+    3("git commit")
+    4("git remote add origin")
+    5("git push origin master")
+    1-->2-->3-->4-->5
 ```
 
 ### git init
@@ -56,21 +53,17 @@ git init
 ```sh
 git remote -v # 원격 레포지토리 자세히 보기
 git remote add <URL의 별명> <URL> # 원격 레포지토리 추가
-git remote remove <URL의 별명> # 원격 레포지토리 삭제
-git remote prune <URL의 별명> # 존재하지 않는 원격 레포지토리를 정리해준다.
+git remote remove <URL의 별명 or URL> # 원격 레포지토리 삭제
+git remote prune <URL의 별명 or URL> # 존재하지 않는 원격 레포지토리를 정리해준다.
 ```
 
 ### git clone
 
-git의 존재하는 레포지토리를 로컬로 가져온다.
+원격 저장소의 레포지토리를 로컬로 가져온다.
 
 ```sh
-git clone <URL> # 아래와 동일한 과정을 거친다.
+git clone <URL>
 git clone <URL> <프로젝트명> # 원격 레포지토리 이름과 다르게 설정할 수 있다.
-
-git init
-git remote add origin <URL>
-git pull origin master
 ```
 
 ### git 비활성화
@@ -117,18 +110,38 @@ git commit --amend -m <커밋 설명 메세지> # 가장 최근 커밋의 메세
 로컬 레포지토리의 커밋 내역을 원격 레포지토리로 옮겨준다.
 
 ```sh
-git push <원격 레포지토리의 별명> <브랜치 이름>
+git push <원격 레포지토리의 별명 or URL> <원격 레포지토리의 브랜치명>
 # 해당 브랜치의 원격 레포지토리를 설정하면서 커밋 내역을 옮긴다.
 # 이후 git push / pull 명령만 입력해도 된다.
-git push -u <원격 레포지토리의 별명> <브랜치 이름>
+git push -u <원격 레포지토리의 별명 or URL> <원격 레포지토리의 브랜치명>
 ```
 
 ### git pull
 
-원격 레포지토리의 커밋 내역을 로컬 레포지토리로 가져온다.
+원격 레포지토리의 커밋 내역 및 정보를 로컬 레포지토리로 가져오면서 동시에 병합한다.
 
 ```sh
-git pull <원격 레포지토리의 별명> <브랜치 이름>
+git pull <원격 레포지토리의 별명 or URL> <원격 레포지토리의 브랜치명>
+```
+
+### git fetch
+
+원격 레포지토리의 커밋 내역 및 정보를 로컬 레포지토리로 가져온다.
+
+```sh
+git fetch <원격 레포지토리의 별명 or URL>
+```
+
+### git merge
+
+다른 브랜치의 내용을 현재 브랜치에 병합합니다.
+머지 후 커밋을 처리하는 방식은 fast-forward 방식과 새로운 커밋을 생성하는 방식 두 가지가 존재한다.
+fast-forward 방식은 추가적인 커밋 없이 병합을 진행한다.
+
+```sh
+git merge <원격 레포지토리의 브랜치명 or 로컬 브랜치명>
+git merge --no-ff # fast-forward 방식을 사용하지 않는다.
+git merge --abort # 현재 진행 중인 병합을 중단하고 이전 상태로 돌아갑니다.
 ```
 
 ### git revert
@@ -140,8 +153,9 @@ git revert HEAD # 가장 최근 커밋 첫번째 삭제 후 바로 커밋
 git revert HEAD^ # 가장 최근 커밋 중 두번째 삭제 후 바로 커밋
 git revert HEAD^^ # 가장 최근 커밋 중 세번째 삭제 후 바로 커밋
 git revert <커밋 ID>
-git revert --no-commit HEAD # 가장 최근 커밋 첫번째 되돌린 후 수정 가능
+git revert --no-commit HEAD # 자동으로 커밋하지 않음
 git revert --no-commit <커밋 ID>
+git revert --abort # git revert 전으로 돌아가기
 ```
 
 ### git reset
@@ -195,37 +209,6 @@ git stash pop --index <인덱스> # 보관한 내용을 그대로 꺼내온다.(
 git stash drop <인덱스> # 보관한 내용을 제거한다.
 ```
 
-## Sync Control
-
-<!-- todo: 내용 보완 필요 -->
-
-### git fetch
-
-```sh
-git fetch <원격 레포지토리의 별명>
-
-git fetch <원격 레포지토리의 별명>
-git merge <원격 레포지토리의 별명>/<브랜치명>
-```
-
-### git merge
-
-다른 브랜치의 내용을 현재 브랜치에 병합합니다.
-머지 후 커밋을 처리하는 방식은 fast-forward 방식과 새로운 커밋을 생성하는 방식 두 가지가 존재한다.
-fast-forward 방식은 추가적인 커밋 없이 병합을 진행한다.
-
-```sh
-git merge <브랜치명>
-git merge --no-ff # fast-forward 방식을 사용하지 않는다.
-git merge --abort # 현재 진행 중인 병합을 중단하고 이전 상태로 돌아갑니다.
-```
-
-### git rebase
-
-```sh
-git rebase <브랜치명>
-```
-
 ## Branch Control
 
 ### git branch
@@ -233,15 +216,15 @@ git rebase <브랜치명>
 브랜치를 CRUD 해준다.
 
 ```sh
-git branch <브랜치명> # 브랜치  생성
+git branch <로컬 브랜치명> # 브랜치 생성
 git branch -v # 브랜치 자세히 보기
 git branch -vv # 브랜치 자세히 보기, 연결된 원격 레포지토리 확인하기
 git branch -a # 원격 레포지토리의 브랜치까지 보여준다.
-git branch -u <URL의 별명/브랜치명> #
-git branch --unset-upstream
-git branch -m <새로운 브랜치명> # 현재 위치한 브랜치명 변경
-git branch -m <변경될 기존 브랜치명> <새로운 브랜치명> # 브랜치명 변경
-git branch -D <브랜치명> # 브랜치 강제 삭제
+git branch -u <원격 레포지토리의 브랜치명> # 원격 레포지토리 연결
+git branch --unset-upstream # 연결된 원격 레포지토리 삭제
+git branch -m <새로운 로컬 브랜치명> # 현재 위치한 브랜치명 변경
+git branch -m <변경될 기존 로컬 브랜치명> <새로운 로컬 브랜치명> # 브랜치명 변경
+git branch -D <로컬 브랜치명> # 브랜치 강제 삭제
 ```
 
 ### git switch
@@ -265,7 +248,7 @@ git checkout <커밋 ID>
 
 ### git cherry-pick
 
-다른 브랜치의 특정 커밋을 가져오고 싶을 때 사용한다.
+다른 브랜치의 특정 커밋을 가져오고 싶을 때 사용한다. 충돌이 발생할 경우 병합이 필요하다.
 
 ```sh
 git cherry-pick <커밋 ID>
