@@ -12,7 +12,9 @@
   - [word-break, overflow-wrap](#word-break-overflow-wrap)
   - [text-overflow 속성 적용하기](#text-overflow-속성-적용하기)
   - [transition \& animation](#transition--animation)
-  - [반응형 이미지](#반응형-이미지)
+  - [이미지](#이미지)
+    - [img 태그](#img-태그)
+    - [background](#background)
     - [rem](#rem)
   - [자동완성 스타일링](#자동완성-스타일링)
   - [pointer-events](#pointer-events)
@@ -179,11 +181,47 @@ animation: duration | easing-function | delay | iteration-count | direction | fi
 animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name, animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
 ```
 
-## 반응형 이미지
+## 이미지
 
-`padding-bottom`(or `padding-top`)을 이용한 aspect ratio 구현, 패딩은 부모 width를 따라감
+### img 태그
 
-이미지 비율 수정 object-fit (img 태그용)
+```css
+/* 반응형 이미지 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 고정된 너비와 높이 안에서 object-fit, object-position 속성으로 이미지 제어 */
+img {
+  width: 300px;
+  height: 150px
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* width를 유동적으로 가져가기 위해서 컨테이너를 추가해서 이미지 제어 */
+div {
+  flex: 1 0 300px;
+  height: 150px;
+}
+
+div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+```
+
+### background
+
+| 속성                  | 설명 |
+| --------------------- | ---- |
+| `background-url`      |      |
+| `background-size`     |      |
+| `background-position` |      |
+| `background-repeat`   |      |
 
 ### rem
 
@@ -223,7 +261,7 @@ css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타�
 
 ## 반응형
 
-![Alt text](image-1.png)
+![grid_layout](grid_layout.png)
 
 ### display: flex
 
@@ -293,4 +331,4 @@ hsl, rgba, hex...
 
 ## user-select
 
-![Alt text](image.png)
+![user_select](user_select.png)
