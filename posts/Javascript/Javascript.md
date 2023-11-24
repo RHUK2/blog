@@ -23,6 +23,9 @@
   - [parse](#parse)
   - [실무에서 클로저 사용 예시](#실무에서-클로저-사용-예시)
   - [구조 분해 할당](#구조-분해-할당)
+  - [논리 연산자 단락 평가](#논리-연산자-단락-평가)
+  - [자바스크립트 값의 종류](#자바스크립트-값의-종류)
+  - [Pass By Value vs Pass By Reference](#pass-by-value-vs-pass-by-reference)
   - [바이너리 데이터 다루기](#바이너리-데이터-다루기)
 
 ## JavaScript vs ECMAScript
@@ -308,6 +311,51 @@ const {
 
 console.log(a, b, c, d); // null 2 3 4
 ```
+
+## 논리 연산자 단락 평가
+
+```js
+const a = null || null || null || 'end'
+
+console.log(a) // 'end'
+
+const b = 'value' && 'value' && 'value' && 'end'
+
+console.log(b) 'end'
+```
+
+논리 연산자 `||`는 단락 평가 시 `null`, `undefined`, `''`, `0`, `NaN`, `false` 값을 만나면 다음으로 이동하고 만나지 않으면 해당 값을 출력한다.
+
+논리 연산자 `&&`는 단락 평가 시 `null`, `undefined`, `''`, `0`, `NaN`, `false` 값을 만나면 해당 값을 출력하고 만나지 않으면 다음으로 이동한다.
+
+## 자바스크립트 값의 종류
+
+|             | `typeof`    | 원시값 | 특이사항 | 설명                                                                               |
+| ----------- | ----------- | ------ | -------- | ---------------------------------------------------------------------------------- |
+| 'null'      | "object"    | O      | X        | `null`의 `typeof` 연산은 "object"인데, 이는 언어상 오류다. `null`은 객체가 아니다. |
+| 'undefined' | "undefined" | O      | X        |                                                                                    |
+| 'Boolean'   | "boolean"   | O      | X        |                                                                                    |
+| 'Number'    | "number"    | O      | X        |                                                                                    |
+| 'NaN'       | "number"    | O      | X        | `NaN === NaN`은 같지 않다.                                                         |
+| 'Infinity'  | "number"    | O      | X        |                                                                                    |
+| 'BigInt'    | "number"    | O      | X        |                                                                                    |
+| 'String'    | "string"    | O      | X        |                                                                                    |
+| 'Symbol'    | "symbol"    | O      | X        |                                                                                    |
+| 'Object'    | "object"    | X      | O        |                                                                                    |
+| 'Array'     | "object"    | X      | O        |                                                                                    |
+| 'Function'  | "function"  | X      | O        |                                                                                    |
+
+## Pass By Value vs Pass By Reference
+
+![pass_by_value_1](pass_by_value_1.png)
+![pass_by_value_2](pass_by_value_2.png)
+![pass_by_value_3](pass_by_value_3.png)
+![pass_by_value_4](pass_by_value_4.png)
+
+![pass_by_reference_1](pass_by_reference_1.png)
+![pass_by_reference_2](pass_by_reference_2.png)
+![pass_by_reference_3](pass_by_reference_3.png)
+![pass_by_reference_4](pass_by_reference_4.png)
 
 <!-- todo: 내용 보완 필요 -->
 
