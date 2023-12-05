@@ -48,6 +48,7 @@
     - [CSS가 안 먹히는 경우](#css가-안-먹히는-경우)
     - [화면이 하얗게 뜨는 경우](#화면이-하얗게-뜨는-경우)
     - [Lightsail DB 연결](#lightsail-db-연결)
+    - [이미지 로드 시 미리보기가 안 뜨는 이슈](#이미지-로드-시-미리보기가-안-뜨는-이슈)
 
 ## 웹 브라우저란?
 
@@ -413,3 +414,9 @@ Content-Disposition: attachment; filename="example.dat"
 ### Lightsail DB 연결
 
 Lightsail의 DB는 동일한 Lightsail 계정에 있는 Lightsail 리소스(인스턴스, 로드 밸런서 등)에서만 액세스할 수 있다. 그래서 SSH Tunnel이 필요하다. 일반적으로 공개되어 있는 Lightsail 인스턴스와 공개적으로 액세스할 수 없는 Lightsail DB를 생성하여 연결한다. 다만 Lightsail DB를 퍼블릭 모드로 설정한다면 데이터베이스 접속 정보만으로 접속 가능하다.
+
+### 이미지 로드 시 미리보기가 안 뜨는 이슈
+
+![Alt text](image.png)
+
+해당 response가 blob화 되면서 나타나는 이슈

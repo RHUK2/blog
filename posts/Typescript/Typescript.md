@@ -2,6 +2,9 @@
 
 - [Typescript](#typescript)
   - [Cheatsheet](#cheatsheet)
+  - [any vs unknown](#any-vs-unknown)
+  - [is](#is)
+  - [js instanceof vs ts instanceof](#js-instanceof-vs-ts-instanceof)
   - [.d.ts](#dts)
     - [선언 방식의 차이](#선언-방식의-차이)
 
@@ -11,6 +14,14 @@
 ![TypeScript_Interfaces](TypeScript_Interfaces.png)
 ![TypeScript_Control_Flow_Analysis](TypeScript_Control_Flow_Analysis.png)
 ![TypeScript_Classes](TypeScript_Classes.png)
+
+## any vs unknown
+
+`any`는 모든 타입을 허용한다. 반면 `unknown`은 타입 가드를 통해 무슨 타입인지 정의해야 허용한다.
+
+## is
+
+## js instanceof vs ts instanceof
 
 ## .d.ts
 

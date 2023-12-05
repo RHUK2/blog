@@ -15,7 +15,7 @@
   - [이미지](#이미지)
     - [img 태그](#img-태그)
     - [background](#background)
-    - [rem](#rem)
+  - [rem](#rem)
   - [자동완성 스타일링](#자동완성-스타일링)
   - [pointer-events](#pointer-events)
   - [position](#position)
@@ -25,8 +25,8 @@
     - [display: grid](#display-grid)
     - [overflow](#overflow)
     - [media query](#media-query)
-  - [color 관련](#color-관련)
   - [user-select](#user-select)
+  - [color 관련](#color-관련)
 
 ## font 설정
 
@@ -64,12 +64,6 @@ body {
 
 ## 초기 CSS 설정
 
-기본적으로 `width: 100%`로 설정되어 있기 때문에 따로 설정할 필요 없음. 가로 수평 스크롤을 피하기 위해서는 `width: 100vw`는 지양하자. 초기값을 `100%` 이하로 잡을 때는 설정 필요. 최상위 부모에게 고정 너비를 부여하고 밑에 자식들은 퍼센트로 관리하기.
-
-`min-height` 값의 퍼센트를 적용하려면 항상 부모에 `height` 값이 존재해야한다.
-
-`min-height: 100vh`가 짱이다
-
 ```css
 * {
   margin: 0;
@@ -82,7 +76,7 @@ body {
 html,
 body,
 #root {
-  height: 100%; /* 자식 레이아웃의 높이를 퍼센트로 조절하기 위한 설정 */
+  min-height: 100vh;
 }
 
 *,
@@ -116,9 +110,17 @@ Container > Box > Wrapper
 
 ## block vs inline
 
-`block`은 `width`, `height` 제어 가능, `margin` 상하좌우 가능
+`width: auto`는
+
+`block`은 `width`, `height` 제어 가능, `margin` 상하좌우 가능, 아래로
 
 `inline`은 `width`, `hieght` 제어 불가능, `margin` 좌우만 가능
+
+기본적으로 `width: 100%`로 설정되어 있기 때문에 따로 설정할 필요 없음. 가로 수평 스크롤을 피하기 위해서는 `width: 100vw`는 지양하자. 초기값을 `100%` 이하로 잡을 때는 설정 필요. 최상위 부모에게 고정 너비를 부여하고 밑에 자식들은 퍼센트로 관리하기.
+
+`min-height` 값의 퍼센트를 적용하려면 항상 부모에 `height` 값이 존재해야한다.
+
+`min-height: 100vh`가 짱이다
 
 ## box-sizing
 
@@ -220,14 +222,14 @@ div > img {
 
 ### background
 
-| 속성                  | 설명 |
-| --------------------- | ---- |
-| `background-url`      |      |
-| `background-size`     |      |
-| `background-position` |      |
-| `background-repeat`   |      |
+| 주요 속성             |
+| --------------------- |
+| `background-url`      |
+| `background-size`     |
+| `background-position` |
+| `background-repeat`   |
 
-### rem
+## rem
 
 ```css
 html {
@@ -269,16 +271,16 @@ css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타�
 
 ### display: flex
 
-| 자주 사용하는 속성 |
-| ------------------ |
-| `flex-direction`   |
-| `flex-wrap`        |
-| `jutify-content`   |
-| `align-content`    |
-| `align-items`      |
-| `align-self`       |
-| `flex`             |
-| `gap`              |
+| 주요 속성        |
+| ---------------- |
+| `flex-direction` |
+| `flex-wrap`      |
+| `jutify-content` |
+| `align-content`  |
+| `align-items`    |
+| `align-self`     |
+| `flex`           |
+| `gap`            |
 
 `flex-direction` 값이 `row`인 경우 모든 속성은 너비를 제어하며, `column`인 경우 높이를 제어한다.
 
@@ -302,7 +304,7 @@ css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타�
 
 ### display: grid
 
-|                         |
+| 주요 속성               |
 | ----------------------- |
 | `auto-template-columns` |
 | `grid-row`              |
@@ -329,10 +331,10 @@ grid-template-columns 속성으로 열 지정
 
 ### media query
 
-## color 관련
-
-hsl, rgba, hex...
-
 ## user-select
 
 ![user_select](user_select.png)
+
+## color 관련
+
+hsl, rgba, hex...

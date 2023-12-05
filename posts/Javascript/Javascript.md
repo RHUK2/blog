@@ -26,7 +26,9 @@
   - [논리 연산자 단락 평가](#논리-연산자-단락-평가)
   - [자바스크립트 값의 종류](#자바스크립트-값의-종류)
   - [Pass By Value vs Pass By Reference](#pass-by-value-vs-pass-by-reference)
+  - [async await](#async-await)
   - [바이너리 데이터 다루기](#바이너리-데이터-다루기)
+  - [깊은 객체 복사](#깊은-객체-복사)
 
 ## JavaScript vs ECMAScript
 
@@ -357,6 +359,31 @@ console.log(b) 'end'
 ![pass_by_reference_3](pass_by_reference_3.png)
 ![pass_by_reference_4](pass_by_reference_4.png)
 
+## async await
+
+```js
+async function getResource() {
+  try {
+    const response = await fetch('/images/test.png'); // 여기서 발생한 error는 catch로
+    const blob = await response.blob(); // 여기서 발생한 error는 catch로
+    return new File([blob], 'test.png'); // Promise 형태로 값 반환
+  } catch (error) {
+    throw new Error('프로필 사진 업로드에 실패하였습니다'); // 상위 단으로 에러 올리기
+    await Promise.reject(new Error('프로필 사진 업로드에 실패하였습니다')); // 상위 단으로 에러 올리기
+  }
+}
+
+async function() {
+  try{
+    const resource = await getResource();
+  } catch(error) {
+    console.log(error.message)
+  }
+}
+```
+
+throw했는데 받아주는 곳 없으면 프로그램 종료되니 조심
+
 <!-- todo: 내용 보완 필요 -->
 
 ## 바이너리 데이터 다루기
@@ -364,3 +391,31 @@ console.log(b) 'end'
 서버에서 원시 바이너리 데이터를 보내는 경우 해당 값을 다루기 위해서는 객체화를 시켜야한다.
 
 그 종류로는 Blob, ArrayBuffer 등이 있으나 Blob만 알아보자.
+
+## 깊은 객체 복사
+
+```js
+JSON.parse(JSON.stringify(object));
+```
+
+렬화 가능한 객체:
+
+기본 데이터 타입 (Primitive Types): 숫자, 문자열, 불리언, null, undefined와 같은 기본 데이터 타입은 대부분의 직렬화 메커니즘에서 직렬화할 수 있습니다.
+
+배열과 객체 (Arrays and Objects): JavaScript의 배열과 객체는 대부분의 직렬화 프로토콜에서 지원됩니다. JSON 형식의 직렬화는 특히 객체와 배열을 지원하며, 이는 웹 환경에서 주로 사용됩니다.
+
+날짜 객체 (Date): 날짜 객체는 JSON으로 직렬화될 수 있습니다.
+
+사용자 정의 객체 (Custom Objects): 사용자가 만든 객체도 직렬화 가능합니다. 하지만 주의할 점은 해당 객체가 참조하는 다른 객체나 함수와 같은 것들이 직렬화 가능해야 합니다.
+
+함수가 없는 객체 (Functions 없는 Objects): 일반적으로 함수가 없는 객체는 대부분의 직렬화 메커니즘에서 지원됩니다.
+
+직렬화 불가능한 객체:
+
+함수 (Functions): 함수는 직렬화할 수 없습니다. 함수는 코드와 상태를 가지고 있어 일련의 바이트로 단순히 표현하기 어렵습니다.
+
+심볼 (Symbols): ES6에서 추가된 심볼(Symbol)은 직렬화할 수 없습니다.
+
+특별한 객체 (Host Objects): 일부 브라우저나 환경에서 제공하는 특수한 객체들은 직렬화가 불가능할 수 있습니다.
+
+일부 자바스크립트 내장 객체 (Certain Native JavaScript Objects): 특정 내장 객체들은 직렬화가 어려울 수 있습니다. 예를 들어, Error 객체와 같은 것들은 일부 직렬화 형식에서는 문제를 일으킬 수 있습니다.
