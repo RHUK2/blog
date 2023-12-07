@@ -29,6 +29,7 @@
   - [async await](#async-await)
   - [바이너리 데이터 다루기](#바이너리-데이터-다루기)
   - [깊은 객체 복사](#깊은-객체-복사)
+  - [file input](#file-input)
 
 ## JavaScript vs ECMAScript
 
@@ -419,3 +420,9 @@ JSON.parse(JSON.stringify(object));
 특별한 객체 (Host Objects): 일부 브라우저나 환경에서 제공하는 특수한 객체들은 직렬화가 불가능할 수 있습니다.
 
 일부 자바스크립트 내장 객체 (Certain Native JavaScript Objects): 특정 내장 객체들은 직렬화가 어려울 수 있습니다. 예를 들어, Error 객체와 같은 것들은 일부 직렬화 형식에서는 문제를 일으킬 수 있습니다.
+
+## file input
+
+그런데 onChange는 실질적인 데이터가 바뀔때만 반응하므로 기존의 파일을 다시 업로드할 때는 이벤트가 작동하지 않으므로 value를 reset 해줄 필요가 있다.
+
+onClick 시에 event.target.value = '' 적용 ㄱㄲㄲ
