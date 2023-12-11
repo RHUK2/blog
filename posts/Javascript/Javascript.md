@@ -26,11 +26,10 @@
   - [논리 연산자 단락 평가](#논리-연산자-단락-평가)
   - [자바스크립트 값의 종류](#자바스크립트-값의-종류)
   - [Pass By Value vs Pass By Reference](#pass-by-value-vs-pass-by-reference)
-  - [async await](#async-await)
-  - [바이너리 데이터 다루기](#바이너리-데이터-다루기)
   - [깊은 객체 복사](#깊은-객체-복사)
     - [직렬화가 불가능한 객체](#직렬화가-불가능한-객체)
-  - [file input](#file-input)
+  - [async await](#async-await)
+  - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
 
 ## JavaScript vs ECMAScript
 
@@ -361,6 +360,27 @@ console.log(b) 'end'
 ![pass_by_reference_3](assets/pass_by_reference_3.png)
 ![pass_by_reference_4](assets/pass_by_reference_4.png)
 
+## 깊은 객체 복사
+
+```js
+const object = {
+  person: {
+    age: 20,
+    name: 'Tomas',
+  },
+  country: 'Korea',
+};
+
+const copyObject = JSON.parse(JSON.stringify(object));
+```
+
+### 직렬화가 불가능한 객체
+
+- 함수 (Functions): 함수는 직렬화할 수 없다. 함수는 코드와 상태를 가지고 있어 일련의 바이트로 단순히 표현하기 어렵다.
+- 심볼 (Symbols): ES6에서 추가된 심볼(Symbol)은 직렬화할 수 없다.
+- 특별한 객체 (Host Objects): 일부 브라우저나 환경에서 제공하는 특수한 객체들은 직렬화가 불가능할 수 있다.
+- 일부 자바스크립트 내장 객체 (Certain Native JavaScript Objects): 특정 내장 객체들은 직렬화가 어려울 수 있다. 예를 들어, `Error` 객체와 같은 것들은 일부 직렬화 형식에서는 문제를 일으킬 수 있다.
+
 ## async await
 
 ```js
@@ -386,37 +406,14 @@ async function() {
 
 throw했는데 받아주는 곳 없으면 프로그램 종료되니 조심
 
-<!-- todo: 내용 보완 필요 -->
+## file input 동일한 파일 입력 시 onChange 동작
 
-## 바이너리 데이터 다루기
+`<input type='file' />`의 경우 사용자가 파일을 입력한 후 동일한 파일을 다시 입력하면 `value` 값이 동일하기 때문에 `onChange`가 동작하지 않는다.
 
-서버에서 원시 바이너리 데이터를 보내는 경우 해당 값을 다루기 위해서는 객체화를 시켜야한다.
+`onChange`는 `value` 값이 변경되어야만 동작하므로 `onChange`가 일어나기 전에 `onClick`이 발생할 때 `event.target.value = ''`를 통해 `value` 값을 초기화해준다.
 
-그 종류로는 Blob, ArrayBuffer 등이 있으나 Blob만 알아보자.
-
-## 깊은 객체 복사
+어쩌피 우리가 관심있는 값은 `event.target.files`에 있는 `File` 객체이기 때문에 위 동작은 값에 영향을 주지 않는다.
 
 ```js
-const object = {
-  person: {
-    age: 20,
-    name: 'Tomas',
-  },
-  country: 'Korea',
-};
-
-const copyObject = JSON.parse(JSON.stringify(object));
+<input type='file' onClick={(event) => event.target.value = ''} onChange={(event) => console.log(event.target.files)}>
 ```
-
-### 직렬화가 불가능한 객체
-
-- 함수 (Functions): 함수는 직렬화할 수 없다. 함수는 코드와 상태를 가지고 있어 일련의 바이트로 단순히 표현하기 어렵다.
-- 심볼 (Symbols): ES6에서 추가된 심볼(Symbol)은 직렬화할 수 없다.
-- 특별한 객체 (Host Objects): 일부 브라우저나 환경에서 제공하는 특수한 객체들은 직렬화가 불가능할 수 있다.
-- 일부 자바스크립트 내장 객체 (Certain Native JavaScript Objects): 특정 내장 객체들은 직렬화가 어려울 수 있다. 예를 들어, `Error` 객체와 같은 것들은 일부 직렬화 형식에서는 문제를 일으킬 수 있다.
-
-## file input
-
-그런데 onChange는 실질적인 데이터가 바뀔때만 반응하므로 기존의 파일을 다시 업로드할 때는 이벤트가 작동하지 않으므로 value를 reset 해줄 필요가 있다.
-
-onClick 시에 event.target.value = '' 적용 ㄱㄲㄲ
