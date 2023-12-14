@@ -26,7 +26,10 @@
     - [overflow](#overflow)
     - [media query](#media-query)
   - [user-select](#user-select)
-  - [color 관련](#color-관련)
+  - [color](#color)
+    - [HEX](#hex)
+    - [RGB RGBA](#rgb-rgba)
+    - [HSL HSLA](#hsl-hsla)
 
 ## font 설정
 
@@ -335,6 +338,16 @@ grid-template-columns 속성으로 열 지정
 
 ![user_select](user_select.png)
 
-## color 관련
+## color
 
-hsl, rgba, hex...
+alpha channel vs opacity
+
+alpha 값은 색상이 적용되는 속성에만 적용
+
+opacity는 전체 적용
+
+### HEX
+
+### RGB RGBA
+
+### HSL HSLA
