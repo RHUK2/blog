@@ -50,5 +50,5 @@
 
 ## 비트와 바이트
 
-![Alt text](image.png)
-![Alt text](image-1.png)
+![bit_1](assets/bit_1.png)
+![bit_2](assets/bit_2.png)

@@ -57,7 +57,7 @@
 
 ### 렌더링 과정
 
-![browser_rendering](browser_rendering.png)
+![browser_rendering](assets/browser_rendering.png)
 
 ## 웹 서버란?
 
@@ -100,7 +100,7 @@ flowchart LR
 
 ## URL(Uniform Resource Locator)
 
-![url](url.png)
+![url](assets/url.png)
 
 URL은 말 그대로 자원(리소스)을 가리키는 지시자이다. 자원의 종류는 아래와 같다.
 
@@ -149,7 +149,7 @@ SSR은 SSR 서버에서 렌더링을 한다. SSR 서버는 첫 요청에서 초�
 
 미리 작성해놓은 정적인 파일들을 Static 서버에 저장해놓고 클라이언트가 요청하면 해당 파일을 보여주는 방식이며, 동적인 변화가 불가능하다.
 
-![compare_rendering](compare_rendering.png)
+![compare_rendering](assets/compare_rendering.png)
 
 ## 마크업 언어(Markup Language)
 
@@ -205,7 +205,7 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 ### memory cache vs disk cache
 
-![cache_size](cache_size.png)
+![cache_size](assets/cache_size.png)
 
 위의 개발자 도구에서 확인할 수 있듯이, 브라우저에서는 자원을 캐싱할 때 저장되는 위치에 따라 memory cache와 disk cache로 나뉜다. memory cache는 컴퓨터의 RAM(메모리)에 저장되고, disk cache는 컴퓨터의 하드디스크의 저장된다. 윈도우 운영체제에서 크롬을 사용한다면 아래 경로를 통해 저장된 캐시를 확인할 수 있다.
 
@@ -254,7 +254,7 @@ HTML 태그 중 `<img />`, `<video />`, `<audio />`와 같은 멀티미디어 �
 파일을 Base64로 인코딩하여 `src` 속성에 지정할 수 있다. 큰 이미지의 경우 데이터 URL은 페이지 크기를 크게 늘릴 수 있다.
 
 ```html
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..." alt="Base64 Image" />
+<img src="data:assets/image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..." alt="Base64 Image" />
 ```
 
 ## MIME 타입
@@ -269,9 +269,9 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 
 HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
 
-![payload_multipart1](payload_multipart1.png)
+![payload_multipart1](assets/payload_multipart1.png)
 
-![payload_multipart2](payload_multipart2.png)
+![payload_multipart2](assets/payload_multipart2.png)
 
 ### application/json
 
@@ -279,11 +279,11 @@ HTTP 요청의 body 값으로 JSON 데이터를 보낼 때 사용한다.
 
 fetch API, axios 방식으로 요청 가능하다.
 
-![payload_json1](payload_json1.png)
+![payload_json1](assets/payload_json1.png)
 
 바이너리 데이터를 Base64 형식으로 인코딩해서 보내는 경우는 아래와 같다.
 
-![payload_json2](payload_json2.png)
+![payload_json2](assets/payload_json2.png)
 
 ### application/octet-stream
 
@@ -293,15 +293,15 @@ HTTP 요청의 body 값으로 아무런 특별한 분류나 변환 없이 원시
 
 fetch API, axios 방식으로 요청 가능하다.
 
-![payload_octet_stream](payload_octet_stream.png)
+![payload_octet_stream](assets/payload_octet_stream.png)
 
 ### application/x-www-form-urlencoded
 
 HTML 폼 방식으로 HTTP 요청을 할 때 기본값으로 설정되며, HTTP 요청의 body 값으로 데이터를 URL 인코딩하여 보낼 때 사용한다.
 
-![payload_form_urlencoded1](payload_form_urlencoded1.png)
+![payload_form_urlencoded1](assets/payload_form_urlencoded1.png)
 
-![payload_form_urlencoded2](payload_form_urlencoded2.png)
+![payload_form_urlencoded2](assets/payload_form_urlencoded2.png)
 
 HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
 
@@ -327,7 +327,7 @@ HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
 - text/html
 - text/csv
 - text/plain
-- image/png
+- assets/image/png
 - image/jpeg
 - image/gif
 
@@ -383,7 +383,7 @@ Access-Control-Allow-Headers: 허용되는 헤더를 지정합니다.
 
 그래서 개발자 도구를 좀 더 디테일하게 살펴보니 진입점 파일인 index.html을 불러오는데 약 20초 정도가 걸렸다. 원인은 아래 사진과 같이 initial connection 이슈였다. 이걸 보니 단순히 프론트 쪽에 코드를 수정해서 될 일이 아니라 네트워크 쪽 이슈 같았다. 백엔드 개발자가 도메인 연결 쪽을 검토해줬는데 연결한 도메인이 다른 IP에도 연결되어 있어서 해당 IP를 잘 찾지못해서 일어난 이슈였다.
 
-![initial_connection](initial_connection.png)
+![initial_connection](assets/initial_connection.png)
 
 해당 이슈가 다시 발생한다면 도메인 연결을 검토해보자.
 
@@ -413,14 +413,14 @@ Lightsail의 DB는 동일한 Lightsail 계정에 있는 Lightsail 리소스(인�
 
 ### 이미지 로드 시 미리보기가 안 뜨는 이슈
 
-![preview_image](preview_image.png)
+![preview_image](assets/preview_image.png)
 
 ```js
 async function getResource() {
   try {
-    const response = await fetch('/images/test.png');
+    const response = await fetch('/images/assets/test.png');
     const blob = await response.blob();
-    return new File([blob], 'test.png');
+    return new File([blob], 'assets/test.png');
   } catch (error) {
     console.log(error);
   }

@@ -30,6 +30,8 @@
     - [직렬화가 불가능한 객체](#직렬화가-불가능한-객체)
   - [async await](#async-await)
   - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
+  - [null, undefined type check](#null-undefined-type-check)
+  - [json 값에 undefined를 설정하면 해당 값은 요청 값에서 삭제됨](#json-값에-undefined를-설정하면-해당-값은-요청-값에서-삭제됨)
 
 ## JavaScript vs ECMAScript
 
@@ -416,4 +418,37 @@ throw했는데 받아주는 곳 없으면 프로그램 종료되니 조심
 
 ```js
 <input type='file' onClick={(event) => event.target.value = ''} onChange={(event) => console.log(event.target.files)}>
+```
+
+## null, undefined type check
+
+```js
+const temp = null;
+
+if (temp == null) {
+  console.log(temp); // null
+}
+```
+
+```js
+const temp = undefined;
+
+if (temp == null) {
+  console.log(temp); // undefined
+}
+```
+
+## json 값에 undefined를 설정하면 해당 값은 요청 값에서 삭제됨
+
+```js
+{
+  name: null,
+  age: 30,
+  gender: undefined
+}
+
+{
+  name: null,
+  age: 30
+}
 ```

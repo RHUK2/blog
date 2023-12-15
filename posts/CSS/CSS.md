@@ -37,6 +37,8 @@
 
 CDN을 사용한다면 `@font-face` 설정은 필요없다.
 
+`font-family` 속성에서 폰트 이름을 작성할 때 공백이 존재하면 따옴표로 감싸주어야 한다.
+
 ```css
 /* ... */
 @font-face {
@@ -153,9 +155,9 @@ Container > Box > Wrapper
 
 `word-break`과 `overflow-wrap` 모두 한 단어가 길게 이어져 부모 상자의 `width`를 넘길 때 어떻게 처리할 지에 관한 속성이다. 아래 그림을 통해서 차이를 확인하자.
 
-![word_break](word_break.png)
+![word_break](assets/word_break.png)
 
-![overflow_wrap](overflow_wrap.png)
+![overflow_wrap](assets/overflow_wrap.png)
 
 ## text-overflow 속성 적용하기
 
@@ -270,7 +272,7 @@ css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타�
 
 ## 반응형
 
-![grid_layout](grid_layout.png)
+![grid_layout](assets/grid_layout.png)
 
 ### display: flex
 
@@ -336,7 +338,7 @@ grid-template-columns 속성으로 열 지정
 
 ## user-select
 
-![user_select](user_select.png)
+![user_select](assets/user_select.png)
 
 ## color
 

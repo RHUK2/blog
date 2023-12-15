@@ -10,10 +10,10 @@
 
 ## Cheatsheet
 
-![TypeScript_Types](TypeScript_Types.png)
-![TypeScript_Interfaces](TypeScript_Interfaces.png)
-![TypeScript_Control_Flow_Analysis](TypeScript_Control_Flow_Analysis.png)
-![TypeScript_Classes](TypeScript_Classes.png)
+![TypeScript_Types](assets/TypeScript_Types.png)
+![TypeScript_Interfaces](assets/TypeScript_Interfaces.png)
+![TypeScript_Control_Flow_Analysis](assets/TypeScript_Control_Flow_Analysis.png)
+![TypeScript_Classes](assets/TypeScript_Classes.png)
 
 ## any vs unknown
 
