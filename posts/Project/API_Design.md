@@ -96,7 +96,7 @@ HOUSE }|--|| PARENT: "N:1"
 
 ### 다대다 관계 (Many-to-Many Relationship)
 
-다수의 레코드가 다른 테이블의 다수의 레코드와 관련이 있는 경우입니다.
+다수의 레코드가 다른 테이블의 다수의 레코드와 관련이 있는 경우이다.
 
 ```mermaid
 erDiagram

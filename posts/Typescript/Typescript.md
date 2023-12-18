@@ -19,6 +19,8 @@
 
 `any`는 모든 타입을 허용한다. 반면 `unknown`은 타입 가드를 통해 무슨 타입인지 정의해야 허용한다.
 
+<!-- todo: 내용 보완 필요 -->
+
 ## is
 
 ## js instanceof vs ts instanceof

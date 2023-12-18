@@ -385,6 +385,8 @@ const copyObject = JSON.parse(JSON.stringify(object));
 
 ## async await
 
+<!-- todo: 내용 보완 필요 -->
+
 ```js
 async function getResource() {
   try {
@@ -439,6 +441,8 @@ if (temp == null) {
 ```
 
 ## json 값에 undefined를 설정하면 해당 값은 요청 값에서 삭제됨
+
+<!-- todo: 내용 보완 필요 -->
 
 ```js
 {
