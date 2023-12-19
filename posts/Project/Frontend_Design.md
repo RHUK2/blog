@@ -134,7 +134,7 @@ API 응답 데이터의 경우 초기값을 작성하는 케이스보다 해당 
 
 ## 그림으로 보는 프론트엔드 설계
 
-![frontend_design](frontend_design.jpg)
+![frontend_design](assets/frontend_design.jpg)
 
 <!-- todo: 내용 보완 필요 -->
 
