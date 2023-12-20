@@ -6,10 +6,13 @@
   - [useImperativeHandle](#useimperativehandle)
   - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
   - [내가 생각하는 컴포넌트의 종류](#내가-생각하는-컴포넌트의-종류)
-  - [값이 아니라 컴포넌트를 반환하자](#값이-아니라-컴포넌트를-반환하자)
+  - [값을 반환하냐? 컴포넌트를 반환하냐?](#값을-반환하냐-컴포넌트를-반환하냐)
   - [한 개의 input 요소로 output을 만드는 제어 컴포넌트](#한-개의-input-요소로-output을-만드는-제어-컴포넌트)
   - [여러 개의 input 요소로 output을 만드는 제어 컴포넌트](#여러-개의-input-요소로-output을-만드는-제어-컴포넌트)
   - [Wrapper로 감싸지면 그룹핑되는 컴포넌트](#wrapper로-감싸지면-그룹핑되는-컴포넌트)
+  - [](#)
+  - [](#-1)
+  - [값 수정 시](#값-수정-시)
 
 ## 제어 컴포넌트 vs 비제어 컴포넌트
 
@@ -159,26 +162,21 @@ const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
 />
 ```
 
-<!-- todo: 내용 보완 필요 -->
-
 ## 내가 생각하는 컴포넌트의 종류
 
-MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트를 디자인 컴포넌트라고 나는 정의했다.
-디자인 컴포넌트는 매우 재사용성이 높다.
-하지만 서버의 요청을 보내기 위해 알맞은 입력을 주기 위한 인풋 컴포넌트나
-비동기 데이터와 연동되어 데이터를 출력하는 컴포넌트는 재사용성이 떨어진다.
+MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트를 디자인 컴포넌트라고 나는 정의했다. 디자인 컴포넌트는 매우 재사용성이 높다. 하지만 서버의 요청을 보내기 위해 일반적인 입력이 아닌 인풋 컴포넌트나 비동기 데이터와 연동되어 데이터를 출력하는 컴포넌트는 재사용성이 떨어진다.
 
-그래서 나는 재사용성이 높은 디자인 컴포넌트와 해당 디자인 컴포넌트들을 사용해 단일 책임 원칙을 따르는 데이터 컴포넌트 두가지의 컴포넌트로 구성된다고 생각한다.
+그래서 나는 재사용성이 높은 디자인 컴포넌트와 해당 디자인 컴포넌트들을 사용해 단일 책임 원칙을 따르는 데이터 컴포넌트 두가지의 컴포넌트로 구성된다고 생각한다. 비동기 데이터 컴포넌트의 경우 비동기 데이터의 상태까지 같이 받아서 해당 데이터의 상태에 따라 표현하는 UI를 같이 작성하는 방향으로 생각하자
 
-- 도메인에 따라 분기되는 로직이 없다.
-- 권한에 따라 분기되는 로직이 없다.
-- 단일 책임의 원칙을 따른다.
+도메인, 권한 등등 분기되는 로직이 최대한 들어가지 않게 작성하도록 하며, 분기가 필요한 경우 새로운 파일에 작성하는 것이 옳다고 생각한다.
 
-비동기 데이터 컴포넌트의 경우 비동기 데이터의 상태까지 같이 넣어서 해당 로딩 상태를 표현하는 UI를 같이 작성해주도록 하자
-
-## 값이 아니라 컴포넌트를 반환하자
+## 값을 반환하냐? 컴포넌트를 반환하냐?
 
 만약 어떠한 값에 따라 색깔이 변경되는 컴포넌트가 있다고 하자. 처음 든 생각은 컴포넌트를 구성하는 요소에 필요한 데이터와 동적으로 변경되는 색깔 값을 객체 배열로 생성하고 해당 객체를 `map()`으로 요소와 함께 뿌려주려고 생각했다. 하지만 단순히 색깔만 고려하는 게 아니고 요소의 속성이나 요소 값이 바뀐다고 생각하면 객체 값의 재정의가 필요하고 통일성도 떨어진다. 그래서 위와 같은 상황에서는 요소 값 또는 컴포넌트 값을 리턴하는 것이 훨씬 낫다.
+
+만약 스타일 변경 없이 단순히 입력에 따라 출력 데이터가 바뀌는 경우에는 값을 반환하는 것이 좋다.
+
+<!-- todo: 내용 보완 필요 -->
 
 ## 한 개의 input 요소로 output을 만드는 제어 컴포넌트
 
@@ -472,3 +470,496 @@ const CheckBox = forwardRef(({ checked = false, value = '', onChange = () => {},
   );
 });
 ```
+
+##
+
+```js
+interface RefereeListItemSelectGroup {
+  value?: RefereeRelationship[];
+  onChange?: (selectGroup: RefereeRelationship[]) => void;
+  children?: React.ReactNode;
+}
+
+interface ContextType {
+  selectGroup?: RefereeRelationship[];
+  setSelectGroup?: Dispatch<SetStateAction<RefereeRelationship[]>>;
+  onChange?: (selectGroup: RefereeRelationship[]) => void;
+}
+
+export const RefereeListItemSelectGroupContext = createContext < ContextType > {};
+
+export function RefereeListItemSelectGroup({ value = [], onChange = () => {}, children }: RefereeListItemSelectGroup) {
+  /*********/
+  /* Hooks */
+  /*********/
+
+  /***********/
+  /* useForm */
+  /***********/
+
+  /****************************/
+  /* state & ref & definition */
+  /****************************/
+
+  const [selectGroup, setSelectGroup] = useState(value ?? []);
+
+  /************/
+  /* useQuery */
+  /************/
+
+  /***************/
+  /* useMutation */
+  /***************/
+
+  /*********************/
+  /* API Call Function */
+  /*********************/
+
+  /***********/
+  /* handler */
+  /***********/
+
+  /*******/
+  /* etc */
+  /*******/
+
+  /***********/
+  /* useMemo */
+  /***********/
+
+  /*************/
+  /* useEffect */
+  /*************/
+
+  useEffect(() => {
+    setSelectGroup(value);
+  }, [selectGroup, value]);
+
+  /**********/
+  /* return */
+  /**********/
+
+  return (
+    <>
+      <RefereeListItemSelectGroupContext.Provider
+        value={{
+          selectGroup,
+          setSelectGroup,
+          onChange,
+        }}
+      >
+        {children}
+      </RefereeListItemSelectGroupContext.Provider>
+    </>
+  );
+}
+
+interface Props {
+  data?: RefereeDetail;
+  onChange?: (value: string) => void;
+}
+
+export function RefereeListItemSelect({ data, onChange = () => {}, ...listItemProps }: Props & ListItemProps) {
+  /*********/
+  /* Hooks */
+  /*********/
+
+  const { t } = useTranslation('common');
+
+  const theme = useTheme();
+
+  /***********/
+  /* useForm */
+  /***********/
+
+  /****************************/
+  /* state & ref & definition */
+  /****************************/
+
+  const { id, name, relationship, relationshipIdentifier, email, phone, profile, updatedAt, status, isSelected } =
+    data || {};
+
+  const setAlert = useSetRecoilState(alertState);
+
+  const { selectGroup, setSelectGroup, onChange: onGroupChange } = useContext(RefereeListItemSelectGroupContext);
+
+  const [select, setSelect] = useState(data?.relationship?.key ?? '');
+
+  /************/
+  /* useQuery */
+  /************/
+
+  const { status: relationshipSelectStatus, data: relationshipSelectData } = useSelectQuery(
+    SELECT_REQUEST.RELATIONSHIP,
+  );
+
+  /***************/
+  /* useMutation */
+  /***************/
+
+  /*********************/
+  /* API Call Function */
+  /*********************/
+
+  /***********/
+  /* handler */
+  /***********/
+
+  function handleSelect(e: SelectChangeEvent<unknown>) {
+    if (id == null || typeof e.target.value !== 'string') {
+      setAlert((prev) => ({
+        ...prev,
+        open: true,
+        type: 'error',
+        message: '오류가 발생했습니다.',
+      }));
+      return;
+    }
+
+    setSelect(e.target.value);
+    onChange(e.target.value);
+
+    if (selectGroup && setSelectGroup && onGroupChange) {
+      const copySelectGroup = [...selectGroup];
+
+      const index = copySelectGroup.findIndex((select) => select.id === id);
+
+      if (index !== -1) copySelectGroup.splice(index, 1);
+
+      copySelectGroup.push({ id: id, relationship: e.target.value });
+
+      setSelectGroup(copySelectGroup);
+      onGroupChange(copySelectGroup);
+    }
+  }
+
+  /*******/
+  /* etc */
+  /*******/
+
+  /***********/
+  /* useMemo */
+  /***********/
+
+  /*************/
+  /* useEffect */
+  /*************/
+
+  useEffect(() => {
+    if (selectGroup) {
+      const select = selectGroup.find((select) => select.id === (id ?? 0));
+
+      if (select) setSelect(select.relationship);
+    }
+  }, [id, selectGroup]);
+
+  /**********/
+  /* return */
+  /**********/
+
+  return (
+    <ListItem divider sx={{ gap: 2, backgroundColor: isSelected ? 'grey.A100' : 'inherit' }} {...listItemProps}>
+      <Avatar
+        sx={{ width: 30, height: 30, border: `1px solid ${theme.palette.grey[300]}` }}
+        alt='profile'
+        src={profile != null ? `data:image;base64,${profile}` : '/images/DEFAULT.png'}
+      />
+
+      <Box sx={{ flex: '1 0 0', display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+        <Box sx={{ flex: '30 0 200px', display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+          <ListItemText
+            sx={{ flex: '1 0 150px' }}
+            primary={name ?? '-'}
+            secondary={`${relationship ? relationship?.value : relationshipIdentifier?.value ?? '-'} • ${
+              dayjs(updatedAt).isValid() ? dayjs(updatedAt).fromNow() : '-'
+            }`}
+          />
+
+          <Box
+            sx={{
+              flex: '3 0 200px',
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2'>{email ?? '-'}</Typography>
+              <CopyIcon text={email} />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2'>{`• ${phone == null ? '-' : computedPhone(phone)}`}</Typography>
+              <CopyIcon text={computedPhone(phone)} />
+            </Box>
+          </Box>
+        </Box>
+
+        {(() => {
+          switch (relationshipSelectStatus) {
+            case 'loading':
+              return <Skeleton variant='rounded' sx={{ flex: '1 0 120px' }} height={30} />;
+            case 'success':
+              return (
+                <Select
+                  sx={{ flex: '1 0 120px' }}
+                  displayEmpty
+                  color='secondary'
+                  value={select}
+                  onChange={handleSelect}
+                >
+                  <MenuItem value=''>선택하지 않음</MenuItem>
+                  {relationshipSelectData?.relationship?.map((relationship: Option) => (
+                    <MenuItem key={relationship.key} value={relationship.key}>
+                      {relationship.value}
+                    </MenuItem>
+                  ))}
+                </Select>
+              );
+            case 'error':
+            default:
+              return <Skeleton variant='rounded' animation={false} sx={{ flex: '1 0 120px' }} height={30} />;
+          }
+        })()}
+      </Box>
+    </ListItem>
+  );
+}
+```
+
+##
+
+```js
+interface AddEmployerInputProps {
+  value?: Employer[];
+  onChange?: (value: Employer[]) => void;
+  mode?: 'add' | 'edit';
+}
+
+interface AddEmployerInputForm {
+  employerIdentifier: string;
+  employers: Employer[];
+}
+
+export function AddEmployerInput({ mode = 'add', value = [], onChange = () => {} }: AddEmployerInputProps) {
+  /*********/
+  /* Hooks */
+  /*********/
+
+  const theme = useTheme();
+
+  /***********/
+  /* useForm */
+  /***********/
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm <
+  AddEmployerInputForm >
+  {
+    mode: 'onChange',
+    defaultValues: {
+      employerIdentifier: '',
+      employers: [],
+    },
+  };
+
+  const employers = watch('employers');
+
+  /****************************/
+  /* state & ref & definition */
+  /****************************/
+
+  const setAlert = useSetRecoilState(alertState);
+
+  /************/
+  /* useQuery */
+  /************/
+
+  const apiCheckEmployer = useCheckEmployerMutation();
+
+  const { status: employerMeStatus, data: employerMeData } = useEmployerMeQuery();
+
+  /***************/
+  /* useMutation */
+  /***************/
+
+  /*********************/
+  /* API Call Function */
+  /*********************/
+
+  function onCheckEmployer(data: AddEmployerInputForm) {
+    apiCheckEmployer.mutate(
+      { email: data.employerIdentifier },
+      {
+        onSuccess(response) {
+          const {
+            data: { id, email, name, profile },
+          } = response;
+
+          if (id == null || name == null) {
+            setAlert((prev) => ({
+              ...prev,
+              open: true,
+              type: 'error',
+              message: '오류가 발생했습니다.',
+            }));
+            return;
+          }
+
+          const copyEmployers = [...data.employers];
+
+          const index = copyEmployers.findIndex((copyEmployer) => copyEmployer.id === id);
+
+          if (index !== -1) copyEmployers.splice(index, 1);
+
+          copyEmployers.push({
+            id: id,
+            email: email,
+            name: name,
+            profile: profile,
+          });
+
+          setValue('employers', copyEmployers);
+          onChange(copyEmployers);
+        },
+        onError(error) {
+          if (!axios.isAxiosError(error)) return; // axios의 에러 처리를 위한 typeguard
+
+          setAlert((prev) => ({
+            ...prev,
+            open: true,
+            type: 'error',
+            message: error?.response?.data.message ?? '오류가 발생했습니다.',
+          }));
+        },
+      },
+    );
+  }
+
+  /***********/
+  /* handler */
+  /***********/
+
+  function deleteEmployers(id: number | null) {
+    if (id == null) {
+      setAlert((prev) => ({
+        ...prev,
+        open: true,
+        type: 'error',
+        message: '오류가 발생했습니다.',
+      }));
+      return;
+    }
+
+    const employers = getValues('employers');
+
+    const copyEmployers = [...employers];
+
+    const index = copyEmployers.findIndex((copyEmployer) => copyEmployer.id === id);
+
+    if (index !== -1) copyEmployers.splice(index, 1);
+
+    setValue('employers', copyEmployers);
+    onChange(copyEmployers);
+  }
+
+  /*******/
+  /* etc */
+  /*******/
+
+  /***********/
+  /* useMemo */
+  /***********/
+
+  /*************/
+  /* useEffect */
+  /*************/
+
+  useEffect(() => {
+    setValue('employers', value);
+  }, [setValue, value]);
+
+  /**********/
+  /* return */
+  /**********/
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 5,
+      }}
+    >
+      <Box sx={{ flex: '1 0 250px', display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <InputBase
+          placeholder='이메일'
+          {...register('employerIdentifier', {
+            required: true,
+            pattern: {
+              value: reg_exp.email,
+              message: '유효하지 않은 입력입니다.',
+            },
+          })}
+        />
+        <Button variant='outlined' color='secondary' onClick={debounce(handleSubmit(onCheckEmployer))}>
+          관리자 추가
+        </Button>
+        {errors.employerIdentifier?.message && (
+          <Typography color='error' variant='body2'>
+            {errors.employerIdentifier.message}
+          </Typography>
+        )}
+      </Box>
+      <Box sx={{ flex: '1 0 250px', display: 'flex', flexDirection: 'column', gap: 1 }}>
+        {mode === 'add' && (
+          <ListItem sx={{ gap: 1, backgroundColor: 'grey.100', borderRadius: 1 }}>
+            <Avatar
+              sx={{ width: 30, height: 30, border: `1px solid ${theme.palette.grey[300]}` }}
+              alt='profile'
+              src={
+                employerMeData?.profile != null ? `data:image;base64,${employerMeData?.profile}` : '/images/DEFAULT.png'
+              }
+            />
+            <ListItemText sx={{ flex: '0 1 max-content' }} primary={employerMeData?.name ?? '-'} />
+            <ListItemText sx={{ color: 'primary.main' }} primary={'내 계정'} />
+          </ListItem>
+        )}
+        {employers.map((employer) => (
+          <Fragment key={employer.id}>
+            <ListItem
+              sx={{ gap: 1, backgroundColor: 'grey.100', borderRadius: 1 }}
+              secondaryAction={
+                <IconButton edge='end' onClick={debounce(() => deleteEmployers(employer.id))}>
+                  <CloseIcon />
+                </IconButton>
+              }
+            >
+              <Avatar
+                sx={{ width: 30, height: 30, border: `1px solid ${theme.palette.grey[300]}` }}
+                alt='profile'
+                src={employer.profile != null ? `data:image;base64,${employer.profile}` : '/images/DEFAULT.png'}
+              />
+              <ListItemText sx={{ flex: '0 1 max-content' }} primary={employer.name} />
+              {employer.email === employerMeData?.email && (
+                <ListItemText sx={{ color: 'primary.main' }} primary={'내 계정'} />
+              )}
+            </ListItem>
+          </Fragment>
+        ))}
+      </Box>
+    </Box>
+  );
+}
+```
+
+## 값 수정 시
+
+사용자 입력했던 DB 값을 보여주는 디스플레이와 입력이 동시에 되는 인풋
+
+DB 값을 보여주는 디스플레이와 입력이 분리되는 인풋
