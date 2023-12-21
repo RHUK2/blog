@@ -32,6 +32,7 @@
   - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
   - [null, undefined type check](#null-undefined-type-check)
   - [json 값에 undefined를 설정하면 해당 값은 요청 값에서 삭제됨](#json-값에-undefined를-설정하면-해당-값은-요청-값에서-삭제됨)
+  - [history](#history)
 
 ## JavaScript vs ECMAScript
 
@@ -456,3 +457,9 @@ if (temp == null) {
   age: 30
 }
 ```
+
+## history
+
+window.location.href = '/'
+history.pushState
+history.replaceState
