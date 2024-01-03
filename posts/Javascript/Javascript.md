@@ -28,11 +28,17 @@
   - [Pass By Value vs Pass By Reference](#pass-by-value-vs-pass-by-reference)
   - [깊은 객체 복사](#깊은-객체-복사)
     - [직렬화가 불가능한 객체](#직렬화가-불가능한-객체)
+    - [null, undefined 직렬화 차이](#null-undefined-직렬화-차이)
+  - [null, undefined type check](#null-undefined-type-check)
+  - [런타임 에러](#런타임-에러)
+    - [TypeError (타입 에러)](#typeerror-타입-에러)
+    - [ReferenceError (참조 에러)](#referenceerror-참조-에러)
+    - [RangeError (범위 에러)](#rangeerror-범위-에러)
   - [async await](#async-await)
   - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
-  - [null, undefined type check](#null-undefined-type-check)
-  - [json 값에 undefined를 설정하면 해당 값은 요청 값에서 삭제됨](#json-값에-undefined를-설정하면-해당-값은-요청-값에서-삭제됨)
   - [history](#history)
+  - [sort](#sort)
+  - [clipboard API](#clipboard-api)
 
 ## JavaScript vs ECMAScript
 
@@ -384,6 +390,73 @@ const copyObject = JSON.parse(JSON.stringify(object));
 - 특별한 객체 (Host Objects): 일부 브라우저나 환경에서 제공하는 특수한 객체들은 직렬화가 불가능할 수 있다.
 - 일부 자바스크립트 내장 객체 (Certain Native JavaScript Objects): 특정 내장 객체들은 직렬화가 어려울 수 있다. 예를 들어, `Error` 객체와 같은 것들은 일부 직렬화 형식에서는 문제를 일으킬 수 있다.
 
+### null, undefined 직렬화 차이
+
+```js
+console.log(
+  JSON.stringfy({
+    name: null,
+    age: 30,
+    gender: undefine,
+  }),
+); // {"name":null,"age":30}
+```
+
+`null`의 경우 값으로 인정되고, `undefined`의 경우 삭제해버린다.
+
+## null, undefined type check
+
+```js
+const temp = null;
+
+if (temp == null) {
+  console.log(temp); // null
+}
+```
+
+```js
+const temp = undefined;
+
+if (temp == null) {
+  console.log(temp); // undefined
+}
+```
+
+## 런타임 에러
+
+런타임 에러는 프로그램이 실행 중에 발생하는 오류를 의미한다. 이는 프로그램의 실행 흐름 중에 예상치 못한 상황이나 문제로 인해 발생하며, 컴파일 단계에서는 검출되지 않는다.
+
+`SyntaxError`와 같은 문법적인 에러는 런타임에 발생하는 에러가 아니다.
+
+### TypeError (타입 에러)
+
+변수나 속성에 예상하지 않은 타입의 값이 할당되거나 연산이 수행될 때 발생한다.
+
+```js
+const x = null;
+console.log(x.toUpperCase()); // TypeError: x is null
+```
+
+### ReferenceError (참조 에러)
+
+정의되지 않은 변수나 함수를 참조하려고 할 때 발생한다.
+
+```js
+console.log(y); // ReferenceError: y is not defined
+```
+
+### RangeError (범위 에러)
+
+허용 범위를 벗어난 숫자 값이 사용될 때 발생한다. 주로 재귀 호출이 무한대로 계속되는 경우 등에서 발생할 수 있다.
+
+```js
+function recursiveFunction() {
+  recursiveFunction();
+}
+
+recursiveFunction(); // RangeError: Maximum call stack size exceeded
+```
+
 ## async await
 
 <!-- todo: 내용 보완 필요 -->
@@ -423,43 +496,16 @@ throw했는데 받아주는 곳 없으면 프로그램 종료되니 조심
 <input type='file' onClick={(event) => event.target.value = ''} onChange={(event) => console.log(event.target.files)}>
 ```
 
-## null, undefined type check
-
-```js
-const temp = null;
-
-if (temp == null) {
-  console.log(temp); // null
-}
-```
-
-```js
-const temp = undefined;
-
-if (temp == null) {
-  console.log(temp); // undefined
-}
-```
-
-## json 값에 undefined를 설정하면 해당 값은 요청 값에서 삭제됨
-
-<!-- todo: 내용 보완 필요 -->
-
-```js
-{
-  name: null,
-  age: 30,
-  gender: undefined
-}
-
-{
-  name: null,
-  age: 30
-}
-```
-
 ## history
 
 window.location.href = '/'
 history.pushState
 history.replaceState
+
+## sort
+
+JavaScript의 sort 메서드는 배열의 요소를 정렬하는 데 사용됩니다. 기본적으로 sort 메서드는 배열의 각 요소를 문자열로 취급하여 정렬합니다. 이 때문에 숫자 정렬이 예상과 다를 수 있습니다. 예를 들어, 숫자 10은 문자열 '10'보다 작게 정렬됩니다.
+
+## clipboard API
+
+로컬호스트 및 HTTPS 통신에서만 동작함
