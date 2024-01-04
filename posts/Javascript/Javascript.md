@@ -459,6 +459,8 @@ recursiveFunction(); // RangeError: Maximum call stack size exceeded
 
 ## async await
 
+try catch!
+
 <!-- todo: 내용 보완 필요 -->
 
 ```js
@@ -505,6 +507,20 @@ history.replaceState
 ## sort
 
 JavaScript의 sort 메서드는 배열의 요소를 정렬하는 데 사용됩니다. 기본적으로 sort 메서드는 배열의 각 요소를 문자열로 취급하여 정렬합니다. 이 때문에 숫자 정렬이 예상과 다를 수 있습니다. 예를 들어, 숫자 10은 문자열 '10'보다 작게 정렬됩니다.
+
+```js
+function compare(a, b) {
+  if (a is less than b by some ordering criterion) {
+    return -1;
+  }
+  if (a is greater than b by the ordering criterion) {
+    return 1;
+  }
+  // a must be equal to b
+  return 0;
+}
+
+```
 
 ## clipboard API
 
