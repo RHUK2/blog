@@ -352,9 +352,9 @@ css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타�
 
 ![user_select](assets/user_select.png)
 
-<!-- todo: 내용 보완 필요 -->
-
 ## color
+
+<!-- todo: 내용 보완 필요 -->
 
 alpha channel vs opacity
 

@@ -6,7 +6,6 @@
   - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)
     - [onclick](#onclick)
     - [addEventListener('click')](#addeventlistenerclick)
-  - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
   - [좌표](#좌표)
     - [요소의 너비와 높이](#요소의-너비와-높이)
     - [브라우저 창, 문서의 너비와 높이](#브라우저-창-문서의-너비와-높이)
@@ -30,15 +29,10 @@
     - [직렬화가 불가능한 객체](#직렬화가-불가능한-객체)
     - [null, undefined 직렬화 차이](#null-undefined-직렬화-차이)
   - [null, undefined type check](#null-undefined-type-check)
-  - [런타임 에러](#런타임-에러)
-    - [TypeError (타입 에러)](#typeerror-타입-에러)
-    - [ReferenceError (참조 에러)](#referenceerror-참조-에러)
-    - [RangeError (범위 에러)](#rangeerror-범위-에러)
-  - [async await](#async-await)
+  - [try/catch](#trycatch)
   - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
-  - [history](#history)
   - [sort](#sort)
-  - [clipboard API](#clipboard-api)
+  - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
 
 ## JavaScript vs ECMAScript
 
@@ -68,54 +62,30 @@ onclick과 addEventListener는 이벤트 처리를 위해 사용되는 JavaScrip
 - 여러 개의 핸들러를 등록한 경우, 등록된 순서대로 호출된다. 이를 통해 여러 핸들러 간에 순서를 조절할 수 있다.
 - removeEventListener를 사용하여 등록한 이벤트 핸들러를 제거할 수 있다. 단, 제거하려는 핸들러는 반드시 동일한 함수의 참조여야 한다.
 
-## throttle vs debounce(feat. lodash 라이브러리)
-
-이벤트에 병목 현상을 주고 싶거나, 사용자의 입력에 딜레이를 주고 싶은 상황이 빈번하게 발생하는데 이를 `lodash`의 `throttle`과 `debounce`로 쉽게 해결이 가능하다.
-
-보통 스크롤 이벤트 같이 매우 빈번하게 발생하는 이벤트의 경우 `throttle`을 통해 병목 현상을 준다. 사용자가 고의로 빈번하게 입력하는 것을 방지하기 위해서는 `debounce`를 활용해 정해진 딜레이 이상 지나지 않으면 이벤트를 막아준다. 아래의 사진으로 해당 함수들이 어떻게 동작하는 지 이해할 수 있다.
-
-![debounce_vs_throttle](assets/debounce_vs_throttle.png)
-
-사용법은 아래와 같다. 리액트의 경우 리렌더링 시에 컴포넌트를 계속 호출하므로 `useRef` 훅으로 감싸서 매 렌더링마다 새로운 함수가 생성되는 것을 막는다.
-
-```js
-import _ from 'lodash';
-
-...
-
-function onCheckEmail() {
-    ...
-}
-
-const onThrottledCheckEmail = _.throttle(onCheckEmail, 1000, {leading: true, trailling: false});
-
-const onDebouncedCheckEmail = _.debounce(onCheckEmail, 1000, {leading: true, trailling: false});
-```
-
 ## 좌표
 
 ### 요소의 너비와 높이
 
 ```js
-alert(element.offsetWidth); // 보더 + 패딩 + 컨텐츠 + 스크롤바 너비
-alert(element.offsetHeight); // 보더 + 패딩 + 컨텐츠 + 스크롤바 높이
-alert(element.clientWidth); // 패딩 + 컨텐츠 너비
-alert(element.clientHeight); // 패딩 + 컨텐츠 높이
-alert(element.scrollWidth); // 패딩 + 컨텐츠 + 스크롤바에 가려진 패딩 + 컨텐츠 너비
-alert(element.scrollHeight); // 패딩 + 컨텐츠 + 스크롤바에 가려진 패딩 + 컨텐츠 높이
-alert(element.scrollLeft); // 스크롤바에 가려진 왼쪽 영역의 패딩 + 컨텐츠 길이
-alert(element.scrollTop); // 스크롤바에 가려진 위쪽 영역의  패딩 + 컨텐츠 길이
+console.log(element.offsetWidth); // 보더 + 패딩 + 컨텐츠 + 스크롤바 너비
+console.log(element.offsetHeight); // 보더 + 패딩 + 컨텐츠 + 스크롤바 높이
+console.log(element.clientWidth); // 패딩 + 컨텐츠 너비
+console.log(element.clientHeight); // 패딩 + 컨텐츠 높이
+console.log(element.scrollWidth); // 패딩 + 컨텐츠 + 스크롤바에 가려진 패딩 + 스크롤바에 가려진 컨텐츠 너비
+console.log(element.scrollHeight); // 패딩 + 컨텐츠 + 스크롤바에 가려진 패딩 + 스크롤바에 가려진 컨텐츠 높이
+console.log(element.scrollLeft); // 스크롤바에 가려진 왼쪽 영역의 패딩 + 스크롤바에 가려진 왼쪽 영역의 컨텐츠 길이
+console.log(element.scrollTop); // 스크롤바에 가려진 위쪽 영역의 패딩 + 스크롤바에 가려진 위쪽 영역의 컨텐츠 길이
 ```
 
 ### 브라우저 창, 문서의 너비와 높이
 
 ```js
-alert(window.innerWidth); // 세로 스크롤바 + 창 너비
-alert(window.innerHeight); // 가로 스크롤바 + 창 높이
-alert(document.documentElement.clientWidth); // 순수 창 너비
-alert(document.documentElement.clientHeight); // 순수 창 높이
-alert(document.documentElement.scrollWidth); // 스크롤에 가려진 부분 포함 문서 총 너비
-alert(
+console.log(window.innerWidth); // 세로 스크롤바 + 창 너비
+console.log(window.innerHeight); // 가로 스크롤바 + 창 높이
+console.log(document.documentElement.clientWidth); // 순수 창 너비
+console.log(document.documentElement.clientHeight); // 순수 창 높이
+console.log(document.documentElement.scrollWidth); // 스크롤에 가려진 부분 포함 문서 총 너비
+console.log(
   Math.max(
     document.body.scrollHeight,
     document.documentElement.scrollHeight,
@@ -130,8 +100,8 @@ alert(
 ### 스크롤
 
 ```js
-alert(window.scrollX); // 스크롤에 가려진 부분의 왼쪽 영역 너비
-alert(window.scrollY); // 스크롤에 가려진 부분의 위쪽 영역 높이
+console.log(window.scrollX); // 스크롤에 가려진 부분의 왼쪽 영역 너비
+console.log(window.scrollY); // 스크롤에 가려진 부분의 위쪽 영역 높이
 
 window.scrollBy(x, y); // 현재 스크롤 위치 기준으로 스크롤 이동
 window.scrollTo(x, y); // 문서 기준으로 스크롤 이동
@@ -422,44 +392,9 @@ if (temp == null) {
 }
 ```
 
-## 런타임 에러
+## try/catch
 
-런타임 에러는 프로그램이 실행 중에 발생하는 오류를 의미한다. 이는 프로그램의 실행 흐름 중에 예상치 못한 상황이나 문제로 인해 발생하며, 컴파일 단계에서는 검출되지 않는다.
-
-`SyntaxError`와 같은 문법적인 에러는 런타임에 발생하는 에러가 아니다.
-
-### TypeError (타입 에러)
-
-변수나 속성에 예상하지 않은 타입의 값이 할당되거나 연산이 수행될 때 발생한다.
-
-```js
-const x = null;
-console.log(x.toUpperCase()); // TypeError: x is null
-```
-
-### ReferenceError (참조 에러)
-
-정의되지 않은 변수나 함수를 참조하려고 할 때 발생한다.
-
-```js
-console.log(y); // ReferenceError: y is not defined
-```
-
-### RangeError (범위 에러)
-
-허용 범위를 벗어난 숫자 값이 사용될 때 발생한다. 주로 재귀 호출이 무한대로 계속되는 경우 등에서 발생할 수 있다.
-
-```js
-function recursiveFunction() {
-  recursiveFunction();
-}
-
-recursiveFunction(); // RangeError: Maximum call stack size exceeded
-```
-
-## async await
-
-try catch!
+에러가 발생하면 스크립트가 중단되고 콘솔에 에러가 출력된다. 스크립트가 중단되는 것을 방지하기 위해 `try/catch`문이 사용된다. 유효한 코드에서 발생하는 에러만 처리 가능하다.
 
 <!-- todo: 내용 보완 필요 -->
 
@@ -498,30 +433,36 @@ throw했는데 받아주는 곳 없으면 프로그램 종료되니 조심
 <input type='file' onClick={(event) => event.target.value = ''} onChange={(event) => console.log(event.target.files)}>
 ```
 
-## history
-
-window.location.href = '/'
-history.pushState
-history.replaceState
-
 ## sort
 
-JavaScript의 sort 메서드는 배열의 요소를 정렬하는 데 사용됩니다. 기본적으로 sort 메서드는 배열의 각 요소를 문자열로 취급하여 정렬합니다. 이 때문에 숫자 정렬이 예상과 다를 수 있습니다. 예를 들어, 숫자 10은 문자열 '10'보다 작게 정렬됩니다.
+배열은 각 문자의 유니 코드 코드 포인트 값에 따라 정렬되기 때문에 숫자 정렬이 생각한대로 정렬되지 않을 수 있다. 원 배열이 정렬되며, 복사본이 만들어지는 것이 아니다.
+
+`compareFunction(a, b) < 0`인 경우, `a`를 `b`보다 낮은 인덱스로 정렬한다. 즉, `a`가 먼저 온다.
+`compareFunction(a, b) === 0`인 경우, `a`와 `b`를 서로에 대해 변경하지 않는다.
+`compareFunction(a, b) > 0`인 경우, `b`를 `a`보다 낮은 인덱스로 정렬한다. 즉, `b`가 먼저 온다.
+
+## throttle vs debounce(feat. lodash 라이브러리)
+
+<!-- todo: 내용 보완 필요 -->
+
+이벤트에 병목 현상을 주고 싶거나, 사용자의 입력에 딜레이를 주고 싶은 상황이 빈번하게 발생하는데 이를 `lodash`의 `throttle`과 `debounce`로 쉽게 해결이 가능하다.
+
+보통 스크롤 이벤트 같이 매우 빈번하게 발생하는 이벤트의 경우 `throttle`을 통해 병목 현상을 준다. 사용자가 고의로 빈번하게 입력하는 것을 방지하기 위해서는 `debounce`를 활용해 정해진 딜레이 이상 지나지 않으면 이벤트를 막아준다. 아래의 사진으로 해당 함수들이 어떻게 동작하는 지 이해할 수 있다.
+
+![debounce_vs_throttle](assets/debounce_vs_throttle.png)
+
+사용법은 아래와 같다. 리액트의 경우 리렌더링 시에 컴포넌트를 계속 호출하므로 `useRef` 훅으로 감싸서 매 렌더링마다 새로운 함수가 생성되는 것을 막는다.
 
 ```js
-function compare(a, b) {
-  if (a is less than b by some ordering criterion) {
-    return -1;
-  }
-  if (a is greater than b by the ordering criterion) {
-    return 1;
-  }
-  // a must be equal to b
-  return 0;
+import _ from 'lodash';
+
+...
+
+function onCheckEmail() {
+    ...
 }
 
+const onThrottledCheckEmail = _.throttle(onCheckEmail, 1000, {leading: true, trailling: false});
+
+const onDebouncedCheckEmail = _.debounce(onCheckEmail, 1000, {leading: true, trailling: false});
 ```
-
-## clipboard API
-
-로컬호스트 및 HTTPS 통신에서만 동작함

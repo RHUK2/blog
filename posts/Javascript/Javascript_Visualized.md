@@ -7,6 +7,7 @@
   - [프로토타입](#프로토타입)
   - [제너레이터와 이터레이터](#제너레이터와-이터레이터)
   - [프로미스](#프로미스)
+  - [async/await](#asyncawait)
 
 ## 이벤트 루프
 
@@ -66,6 +67,9 @@
 ![promise_7](assets/promise_7.gif)
 ![promise_8](assets/promise_8.gif)
 ![promise_9](assets/promise_9.gif)
+
+## async/await
+
 ![async_await_1](assets/async_await_1.gif)
 ![async_await_2](assets/async_await_2.gif)
 ![async_await_3](assets/async_await_3.gif)

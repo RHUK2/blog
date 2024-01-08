@@ -42,14 +42,17 @@
     - [표현 헤더 (Representation Headers)](#표현-헤더-representation-headers)
     - [쿠키 관련 헤더](#쿠키-관련-헤더)
     - [CORS (Cross-Origin Resource Sharing) 관련 헤더](#cors-cross-origin-resource-sharing-관련-헤더)
-  - [디버깅](#디버깅)
+  - [개발자 도구 디버깅](#개발자-도구-디버깅)
     - [initial connection](#initial-connection)
     - [blocked:mixed-content](#blockedmixed-content)
     - [content-disposition](#content-disposition)
     - [CSS가 안 먹히는 경우](#css가-안-먹히는-경우)
     - [화면이 하얗게 뜨는 경우](#화면이-하얗게-뜨는-경우)
-    - [Lightsail DB 연결](#lightsail-db-연결)
-    - [이미지 로드 시 미리보기가 안 뜨는 이슈](#이미지-로드-시-미리보기가-안-뜨는-이슈)
+    - [이미지 로드 시 개발자 도구에서 미리보기가 안 뜨는 이슈](#이미지-로드-시-개발자-도구에서-미리보기가-안-뜨는-이슈)
+  - [Web API](#web-api)
+    - [Clipboard API](#clipboard-api)
+    - [History API](#history-api)
+    - [Location API](#location-api)
 
 ## 웹 브라우저란?
 
@@ -373,7 +376,7 @@ Access-Control-Allow-Origin: 리소스에 액세스할 수 있는 외부 도메�
 Access-Control-Allow-Methods: 허용되는 HTTP 메서드를 지정합니다.
 Access-Control-Allow-Headers: 허용되는 헤더를 지정합니다.
 
-## 디버깅
+## 개발자 도구 디버깅
 
 ### initial connection
 
@@ -407,11 +410,7 @@ Content-Disposition: attachment; filename="example.dat"
 
 자바스크립트에서 메서드 참조를 못하거나 값을 참조하지 못했을 때 발생할 확률이 크다
 
-### Lightsail DB 연결
-
-Lightsail의 DB는 동일한 Lightsail 계정에 있는 Lightsail 리소스(인스턴스, 로드 밸런서 등)에서만 액세스할 수 있다. 그래서 SSH Tunnel이 필요하다. 일반적으로 공개되어 있는 Lightsail 인스턴스와 공개적으로 액세스할 수 없는 Lightsail DB를 생성하여 연결한다. 다만 Lightsail DB를 퍼블릭 모드로 설정한다면 데이터베이스 접속 정보만으로 접속 가능하다.
-
-### 이미지 로드 시 미리보기가 안 뜨는 이슈
+### 이미지 로드 시 개발자 도구에서 미리보기가 안 뜨는 이슈
 
 ![preview_image](assets/preview_image.png)
 
@@ -428,3 +427,19 @@ async function getResource() {
 ```
 
 위 코드에서 보듯이 `fetch`로 가져온 자원은 개발자 도구 Network 탭에서 미리보기 가능한 상태이지만 `blob()` 메서드를 적용하면서 해당 `response`의 타입이 변경되었으니 미리보기가 불가능해진다.
+
+## Web API
+
+<!-- todo: 내용 보완 필요 -->
+
+### Clipboard API
+
+로컬호스트 및 HTTPS 통신에서만 동작함
+
+### History API
+
+window.location.href = '/'
+history.pushState
+history.replaceState
+
+### Location API

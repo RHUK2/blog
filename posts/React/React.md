@@ -90,9 +90,9 @@ const callback: () => number = useCallback(() => {
 }, []);
 ```
 
-<!-- todo: 내용 보완 필요 -->
-
 ## memo
+
+<!-- todo: 내용 보완 필요 -->
 
 컴포넌트가 소품에 따른 렌더링 방지
 
