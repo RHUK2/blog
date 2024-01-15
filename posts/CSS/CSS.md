@@ -300,6 +300,8 @@ div > img {
 }
 ```
 
+aspect ratio
+
 ### background
 
 <!-- todo: 내용 보완 필요 -->
