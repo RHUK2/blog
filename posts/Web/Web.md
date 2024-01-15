@@ -43,6 +43,7 @@
     - [쿠키 관련 헤더](#쿠키-관련-헤더)
     - [CORS (Cross-Origin Resource Sharing) 관련 헤더](#cors-cross-origin-resource-sharing-관련-헤더)
   - [개발자 도구 디버깅](#개발자-도구-디버깅)
+    - [등록 이벤트 확인하기](#등록-이벤트-확인하기)
     - [initial connection](#initial-connection)
     - [blocked:mixed-content](#blockedmixed-content)
     - [content-disposition](#content-disposition)
@@ -377,6 +378,18 @@ Access-Control-Allow-Methods: 허용되는 HTTP 메서드를 지정합니다.
 Access-Control-Allow-Headers: 허용되는 헤더를 지정합니다.
 
 ## 개발자 도구 디버깅
+
+### 등록 이벤트 확인하기
+
+```js
+getEventListeners($0);
+getEventListeners(window);
+getEventListeners(document);
+```
+
+또는 개발자 도구
+
+![Alt text](image.png)
 
 ### initial connection
 

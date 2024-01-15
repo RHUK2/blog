@@ -39,6 +39,7 @@
   - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
   - [sort](#sort)
   - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
+  - [window vs document](#window-vs-document)
 
 ## JavaScript vs ECMAScript
 
@@ -513,4 +514,39 @@ const onThrottledCheckEmail = _.throttle(onCheckEmail, 1000, {leading: true, tra
 
 const onDebouncedCheckEmail = _.debounce(onCheckEmail, 1000, {leading: true, trailling: false});
 
+function debounceWrapper(func, delay) {
+  let timerId;
+
+  return function (...args) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    timerId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+function throttleWrapper(func, delay) {
+  let isThrottled = false;
+
+  return function (...args) {
+    if (!isThrottled) {
+      func.apply(this, args);
+      isThrottled = true;
+
+      setTimeout(() => {
+        isThrottled = false;
+      }, delay);
+    }
+  };
+}
 ```
+
+## window vs document
+
+window 객체는 브라우저 탭에 존재하는 자바스크립트 전역 최상위 객체이다. 따라서 window로 어디서든 접근이 가능하다.(서버사이드 렌더링 시엔 브라우저 렌더링이 아니기 때문에 window 객체가 없다)
+window 객체 안에는 document 객체가 존재하고, document에는 잠재적으로 보여질 수 있는 dom에 대한 정보가 저장되어 있다. document객체는 window.document 혹은 document로 접근이 가능하다. (그 이유는 바로 다음 줄에)
+window 객체는 전역으로 선언되어 있기 때문에 window객체 안에 있는 요소는 "window."와 같이 window객체를 참조하지 않고도 property 이름으로 바로 접근이 가능하다. 예컨대 window.innerHeight는 그냥 innerHeight로 접근이 가능하다. ( 오... 신기... 하지만 혼동이나 scope 등의 문제로 window.innerHeight 이런 식으로 사용하는 게 좋을 것 같다. )
+document객체와 window객체에서 수용 가능한 eventList가 다르기 때문에, 같은 addEventListener이 있다고 하더라도, 각 용도에 맞게 호출해야 한다.
