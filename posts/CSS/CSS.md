@@ -6,8 +6,9 @@
     - [flex](#flex)
       - [Honey Tip](#honey-tip)
     - [grid](#grid)
-    - [media query](#media-query)
-    - [width, height](#width-height)
+  - [media query](#media-query)
+  - [width, height](#width-height)
+  - [line-height](#line-height)
   - [font 설정](#font-설정)
   - [초기 CSS 설정](#초기-css-설정)
   - [box-sizing](#box-sizing)
@@ -103,7 +104,7 @@
 
 로우 높이를 일정하게 하기위해서 `grid-auto-rows` 속성을 `minmax()` 값으로 설정할 수 있다.
 
-### media query
+## media query
 
 ```css
 @media (max-width: 600px) {
@@ -115,7 +116,7 @@
 }
 ```
 
-### width, height
+## width, height
 
 `width` 제어가 가능한 `display`인 경우 `width: auto`는 `width: 100%`에서 `margin-left` 값과 `margin-right` 값을 뺀 것이다. `width: 100%`는 부모 요소의 너비값이 없어도 부모 요소 너비의 `100%`가 설정된다.
 
@@ -134,7 +135,11 @@
 
 고정 너비 및 고정 높이는 반응형으로 작성할 경우 많이 사용되지 않으므로, 반응형 작성 시 `min-width`, `max-width`, `min-height`, `max-height` 등으로 제어하자.
 
-텍스트 컨텐츠의 크기는 `font-size`가 아닌 `line-height` 값으로 알 수 있다.
+## line-height
+
+`display: inline`을 제외하고 `display: block`, `display: flex`, `display: inline-*` 등에서 텍스트 컨텐츠의 크기는 `line-height` 값으로 알 수 있다.
+
+`display: inline`인 경우에는 높이를 정확하게 계산하기 어려우며 매우 이해하기 힘든 형태로 되어있다. CSS로도 제어가 불가능하다.
 
 ## font 설정
 
