@@ -4,31 +4,33 @@
   - [display](#display)
     - [block vs inline](#block-vs-inline)
     - [flex](#flex)
-      - [Honey Tip](#honey-tip)
+      - [반응형 flex 응용](#반응형-flex-응용)
     - [grid](#grid)
-  - [media query](#media-query)
   - [width, height](#width-height)
-  - [line-height](#line-height)
-  - [font 설정](#font-설정)
-  - [초기 CSS 설정](#초기-css-설정)
   - [box-sizing](#box-sizing)
   - [border, outline, boxShadow](#border-outline-boxshadow)
-  - [white-space](#white-space)
-  - [word-break, overflow-wrap](#word-break-overflow-wrap)
-  - [text-overflow 속성 적용하기](#text-overflow-속성-적용하기)
-  - [transition \& animation](#transition--animation)
-  - [이미지](#이미지)
-    - [img 태그](#img-태그)
-    - [background](#background)
-  - [rem](#rem)
-  - [자동완성 스타일링](#자동완성-스타일링)
   - [pointer-events](#pointer-events)
   - [position](#position)
-  - [user-select](#user-select)
+    - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
+  - [자동완성 스타일링 트릭](#자동완성-스타일링-트릭)
+  - [Typography](#typography)
+    - [font 설정](#font-설정)
+    - [line-height](#line-height)
+    - [rem, em](#rem-em)
+    - [white-space](#white-space)
+    - [word-break, overflow-wrap](#word-break-overflow-wrap)
+    - [user-select](#user-select)
+    - [text-overflow 속성 적용하기](#text-overflow-속성-적용하기)
   - [color](#color)
     - [HEX](#hex)
     - [RGB RGBA](#rgb-rgba)
     - [HSL HSLA](#hsl-hsla)
+  - [Image](#image)
+    - [img 태그](#img-태그)
+    - [background](#background)
+  - [media query](#media-query)
+  - [transition \& animation](#transition--animation)
+  - [초기 CSS 설정](#초기-css-설정)
 
 ## display
 
@@ -59,7 +61,7 @@
 
 `flex-basis`는 `flex-direction` 값이 `row`인 경우에는 너비를, `column`인 경우에는 높이를 의미한다. `flex-grow`와 `flex-shrink`는 `flex-basis` 값을 기준으로 너비나 높이가 여백을 얼마나 더 차지할지, 덜 차지할지를 의미한다.
 
-#### Honey Tip
+#### 반응형 flex 응용
 
 ```css
 .left-item {
@@ -77,13 +79,13 @@
 
 ### grid
 
-<!-- todo: 내용 보완 필요 -->
-
 `grid`는 그리드 컨테이너와 그리드 아이템 모두 `width`, `height` 제어 가능, `margin` 상하좌우 가능
 
 `grid`는 해당 속성이 적힌 요소를 그리드 컨테이너로 만들고, 자식 요소들을 그리드 아이템으로 만들어 유연한 레이아웃을 구현할 수 있도록 해준다.
 
 ![grid_layout](assets/grid_layout.png)
+
+<!-- todo: 내용 보완 필요 -->
 
 | 주요 속성               |
 | ----------------------- |
@@ -104,18 +106,6 @@
 
 로우 높이를 일정하게 하기위해서 `grid-auto-rows` 속성을 `minmax()` 값으로 설정할 수 있다.
 
-## media query
-
-```css
-@media (max-width: 600px) {
-  /* 600px 이하의 스크린에서 적용 */
-}
-
-@media (min-width: 1200px) {
-  /* 1200px 이상의 스크린에서 적용 */
-}
-```
-
 ## width, height
 
 `width` 제어가 가능한 `display`인 경우 `width: auto`는 `width: 100%`에서 `margin-left` 값과 `margin-right` 값을 뺀 것이다. `width: 100%`는 부모 요소의 너비값이 없어도 부모 요소 너비의 `100%`가 설정된다.
@@ -130,18 +120,56 @@
 
 반응형으로 작성 시 브라우저 너비가 매우 좁아졌을 때 컨텐츠들이 오버플로우로 인해 튀어나가는 현상을 방지하려면 컨텐츠를 감싸는 부모 요소의 `min-width` 값을 주고 `overflow-x: auto`를 통해 튀어나가는 현상을 방지하자.
 
-`min-content`는 컨텐츠가 가질 수 있는 최소의 길이를 의미한다.
-`max-content`는 컨텐츠가 가질 수 있는 최대의 길이를 의미한다.
-
 고정 너비 및 고정 높이는 반응형으로 작성할 경우 많이 사용되지 않으므로, 반응형 작성 시 `min-width`, `max-width`, `min-height`, `max-height` 등으로 제어하자.
 
-## line-height
+`min-content`는 컨텐츠가 가질 수 있는 최소의 길이를 의미한다.
 
-`display: inline`을 제외하고 `display: block`, `display: flex`, `display: inline-*` 등에서 텍스트 컨텐츠의 크기는 `line-height` 값으로 알 수 있다.
+`max-content`는 컨텐츠가 가질 수 있는 최대의 길이를 의미한다.
 
-`display: inline`인 경우에는 높이를 정확하게 계산하기 어려우며 매우 이해하기 힘든 형태로 되어있다. CSS로도 제어가 불가능하다.
+## box-sizing
 
-## font 설정
+`box-sizing` 속성은 기본값이 `content-box`인데 이는 `width`, `padding`, `border` 중에 `width`만을 가지고 총 너비를 계산한다.
+
+`border-box`는 `width`, `padding`, `border` 모두를 가지고 총 너비를 계산한다. 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
+
+## border, outline, boxShadow
+
+보통 실무에서 `box-sizing: border-box` 상태의 요소를 작업한다. 이 때 `border`값이 너비에 포함되기 때문에 '어떤 요소가 포커싱되는 순간 테두리가 증가하는 동작'을 할 때 너비가 늘어나면서 주변 요소들이 움직이는 사이드 이펙트가 발생한다. 이는 너비에 영향을 주지 않는 `outline`이나 `box-shadow` 속성으로 `border` 처럼 보이게 트릭을 줘서 해결할 수 있다.
+
+## pointer-events
+
+css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타일이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
+
+## position
+
+|            | 배치 위치                                                                         | `top`, `bottom`, `left`, `right`, `z-index` |
+| ---------- | --------------------------------------------------------------------------------- | :-----------------------------------------: |
+| `static`   | 문서의 일반적인 흐름                                                              |                      X                      |
+| `relative` | 문서의 일반적인 흐름                                                              |                      O                      |
+| `absolute` | `position` 속성이 `relative`, `absolute`, `fixed`로 설정된 가장 가까운 부모 요소  |                      O                      |
+| `fixed`    | 뷰포트                                                                            |                      O                      |
+| `sticky`   | 문서의 일반적인 흐름에 따라 배치되다가, 스크롤에 의해 화면에서 없어지기 전 고정됨 |                      O                      |
+
+### `sticky` 속성이 적용되지 않는 경우
+
+- `top`, `bottom`, `left`, `right` 속성으로 고정될 위치가 지정되지 않는 경우
+- 부모 요소에 `overflow` 속성이 적용되어 있는 경우
+- 부모 요소에 높이가 설정되어 있지 않는 경우
+
+## 자동완성 스타일링 트릭
+
+자동완성의 스타일링 `!important`로 브라우저 정의가 되어있어 `box-shadow`로 배경색을 제거해주는 트릭을 사용한다.
+
+```css
+input:autofill {
+  border: 1px solid grey;
+  box-shadow: 0 0 0px 1000px white inset;
+}
+```
+
+## Typography
+
+### font 설정
 
 사용하고자 하는 폰트의 경량화 버전을 다운 받아 사용하는 경우, 프로젝트에 정적 자산이 놓일 폴더에 위치시켜두고 `font-face`를 아래와 같이 설정한다. `src` 속성에서 `local`은 로컬 컴퓨터에 설치된 폰트 위치 의미하고, `url`은 프로젝트 폰트 리소스의 위치를 의미한다. 보통은 `url`만 사용하는 것이 일반적이다.
 
@@ -177,55 +205,36 @@ body {
 }
 ```
 
-## 초기 CSS 설정
+### line-height
+
+`display: inline`을 제외하고 `display: block`, `display: flex`, `display: inline-*` 등에서 텍스트 컨텐츠의 크기는 `line-height` 값으로 알 수 있다.
+
+`display: inline`인 경우에는 높이를 정확하게 계산하기 어려우며 매우 이해하기 힘든 형태로 되어있다. CSS로도 제어가 불가능하다.
+
+### rem, em
+
+```js
+button: {
+      fontWeight: 600,
+      fontSize: '0.875rem',
+      lineHeight: '1.4em',
+      letterSpacing: '0em',
+      fontFamily: 'inherit',
+      textTransform: 'none',
+    },
+```
+
+<!-- todo: 내용 보완 필요 -->
 
 ```css
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  /* ...기본 타이포그래피 설정; */
-}
-
-html,
-body,
-#root {
-  min-height: 100vh;
-}
-
-*,
-:after,
-:before {
-  box-sizing: border-box;
-}
-
 html {
-  font-size: 62.5%; /* 계산 필요없이 rem 값을 사용하기 위한 설정 */
-}
-
-a {
-  text-decoration: none;
-}
-
-ul,
-ol,
-li {
-  list-style: none;
+  font-size: 62.5%;
 }
 ```
 
-## box-sizing
+폰트는 `rem`으로 관리하되, 계산이 용이하도록 `html`에 `font-size: 62.5%`를 설정해 `1rem=10px`로 관리한다.
 
-`box-sizing` 속성은 기본값이 `content-box`인데 이는 `width`, `padding`, `border` 중에 `width`만을 가지고 총 너비를 계산한다.
-
-`border-box`는 `width`, `padding`, `border` 모두를 가지고 총 너비를 계산한다. 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
-
-## border, outline, boxShadow
-
-보통 실무에서 `box-sizing: border-box` 상태의 요소를 작업한다. 이 때 `border`값이 너비에 포함되기 때문에 '어떤 요소가 포커싱되는 순간 테두리가 증가하는 동작'을 할 때 너비가 늘어나면서 주변 요소들이 움직이는 사이드 이펙트가 발생한다. 이는 너비에 영향을 주지 않는 `outline`이나 `box-shadow` 속성으로 `border` 처럼 보이게 트릭을 줘서 해결할 수 있다.
-
-## white-space
+### white-space
 
 |            | 스페이스와 탭 | 줄바꿈 | 자동 줄바꿈 |
 | ---------- | ------------- | ------ | ----------- |
@@ -235,7 +244,7 @@ li {
 | `pre-wrap` | 보존          | 보존   | O           |
 | `pre-line` | 병합          | 보존   | O           |
 
-## word-break, overflow-wrap
+### word-break, overflow-wrap
 
 `word-break`과 `overflow-wrap` 모두 한 단어가 길게 이어져 부모 상자의 `width`를 넘길 때 어떻게 처리할 지에 관한 속성이다. 아래 그림을 통해서 차이를 확인하자.
 
@@ -243,7 +252,11 @@ li {
 
 ![overflow_wrap](assets/overflow_wrap.png)
 
-## text-overflow 속성 적용하기
+### user-select
+
+![user_select](assets/user_select.png)
+
+### text-overflow 속성 적용하기
 
 ```css
 div {
@@ -260,23 +273,23 @@ div {
 
 이 방식은 데이터를 자르기 때문에 작은 화면에서는 데이터를 모두 확인할 수 없기 때문에 반응형을 통해 데이터를 최대한 보여주는 방식으로 해결하는 것이 사용자 경험에 좋은 것 같다.
 
-## transition & animation
+## color
 
-```css
-/* Apply 1 property */
-transition: property-name | duration | easing-function | delay;
-/* Apply multiple property */
-transition: property-name | duration | easing-function | delay, property-name | duration | easing-function | delay, ...;
-/* Apply All property */
-transition: all | duration | easing-function | delay;
+<!-- todo: 내용 보완 필요 -->
 
-/* Apply 1 animation */
-animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
-/* Apply multiple animation */
-animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name, animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
-```
+alpha channel vs opacity
 
-## 이미지
+alpha 값은 색상이 적용되는 속성에만 적용
+
+opacity는 전체 적용
+
+### HEX
+
+### RGB RGBA
+
+### HSL HSLA
+
+## Image
 
 ### img 태그
 
@@ -322,59 +335,80 @@ aspect ratio
 | `background-position` |
 | `background-repeat`   |
 
-## rem
-
-<!-- todo: 내용 보완 필요 -->
+## media query
 
 ```css
+@media (max-width: 600px) {
+  /* 600px 이하의 스크린에서 적용 */
+}
+
+@media (min-width: 1200px) {
+  /* 1200px 이상의 스크린에서 적용 */
+}
+```
+
+```js
+
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+
+```
+
+모바일 고려해서 최소기준 `340px`로 잡자
+
+## transition & animation
+
+```css
+/* Apply 1 property */
+transition: property-name | duration | easing-function | delay;
+/* Apply multiple property */
+transition: property-name | duration | easing-function | delay, property-name | duration | easing-function | delay, ...;
+/* Apply All property */
+transition: all | duration | easing-function | delay;
+
+/* Apply 1 animation */
+animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
+/* Apply multiple animation */
+animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name, animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
+```
+
+## 초기 CSS 설정
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  /* ...기본 타이포그래피 설정; */
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 62.5%;
+  font-size: 62.5%; /* 계산 필요없이 rem 값을 사용하기 위한 설정 */
+}
+
+a {
+  text-decoration: none;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
 }
 ```
-
-폰트는 `rem`으로 관리하되, 계산이 용이하도록 `html`에 `font-size: 62.5%`를 설정해 `1rem=10px`로 관리한다.
-
-## 자동완성 스타일링
-
-자동완성의 스타일링 `!important`로 브라우저 정의가 되어있어 `box-shadow`로 배경색을 제거해주는 트릭을 사용한다.
-
-```css
-input:autofill {
-  border: 1px solid grey;
-  box-shadow: 0 0 0px 1000px white inset;
-}
-```
-
-## pointer-events
-
-css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타일이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
-
-## position
-
-|            | 배치 위치                                                                         | `top`, `bottom`, `left`, `right`, `z-index` |
-| ---------- | --------------------------------------------------------------------------------- | :-----------------------------------------: |
-| `static`   | 문서의 일반적인 흐름                                                              |                      X                      |
-| `relative` | 문서의 일반적인 흐름                                                              |                      O                      |
-| `absolute` | `position` 속성이 `relative`, `absolute`, `fixed`로 설정된 가장 가까운 부모 요소  |                      O                      |
-| `fixed`    | 뷰포트                                                                            |                      O                      |
-| `sticky`   | 문서의 일반적인 흐름에 따라 배치되다가, 스크롤에 의해 화면에서 없어지기 전 고정됨 |                      O                      |
-
-## user-select
-
-![user_select](assets/user_select.png)
-
-## color
-
-<!-- todo: 내용 보완 필요 -->
-
-alpha channel vs opacity
-
-alpha 값은 색상이 적용되는 속성에만 적용
-
-opacity는 전체 적용
-
-### HEX
-
-### RGB RGBA
-
-### HSL HSLA
