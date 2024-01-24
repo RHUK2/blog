@@ -59,7 +59,14 @@
 
 `flex`는 `flex-direction` 값이 `row`일 때는 가로로 꼬치가 꽂힌 모습을 상상하고, `column`일 때는 세로로 꼬치가 꽂힌 모습을 상상한다. 꼬치를 기준으로 상중하 정렬을 해주는 속성이 `align-items`, 좌중우 정렬을 해주는 속성이 `justify-contents`이다.
 
-`flex-basis`는 `flex-direction` 값이 `row`인 경우에는 너비를, `column`인 경우에는 높이를 의미한다. `flex-grow`와 `flex-shrink`는 `flex-basis` 값을 기준으로 너비나 높이가 여백을 얼마나 더 차지할지, 덜 차지할지를 의미한다.
+`flex-basis`는 `flex-direction` 값이 `row`인 경우에는 플렉스 아이템이 가져야할 최소한의 너비를, `column`인 경우에는 플렉스 아이템이 가져야할 최소한의 높이를 의미한다. `flex-grow`와 `flex-shrink`는 `flex-basis` 값을 기준으로 너비나 높이가 여백을 얼마나 더 차지할지, 덜 차지할지를 의미한다.
+
+아래는 `flex: 1 0 100px`과 `flex: 1 0 200px`의 차이를 보여주는 사진이다.
+
+![Alt text](image-2.png)
+![Alt text](image-1.png)
+
+`flex-basis` 값은 `width`, `height`보다 우선순위로 적용된다.
 
 #### 반응형 flex 응용
 
@@ -105,6 +112,8 @@
 `grid-template-columns` 속성으로 열 지정을 기본으로 작성한다. `repeat()`, `minmax()` 등을 이용할 수 있다.
 
 로우 높이를 일정하게 하기위해서 `grid-auto-rows` 속성을 `minmax()` 값으로 설정할 수 있다.
+
+auto-fill, auto-fit 반응형
 
 ## width, height
 
