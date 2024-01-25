@@ -15,6 +15,7 @@
   - [manifest.json](#manifestjson)
   - [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
   - [react-query](#react-query)
+  - [react에서 환경변수](#react에서-환경변수)
 
 ## 가상 돔(Virtual DOM)
 
@@ -151,3 +152,9 @@ queryClient.getQueryData
 useQuery 키공유
 
 상태 동기화가 잘 안됨
+
+## react에서 환경변수
+
+![Alt text](image.png)
+
+create react app에 의해 .env 파일에 규칙을 가지고 작성된 환경변수는 빌드 타임에 process.env로 객체화되서 클라이언트에서 접근이 가능한 형태가 된다.

@@ -15,6 +15,7 @@
   - [자동완성 스타일링 트릭](#자동완성-스타일링-트릭)
   - [Typography](#typography)
     - [font 설정](#font-설정)
+    - [폰트 최적화](#폰트-최적화)
     - [line-height](#line-height)
     - [rem, em](#rem-em)
     - [white-space](#white-space)
@@ -213,6 +214,16 @@ body {
   font: inherit;
 }
 ```
+
+### 폰트 최적화
+
+font-display 옵션 조절
+html 헤더에 link 태그에서 preload로 미리 불러오기
+웹폰트 사용해서 캐싱하기
+
+![Alt text](image.png)
+
+![Alt text](image-3.png)
 
 ### line-height
 
