@@ -1,6 +1,7 @@
 # CSS
 
 - [CSS](#css)
+  - [variable](#variable)
   - [display](#display)
     - [block vs inline](#block-vs-inline)
     - [flex](#flex)
@@ -32,6 +33,31 @@
   - [media query](#media-query)
   - [transition \& animation](#transition--animation)
   - [초기 CSS 설정](#초기-css-설정)
+
+## variable
+
+```css
+/* 전역 변수 */
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+/*  변수 사용 */
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+```
 
 ## display
 

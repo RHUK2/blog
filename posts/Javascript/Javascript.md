@@ -40,6 +40,9 @@
   - [sort](#sort)
   - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
   - [window vs document](#window-vs-document)
+  - [node vs browser](#node-vs-browser)
+    - [Node.js 환경에서만 사용 가능한 메서드 및 모듈:](#nodejs-환경에서만-사용-가능한-메서드-및-모듈)
+    - [브라우저 환경에서만 사용 가능한 메서드 및 모듈:](#브라우저-환경에서만-사용-가능한-메서드-및-모듈)
 
 ## JavaScript vs ECMAScript
 
@@ -550,3 +553,59 @@ window 객체는 브라우저 탭에 존재하는 자바스크립트 전역 최�
 window 객체 안에는 document 객체가 존재하고, document에는 잠재적으로 보여질 수 있는 dom에 대한 정보가 저장되어 있다. document객체는 window.document 혹은 document로 접근이 가능하다. (그 이유는 바로 다음 줄에)
 window 객체는 전역으로 선언되어 있기 때문에 window객체 안에 있는 요소는 "window."와 같이 window객체를 참조하지 않고도 property 이름으로 바로 접근이 가능하다. 예컨대 window.innerHeight는 그냥 innerHeight로 접근이 가능하다. ( 오... 신기... 하지만 혼동이나 scope 등의 문제로 window.innerHeight 이런 식으로 사용하는 게 좋을 것 같다. )
 document객체와 window객체에서 수용 가능한 eventList가 다르기 때문에, 같은 addEventListener이 있다고 하더라도, 각 용도에 맞게 호출해야 한다.
+
+## node vs browser
+
+네, Node.js 환경과 브라우저 환경에서는 각각 다른 환경에서 사용되는 메서드 및 모듈들이 있습니다. 이는 두 환경이 다르기 때문에 특정한 기능을 지원하기 위해 각각의 환경에서 독립적으로 제공되는 것입니다.
+
+### Node.js 환경에서만 사용 가능한 메서드 및 모듈:
+
+1. **fs 모듈:**
+
+   - 파일 시스템 관련 작업을 수행할 수 있는 모듈. (`fs.readFileSync`, `fs.writeFile` 등)
+
+2. **http 모듈:**
+
+   - HTTP 서버를 만들고 관리할 수 있는 모듈. (`http.createServer` 등)
+
+3. **os 모듈:**
+
+   - 운영체제 정보에 접근할 수 있는 모듈. (`os.platform`, `os.cpus` 등)
+
+4. **path 모듈:**
+
+   - 파일 경로 관련 작업을 수행할 수 있는 모듈. (`path.join`, `path.resolve` 등)
+
+5. **child_process 모듈:**
+
+   - 외부 프로세스를 실행할 수 있는 모듈. (`child_process.exec`, `child_process.spawn` 등)
+
+6. **util 모듈:**
+   - 유틸리티 함수들을 제공하는 모듈. (`util.promisify` 등)
+
+### 브라우저 환경에서만 사용 가능한 메서드 및 모듈:
+
+1. **DOM API:**
+
+   - 웹 페이지의 문서 객체 모델(DOM)에 접근할 수 있는 메서드. (`document.getElementById`, `document.createElement` 등)
+
+2. **Fetch API:**
+
+   - 네트워크 요청을 수행하는 API. (`fetch` 함수 등)
+
+3. **Web Storage API:**
+
+   - 로컬 스토리지와 세션 스토리지에 접근할 수 있는 API. (`localStorage`, `sessionStorage` 등)
+
+4. **Web Workers API:**
+
+   - 백그라운드에서 별도의 스레드에서 스크립트를 실행할 수 있는 API. (`new Worker` 등)
+
+5. **WebSockets:**
+
+   - 웹소켓 통신을 위한 API. (`new WebSocket` 등)
+
+6. **WebRTC:**
+   - 실시간 통신을 위한 API. (`RTCPeerConnection`, `getUserMedia` 등)
+
+이 외에도 각각의 환경에 특화된 다양한 메서드와 모듈이 있습니다. 자바스크립트 코드를 작성할 때 어떤 환경에서 실행될지 고려하여 해당 환경에서 지원하는 기능을 활용하는 것이 중요합니다. 또한, Node.js에서는 CommonJS 스타일의 모듈 시스템을, 브라우저에서는 ES6 모듈 시스템을 사용하는 것에도 주의해야 합니다.

@@ -45,7 +45,7 @@ npm workspace는 종속성 관리지 설정 파일 관리는 아님
 
 서버 어플리케이션은 내용이 바뀌면 pm2로 무중단 서비스 배포가 필요
 
-## scriptssss
+## script
 
 package.json 파일의 "scripts" 섹션에서는 기본적으로 Node.js 자바스크립트 코드를 직접 실행할 수는 없습니다. "scripts"는 주로 명령어 라인 명령을 실행하는 데 사용됩니다. 그러나 package.json 파일 내부에서 직접 JavaScript 코드를 실행할 수 있는 기능은 제공되지 않습니다.
 
@@ -92,3 +92,24 @@ Copy code
 그러나 "scripts" 섹션은 완전한 쉘 스크립트가 아니며, npm에서 실행할 수 있는 특별한 형식의 명령어를 정의하는 용도로 사용됩니다. 예를 들어, npm에서는 cross-platform 호환성을 유지하기 위해 특별한 환경 변수와 스크립트 실행 방식을 제공합니다.
 
 쉘 스크립트와 npm "scripts" 간에는 몇 가지 차이가 있지만, 기본적으로 "scripts" 섹션은 터미널에서 실행되는 명령어를 정의하는 용도로 사용되며, 이는 쉘 스크립트와 비슷한 동작을 합니다.
+
+## \_\_dirname, \_\_filename, process.cwd()
+
+// file 명을 포함한 절대경로
+console.log(\_\_filename); // C:/Users/ano/temp/directory.js
+
+// file 명을 제외한 절대 경로
+console.log(\_\_dirname); // C:/Users/ano/temp
+
+process.cwd(): node명령을 호출한 작업디렉터리의 절대경로
+
+~/home/huryu/personal/blog > node ~
+javascript// \_\_dirname은 현재 실행하는 파일의 절대경로이다
+console.log(\_\_dirname); // /home/huryu/personal/blog/.next/server/app/posts/[id]
+
+// process.cwd()는 node명령을 호출한 작업디렉터리의 절대경로이다
+console.log(process.cwd()); // /home/huryu/personal/blog
+
+## fs.readFile
+
+## fs.readdir
