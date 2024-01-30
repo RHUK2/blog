@@ -403,7 +403,7 @@ aspect ratio
 
 ```
 
-모바일 고려해서 최소기준 `340px`로 잡자
+모바일 고려해서 최소기준 `340px`로 잡자.
 
 ## transition & animation
 
