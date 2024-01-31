@@ -43,6 +43,8 @@
   - [node vs browser](#node-vs-browser)
     - [Node.js 환경에서만 사용 가능한 메서드 및 모듈:](#nodejs-환경에서만-사용-가능한-메서드-및-모듈)
     - [브라우저 환경에서만 사용 가능한 메서드 및 모듈:](#브라우저-환경에서만-사용-가능한-메서드-및-모듈)
+  - [createObjectURL(), revokeObjectURL()](#createobjecturl-revokeobjecturl)
+  - [배열, 이터러블 객체, 유사배열 객체](#배열-이터러블-객체-유사배열-객체)
 
 ## JavaScript vs ECMAScript
 
@@ -609,3 +611,16 @@ document객체와 window객체에서 수용 가능한 eventList가 다르기 때
    - 실시간 통신을 위한 API. (`RTCPeerConnection`, `getUserMedia` 등)
 
 이 외에도 각각의 환경에 특화된 다양한 메서드와 모듈이 있습니다. 자바스크립트 코드를 작성할 때 어떤 환경에서 실행될지 고려하여 해당 환경에서 지원하는 기능을 활용하는 것이 중요합니다. 또한, Node.js에서는 CommonJS 스타일의 모듈 시스템을, 브라우저에서는 ES6 모듈 시스템을 사용하는 것에도 주의해야 합니다.
+
+## createObjectURL(), revokeObjectURL()
+
+바이너리 데이터 -> 자바스크립트에서 다루기 쉽게 BLOB 객체로 변환 -> 해당 BLOB 객체를 가리키는 URL 생성
+
+모두 브라우저 메모리에 저장됨
+
+## 배열, 이터러블 객체, 유사배열 객체
+
+이터러블: 심볼 이터레이터를 포함하며 for in 구문 사용 가능한 객체
+유사배열 객체: 인덱스와 length 프로퍼티가 있으나 배열 메서드를 사용할 수 없는 객체
+
+위 두 객체는 배열이 아니기 때문에 Array.from으로 배열로 만들어서 사용 가능

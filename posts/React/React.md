@@ -9,6 +9,9 @@
   - [사용자 Hook](#사용자-hook)
   - [useState](#usestate)
   - [useEffect](#useeffect)
+    - [의존성 배열에 상태 변수 없애기](#의존성-배열에-상태-변수-없애기)
+    - [의존성 배열에 객체 변수 없애기](#의존성-배열에-객체-변수-없애기)
+    - [의존성 배열에 함수 없애기](#의존성-배열에-함수-없애기)
   - [useMemo vs useCallback](#usememo-vs-usecallback)
   - [memo](#memo)
   - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
@@ -79,6 +82,22 @@ const [state, setState] = useState(initialState);
 ## useEffect
 
 `useEffect`는 화면이 한 번 렌더링된 이후에 동작한다.
+
+의존성 배열이 없는 경우 `return`을 통한 정리 함수는 언마운트 시에만 동작한다
+
+의존성 배열이 있는 경우 `return`을 통한 정리 함수는 렌더링 마다 동작한다
+
+### 의존성 배열에 상태 변수 없애기
+
+setCount 안에 prev 변수를 사용해서 직접 상태 변수 쓰지않기
+
+### 의존성 배열에 객체 변수 없애기
+
+useEffect 내부에 객체 선언하기
+
+### 의존성 배열에 함수 없애기
+
+useEffect 내부에 함수 선언하기
 
 ## useMemo vs useCallback
 

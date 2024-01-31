@@ -56,7 +56,7 @@ Thread는 하나의 Process 내에서 동시에 진행되는 작업의 단위를
 
 Process는 아래와 같이 자원을 할당받게 된다.
 
-![process_allocate](process_allocate.gif)
+![process_allocate](assets/process_allocate.gif)
 
 Thread는 Process가 할당받은 자원 중 Stack 영역 내에서 독립적인 Stack을 할당받게 되고 그 공간의 크기는 Thread마다 다를 수 있으며, Stack 영역의 공간이 제한적인 만큼 Thread도 생성 가능한 수가 제한된다.
 
