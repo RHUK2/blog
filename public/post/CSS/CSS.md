@@ -55,7 +55,11 @@
 /*  변수 사용 */
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    ) rgb(var(--background-start-rgb));
 }
 ```
 
@@ -216,23 +220,31 @@ CDN을 사용한다면 `@font-face` 설정은 필요없다.
 ```css
 /* ... */
 @font-face {
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: 600;
   font-display: swap;
-  src: local('Pretendard SemiBold'), url('/fonts/Pretendard-SemiBold.subset.woff2') format('woff2'), url('/fonts/Pretendard-SemiBold.subset.woff')
-      format('woff');
+  src:
+    local("Pretendard SemiBold"),
+    url("/fonts/Pretendard-SemiBold.subset.woff2") format("woff2"),
+    url("/fonts/Pretendard-SemiBold.subset.woff") format("woff");
 }
 @font-face {
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: 500;
   font-display: swap;
-  src: local('Pretendard Medium'), url('/fonts/Pretendard-Medium.subset.woff2') format('woff2'), url('/fonts/Pretendard-Medium.subset.woff')
-      format('woff');
+  src:
+    local("Pretendard Medium"),
+    url("/fonts/Pretendard-Medium.subset.woff2") format("woff2"),
+    url("/fonts/Pretendard-Medium.subset.woff") format("woff");
 }
 /* ... */
 
 body {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
 * {

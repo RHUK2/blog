@@ -1,10 +1,10 @@
-import { readFile, readFileSync, readdirSync } from 'fs';
-import matter from 'gray-matter';
-import rehypeSlug from 'rehype-slug';
-import rehypeStringify from 'rehype-stringify';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
+import { readFile, readFileSync, readdirSync } from "fs";
+import matter from "gray-matter";
+import rehypeSlug from "rehype-slug";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
 
 export function getDirectoryList() {
   try {
@@ -20,12 +20,17 @@ export function getDirectoryList() {
 
 export function getPostList(directory: string) {
   try {
-    const postList = readdirSync(`${process.cwd()}/public/Markdown/${directory}`);
+    const postList = readdirSync(
+      `${process.cwd()}/public/Markdown/${directory}`,
+    );
 
     const result = postList
       .filter((post) => /.*.md/.test(post))
       .map((post) => {
-        const content = readFileSync(`${process.cwd()}/public/Markdown/${directory}/${post}`, 'utf8');
+        const content = readFileSync(
+          `${process.cwd()}/public/Markdown/${directory}/${post}`,
+          "utf8",
+        );
         const { data } = matter(content);
         return data;
       });
@@ -40,7 +45,10 @@ export function getPostList(directory: string) {
 
 export function getPost(directory: string, title: string) {
   try {
-    const post = readFileSync(`${process.cwd()}/public/Markdown/${directory}/${title}.md`, 'utf8');
+    const post = readFileSync(
+      `${process.cwd()}/public/Markdown/${directory}/${title}.md`,
+      "utf8",
+    );
 
     const result = unified()
       .use(remarkParse)
@@ -53,6 +61,6 @@ export function getPost(directory: string, title: string) {
   } catch (err) {
     console.error(err);
 
-    return '';
+    return "";
   }
 }
