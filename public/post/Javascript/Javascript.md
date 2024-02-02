@@ -1,3 +1,8 @@
+---
+title: JavaScript
+description: Hey
+---
+
 # JavaScript
 
 - [JavaScript](#javascript)
@@ -45,6 +50,7 @@
     - [브라우저 환경에서만 사용 가능한 메서드 및 모듈:](#브라우저-환경에서만-사용-가능한-메서드-및-모듈)
   - [createObjectURL(), revokeObjectURL()](#createobjecturl-revokeobjecturl)
   - [배열, 이터러블 객체, 유사배열 객체](#배열-이터러블-객체-유사배열-객체)
+  - [async await, 프로미스, 콜백](#async-await-프로미스-콜백)
 
 ## JavaScript vs ECMAScript
 
@@ -120,13 +126,14 @@ window.scrollTo(x, y); // 문서 기준으로 스크롤 이동
 element.scrollIntoView(true); // 요소를 창 위쪽 모서리에 맞추도록 이동
 element.scrollIntoView(false); // 요소를 창 아래쪽 모서리에 맞추도록 이동
 
-document.body.style.overflow = 'hidden'; // 스크롤바 고정
-document.body.style.overflow = ''; // 스크롤바 고정 해제
+document.body.style.overflow = "hidden"; // 스크롤바 고정
+document.body.style.overflow = ""; // 스크롤바 고정 해제
 // 스크롤바 고정 시 스크롤바 너비만큼 보정
 // 창 기준 좌표
-document.body.style.paddingleft = window.innerWidth - right.documentElement.clientWidth;
+document.body.style.paddingleft =
+  window.innerWidth - right.documentElement.clientWidth;
 // 스크롤바 고정 시 스크롤바 너비만큼 보정 해제
-document.body.style.paddingRight = '';
+document.body.style.paddingRight = "";
 ```
 
 ### 요소의 좌표
@@ -135,7 +142,8 @@ document.body.style.paddingRight = '';
 
 ```js
 // 창 기준 좌표
-const { x, y, width, height, top, left, bottom, right } = element.getBoundingClientRect();
+const { x, y, width, height, top, left, bottom, right } =
+  element.getBoundingClientRect();
 
 // 문서 기준 좌표
 function getCoords(elem) {
@@ -198,15 +206,15 @@ element.onmousemove = function (e) {
 
 ```js
 // script.js
-import { a } from './module.js';
+import { a } from "./module.js";
 
 // module.js
-import { b } from './module2.js';
+import { b } from "./module2.js";
 
-export let a = 'a';
+export let a = "a";
 
 // module2.js
-export let b = 'b';
+export let b = "b";
 ```
 
 ![import_network](assets/import_network.png)
@@ -357,9 +365,9 @@ console.log(b) 'end'
 const object = {
   person: {
     age: 20,
-    name: 'Tomas',
+    name: "Tomas",
   },
-  country: 'Korea',
+  country: "Korea",
 };
 
 const copyObject = JSON.parse(JSON.stringify(object));
@@ -449,12 +457,12 @@ try {
 ### SyntaxError
 
 ```js
-JSON.parse('string');
+JSON.parse("string");
 ```
 
 ```js
 try {
-  JSON.parse('string');
+  JSON.parse("string");
 } catch (error) {
   console.error(error.message);
 }
@@ -624,3 +632,90 @@ document객체와 window객체에서 수용 가능한 eventList가 다르기 때
 유사배열 객체: 인덱스와 length 프로퍼티가 있으나 배열 메서드를 사용할 수 없는 객체
 
 위 두 객체는 배열이 아니기 때문에 Array.from으로 배열로 만들어서 사용 가능
+
+## async await, 프로미스, 콜백
+
+```js
+import { readdir } from "fs/promises";
+
+export async function getDirectoryList() {
+  try {
+    const directoryList = await readdir(`${process.cwd()}/public/post`);
+
+    let allCount = 0;
+
+    const result = await Promise.all(
+      directoryList
+        .filter((directory) => /^[^\.]*$/.test(directory))
+        .map(async (directory) => {
+          const postList = await readdir(
+            `${process.cwd()}/public/post/${directory}`,
+          );
+
+          const count = postList.filter((directory) => /.*.md/.test(directory));
+
+          allCount += count.length;
+
+          return {
+            folderName: directory,
+            postCount: count.length,
+          };
+        }),
+    );
+
+    return [
+      {
+        folderName: "ALL",
+        postCount: allCount,
+      },
+      ...result,
+    ];
+  } catch (err) {
+    console.log(err);
+
+    return [];
+  }
+}
+```
+
+```js
+import { readdir } from "fs/promises";
+
+export function getDirectoryList() {
+  return readdir(`${process.cwd()}/public/post`)
+    .then((directoryList) => {
+      let allCount = 0;
+
+      const promises = directoryList
+        .filter((directory) => /^[^\.]*$/.test(directory))
+        .map((directory) => {
+          return readdir(`${process.cwd()}/public/post/${directory}`).then(
+            (postList) => {
+              const count = postList.filter((file) =>
+                /.*\.md$/.test(file),
+              ).length;
+
+              allCount += count;
+
+              return {
+                folderName: directory,
+                postCount: count,
+              };
+            },
+          );
+        });
+
+      return Promise.all(promises).then((result) => [
+        {
+          folderName: "ALL",
+          postCount: allCount,
+        },
+        ...result,
+      ]);
+    })
+    .catch((err) => {
+      console.error(err);
+      return [];
+    });
+}
+```

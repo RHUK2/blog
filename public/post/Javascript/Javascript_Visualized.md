@@ -1,3 +1,8 @@
+---
+title: Javascript Visualized
+description: Hey
+---
+
 # Javascript Visualized
 
 - [Javascript Visualized](#javascript-visualized)
@@ -11,7 +16,7 @@
 
 ## 이벤트 루프
 
-![event_Loop](assets/event_loop.gif)
+![event_Loop](/post/Javascript/assets/event_loop.gif)
 
 ## 호이스팅
 

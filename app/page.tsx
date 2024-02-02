@@ -1,7 +1,7 @@
 export default function HomePage() {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <section className="prose m-auto min-w-[320px] max-w-[640px] py-10">
+      <h1>홈</h1>
+    </section>
   );
 }

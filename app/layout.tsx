@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${(inter.variable, roboto_mono.variable)} font-mono`}>
         <Header />
-        <main className="pt-12 m-auto min-h-screen min-w-[320px] max-w-[1024px] border-x">
+        <main className="m-auto min-h-screen min-w-[320px] max-w-[1024px] pt-12 shadow-2xl">
           {children}
         </main>
         <Footer />

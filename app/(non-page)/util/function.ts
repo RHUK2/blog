@@ -1,4 +1,5 @@
-import { readFile, readFileSync, readdirSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
+import { readdir, readFile } from "fs/promises";
 import matter from "gray-matter";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
@@ -6,11 +7,38 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
-export function getDirectoryList() {
+export async function getDirectoryList() {
   try {
-    const directoryList = readdirSync(`${process.cwd()}/public/Markdown`);
+    const directoryList = await readdir(`${process.cwd()}/public/post`);
 
-    return directoryList;
+    let allCount = 0;
+
+    const result = await Promise.all(
+      directoryList
+        .filter((directory) => /^[^\.]*$/.test(directory))
+        .map(async (directory) => {
+          const postList = await readdir(
+            `${process.cwd()}/public/post/${directory}`,
+          );
+
+          const count = postList.filter((directory) => /.*.md/.test(directory));
+
+          allCount += count.length;
+
+          return {
+            folderName: directory,
+            postCount: count.length,
+          };
+        }),
+    );
+
+    return [
+      {
+        folderName: "ALL",
+        postCount: allCount,
+      },
+      ...result,
+    ];
   } catch (err) {
     console.log(err);
 
@@ -18,22 +46,24 @@ export function getDirectoryList() {
   }
 }
 
-export function getPostList(directory: string) {
+export async function getPostList(directory?: string) {
   try {
-    const postList = readdirSync(
-      `${process.cwd()}/public/Markdown/${directory}`,
-    );
+    const postList = await readdir(`${process.cwd()}/public/post/${directory}`);
 
-    const result = postList
-      .filter((post) => /.*.md/.test(post))
-      .map((post) => {
-        const content = readFileSync(
-          `${process.cwd()}/public/Markdown/${directory}/${post}`,
-          "utf8",
-        );
-        const { data } = matter(content);
-        return data;
-      });
+    const result = await Promise.all(
+      postList
+        .filter((post) => /.*.md/.test(post))
+        .map(async (post) => {
+          const content = await readFile(
+            `${process.cwd()}/public/post/${directory}/${post}`,
+            "utf8",
+          );
+
+          const { data } = matter(content);
+
+          return data;
+        }),
+    );
 
     return result;
   } catch (err) {
@@ -46,7 +76,7 @@ export function getPostList(directory: string) {
 export function getPost(directory: string, title: string) {
   try {
     const post = readFileSync(
-      `${process.cwd()}/public/Markdown/${directory}/${title}.md`,
+      `${process.cwd()}/public/post/${directory}/${title}.md`,
       "utf8",
     );
 
