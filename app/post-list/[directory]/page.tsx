@@ -1,16 +1,18 @@
 import { getPostList } from "@/util";
 import Link from "next/link";
 
-interface PostListPageProps {
-  params: {};
+interface PostListDirectoryPageProps {
+  params: {
+    directory: string;
+  };
   searchParams: {};
 }
 
-export default async function PostListPage({
+export default async function PostListDirectoryPage({
   params,
   searchParams,
-}: PostListPageProps) {
-  const data = await getPostList();
+}: PostListDirectoryPageProps) {
+  const data = await getPostList(params.directory);
 
   return (
     <section className="flex flex-col gap-2">

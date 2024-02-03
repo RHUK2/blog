@@ -1,17 +1,17 @@
 import Link from "next/link";
-import { getDirectoryList } from "../util";
+import { getNavigationList } from "../util";
 
 export async function Navigation() {
-  const directoryList = await getDirectoryList();
+  const directoryList = await getNavigationList();
 
   return (
     <nav className="flex flex-col">
       {directoryList.map((directory) => (
         <Link
-          href={`/post-list?directory=${directory.folderName}`}
-          key={directory.folderName}
+          href={`/post-list${directory.name ? `/${directory.name}` : ""}`}
+          key={directory.name}
           className="inline-block"
-        >{`${directory.folderName}(${directory.postCount})`}</Link>
+        >{`${directory.name ? directory.name : "ALL"}(${directory.count})`}</Link>
       ))}
     </nav>
   );
