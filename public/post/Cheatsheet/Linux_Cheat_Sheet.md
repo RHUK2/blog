@@ -1,3 +1,8 @@
+---
+title: Linux_Cheat_Sheet
+directory: Cheatsheet
+---
+
 # Linux Cheat Sheet
 
 - [Linux Cheat Sheet](#linux-cheat-sheet)

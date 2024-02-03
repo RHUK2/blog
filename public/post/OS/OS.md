@@ -1,3 +1,8 @@
+---
+title: OS
+directory: OS
+---
+
 # OS
 
 - [OS](#os)

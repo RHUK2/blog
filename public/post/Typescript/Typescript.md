@@ -1,3 +1,8 @@
+---
+title: Typescript
+directory: Typescript
+---
+
 # Typescript
 
 - [Typescript](#typescript)

@@ -1,3 +1,8 @@
+---
+title: Git_Cheat_Sheet
+directory: Cheatsheet
+---
+
 # Git Cheat Sheet
 
 - [Git Cheat Sheet](#git-cheat-sheet)

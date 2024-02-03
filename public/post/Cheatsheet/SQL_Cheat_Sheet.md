@@ -1,3 +1,8 @@
+---
+title: SQL_Cheat_Sheet
+directory: Cheatsheet
+---
+
 # SQL Cheat Sheet
 
 - [SQL Cheat Sheet](#sql-cheat-sheet)

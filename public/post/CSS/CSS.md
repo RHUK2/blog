@@ -1,6 +1,6 @@
 ---
 title: CSS
-description: Hey
+directory: CSS
 ---
 
 # CSS
@@ -99,8 +99,8 @@ body {
 
 아래는 `flex: 1 0 100px`과 `flex: 1 0 200px`의 차이를 보여주는 사진이다.
 
-![Alt text](image-2.png)
-![Alt text](image-1.png)
+![Alt text](/post/CSS/assets/image-2.png)
+![Alt text](/post/CSS/assets/image-1.png)
 
 `flex-basis` 값은 `width`, `height`보다 우선순위로 적용된다.
 
@@ -126,7 +126,7 @@ body {
 
 `grid`는 해당 속성이 적힌 요소를 그리드 컨테이너로 만들고, 자식 요소들을 그리드 아이템으로 만들어 유연한 레이아웃을 구현할 수 있도록 해준다.
 
-![grid_layout](assets/grid_layout.png)
+![grid_layout](/post/CSS/assets/grid_layout.png)
 
 <!-- todo: 내용 보완 필요 -->
 
@@ -264,9 +264,9 @@ font-display 옵션 조절
 html 헤더에 link 태그에서 preload로 미리 불러오기
 웹폰트 사용해서 캐싱하기
 
-![Alt text](image.png)
+![Alt text](/post/CSS/assets/image.png)
 
-![Alt text](image-3.png)
+![Alt text](/post/CSS/assets/image-3.png)
 
 ### line-height
 
@@ -311,13 +311,13 @@ html {
 
 `word-break`과 `overflow-wrap` 모두 한 단어가 길게 이어져 부모 상자의 `width`를 넘길 때 어떻게 처리할 지에 관한 속성이다. 아래 그림을 통해서 차이를 확인하자.
 
-![word_break](assets/word_break.png)
+![word_break](/post/CSS/assets/word_break.png)
 
-![overflow_wrap](assets/overflow_wrap.png)
+![overflow_wrap](/post/CSS/assets/overflow_wrap.png)
 
 ### user-select
 
-![user_select](assets/user_select.png)
+![user_select](/post/CSS/assets/user_select.png)
 
 ### text-overflow 속성 적용하기
 
@@ -364,7 +364,7 @@ width와 height 둘 중 하나 값이 설정되면 이미지 파일의 종횡비
 
 aspect-ratio 값도 둘 중 하나를 기준으로 맞춰진다
 
-![Alt text](image-4.png)
+![Alt text](/post/CSS/assets/image-4.png)
 
 | `object-fit` | 종횡비 유지 | 컨테이너에 맞춤 | 너비,높이 변화 |
 | ------------ | ----------- | --------------- | -------------- |

@@ -1,6 +1,6 @@
 ---
-title: Javascript Visualized
-description: Hey
+title: Javascript_Visualized
+directory: Javascript
 ---
 
 # Javascript Visualized
@@ -16,7 +16,7 @@ description: Hey
 
 ## 이벤트 루프
 
-![event_Loop](/post/Javascript/assets/event_loop.gif)
+![event_Loop](assets/event_loop.gif)
 
 ## 호이스팅
 

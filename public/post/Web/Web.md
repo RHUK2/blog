@@ -1,3 +1,8 @@
+---
+title: Web
+directory: Web
+---
+
 # Web
 
 - [Web](#web)
@@ -60,7 +65,7 @@
     - [Location API](#location-api)
   - [외부 API 연동](#외부-api-연동)
   - [CMS](#cms)
-    - [CMS (Monolithic CMS):](#cms-monolithic-cms)
+    - [CMS (Monolithic CMS)](#cms-monolithic-cms)
     - [Headless CMS:](#headless-cms)
 
 ## 웹 브라우저란?
@@ -209,7 +214,7 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 컴퓨터가 세상에 나왔을 때는 영어와 몇가지 특수문자만 사용했고 이를 저장하기 위해서 1 byte면 충분했다. 시간이 흘러 다른 국가 사람들이 컴퓨터를 이용하다보니 자국어도 컴퓨터로 표시하고 싶어졌다. 그래서 1 byte 안에 임의대로 알파벳 대신 자기나라 글자를 할당해서 그럭저럭 쓸 수는 있었다. 그러나 네트워크가 발전하고 다른 사람 홈페이지를 들어갔더니 글자가 와장창 깨지고 만다. 그리하여 국제적으로 전세계 언어를 모두 표시할 수 있는 표준코드를 만들기로 했다. 그게 바로 유니코드다.
 
-![Alt text](image-1.png)
+![Alt text](assets/image-1.png)
 
 #### UTF-8
 
@@ -217,7 +222,7 @@ UTF-8은 유니코드를 인코딩하는 방식이다. 전세계에서 사용하
 
 유니코드를 통해 코드표가 정의되었다. 남은 것은 그 코드가 컴퓨터에 어떻게 저장되어야 하는 것이다. 다른 말로 인코딩이라고 하는데, 컴퓨터가 이해할 수 있는 이진 데이터로 바꿔주는 것이다. UTF-8은 가변 인코딩방식이다. 쉬운 말로 하면 글자마다 byte 길이가 다르다는 것이다. 'a'는 1 byte이고 '가'는 3 byte이다. 가변을 구분하기 위해 첫 바이트에 표식을 넣었는데 2 byte는 110으로 시작하고 3바이트는 1110으로 시작한다. 나머지 바이트는 10으로 시작한다.
 
-![Alt text](image-2.png)
+![Alt text](assets/image-2.png)
 
 ### 문자열 인코딩
 
@@ -288,7 +293,10 @@ HTML 태그 중 `<img />`, `<video />`, `<audio />`와 같은 멀티미디어 �
 파일을 Base64로 인코딩하여 `src` 속성에 지정할 수 있다. 큰 이미지의 경우 데이터 URL은 페이지 크기를 크게 늘릴 수 있다.
 
 ```html
-<img src="data:assets/image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..." alt="Base64 Image" />
+<img
+  src="data:assets/image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..."
+  alt="Base64 Image"
+/>
 ```
 
 ## MIME 타입
@@ -419,7 +427,7 @@ getEventListeners(document);
 
 또는 개발자 도구
 
-![Alt text](image.png)
+![Alt text](assets/image.png)
 
 ### initial connection
 
@@ -460,9 +468,9 @@ Content-Disposition: attachment; filename="example.dat"
 ```js
 async function getResource() {
   try {
-    const response = await fetch('/images/assets/test.png');
+    const response = await fetch("/images/assets/test.png");
     const blob = await response.blob();
-    return new File([blob], 'assets/test.png');
+    return new File([blob], "assets/test.png");
   } catch (error) {
     console.log(error);
   }
@@ -501,7 +509,7 @@ history.replaceState
 
 CMS(콘텐츠 관리 시스템)와 Headless CMS는 콘텐츠 관리에 사용되는 두 가지 다른 접근 방식을 나타냅니다. 각각의 특징과 장단점을 살펴보겠습니다.
 
-### CMS (Monolithic CMS):
+### CMS (Monolithic CMS)
 
 1. **통합된 시스템:**
 

@@ -1,3 +1,8 @@
+---
+title: component
+directory: React
+---
+
 # Component
 
 - [Component](#component)
@@ -28,13 +33,13 @@
 ```js
 // Controlled Component
 function ControlledComponentExample() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
-  return <input type='text' value={value} onChange={handleChange} />;
+  return <input type="text" value={value} onChange={handleChange} />;
 }
 
 // Uncontrolled Component
@@ -48,7 +53,7 @@ function UncontrolledComponentExample() {
 
   return (
     <div>
-      <input type='text' ref={inputRef} />
+      <input type="text" ref={inputRef} />
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );
@@ -157,9 +162,11 @@ const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
 ```js
 // 디테일한 정보는 공식 문서에서 확인
 <Controller
-  name='select'
+  name="select"
   control={control}
-  render={({ field }) => <Select id='select' value={field.value} onChange={field.onChange} />}
+  render={({ field }) => (
+    <Select id="select" value={field.value} onChange={field.onChange} />
+  )}
 />
 ```
 
@@ -190,68 +197,76 @@ MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자�
 ## 한 개의 input 요소로 output을 만드는 제어 컴포넌트
 
 ```js
-const Switch = forwardRef(({ checked = false, onChange = () => {}, ...inputProps }, ref) => {
-  const [isOn, setIsOn] = useState(checked);
-  const [isClickable, setIsClickable] = useState(true);
+const Switch = forwardRef(
+  ({ checked = false, onChange = () => {}, ...inputProps }, ref) => {
+    const [isOn, setIsOn] = useState(checked);
+    const [isClickable, setIsClickable] = useState(true);
 
-  const inputRef = useRef(null);
+    const inputRef = useRef(null);
 
-  useImperativeHandle(ref, () => inputRef.current);
+    useImperativeHandle(ref, () => inputRef.current);
 
-  function handleSwitch(e) {
-    setIsOn(checked);
-    onChange(e);
-  }
+    function handleSwitch(e) {
+      setIsOn(checked);
+      onChange(e);
+    }
 
-  useEffect(() => {
-    if (isOn !== checked) setIsOn(checked);
-  }, [checked, isOn]);
+    useEffect(() => {
+      if (isOn !== checked) setIsOn(checked);
+    }, [checked, isOn]);
 
-  return (
-    <div
-      css={{
-        transition: isClickable === false ? 'background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0px 5px',
-        width: 50,
-        height: 25,
-        borderRadius: 20,
-        backgroundColor: isOn ? $color.primary : $color.grey[5],
-        cursor: 'pointer',
-        boxShadow: 'inset 2px 2px 2px rgba(0, 0, 0, 0.16)',
-      }}
-      onClick={() => {
-        if (isClickable) {
-          inputRef.current.click();
-          setIsClickable(false);
-          return;
-        }
-      }}
-      onTransitionEnd={() => setIsClickable(true)}
-    >
+    return (
       <div
         css={{
-          transition: isClickable === false ? 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
-          width: 15,
-          height: 15,
-          borderRadius: '50%',
-          backgroundColor: 'white',
-          boxShadow: '-3px 3px 3px rgba(0, 0, 0, 0.16)',
-          transform: isOn ? 'translateX(25px)' : 'translateX(0px)',
+          transition:
+            isClickable === false
+              ? "background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1)"
+              : "none",
+          display: "flex",
+          alignItems: "center",
+          padding: "0px 5px",
+          width: 50,
+          height: 25,
+          borderRadius: 20,
+          backgroundColor: isOn ? $color.primary : $color.grey[5],
+          cursor: "pointer",
+          boxShadow: "inset 2px 2px 2px rgba(0, 0, 0, 0.16)",
         }}
-      ></div>
-      <input
-        ref={inputRef}
-        type='checkbox'
-        checked={isOn}
-        css={{ display: 'none' }}
-        onChange={handleSwitch}
-        {...inputProps}
-      />
-    </div>
-  );
-});
+        onClick={() => {
+          if (isClickable) {
+            inputRef.current.click();
+            setIsClickable(false);
+            return;
+          }
+        }}
+        onTransitionEnd={() => setIsClickable(true)}
+      >
+        <div
+          css={{
+            transition:
+              isClickable === false
+                ? "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)"
+                : "none",
+            width: 15,
+            height: 15,
+            borderRadius: "50%",
+            backgroundColor: "white",
+            boxShadow: "-3px 3px 3px rgba(0, 0, 0, 0.16)",
+            transform: isOn ? "translateX(25px)" : "translateX(0px)",
+          }}
+        ></div>
+        <input
+          ref={inputRef}
+          type="checkbox"
+          checked={isOn}
+          css={{ display: "none" }}
+          onChange={handleSwitch}
+          {...inputProps}
+        />
+      </div>
+    );
+  },
+);
 ```
 
 ## 여러 개의 input 요소로 output을 만드는 제어 컴포넌트
@@ -259,10 +274,16 @@ const Switch = forwardRef(({ checked = false, onChange = () => {}, ...inputProps
 ```js
 // ? @param output 'string' or [{ object }, 'object key string']
 
-function TextListInput({ output = 'string', disabled = false, value = [], onChange = () => {}, ...inputProps }) {
+function TextListInput({
+  output = "string",
+  disabled = false,
+  value = [],
+  onChange = () => {},
+  ...inputProps
+}) {
   const intl = useIntl();
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const [textList, setTextList] = useState(value);
 
@@ -271,7 +292,7 @@ function TextListInput({ output = 'string', disabled = false, value = [], onChan
 
     const copyTextList = [...textList];
 
-    if (output === 'string') {
+    if (output === "string") {
       const value = targetValue;
       const index = copyTextList.findIndex((text) => text === value);
 
@@ -281,7 +302,9 @@ function TextListInput({ output = 'string', disabled = false, value = [], onChan
         ...output[0],
         [output[1]]: targetValue,
       };
-      const index = copyTextList.findIndex((object) => object[output[1]] === value[output[1]]);
+      const index = copyTextList.findIndex(
+        (object) => object[output[1]] === value[output[1]],
+      );
 
       copyTextList.splice(index, index !== -1 ? 1 : 0);
     }
@@ -291,30 +314,34 @@ function TextListInput({ output = 'string', disabled = false, value = [], onChan
   }
 
   function handleKeyUp(e) {
-    const targetValue = e.target.value.replace(/\s/g, '');
+    const targetValue = e.target.value.replace(/\s/g, "");
 
     if (targetValue.length === 0) return;
 
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       const copyTextList = [...textList];
       let updatedValue = [];
 
-      if (output === 'string') {
+      if (output === "string") {
         const value = targetValue;
 
-        updatedValue = copyTextList.includes(value) ? copyTextList : copyTextList.concat(targetValue);
+        updatedValue = copyTextList.includes(value)
+          ? copyTextList
+          : copyTextList.concat(targetValue);
       } else if (Array.isArray(output) && output.length === 2) {
         const value = {
           ...output[0],
           [output[1]]: targetValue,
         };
 
-        updatedValue = copyTextList.find((object) => object[output[1]] === value[output[1]])
+        updatedValue = copyTextList.find(
+          (object) => object[output[1]] === value[output[1]],
+        )
           ? copyTextList
           : copyTextList.concat(value);
       }
 
-      setText('');
+      setText("");
       setTextList(updatedValue);
       onChange(updatedValue);
     }
@@ -327,21 +354,21 @@ function TextListInput({ output = 'string', disabled = false, value = [], onChan
   return (
     <div
       css={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
         gap: 8,
         padding: 8,
         backgroundColor: disabled ? $color.disabled : $color.white,
-        color: disabled ? $color.disabledText : 'canvastext',
+        color: disabled ? $color.disabledText : "canvastext",
         border: `1px solid ${$color.divider}`,
         borderRadius: 4,
         minHeight: 40,
-        '&:hover': {
-          boxShadow: disabled ? 'none' : $boxShadow.shallow,
+        "&:hover": {
+          boxShadow: disabled ? "none" : $boxShadow.shallow,
         },
-        '&:focus-within': {
+        "&:focus-within": {
           outline: `${$color.black} solid 1px`,
           boxShadow: $boxShadow.shallow,
         },
@@ -352,33 +379,36 @@ function TextListInput({ output = 'string', disabled = false, value = [], onChan
           key={`${text}${index}`}
           css={{
             borderRadius: 8,
-            padding: '0 8px',
+            padding: "0 8px",
             backgroundColor: disabled ? $color.grey[2] : $color.grey[1],
-            cursor: disabled ? 'not-allowed' : 'pointer',
+            cursor: disabled ? "not-allowed" : "pointer",
           }}
-          data-value={output === 'string' ? text : text[output[1]]}
+          data-value={output === "string" ? text : text[output[1]]}
           onClick={disabled ? () => {} : (e) => handleClick(e, index)}
         >
-          {output === 'string' ? text : text[output[1]]}
+          {output === "string" ? text : text[output[1]]}
         </span>
       ))}
       <input
         css={{
-          backgroundColor: 'transparent',
-          border: 'none',
+          backgroundColor: "transparent",
+          border: "none",
           padding: 0,
-          flex: '1 0 0',
+          flex: "1 0 0",
           minWidth: 40,
-          '&:focus': {
-            outline: 'none',
+          "&:focus": {
+            outline: "none",
           },
         }}
-        type='text'
-        inputMode='search'
+        type="text"
+        inputMode="search"
         disabled={disabled}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder={intl.formatMessage({ id: 'placeholder.input', defaultMessage: '입력' })}
+        placeholder={intl.formatMessage({
+          id: "placeholder.input",
+          defaultMessage: "입력",
+        })}
         onKeyUp={handleKeyUp}
         {...inputProps}
       />
@@ -393,91 +423,107 @@ function TextListInput({ output = 'string', disabled = false, value = [], onChan
 // CheckboxGroup.js
 const CheckBoxGroupContext = createContext();
 
-const CheckBoxGroup = ({ value = [], onChange = () => {}, children, ...inputProps }) => {
+const CheckBoxGroup = ({
+  value = [],
+  onChange = () => {},
+  children,
+  ...inputProps
+}) => {
   const [group, setGroup] = useState(value);
 
   return (
     <>
-      <CheckBoxGroupContext.Provider value={[group, setGroup, onChange]}>{children}</CheckBoxGroupContext.Provider>
+      <CheckBoxGroupContext.Provider value={[group, setGroup, onChange]}>
+        {children}
+      </CheckBoxGroupContext.Provider>
     </>
   );
 };
 
 // Checkbox.js
-const CheckBox = forwardRef(({ checked = false, value = '', onChange = () => {}, ...inputProps }, ref) => {
-  const [group, setGroup, onGroupChange] = useContext(CheckBoxGroupContext) ?? [null, null];
+const CheckBox = forwardRef(
+  (
+    { checked = false, value = "", onChange = () => {}, ...inputProps },
+    ref,
+  ) => {
+    const [group, setGroup, onGroupChange] = useContext(
+      CheckBoxGroupContext,
+    ) ?? [null, null];
 
-  const [_checked, setChecked] = useState(checked);
+    const [_checked, setChecked] = useState(checked);
 
-  function handleChecked(e) {
-    const value = e.target.value;
+    function handleChecked(e) {
+      const value = e.target.value;
 
-    if (group !== null) {
-      const copyGroup = [...group];
+      if (group !== null) {
+        const copyGroup = [...group];
 
-      if (!group.includes(value)) {
-        const result = copyGroup.includes(value) ? copyGroup : copyGroup.concat(value);
-        setGroup(result);
-        onGroupChange({
-          ...e,
-          target: {
-            value: result,
-          },
-        });
-      } else {
-        const result = copyGroup.filter((item) => item !== value);
-        setGroup(result);
-        onGroupChange({
-          ...e,
-          target: {
-            value: result,
-          },
-        });
+        if (!group.includes(value)) {
+          const result = copyGroup.includes(value)
+            ? copyGroup
+            : copyGroup.concat(value);
+          setGroup(result);
+          onGroupChange({
+            ...e,
+            target: {
+              value: result,
+            },
+          });
+        } else {
+          const result = copyGroup.filter((item) => item !== value);
+          setGroup(result);
+          onGroupChange({
+            ...e,
+            target: {
+              value: result,
+            },
+          });
+        }
       }
+
+      setChecked(e.target.checked);
+      onChange(e);
     }
 
-    setChecked(e.target.checked);
-    onChange(e);
-  }
-
-  return (
-    <input
-      ref={ref}
-      css={{
-        appearance: 'none',
-        cursor: 'pointer',
-        minWidth: 16,
-        maxWidth: 16,
-        height: 16,
-        padding: 0,
-        outline: `1px solid ${$color.grey[6]}`,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        '&:checked': {
-          outline: 'none',
-          backgroundColor: $color.primary,
-        },
-        '&:checked:after': {
-          content: '"✓"',
-          color: $color.white,
-        },
-        '&:hover': {
-          outline: `3px solid rgba(0, 0, 0, 0.2)`,
-        },
-        '&:disabled': {
-          outline: 'none',
-          opacity: 0.5,
-        },
-      }}
-      type='checkbox'
-      value={value.toString()}
-      checked={group !== null ? group.includes(value.toString()) : _checked}
-      onChange={handleChecked}
-      {...inputProps}
-    />
-  );
-});
+    return (
+      <input
+        ref={ref}
+        css={{
+          appearance: "none",
+          cursor: "pointer",
+          minWidth: 16,
+          maxWidth: 16,
+          height: 16,
+          padding: 0,
+          outline: `1px solid ${$color.grey[6]}`,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          "&:checked": {
+            outline: "none",
+            backgroundColor: $color.primary,
+          },
+          "&:checked:after": {
+            content: '"✓"',
+            color: $color.white,
+          },
+          "&:hover": {
+            outline: `3px solid rgba(0, 0, 0, 0.2)`,
+          },
+          "&:disabled": {
+            outline: "none",
+            opacity: 0.5,
+          },
+        }}
+        type="checkbox"
+        value={value.toString()}
+        checked={group !== null ? group.includes(value.toString()) : _checked}
+        onChange={handleChecked}
+        {...inputProps}
+      />
+    );
+  },
+);
 ```
 
 ##

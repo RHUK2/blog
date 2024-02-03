@@ -1,11 +1,11 @@
 ---
-title: JavaScript
-description: Hey
+title: Javascript
+directory: Javascript
 ---
 
-# JavaScript
+# Javascript
 
-- [JavaScript](#javascript)
+- [Javascript](#javascript)
   - [JavaScript vs ECMAScript](#javascript-vs-ecmascript)
   - [target vs currentTarget](#target-vs-currenttarget)
   - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)

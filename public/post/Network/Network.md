@@ -1,3 +1,8 @@
+---
+title: Network
+directory: Network
+---
+
 # Network
 
 - [Network](#network)

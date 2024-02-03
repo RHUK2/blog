@@ -1,3 +1,8 @@
+---
+title: Frontend_Design
+directory: Project
+---
+
 # Frontend Design
 
 - [Frontend Design](#frontend-design)

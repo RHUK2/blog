@@ -1,3 +1,8 @@
+---
+title: Process_Thread
+directory: OS
+---
+
 # Process Thread
 
 - [Process Thread](#process-thread)

@@ -1,3 +1,8 @@
+---
+title: exhaustive-deps
+directory: React
+---
+
 # exhaustive-deps
 
 eslint와 함께 개발을 진행하다보면 아래와 같은 오류를 많이 접하게 된다.
@@ -26,11 +31,17 @@ export function useOptions(type) {
       return [
         {
           key: SEARCH_TYPE_EMPLOYER.CANDIDATE,
-          text: intl.formatMessage({ id: 'option.candidate', defaultMessage: '후보자' }),
+          text: intl.formatMessage({
+            id: "option.candidate",
+            defaultMessage: "후보자",
+          }),
         },
         {
           key: SEARCH_TYPE_EMPLOYER.RECRUITER,
-          text: intl.formatMessage({ id: 'option.recruiter', defaultMessage: '리크루터' }),
+          text: intl.formatMessage({
+            id: "option.recruiter",
+            defaultMessage: "리크루터",
+          }),
         },
       ];
     // ...생략
@@ -47,9 +58,13 @@ const countryCodeOptions = useOptions(SELECT_TYPE_CLIENT.COUNTRY_CODE);
 
 useEffect(() => {
   const phoneCode = user.recruiter?.phone
-    ? countryCodeOptions.find((option) => user.recruiter.phone.includes(option.text))?.key ?? '+82'
-    : '+82';
-  const phone = user.recruiter?.phone ? user.recruiter.phone.replace(phoneCode, '') : '';
+    ? countryCodeOptions.find((option) =>
+        user.recruiter.phone.includes(option.text),
+      )?.key ?? "+82"
+    : "+82";
+  const phone = user.recruiter?.phone
+    ? user.recruiter.phone.replace(phoneCode, "")
+    : "";
   // ...생략
 }, [user, setValue, countryCodeOptions]);
 ```
@@ -67,11 +82,17 @@ export function useOptions(type) {
         return [
           {
             key: SEARCH_TYPE_EMPLOYER.CANDIDATE,
-            text: intl.formatMessage({ id: 'option.candidate', defaultMessage: '후보자' }),
+            text: intl.formatMessage({
+              id: "option.candidate",
+              defaultMessage: "후보자",
+            }),
           },
           {
             key: SEARCH_TYPE_EMPLOYER.RECRUITER,
-            text: intl.formatMessage({ id: 'option.recruiter', defaultMessage: '리크루터' }),
+            text: intl.formatMessage({
+              id: "option.recruiter",
+              defaultMessage: "리크루터",
+            }),
           },
         ];
       // ...생략

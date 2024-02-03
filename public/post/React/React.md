@@ -1,3 +1,8 @@
+---
+title: React
+directory: React
+---
+
 # React
 
 - [React](#react)
@@ -175,7 +180,7 @@ useQuery 키공유
 
 ## react에서 환경변수
 
-![Alt text](image.png)
+![Alt text](assets/image.png)
 
 create react app에 의해 .env 파일에 규칙을 가지고 작성된 환경변수는 빌드 타임에 process.env로 객체화되서 클라이언트에서 접근이 가능한 형태가 된다.
 

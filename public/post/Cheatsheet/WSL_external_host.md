@@ -1,3 +1,8 @@
+---
+title: WSL_external_host
+directory: Cheatsheet
+---
+
 # WSL external host
 
 - 관리자권한으로 PowerShell 실행

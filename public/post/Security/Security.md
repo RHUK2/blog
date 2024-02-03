@@ -1,3 +1,8 @@
+---
+title: Security
+directory: Security
+---
+
 # Security
 
 - [Security](#security)
