@@ -1,4 +1,3 @@
-import { readFileSync, readdirSync } from "fs";
 import { readdir, readFile } from "fs/promises";
 import matter from "gray-matter";
 import rehypeSlug from "rehype-slug";
@@ -7,65 +6,55 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
-export async function getDirectoryList() {
-  try {
-    const directoryList = await readdir(`${process.cwd()}/public/post`);
+export async function readDirectory() {
+  return (await readdir(`${process.cwd()}/public/post`)).filter((directory) =>
+    /^[^\.]*$/.test(directory),
+  );
+}
 
+export async function readMarkdownInDirectory(directory: string) {
+  return (await readdir(`${process.cwd()}/public/post/${directory}`)).filter(
+    (file) => /.*.md/.test(file),
+  );
+}
+
+export async function readMarkdownFrontMatter(directory: string, post: string) {
+  const content = await readFile(
+    `${process.cwd()}/public/post/${directory}/${post}`,
+    "utf8",
+  );
+
+  const frontMatter = matter(content);
+
+  return frontMatter.data;
+}
+
+export async function getNavigationList() {
+  try {
     let allCount = 0;
 
+    const directoryList = await readDirectory();
+
     const result = await Promise.all(
-      directoryList
-        .filter((directory) => /^[^\.]*$/.test(directory))
-        .map(async (directory) => {
-          const postList = await readdir(
-            `${process.cwd()}/public/post/${directory}`,
-          );
+      directoryList.map(async (directory) => {
+        const postList = await readMarkdownInDirectory(directory);
 
-          const count = postList.filter((directory) => /.*.md/.test(directory));
+        allCount += postList.length;
 
-          allCount += count.length;
-
-          return {
-            folderName: directory,
-            postCount: count.length,
-          };
-        }),
+        return {
+          name: directory,
+          count: postList.length,
+        };
+      }),
     );
 
     return [
       {
-        folderName: "ALL",
-        postCount: allCount,
+        name: "",
+        count: allCount,
       },
       ...result,
     ];
-  } catch (err) {
-    console.log(err);
-
-    return [];
-  }
-}
-
-export async function getPostList(directory?: string) {
-  try {
-    const postList = await readdir(`${process.cwd()}/public/post/${directory}`);
-
-    const result = await Promise.all(
-      postList
-        .filter((post) => /.*.md/.test(post))
-        .map(async (post) => {
-          const content = await readFile(
-            `${process.cwd()}/public/post/${directory}/${post}`,
-            "utf8",
-          );
-
-          const { data } = matter(content);
-
-          return data;
-        }),
-    );
-
-    return result;
   } catch (err) {
     console.error(err);
 
@@ -73,9 +62,49 @@ export async function getPostList(directory?: string) {
   }
 }
 
-export function getPost(directory: string, title: string) {
+export async function getPostList(directory?: string) {
   try {
-    const post = readFileSync(
+    if (directory == null) {
+      const directoryList = await readDirectory();
+
+      const result = (
+        await Promise.all(
+          directoryList.map(async (directory) => {
+            const postList = await readMarkdownInDirectory(directory);
+
+            const data = await Promise.all(
+              postList.map(async (post) => {
+                return await readMarkdownFrontMatter(directory, post);
+              }),
+            );
+
+            return data;
+          }),
+        )
+      ).flat();
+
+      return result;
+    } else {
+      const postList = await readMarkdownInDirectory(directory);
+
+      const result = await Promise.all(
+        postList.map(async (post) => {
+          return await readMarkdownFrontMatter(directory, post);
+        }),
+      );
+
+      return result;
+    }
+  } catch (err) {
+    console.error(err);
+
+    return [];
+  }
+}
+
+export async function getPost(directory: string, title: string) {
+  try {
+    const post = await readFile(
       `${process.cwd()}/public/post/${directory}/${title}.md`,
       "utf8",
     );
