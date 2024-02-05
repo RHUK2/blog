@@ -1,4 +1,4 @@
-import { Navigation } from "../(non-page)/component";
+import { Navigation } from "@/component";
 
 export default function PostLayout({
   children,

@@ -2,6 +2,7 @@ import { readdir, readFile } from "fs/promises";
 import matter from "gray-matter";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
+import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
@@ -111,6 +112,7 @@ export async function getPost(directory: string, title: string) {
 
     const result = unified()
       .use(remarkParse)
+      .use(remarkGfm)
       .use(remarkRehype)
       .use(rehypeSlug)
       .use(rehypeStringify)

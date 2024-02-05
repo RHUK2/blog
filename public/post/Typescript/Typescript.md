@@ -54,6 +54,9 @@ directory: Typescript
 
 ### config
 
+VSCode는 tsconfig.json이 있으면 해당 폴더를 타입스크립트 프로젝트로 간주하고 자동완성을 지원한다
+jsconfig.json이 있으면 자바스크립트 프로젝트로 간주하고 자동완성을 지원한다
+
 ```js
 {
   //*"extends": "../tsconfig.base.json",               /* TypeScript 설정 파일을 상속하도록 설정할 때 사용된다. */

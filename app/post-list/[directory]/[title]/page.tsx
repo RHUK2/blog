@@ -1,5 +1,4 @@
 import { getPost } from "@/util";
-import Link from "next/link";
 
 interface PostListDirectoryTitlePageProps {
   params: {

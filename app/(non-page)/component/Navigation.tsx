@@ -1,5 +1,5 @@
+import { getNavigationList } from "@/util";
 import Link from "next/link";
-import { getNavigationList } from "../util";
 
 export async function Navigation() {
   const directoryList = await getNavigationList();
