@@ -89,6 +89,7 @@ CDN은 Content Delivery Network의 약자로, 지리적인 제약 없이 전 세
 콘텐츠를 전송할 때 물리적인 거리가 멀수록 콘텐츠를 불러올 때 소요되는 시간이 길어진다. 이를 해결하기 위해 전 세계 곳곳에 캐싱 서버를 두고 해당 서버에 콘텐츠를 캐싱한 뒤 같은 콘텐츠에 대한 요청이 오면 물리적으로 제일 가까운 거리에 캐싱 서버에서 응답을 준다.
 
 ![cdn](assets/cdn.png)
+![cdn](https://onedrive.live.com/embed?resid=3C10CE6E11107515%211113&authkey=%21AN9jpXl47FxHhdQ&width=1080&height=1358)
 
 작동원리에 대해 간단히 설명하면 아래와 같다.
 

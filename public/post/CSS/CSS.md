@@ -39,6 +39,8 @@ directory: CSS
   - [transition \& animation](#transition--animation)
   - [초기 CSS 설정](#초기-css-설정)
 
+![sa](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216541&authkey=%21ADNB44wZnrs0008&width=1080&height=1358)
+
 ## variable
 
 ```css

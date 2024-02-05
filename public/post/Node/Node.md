@@ -11,7 +11,7 @@ directory: Node
 
 ## NPM(Node Package Manager)
 
-NPM은 Node 환경에서 패키지를 관리해주는 패키지 매니저이다.
+NPM은 Node 환경에서 패키지를 관리해주는 패키지 매니저로 설명되지만, 브라우저 환경에서 작동하는 패키지 또한 많다.
 
 ### package.json
 
