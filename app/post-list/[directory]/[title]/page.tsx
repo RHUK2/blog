@@ -19,7 +19,7 @@ export default async function PostListDirectoryTitlePage({
     <section className="flex flex-col gap-2">
       <Mermaid>
         <article
-          className="prose"
+          className="markdown-body"
           dangerouslySetInnerHTML={{
             __html: data,
           }}
