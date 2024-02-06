@@ -11,7 +11,6 @@ export default async function PostListPage({
   searchParams,
 }: PostListPageProps) {
   const data = await getPostList();
-
   return (
     <section className="flex flex-col gap-2">
       {data.map((item, index) => (

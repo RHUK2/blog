@@ -110,13 +110,13 @@ export async function getPost(directory: string, title: string) {
       "utf8",
     );
 
-    const result = unified()
+    const result = await unified()
       .use(remarkParse)
       .use(remarkGfm)
       .use(remarkRehype)
       .use(rehypeSlug)
       .use(rehypeStringify)
-      .processSync(matter(post).content);
+      .process(matter(post).content);
 
     return result.value;
   } catch (err) {

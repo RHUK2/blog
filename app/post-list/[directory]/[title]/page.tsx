@@ -1,3 +1,4 @@
+import { Mermaid } from "@/component/client";
 import { getPost } from "@/util";
 
 interface PostListDirectoryTitlePageProps {
@@ -15,12 +16,15 @@ export default async function PostListDirectoryTitlePage({
   const data = await getPost(params.directory, params.title);
 
   return (
-    <section className="prose flex flex-col gap-2">
-      <div
-        dangerouslySetInnerHTML={{
-          __html: data,
-        }}
-      ></div>
+    <section className="flex flex-col gap-2">
+      <Mermaid>
+        <article
+          className="prose"
+          dangerouslySetInnerHTML={{
+            __html: data,
+          }}
+        />
+      </Mermaid>
     </section>
   );
 }

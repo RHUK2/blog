@@ -1,7 +1,7 @@
+import { Footer, Header } from "@/component";
+import "@/globals.css";
 import type { Metadata } from "next";
-import { Inter, Roboto, Roboto_Mono } from "next/font/google";
-import "./(non-page)/globals.css";
-import { Footer, Header } from "./(non-page)/component";
+import { Inter, Roboto_Mono } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,8 +16,7 @@ const roboto_mono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RHUK2",
-  description: "RHUK2 Blog",
+  title: "BLOG",
 };
 
 export default function RootLayout({
