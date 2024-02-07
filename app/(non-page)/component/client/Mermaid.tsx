@@ -11,13 +11,12 @@ export async function Mermaid({
   useEffect(() => {
     mermaid.initialize({ startOnLoad: false });
 
-    async function run() {
-      await mermaid.run({
+    // 현재 client componet에서 async/await을 지원하지 않음
+    mermaid
+      .run({
         querySelector: ".language-mermaid",
-      });
-    }
-
-    run();
+      })
+      .then();
   }, []);
 
   return <>{children}</>;
