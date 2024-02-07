@@ -50,6 +50,10 @@ npm workspace는 종속성 관리지 설정 파일 관리는 아님
 
 서버 어플리케이션은 내용이 바뀌면 pm2로 무중단 서비스 배포가 필요
 
+## node_moduels
+
+node_modules 안에 라이브러리는 절대/상대 경로없이 참조 가능하다
+
 ## script
 
 package.json 파일의 "scripts" 섹션에서는 기본적으로 Node.js 자바스크립트 코드를 직접 실행할 수는 없습니다. "scripts"는 주로 명령어 라인 명령을 실행하는 데 사용됩니다. 그러나 package.json 파일 내부에서 직접 JavaScript 코드를 실행할 수 있는 기능은 제공되지 않습니다.
@@ -118,3 +122,9 @@ console.log(process.cwd()); // /home/huryu/personal/blog
 ## fs.readFile
 
 ## fs.readdir
+
+## express.static()
+
+서버는 응답을 받으면 정적 자산을 제공하거나
+
+값에 가공이나 무언가 핑료하 ㄴ작업을 진행한 후 제공하는 동적 자산을 제공한다.

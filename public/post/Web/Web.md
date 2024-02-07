@@ -67,6 +67,9 @@ directory: Web
   - [CMS](#cms)
     - [CMS (Monolithic CMS)](#cms-monolithic-cms)
     - [Headless CMS:](#headless-cms)
+  - [css](#css)
+  - [모듈 다운](#모듈-다운)
+  - [FOUC(flash of unstyled content)](#foucflash-of-unstyled-content)
 
 ## 웹 브라우저란?
 
@@ -553,3 +556,17 @@ CMS(콘텐츠 관리 시스템)와 Headless CMS는 콘텐츠 관리에 사용되
    - Headless CMS는 개발자들이 선호하는 도구와 기술을 사용할 수 있도록 하여 개발자 친화적입니다.
 
 Headless CMS와 Monolithic CMS는 각각의 상황에 맞게 선택되어야 합니다. 프로젝트의 규모, 필요한 유연성, 개발자의 선호도 등을 고려하여 적절한 시스템을 선택하는 것이 중요합니다.
+
+## css
+
+link tag
+css 파일 내부 import
+js 파일 내부 import
+
+## 모듈 다운
+
+cdn
+npm
+상대경로 절대경로를 통한 정적 자산ㄴ
+
+## FOUC(flash of unstyled content)

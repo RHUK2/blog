@@ -80,6 +80,8 @@ HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기
 
 `useState`의 첫 번째 인자는 초기값을 설정해주는데, 해당 값은 컴포넌트가 처음 생성되는 시점에만 설정되고, 이후에는 무시된다.
 
+첫 렌더링 전 계산된 값을 초기화하고 싶다면 `initialState`에 계산된 값이 아웃풋으로 나오는 함수를 넣어주자
+
 ```js
 const [state, setState] = useState(initialState);
 ```
