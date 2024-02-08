@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import mermaid from "mermaid";
-import React, { useEffect } from "react";
+import mermaid from 'mermaid';
+import React, { useEffect } from 'react';
 
-export async function Mermaid({
+export function Mermaid({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -14,7 +14,7 @@ export async function Mermaid({
     // 현재 client componet에서 async/await을 지원하지 않음
     mermaid
       .run({
-        querySelector: ".language-mermaid",
+        querySelector: '.language-mermaid',
       })
       .then();
   }, []);

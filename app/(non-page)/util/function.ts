@@ -1,30 +1,25 @@
-import { readdir, readFile } from "fs/promises";
-import matter from "gray-matter";
-import rehypeHighlight from "rehype-highlight";
-import rehypeSlug from "rehype-slug";
-import rehypeStringify from "rehype-stringify";
-import remarkGfm from "remark-gfm";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import { unified } from "unified";
+import { readdir, readFile } from 'fs/promises';
+import matter from 'gray-matter';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
+
+const FOLDER_NAME = 'post';
 
 export async function readDirectory() {
-  return (await readdir(`${process.cwd()}/public/post`)).filter((directory) =>
-    /^[^\.]*$/.test(directory),
-  );
+  return (await readdir(`${process.cwd()}/public/${FOLDER_NAME}`)).filter((directory) => /^[^\.]*$/.test(directory));
 }
 
 export async function readMarkdownInDirectory(directory: string) {
-  return (await readdir(`${process.cwd()}/public/post/${directory}`)).filter(
-    (file) => /.*.md/.test(file),
-  );
+  return (await readdir(`${process.cwd()}/public/${FOLDER_NAME}/${directory}`)).filter((file) => /.*.md/.test(file));
 }
 
 export async function readMarkdownFrontMatter(directory: string, post: string) {
-  const content = await readFile(
-    `${process.cwd()}/public/post/${directory}/${post}`,
-    "utf8",
-  );
+  const content = await readFile(`${process.cwd()}/public/${FOLDER_NAME}/${directory}/${post}`, 'utf8');
 
   const frontMatter = matter(content);
 
@@ -52,12 +47,13 @@ export async function getNavigationList() {
 
     return [
       {
-        name: "",
+        name: '',
         count: allCount,
       },
       ...result,
     ];
   } catch (err) {
+    console.error('getNavigationList');
     console.error(err);
 
     return [];
@@ -98,6 +94,7 @@ export async function getPostList(directory?: string) {
       return result;
     }
   } catch (err) {
+    console.error('getPostList');
     console.error(err);
 
     return [];
@@ -105,11 +102,10 @@ export async function getPostList(directory?: string) {
 }
 
 export async function getPost(directory: string, title: string) {
+  console.log('🚀 ~ getPost ~ title:', title);
+  console.log('🚀 ~ getPost ~ directory:', directory);
   try {
-    const post = await readFile(
-      `${process.cwd()}/public/post/${directory}/${title}.md`,
-      "utf8",
-    );
+    const post = await readFile(`${process.cwd()}/public/${FOLDER_NAME}/${directory}/${title}.md`, 'utf8');
 
     const result = await unified()
       .use(remarkParse)
@@ -122,8 +118,9 @@ export async function getPost(directory: string, title: string) {
 
     return result.value;
   } catch (err) {
+    console.error('getPost');
     console.error(err);
 
-    return "";
+    return '';
   }
 }

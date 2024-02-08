@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.markdown-body {
+/* .markdown-body {
   box-sizing: border-box;
   min-width: 200px;
   max-width: 980px;
@@ -14,9 +14,13 @@
   .markdown-body {
     padding: 15px;
   }
-}
+} */
 
 pre > code.hljs.language-mermaid {
   display: flex;
   justify-content: center;
+}
+
+pre > .hljs {
+  background: transparent;
 }
