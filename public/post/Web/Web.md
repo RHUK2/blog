@@ -70,6 +70,7 @@ directory: Web
   - [css](#css)
   - [모듈 다운](#모듈-다운)
   - [FOUC(flash of unstyled content)](#foucflash-of-unstyled-content)
+  - [script](#script)
 
 ## 웹 브라우저란?
 
@@ -296,10 +297,7 @@ HTML 태그 중 `<img />`, `<video />`, `<audio />`와 같은 멀티미디어 �
 파일을 Base64로 인코딩하여 `src` 속성에 지정할 수 있다. 큰 이미지의 경우 데이터 URL은 페이지 크기를 크게 늘릴 수 있다.
 
 ```html
-<img
-  src="data:assets/image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..."
-  alt="Base64 Image"
-/>
+<img src="data:assets/image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAA..." alt="Base64 Image" />
 ```
 
 ## MIME 타입
@@ -471,9 +469,9 @@ Content-Disposition: attachment; filename="example.dat"
 ```js
 async function getResource() {
   try {
-    const response = await fetch("/images/assets/test.png");
+    const response = await fetch('/images/assets/test.png');
     const blob = await response.blob();
-    return new File([blob], "assets/test.png");
+    return new File([blob], 'assets/test.png');
   } catch (error) {
     console.log(error);
   }
@@ -570,3 +568,10 @@ npm
 상대경로 절대경로를 통한 정적 자산ㄴ
 
 ## FOUC(flash of unstyled content)
+
+## script
+
+둘다 비동기적으로 스크립트를 불러오는 것이나 작동방식의 약간으 ㅣ차이가 존재
+
+<script defer>
+<script async>
