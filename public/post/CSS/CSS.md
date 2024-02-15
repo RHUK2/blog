@@ -3,9 +3,8 @@ title: CSS
 directory: CSS
 ---
 
-# CSS
-
 - [CSS](#css)
+  - [selector](#selector)
   - [variable](#variable)
   - [display](#display)
     - [block vs inline](#block-vs-inline)
@@ -38,8 +37,75 @@ directory: CSS
   - [media query](#media-query)
   - [transition \& animation](#transition--animation)
   - [초기 CSS 설정](#초기-css-설정)
+  - [모달 창 스크롤 바 제어](#모달-창-스크롤-바-제어)
 
-![sa](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216541&authkey=%21ADNB44wZnrs0008&width=1080&height=1358)
+# CSS
+
+![sa](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216725&authkey=%21AF0985PezdqqMFU&width=216&height=421)
+
+## selector
+
+```css
+* all elements
+div all div tags
+div,pall divs and paragraphs
+div pparagraphs inside divs
+div > pall p tags, one level deep in div
+div + pp tags immediately after div
+div ~ pp tags preceded by div
+.classnameall elements with class
+#idnameelement with ID
+div.classnamedivs with certain classname
+div#idnamediv with certain ID
+#idname *all elements inside #idname
+
+a:linklink in normal state
+a:activelink in clicked state
+a:hoverlink with mouse over it
+a:visitedvisited link
+p::after{content:"yo";}add content after p
+p::beforeadd content before p
+input:checkedchecked inputs
+input:disableddisabled inputs
+input:enabledenabled inputs
+input:focusinput has focus
+input:in-rangevalue in range
+input:out-of-rangeinput value out of range
+input:validinput with valid value
+input:invalidinput with invalid value
+input:optionalno required attribute
+input:requiredinput with requred attribute
+input:read-onlywith readonly attribute
+input:read-writeno readonly attrib.
+div:emptyelement with no children
+p::first-letterfirst letter in p
+p::first-linefirst line in p
+p:first-of-typefirst of some type
+p:last-of-typelast of some type
+p:lang(en)p with en language attribute
+:not(span)element that's not a span
+p:first-childfirst child of its parent
+p:last-childlast child of its parent
+p:nth-child(2)second child of its parent
+p:nth-child(3n+1)nth-child (an + b) formula
+p:nth-last-child(2)second child from behind
+p:nth-of-type(2)second p of its parent
+p:nth-last-of-type(2)...from behind
+p:only-of-typeunique of its parent
+p:only-childonly child of its parent
+:rootdocuments root element
+::selectionportion selected by user
+:targethighlight active anchor
+
+a[target]links with a target attribute
+a[target="_blank"]links which open in new tab
+[title~="chair"]title element containing a word
+[class^="chair"]class starts with chair
+[class|="chair"]class starts with the chair word
+[class*="chair"]class contains chair
+[class$="chair"]class ends with chair
+input[type="button"]specified input type
+```
 
 ## variable
 
@@ -62,11 +128,7 @@ directory: CSS
 /*  변수 사용 */
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    ) rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 ```
 
@@ -227,28 +289,28 @@ CDN을 사용한다면 `@font-face` 설정은 필요없다.
 ```css
 /* ... */
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 600;
   font-display: swap;
   src:
-    local("Pretendard SemiBold"),
-    url("/fonts/Pretendard-SemiBold.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-SemiBold.subset.woff") format("woff");
+    local('Pretendard SemiBold'),
+    url('/fonts/Pretendard-SemiBold.subset.woff2') format('woff2'),
+    url('/fonts/Pretendard-SemiBold.subset.woff') format('woff');
 }
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 500;
   font-display: swap;
   src:
-    local("Pretendard Medium"),
-    url("/fonts/Pretendard-Medium.subset.woff2") format("woff2"),
-    url("/fonts/Pretendard-Medium.subset.woff") format("woff");
+    local('Pretendard Medium'),
+    url('/fonts/Pretendard-Medium.subset.woff2') format('woff2'),
+    url('/fonts/Pretendard-Medium.subset.woff') format('woff');
 }
 /* ... */
 
 body {
   font-family:
-    "Pretendard",
+    'Pretendard',
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
@@ -456,14 +518,19 @@ div > img {
 /* Apply 1 property */
 transition: property-name | duration | easing-function | delay;
 /* Apply multiple property */
-transition: property-name | duration | easing-function | delay, property-name | duration | easing-function | delay, ...;
+transition:
+  property-name | duration | easing-function | delay,
+  property-name | duration | easing-function | delay,
+  ...;
 /* Apply All property */
 transition: all | duration | easing-function | delay;
 
 /* Apply 1 animation */
 animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
 /* Apply multiple animation */
-animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name, animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
+animation:
+  duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name,
+  duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
 ```
 
 ## 초기 CSS 설정
@@ -501,5 +568,24 @@ ul,
 ol,
 li {
   list-style: none;
+}
+```
+
+## 모달 창 스크롤 바 제어
+
+```js
+const header = document.querySelector('header');
+const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+if (!header) return;
+
+if (userInterface.isAsideOpen === true) {
+  document.body.style.overflow = 'hidden';
+  document.body.style.paddingRight = `${scrollbarWidth}px`;
+  header.style.paddingRight = `${scrollbarWidth}px`;
+} else {
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+  header.style.paddingRight = '';
 }
 ```
