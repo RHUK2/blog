@@ -10,7 +10,7 @@
     "prettier": "prettier --write ./**/*.tsx"
   },
   "dependencies": {
-    "github-markdown-css": "^5.5.1",
+    "framer-motion": "^11.0.3",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",
     "mermaid": "^10.8.0",
