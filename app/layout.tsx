@@ -1,7 +1,7 @@
 import { Footer, Header } from '@/component';
-import '@/globals.css';
+import '@/css/globals.css';
+import '@/css/github-markdown.css';
 import 'highlight.js/styles/github-dark.css';
-// import "github-markdown-css";
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 

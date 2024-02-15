@@ -102,8 +102,6 @@ export async function getPostList(directory?: string) {
 }
 
 export async function getPost(directory: string, title: string) {
-  console.log('🚀 ~ getPost ~ title:', title);
-  console.log('🚀 ~ getPost ~ directory:', directory);
   try {
     const post = await readFile(`${process.cwd()}/public/${FOLDER_NAME}/${directory}/${title}.md`, 'utf8');
 

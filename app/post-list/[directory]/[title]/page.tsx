@@ -16,7 +16,8 @@ export default async function PostListDirectoryTitlePage({ params, searchParams 
     <section className='m-auto min-w-[320px] max-w-[768px] py-10 flex flex-col gap-2'>
       <Mermaid>
         <article
-          className='prose dark:prose-invert'
+          className='markdown-body'
+          data-theme='light'
           dangerouslySetInnerHTML={{
             __html: data,
           }}
