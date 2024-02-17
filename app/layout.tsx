@@ -1,7 +1,7 @@
 import { Footer, Header } from '@/component';
 import '@/css/globals.css';
 import '@/css/github-markdown.css';
-import 'highlight.js/styles/github-dark.css';
+import '@/css/github.css';
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 
@@ -33,10 +33,9 @@ export default function RootLayout({
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script src='./script/dom_init.js'></script>
       </head>
-      <body
-        className={`${(inter.variable, roboto_mono.variable)} bg-gray-200 font-mono dark:bg-gray-950 dark:text-gray-200`}>
+      <body className={`${(inter.variable, roboto_mono.variable)} font-mono dark:bg-gray-950 `}>
         <Header />
-        <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] pt-12 shadow-lg bg-gray-100 dark:bg-gray-950 dark:shadow-gray-600'>
+        <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] pt-12 shadow-lg bg-white dark:bg-gray-950 dark:shadow-gray-600'>
           {children}
         </main>
         <Footer />

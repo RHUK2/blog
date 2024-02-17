@@ -107,8 +107,8 @@ export async function getPost(directory: string, title: string) {
 
     const result = await unified()
       .use(remarkParse)
-      .use(remarkRehype)
       .use(remarkGfm)
+      .use(remarkRehype)
       .use(rehypeHighlight)
       .use(rehypeSlug)
       .use(rehypeStringify)

@@ -10,16 +10,18 @@ interface PostListDirectoryPageProps {
 }
 
 export default async function PostListDirectoryPage({ params, searchParams }: PostListDirectoryPageProps) {
-  const data = await getPostList(params.directory);
+  const postList = await getPostList(params.directory);
 
   return (
     <>
-      <section className='m-auto min-w-[320px] max-w-[768px] py-10 flex flex-col gap-2'>
-        {data.map((item, index) => (
+      <section className='m-auto min-w-[320px] max-w-[768px] py-10 px-4 flex flex-col gap-8'>
+        {postList.map((post, index) => (
           <Link
-            className='inline-block'
             key={`post_${index}`}
-            href={`/post-list/${item.directory}/${item.title}`}>{`제목: ${item.title ?? '-'}`}</Link>
+            href={`/post-list/${post.directory}/${post.title}`}
+            className='min-h-28 p-4 rounded-lg shadow-md bg-gradient-to-br from-gray-50 from-30% to-70% to-gray-100 dark:from-gray-900 dark:to-gray-800 dark:shadow-gray-600 hover:relative hover:-top-2'>
+            <span className='block'>{post.title ?? '-'}</span>
+          </Link>
         ))}
         <Navigation />
       </section>
