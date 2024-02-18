@@ -27,10 +27,10 @@ export function DarkLightButton() {
 
   return (
     <>
-      <button onClick={handleMode} className='dark:hidden min-w-10'>
+      <button onClick={handleMode} className='min-w-10 dark:hidden'>
         ☀️
       </button>
-      <button onClick={handleMode} className='hidden dark:block min-w-10'>
+      <button onClick={handleMode} className='hidden min-w-10 dark:block'>
         🌙
       </button>
     </>

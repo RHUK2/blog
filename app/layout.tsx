@@ -4,6 +4,7 @@ import '@/css/github-markdown.css';
 import '@/css/github.css';
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
+import { ScrollTopFloatingButton } from '@/component/client';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,10 +36,11 @@ export default function RootLayout({
       </head>
       <body className={`${(inter.variable, roboto_mono.variable)} font-mono dark:bg-gray-950 `}>
         <Header />
-        <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] pt-12 shadow-lg bg-white dark:bg-gray-950 dark:shadow-gray-600'>
+        <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] bg-white pt-12 shadow-lg dark:bg-gray-950 dark:shadow-gray-600'>
           {children}
         </main>
         <Footer />
+        <ScrollTopFloatingButton />
       </body>
     </html>
   );
