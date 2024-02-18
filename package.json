@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write ./**/*.tsx"
+    "prettier": "prettier --write './**/*.tsx'"
   },
   "dependencies": {
     "framer-motion": "^11.0.3",
