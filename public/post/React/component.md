@@ -7,6 +7,7 @@ directory: React
 
 - [Component](#component)
   - [제어 컴포넌트 vs 비제어 컴포넌트](#제어-컴포넌트-vs-비제어-컴포넌트)
+  - [useRef()](#useref)
   - [forwardRef()](#forwardref)
   - [useImperativeHandle](#useimperativehandle)
   - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
@@ -60,6 +61,22 @@ function UncontrolledComponentExample() {
   );
 }
 ```
+
+## useRef()
+
+
+네, 맞습니다. 리액트에서 ref 값은 컴포넌트가 마운트된 이후에 리렌더링이 발생해야 값이 채워집니다.
+
+이유
+
+ref는 컴포넌트 렌더링 과정에서 생성된 DOM 요소 또는 기타 값을 참조합니다.
+컴포넌트가 처음 렌더링될 때는 DOM 요소가 아직 생성되지 않았기 때문에 ref 값은 null입니다.
+컴포넌트가 마운트된 후에는 DOM 요소가 생성되고 ref 값이 채워집니다.
+리렌더링이 발생하면 컴포넌트 내부 state 또는 props가 변경되고 ref 값도 업데이트될 수 있습니다.
+따라서 ref 값을 사용하려면 다음과 같이 해야 합니다.
+
+useEffect 또는 componentDidMount 라이프 사이클 메서드에서 ref 값을 사용합니다.
+useRef hook을 사용하여 ref 값을 저장하고 리렌더링 후에도 값을 유지합니다.
 
 ## forwardRef()
 
