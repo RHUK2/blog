@@ -1,7 +1,7 @@
 import { Mermaid } from '@/component/client';
 import { getPost } from '@/util';
 
-interface PostListDirectoryTitlePageProps {
+interface PostListTitlePageProps {
   params: {
     directory: string;
     title: string;
@@ -9,7 +9,7 @@ interface PostListDirectoryTitlePageProps {
   searchParams: {};
 }
 
-export default async function PostListDirectoryTitlePage({ params, searchParams }: PostListDirectoryTitlePageProps) {
+export default async function PostListDirectoryTitlePage({ params, searchParams }: PostListTitlePageProps) {
   const data = await getPost(params.directory, decodeURIComponent(params.title));
 
   return (
