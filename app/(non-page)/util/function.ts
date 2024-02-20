@@ -60,9 +60,9 @@ export async function getNavigationList() {
   }
 }
 
-export async function getPostList(directory?: string) {
+export async function getPostList(directory?: string, page?: string) {
   try {
-    if (directory == null) {
+    if (directory == null || directory === '') {
       const directoryList = await readDirectory();
 
       const result = (
