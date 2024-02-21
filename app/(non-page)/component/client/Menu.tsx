@@ -64,7 +64,7 @@ export function Menu({
     <ul
       id='menu'
       onClick={(event) => event.stopPropagation()}
-      className={`absolute z-40 rounded-md bg-gradient-to-br from-gray-100 from-30% to-gray-50 to-70% p-2 shadow-md dark:from-gray-900 dark:to-gray-800 dark:shadow-gray-600 ${open ? 'block' : 'hidden'}`}
+      className={`absolute z-40 max-h-44 overflow-y-auto rounded-md bg-gradient-to-br from-gray-100 from-30% to-gray-50 to-70% py-2 shadow-md dark:from-gray-900 dark:to-gray-800 dark:shadow-gray-600 ${open ? 'block' : 'hidden'}`}
       style={{
         top: pos.bottom + 10,
         left: pos.left,
