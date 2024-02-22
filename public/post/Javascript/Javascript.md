@@ -44,6 +44,7 @@ directory: Javascript
   - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
   - [sort](#sort)
   - [throttle vs debounce(feat. lodash 라이브러리)](#throttle-vs-debouncefeat-lodash-라이브러리)
+  - [context와 this](#context와-this)
   - [window vs document](#window-vs-document)
   - [node vs browser](#node-vs-browser)
     - [Node.js 환경에서만 사용 가능한 메서드 및 모듈:](#nodejs-환경에서만-사용-가능한-메서드-및-모듈)
@@ -126,14 +127,13 @@ window.scrollTo(x, y); // 문서 기준으로 스크롤 이동
 element.scrollIntoView(true); // 요소를 창 위쪽 모서리에 맞추도록 이동
 element.scrollIntoView(false); // 요소를 창 아래쪽 모서리에 맞추도록 이동
 
-document.body.style.overflow = "hidden"; // 스크롤바 고정
-document.body.style.overflow = ""; // 스크롤바 고정 해제
+document.body.style.overflow = 'hidden'; // 스크롤바 고정
+document.body.style.overflow = ''; // 스크롤바 고정 해제
 // 스크롤바 고정 시 스크롤바 너비만큼 보정
 // 창 기준 좌표
-document.body.style.paddingleft =
-  window.innerWidth - right.documentElement.clientWidth;
+document.body.style.paddingleft = window.innerWidth - right.documentElement.clientWidth;
 // 스크롤바 고정 시 스크롤바 너비만큼 보정 해제
-document.body.style.paddingRight = "";
+document.body.style.paddingRight = '';
 ```
 
 ### 요소의 좌표
@@ -142,8 +142,7 @@ document.body.style.paddingRight = "";
 
 ```js
 // 창 기준 좌표
-const { x, y, width, height, top, left, bottom, right } =
-  element.getBoundingClientRect();
+const { x, y, width, height, top, left, bottom, right } = element.getBoundingClientRect();
 
 // 문서 기준 좌표
 function getCoords(elem) {
@@ -206,15 +205,15 @@ element.onmousemove = function (e) {
 
 ```js
 // script.js
-import { a } from "./module.js";
+import { a } from './module.js';
 
 // module.js
-import { b } from "./module2.js";
+import { b } from './module2.js';
 
-export let a = "a";
+export let a = 'a';
 
 // module2.js
-export let b = "b";
+export let b = 'b';
 ```
 
 ![import_network](assets/import_network.png)
@@ -365,9 +364,9 @@ console.log(b) 'end'
 const object = {
   person: {
     age: 20,
-    name: "Tomas",
+    name: 'Tomas',
   },
-  country: "Korea",
+  country: 'Korea',
 };
 
 const copyObject = JSON.parse(JSON.stringify(object));
@@ -457,12 +456,12 @@ try {
 ### SyntaxError
 
 ```js
-JSON.parse("string");
+JSON.parse('string');
 ```
 
 ```js
 try {
-  JSON.parse("string");
+  JSON.parse('string');
 } catch (error) {
   console.error(error.message);
 }
@@ -510,6 +509,9 @@ try {
 
 보통 스크롤 이벤트 같이 매우 빈번하게 발생하는 이벤트의 경우 `throttle`을 통해 병목 현상을 준다. 사용자가 고의로 빈번하게 입력하는 것을 방지하기 위해서는 `debounce`를 활용해 정해진 딜레이 이상 지나지 않으면 이벤트를 막아준다. 아래의 사진으로 해당 함수들이 어떻게 동작하는 지 이해할 수 있다.
 
+`throttle`은 클릭을 여러번할 때 사용자가 설정한 n초 당 한 번씩 이벤트가 발생한다
+`debounce`는 클릭을 여러번할 때 클릭과 클릭 사이에 간격이 사용자가 설정한 n초를 넘어가면 이벤트가 발생한다
+
 ![debounce_vs_throttle](assets/debounce_vs_throttle.png)
 
 사용법은 아래와 같다. 리액트의 경우 리렌더링 시에 컴포넌트를 계속 호출하므로 `useRef` 훅으로 감싸서 매 렌더링마다 새로운 함수가 생성되는 것을 막는다.
@@ -553,6 +555,112 @@ function throttleWrapper(func, delay) {
         isThrottled = false;
       }, delay);
     }
+  };
+}
+```
+
+## context와 this
+
+자바스크립트 컨텍스트와 this의 상관관계
+
+1. 컨텍스트
+
+자바스크립트 컨텍스트는 코드 실행 환경을 의미하며, 크게 전역 컨텍스트와 함수 컨텍스트로 나눌 수 있습니다.
+컨텍스트는 변수 및 함수의 스코프를 결정하고, 호이스팅에 영향을 미치며, this 키워드의 값을 결정합니다. 2. this
+
+this 키워드는 현재 실행 중인 코드의 컨텍스트 객체를 참조합니다.
+컨텍스트 객체는 함수 컨텍스트에서는 함수 객체이며, 전역 컨텍스트에서는 전역 객체(브라우저 환경에서는 window 객체)입니다. 3. 컨텍스트와 this의 상관관계
+
+this 키워드는 함수가 어떻게 호출되었는지에 따라 값이 결정됩니다.
+함수가 독립적으로 호출되면 this는 전역 객체를 참조합니다.
+함수가 객체의 메서드로 호출되면 this는 해당 객체를 참조합니다.
+함수가 call(), apply(), bind() 메서드를 사용하여 호출되면 this는 첫 번째 인수로 전달된 객체를 참조합니다.
+
+화살표 함수는 this가 없음
+
+```js
+const noObjThis = this; // window
+
+function Func() {
+  return this; // window
+}
+const ArrowFunc = () => {
+  return this; // window
+};
+
+const obj = {
+  name: 'Tomas',
+  age: 30,
+  objThis: this, // window
+  objFunc() {
+    return this; // obj
+  },
+  objArrowFunc: () => {
+    return this; // window
+  },
+  nestedObjFunc1() {
+    console.log(this); // obj
+    return function () {
+      return this; // window
+    };
+  },
+  nestedObjFunc2() {
+    console.log(this); // obj
+    return () => {
+      return this; // obj
+    };
+  },
+  nestedObjFunc3: () => {
+    console.log(this); // window
+    return () => {
+      return this; // window
+    };
+  },
+  nestedObjFunc4: () => {
+    console.log(this); // window
+    return () => {
+      return this; // window
+    };
+  },
+};
+
+function wrapperFunc1(callback, localVar1) {
+  const localVar2 = 'localVar2';
+
+  return function (...arguments) {
+    console.log(localVar1);
+    console.log(localVar2);
+    return callback(...arguments); // window
+  };
+}
+
+function wrapperFunc2(callback, localVar1) {
+  const localVar2 = 'localVar2';
+
+  return (...arguments) => {
+    console.log(localVar1);
+    console.log(localVar2);
+    return callback(...arguments); // window
+  };
+}
+
+function wrapperFunc3(callback, localVar1) {
+  const localVar2 = 'localVar2';
+
+  return function (...arguments) {
+    console.log(localVar1);
+    console.log(localVar2);
+    return callback.call(this, ...arguments); // obj
+  };
+}
+
+function wrapperFunc4(callback, localVar1) {
+  const localVar2 = 'localVar2';
+
+  return (...arguments) => {
+    console.log(localVar1);
+    console.log(localVar2);
+    return callback.call(this, ...arguments); // window
   };
 }
 ```
@@ -636,7 +744,7 @@ document객체와 window객체에서 수용 가능한 eventList가 다르기 때
 ## async await, 프로미스, 콜백
 
 ```js
-import { readdir } from "fs/promises";
+import { readdir } from 'fs/promises';
 
 export async function getDirectoryList() {
   try {
@@ -648,9 +756,7 @@ export async function getDirectoryList() {
       directoryList
         .filter((directory) => /^[^\.]*$/.test(directory))
         .map(async (directory) => {
-          const postList = await readdir(
-            `${process.cwd()}/public/post/${directory}`,
-          );
+          const postList = await readdir(`${process.cwd()}/public/post/${directory}`);
 
           const count = postList.filter((directory) => /.*.md/.test(directory));
 
@@ -665,7 +771,7 @@ export async function getDirectoryList() {
 
     return [
       {
-        folderName: "ALL",
+        folderName: 'ALL',
         postCount: allCount,
       },
       ...result,
@@ -679,7 +785,7 @@ export async function getDirectoryList() {
 ```
 
 ```js
-import { readdir } from "fs/promises";
+import { readdir } from 'fs/promises';
 
 export function getDirectoryList() {
   return readdir(`${process.cwd()}/public/post`)
@@ -689,25 +795,21 @@ export function getDirectoryList() {
       const promises = directoryList
         .filter((directory) => /^[^\.]*$/.test(directory))
         .map((directory) => {
-          return readdir(`${process.cwd()}/public/post/${directory}`).then(
-            (postList) => {
-              const count = postList.filter((file) =>
-                /.*\.md$/.test(file),
-              ).length;
+          return readdir(`${process.cwd()}/public/post/${directory}`).then((postList) => {
+            const count = postList.filter((file) => /.*\.md$/.test(file)).length;
 
-              allCount += count;
+            allCount += count;
 
-              return {
-                folderName: directory,
-                postCount: count,
-              };
-            },
-          );
+            return {
+              folderName: directory,
+              postCount: count,
+            };
+          });
         });
 
       return Promise.all(promises).then((result) => [
         {
-          folderName: "ALL",
+          folderName: 'ALL',
           postCount: allCount,
         },
         ...result,
