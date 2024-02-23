@@ -1,14 +1,15 @@
 ---
-title: WSL_external_host
+updatedAt: 2024-02-23
 directory: Cheatsheet
+fileName: WSL_External_Host
+title: WSL 외부 호스트 연결하기
+description: 모바일 환경에서 WSL 상에서 동작하고 있는 로컬 서버와 통신하기
 ---
 
-# WSL external host
+# WSL 외부 호스트 연결하기
 
 - 관리자권한으로 PowerShell 실행
 - 방화벽 인바우드 규칙 설정(포트 허용) 및 wsl2 portproxy 작업 자동화 스크립트 복붙
-
-스크립트 설정
 
 ```sh
 $remoteport = bash.exe -c "ifconfig eth0 | grep 'inet '"
@@ -46,7 +47,7 @@ iex "netsh interface portproxy add v4tov4 listenport=$port listenaddress=$addr c
 }
 ```
 
-설정 해제
+- 설정 해제
 
 ```sh
 netsh interface portproxy show v4tov4

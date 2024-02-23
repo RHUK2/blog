@@ -1,6 +1,9 @@
 ---
-title: Linux_Cheat_Sheet
+updatedAt: 2024-02-23
 directory: Cheatsheet
+fileName: Linux_Cheat_Sheet
+title: Linux Cheat Sheet
+description: 자주 사용하는 Linux 명령어 정리
 ---
 
 # Linux Cheat Sheet
@@ -793,7 +796,7 @@ sort -f # 대소문자를 구분하지 않음
 리눅스의 SQL문이라 불리며, 텍스트 내용을 테이블로 인지하여 원하는 데이터를 사용자 입맛에 맞게 출력할 수 있다.
 
 ```sh
-awk <옵션> "pattern { action }" <파일명>
+awk <옵션> "pattern { action }" <상대 경로 | 절대 경로>
 ```
 
 ### alias

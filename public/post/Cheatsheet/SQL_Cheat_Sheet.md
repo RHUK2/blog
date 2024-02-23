@@ -1,6 +1,9 @@
 ---
-title: SQL_Cheat_Sheet
+updatedAt: 2024-02-23
 directory: Cheatsheet
+fileName: SQL_Cheat_Sheet
+title: SQL Cheat Sheet
+description: 자주 사용하는 SQL문 정리
 ---
 
 # SQL Cheat Sheet

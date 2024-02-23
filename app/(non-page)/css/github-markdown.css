@@ -435,6 +435,7 @@ html[class='dark'] {
   margin-top: 0;
   margin-bottom: 0;
   padding-left: 2em;
+  list-style-type: '\1F9F7';
 }
 
 .markdown-body ol ol,
@@ -447,6 +448,10 @@ html[class='dark'] {
 .markdown-body ol ul ol,
 .markdown-body ol ol ol {
   list-style-type: lower-alpha;
+}
+
+.markdown-body ul a {
+  padding-left: 4px;
 }
 
 .markdown-body dd {

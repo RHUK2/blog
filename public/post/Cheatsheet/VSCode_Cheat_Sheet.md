@@ -1,6 +1,9 @@
 ---
-title: VScode_Cheat_Sheet
+updatedAt: 2024-02-23
 directory: Cheatsheet
+fileName: VSCode_Cheat_Sheet
+title: VSCode Cheat Sheet
+description: 자주 사용하는 VSCode 단축키 정리
 ---
 
 # VScode Cheat Sheet

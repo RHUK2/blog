@@ -1,7 +1,12 @@
 ---
-title: CSS
+updatedAt: 2024-02-23
 directory: CSS
+fileName: CSS
+title: CSS 정복하기
+description: 실무를 통해 깨달은 걸 기록하자
 ---
+
+# CSS
 
 - [CSS](#css)
   - [selector](#selector)
@@ -38,10 +43,6 @@ directory: CSS
   - [transition \& animation](#transition--animation)
   - [초기 CSS 설정](#초기-css-설정)
   - [모달 창 스크롤 바 제어](#모달-창-스크롤-바-제어)
-
-# CSS
-
-![sa](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216725&authkey=%21AF0985PezdqqMFU&width=216&height=421)
 
 ## selector
 

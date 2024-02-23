@@ -1,6 +1,9 @@
 ---
-title: Git_Cheat_Sheet
+updatedAt: 2024-02-23
 directory: Cheatsheet
+fileName: Git_Cheat_Sheet
+title: Git Cheat Sheet
+description: 자주 사용하는 Git 명령어 정리
 ---
 
 # Git Cheat Sheet
@@ -57,9 +60,9 @@ git init
 
 ```sh
 git remote -v # 원격 레포지토리 자세히 보기
-git remote add <URL의 별명> <URL> # 원격 레포지토리 추가
-git remote remove <URL의 별명 or URL> # 원격 레포지토리 삭제
-git remote prune <URL의 별명 or URL> # 존재하지 않는 원격 레포지토리를 정리해준다.
+git remote add <원격 레포 별명> <원격 레포 주소> # 원격 레포지토리 추가
+git remote remove <원격 레포 별명 | 원격 레포 주소> # 원격 레포지토리 삭제
+git remote prune <원격 레포 별명 | 원격 레포 주소> # 존재하지 않는 원격 레포지토리를 정리해준다.
 ```
 
 ### git clone
@@ -67,8 +70,8 @@ git remote prune <URL의 별명 or URL> # 존재하지 않는 원격 레포지�
 원격 저장소의 레포지토리를 로컬로 가져온다.
 
 ```sh
-git clone <URL>
-git clone <URL> <프로젝트명> # 원격 레포지토리 이름과 다르게 설정할 수 있다.
+git clone <원격 레포 주소>
+git clone <원격 레포 주소> <레포 이름> # 원격 레포지토리 이름과 다르게 설정할 수 있다.
 ```
 
 ### git 비활성화
@@ -98,7 +101,7 @@ sequenceDiagram
 
 ```sh
 git add . # 모든 파일을 옮긴다.
-git add <파일명>
+git add <상대 경로 | 절대 경로>
 ```
 
 ### git commit
@@ -115,10 +118,10 @@ git commit --amend -m <커밋 설명 메세지> # 가장 최근 커밋의 메세
 로컬 레포지토리의 커밋 내역을 원격 레포지토리로 옮겨준다.
 
 ```sh
-git push <원격 레포지토리의 별명 or URL> <원격 레포지토리의 브랜치명>
+git push <원격 레포 별명 | 원격 레포 주소> <원격 레포 브랜치명>
 # 해당 브랜치의 원격 레포지토리를 설정하면서 커밋 내역을 옮긴다.
 # 이후 git push / pull 명령만 입력해도 된다.
-git push -u <원격 레포지토리의 별명 or URL> <원격 레포지토리의 브랜치명>
+git push -u <원격 레포 별명 | 원격 레포 주소> <원격 레포 브랜치명>
 ```
 
 ### git pull
@@ -126,7 +129,7 @@ git push -u <원격 레포지토리의 별명 or URL> <원격 레포지토리의
 원격 레포지토리의 커밋 내역 및 정보를 로컬 레포지토리로 가져오면서 동시에 병합한다.
 
 ```sh
-git pull <원격 레포지토리의 별명 or URL> <원격 레포지토리의 브랜치명>
+git pull <원격 레포 별명 | 원격 레포 주소> <원격 레포 브랜치명>
 ```
 
 ### git fetch
@@ -134,17 +137,19 @@ git pull <원격 레포지토리의 별명 or URL> <원격 레포지토리의 �
 원격 레포지토리의 커밋 내역 및 정보를 로컬 레포지토리로 가져온다.
 
 ```sh
-git fetch <원격 레포지토리의 별명 or URL>
+git fetch <원격 레포 별명 | 원격 레포 주소>
 ```
 
 ### git merge
 
 다른 브랜치의 내용을 현재 브랜치에 병합합니다.
+
 머지 후 커밋을 처리하는 방식은 fast-forward 방식과 새로운 커밋을 생성하는 방식 두 가지가 존재한다.
+
 fast-forward 방식은 추가적인 커밋 없이 병합을 진행한다.
 
 ```sh
-git merge <원격 레포지토리의 브랜치명 or 로컬 브랜치명>
+git merge <로컬 레포 브랜치명 | 원격 레포 브랜치명>
 git merge --no-ff # fast-forward 방식을 사용하지 않는다.
 git merge --abort # 현재 진행 중인 병합을 중단하고 이전 상태로 돌아갑니다.
 ```
@@ -180,8 +185,8 @@ git reset --soft <커밋 ID>
 
 ```sh
 git restore --staged . # 모든 파일을 옮긴다.
-git restore --staged <파일명>
-git restore <파일명> # 수정하기 전 파일 내용으로 되돌린다.
+git restore --staged <상대 경로 | 절대 경로>
+git restore <상대 경로 | 절대 경로> # 수정하기 전 파일 내용으로 되돌린다.
 ```
 
 ### git status
@@ -206,7 +211,7 @@ git log
 
 ```sh
 git stash save -m <설명 메세지> # 메세지와 함께 보관한다.
-git stash -u # Untracked files도 함께 옮겨준다.
+git stash -u # untracked files도 함께 옮겨준다.
 git stash -k # staged files를 제외하고 옮겨준다.
 git stash list # 보관한 내용의 목록을 보여준다.
 git stash pop <인덱스> # 보관한 내용을 워크플레이스로 꺼내온다.
@@ -221,15 +226,15 @@ git stash drop <인덱스> # 보관한 내용을 제거한다.
 브랜치를 CRUD 해준다.
 
 ```sh
-git branch <로컬 브랜치명> # 브랜치 생성
+git branch <로컬 레포 브랜치명> # 브랜치 생성
 git branch -v # 브랜치 자세히 보기
 git branch -vv # 브랜치 자세히 보기, 연결된 원격 레포지토리 확인하기
 git branch -a # 원격 레포지토리의 브랜치까지 보여준다.
-git branch -u <원격 레포지토리의 브랜치명> # 원격 레포지토리 연결
+git branch -u <원격 레포 브랜치명> # 원격 레포지토리 연결
 git branch --unset-upstream # 연결된 원격 레포지토리 삭제
-git branch -m <새로운 로컬 브랜치명> # 현재 위치한 브랜치명 변경
-git branch -m <변경될 기존 로컬 브랜치명> <새로운 로컬 브랜치명> # 브랜치명 변경
-git branch -D <로컬 브랜치명> # 브랜치 강제 삭제
+git branch -m <새로운 로컬 레포 브랜치명> # 현재 위치한 브랜치명 변경
+git branch -m <변경될 기존 로컬 레포 브랜치명> <새로운 로컬 레포 브랜치명> # 브랜치명 변경
+git branch -D <로컬 레포 브랜치명> # 브랜치 강제 삭제
 ```
 
 ### git switch

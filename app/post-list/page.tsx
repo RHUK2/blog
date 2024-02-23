@@ -36,9 +36,11 @@ export default async function PostListPage({ params, searchParams }: PostListPag
         {filteredPostList.map((post, index) => (
           <Link
             key={`post_${index}`}
-            href={`/post-list/${post.directory}/${post.title}`}
+            href={`/post-list/${post.directory}/${post.fileName}`}
             className='min-h-28 rounded-lg bg-gradient-to-br from-gray-100 from-30% to-gray-50 to-70% p-4 shadow-md hover:relative hover:-top-2 dark:from-gray-900 dark:to-gray-800 dark:shadow-gray-600'>
             <span className='block'>{post.title ?? '-'}</span>
+            <span className='block'>{post.description ?? '-'}</span>
+            <span className='block'>{new Date(post.updatedAt).toUTCString() ?? '-'}</span>
           </Link>
         ))}
       </section>
