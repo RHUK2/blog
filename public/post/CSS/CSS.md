@@ -12,16 +12,15 @@ description: 실무를 통해 깨달은 걸 기록하자
   - [selector](#selector)
   - [variable](#variable)
   - [display](#display)
-    - [block vs inline](#block-vs-inline)
     - [flex](#flex)
       - [반응형 flex 응용](#반응형-flex-응용)
     - [grid](#grid)
   - [width, height](#width-height)
-  - [box-sizing](#box-sizing)
   - [border, outline, boxShadow](#border-outline-boxshadow)
-  - [pointer-events](#pointer-events)
+  - [box-sizing](#box-sizing)
   - [position](#position)
     - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
+  - [pointer-events](#pointer-events)
   - [자동완성 스타일링 트릭](#자동완성-스타일링-트릭)
   - [Typography](#typography)
     - [font 설정](#font-설정)
@@ -47,99 +46,108 @@ description: 실무를 통해 깨달은 걸 기록하자
 ## selector
 
 ```css
-* all elements
-div all div tags
-div,pall divs and paragraphs
-div pparagraphs inside divs
-div > pall p tags, one level deep in div
-div + pp tags immediately after div
-div ~ pp tags preceded by div
-.classnameall elements with class
-#idnameelement with ID
-div.classnamedivs with certain classname
-div#idnamediv with certain ID
-#idname *all elements inside #idname
+* /* all elements */
+div /* all div tags */
+div,p /* all divs and paragraphs */
+div p /* paragraphs inside divs */
+div > p /* all p tags, one level deep in div */
+div + p /* p tags immediately after div */
+div ~ p /* p tags preceded by div */
+.classname /* all elements with class */
+#idname /* element with */
+div.classname /* divs with certain classname */
+div#idname /* div with certain ID */
+#idname * /* all elements inside #idname */
 
-a:linklink in normal state
-a:activelink in clicked state
-a:hoverlink with mouse over it
-a:visitedvisited link
-p::after{content:"yo";}add content after p
-p::beforeadd content before p
-input:checkedchecked inputs
-input:disableddisabled inputs
-input:enabledenabled inputs
-input:focusinput has focus
-input:in-rangevalue in range
-input:out-of-rangeinput value out of range
-input:validinput with valid value
-input:invalidinput with invalid value
-input:optionalno required attribute
-input:requiredinput with requred attribute
-input:read-onlywith readonly attribute
-input:read-writeno readonly attrib.
-div:emptyelement with no children
-p::first-letterfirst letter in p
-p::first-linefirst line in p
-p:first-of-typefirst of some type
-p:last-of-typelast of some type
-p:lang(en)p with en language attribute
-:not(span)element that's not a span
-p:first-childfirst child of its parent
-p:last-childlast child of its parent
-p:nth-child(2)second child of its parent
-p:nth-child(3n+1)nth-child (an + b) formula
-p:nth-last-child(2)second child from behind
-p:nth-of-type(2)second p of its parent
-p:nth-last-of-type(2)...from behind
-p:only-of-typeunique of its parent
-p:only-childonly child of its parent
-:rootdocuments root element
-::selectionportion selected by user
-:targethighlight active anchor
+a:link /* link in normal state */
+a:active /* link in clicked state */
+a:hover /* link with mouse over it */
+a:visited /* visited link */
+p::after{content:"foo";} /* add content after p */
+p::before{content:"foo";} /* add content before p */
+input:checked /* checked */
+input:disabled /* disabled inputs */
+input:enabled /* enabled inputs */
+input:focus /* input has focus */
+input:in-range /* value in range */
+input:out-of-range /* input value out of range */
+input:valid /* input with valid value */
+input:invalid /* input with invalid value */
+input:optional /* no required attribute */
+input:required /* input with requred attribute */
+input:read-only /* with readonly attribute */
+input:read-write /* no readonly attrib. */
+div:empty /* element with no children */
+p::first-letter /* first letter in p */
+p::first-line /* first line in p */
+p:first-of-type /* first of some type */
+p:last-of-type /* last of some type */
+p:lang(en) /* p with en language attribute */
+:not(span) /* element that's not a span */
+p:first-child /* first child of its parent */
+p:last-child /* last child of its parent */
+p:nth-child(2) /* second child of its parent */
+p:nth-child(3n+1) /* nth-child (an + b) formula */
+p:nth-last-child(2) /* second child from behind */
+p:nth-of-type(2) /* second p of its parent */
+p:nth-last-of-type(2) /* ...from behind */
+p:only-of-type /* unique of its parent */
+p:only-child /* only child of its parent */
+:root /* documents root element */
+::selection /* portion selected by user */
+:target /* highlight active anchor */
 
-a[target]links with a target attribute
-a[target="_blank"]links which open in new tab
-[title~="chair"]title element containing a word
-[class^="chair"]class starts with chair
-[class|="chair"]class starts with the chair word
-[class*="chair"]class contains chair
-[class$="chair"]class ends with chair
-input[type="button"]specified input type
+a[target] /* links with a target attribute */
+a[target="_blank"] /* links which open in new tab */
+[title~="chair"] /* title element containing a word */
+[class^="chair"] /* class starts with chair */
+[class|="chair"] /* class starts with the chair word */
+[class*="chair"] /* class contains chair */
+[class$="chair"] /* class ends with chair */
+input[type="button"] /* specified input type */
 ```
 
 ## variable
 
 ```css
-/* 전역 변수 */
+/* 변수 선언 */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --user-color: #ffffff;
+  --user-background-color: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-/*  변수 사용 */
+/* 변수 사용 */
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  color: var(--user-color);
+  background-color: var(--user-background-color);
 }
 ```
 
 ## display
 
-### block vs inline
+- `display` 값 별로 제어 가능한 속성에 대해 정리한 표
 
-`inline`은 `width`, `hieght` 제어 불가능, `margin` 좌우만 가능
+|                | `width` | `height` | `padding` | `border` | `marginY` | `marginX` |
+| -------------- | :-----: | :------: | :-------: | :------: | :-------: | :-------: |
+| `inline`       |    X    |    X     |     O     |    O     |     X     |     O     |
+| `inline-block` |    O    |    O     |     O     |    O     |     O     |     O     |
+| `inline-flex`  |    O    |    O     |     O     |    O     |     O     |     O     |
+| `inline-grid`  |    O    |    O     |     O     |    O     |     O     |     O     |
+| `block`        |    O    |    O     |     O     |    O     |     O     |     O     |
+| `flex`         |    O    |    O     |     O     |    O     |     O     |     O     |
+| `grid`         |    O    |    O     |     O     |    O     |     O     |     O     |
 
-`block`은 `width`, `height` 제어 가능, `margin` 상하좌우 가능
+- `display` 값 별로 너비 정리 표
+
+|                | width: auto                                                           | 줄 바꿈 |
+| -------------- | --------------------------------------------------------------------- | :-----: |
+| `inline`       | 내부 컨텐츠 크기                                                      |    O    |
+| `inline-block` | 내부 컨텐츠 크기                                                      |    O    |
+| `inline-flex`  | 내부 컨텐츠 크기                                                      |    O    |
+| `inline-grid`  | 내부 컨텐츠 크기                                                      |    O    |
+| `block`        | 부모 요소의 크기에서 x축의 `padding`, `border`, `margin` 값을 뺀 크기 |    X    |
+| `flex`         | 부모 요소의 크기에서 x축의 `padding`, `border`, `margin` 값을 뺀 크기 |    X    |
+| `grid`         | 부모 요소의 크기에서 x축의 `padding`, `border`, `margin` 값을 뺀 크기 |    X    |
 
 ### flex
 
@@ -236,19 +244,15 @@ auto-fill, auto-fit 반응형
 
 `max-content`는 컨텐츠가 가질 수 있는 최대의 길이를 의미한다.
 
+## border, outline, boxShadow
+
+보통 실무에서 `box-sizing: border-box` 상태의 요소를 작업한다. 이 때 `border`값이 너비에 포함되기 때문에 '어떤 요소가 포커싱되는 순간 테두리가 증가하는 동작'을 할 때 너비가 늘어나면서 주변 요소들이 움직이는 사이드 이펙트가 발생한다. 이는 너비에 영향을 주지 않는 `outline`이나 `box-shadow` 속성으로 `border` 처럼 보이게 트릭을 줘서 해결할 수 있다.
+
 ## box-sizing
 
 `box-sizing` 속성은 기본값이 `content-box`인데 이는 `width`, `padding`, `border` 중에 `width`만을 가지고 총 너비를 계산한다.
 
 `border-box`는 `width`, `padding`, `border` 모두를 가지고 총 너비를 계산한다. 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
-
-## border, outline, boxShadow
-
-보통 실무에서 `box-sizing: border-box` 상태의 요소를 작업한다. 이 때 `border`값이 너비에 포함되기 때문에 '어떤 요소가 포커싱되는 순간 테두리가 증가하는 동작'을 할 때 너비가 늘어나면서 주변 요소들이 움직이는 사이드 이펙트가 발생한다. 이는 너비에 영향을 주지 않는 `outline`이나 `box-shadow` 속성으로 `border` 처럼 보이게 트릭을 줘서 해결할 수 있다.
-
-## pointer-events
-
-css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타일이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
 
 ## position
 
@@ -265,6 +269,10 @@ css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타�
 - `top`, `bottom`, `left`, `right` 속성으로 고정될 위치가 지정되지 않는 경우
 - 부모 요소에 `overflow` 속성이 적용되어 있는 경우
 - 부모 요소에 높이가 설정되어 있지 않는 경우
+
+## pointer-events
+
+css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 스타일이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
 
 ## 자동완성 스타일링 트릭
 
