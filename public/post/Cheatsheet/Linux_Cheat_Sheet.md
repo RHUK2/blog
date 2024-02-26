@@ -69,6 +69,7 @@ description: 자주 사용하는 Linux 명령어 정리
     - [sort](#sort)
     - [awk](#awk)
     - [alias](#alias)
+    - [nslookup](#nslookup)
     - [세미콜론( ; )](#세미콜론--)
     - [버티컬바( | )](#버티컬바--)
     - [더블 버티컬바( || )](#더블-버티컬바--)
@@ -807,6 +808,15 @@ awk <옵션> "pattern { action }" <상대 경로 | 절대 경로>
 alias # 별명 리스트 출력
 alias <별명>='명령' # 별명을 가진 명령 생성
 unalias <별명> # 명령 삭제
+```
+
+### nslookup
+
+DNS(Domain Name System) 정보를 조회하는 데 사용된다.
+
+```sh
+nslookup <도메인 주소> # 도메인에 해당하는 IP 반환
+nslookup <IP 주소> # IP에 해당하는 도메인 반환
 ```
 
 ### 세미콜론( ; )

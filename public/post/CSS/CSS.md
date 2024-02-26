@@ -12,12 +12,12 @@ description: 실무를 통해 깨달은 걸 기록하자
   - [selector](#selector)
   - [variable](#variable)
   - [display](#display)
+  - [width, height](#width-height)
+  - [box-sizing](#box-sizing)
+  - [border, outline, boxShadow](#border-outline-boxshadow)
     - [flex](#flex)
       - [반응형 flex 응용](#반응형-flex-응용)
     - [grid](#grid)
-  - [width, height](#width-height)
-  - [border, outline, boxShadow](#border-outline-boxshadow)
-  - [box-sizing](#box-sizing)
   - [position](#position)
     - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
   - [pointer-events](#pointer-events)
@@ -125,29 +125,71 @@ body {
 
 ## display
 
-- `display` 값 별로 제어 가능한 속성에 대해 정리한 표
+- `display` 값 별로 제어 가능한 속성
 
-|                | `width` | `height` | `padding` | `border` | `marginY` | `marginX` |
-| -------------- | :-----: | :------: | :-------: | :------: | :-------: | :-------: |
-| `inline`       |    X    |    X     |     O     |    O     |     X     |     O     |
-| `inline-block` |    O    |    O     |     O     |    O     |     O     |     O     |
-| `inline-flex`  |    O    |    O     |     O     |    O     |     O     |     O     |
-| `inline-grid`  |    O    |    O     |     O     |    O     |     O     |     O     |
-| `block`        |    O    |    O     |     O     |    O     |     O     |     O     |
-| `flex`         |    O    |    O     |     O     |    O     |     O     |     O     |
-| `grid`         |    O    |    O     |     O     |    O     |     O     |     O     |
+|                | `width` | `height` | `paddingX` | `paddingY` | `border` | `marginY` | `marginX` |
+| -------------- | :-----: | :------: | :--------: | :--------: | :------: | :-------: | :-------: |
+| `inline`       |    X    |    X     |     O      |     △      |    O     |     X     |     O     |
+| `inline-block` |    O    |    O     |     O      |     O      |    O     |     O     |     O     |
+| `inline-flex`  |    O    |    O     |     O      |     O      |    O     |     O     |     O     |
+| `inline-grid`  |    O    |    O     |     O      |     O      |    O     |     O     |     O     |
+| `block`        |    O    |    O     |     O      |     O      |    O     |     O     |     O     |
+| `flex`         |    O    |    O     |     O      |     O      |    O     |     O     |     O     |
+| `grid`         |    O    |    O     |     O      |     O      |    O     |     O     |     O     |
 
-- `display` 값 별로 너비 정리 표
+`inline` 속성에서 패딩을 상하로 주게 되면 동작은 되지만 위아래로 영역을 침범한다.
 
-|                | width: auto                                                           | 줄 바꿈 |
-| -------------- | --------------------------------------------------------------------- | :-----: |
-| `inline`       | 내부 컨텐츠 크기                                                      |    O    |
-| `inline-block` | 내부 컨텐츠 크기                                                      |    O    |
-| `inline-flex`  | 내부 컨텐츠 크기                                                      |    O    |
-| `inline-grid`  | 내부 컨텐츠 크기                                                      |    O    |
-| `block`        | 부모 요소의 크기에서 x축의 `padding`, `border`, `margin` 값을 뺀 크기 |    X    |
-| `flex`         | 부모 요소의 크기에서 x축의 `padding`, `border`, `margin` 값을 뺀 크기 |    X    |
-| `grid`         | 부모 요소의 크기에서 x축의 `padding`, `border`, `margin` 값을 뺀 크기 |    X    |
+`inline`, `inline-*` 속성은 줄 바꿈이 일어나지 않으며, 같은 `inline` 요소끼리 배치되면 여백이 생긴다.
+
+- `display` 값 별로 width 차이점
+
+|                | width: auto                            | width: 100%                |
+| -------------- | -------------------------------------- | -------------------------- |
+| `inline`       | X                                      | X                          |
+| `inline-block` | 텍스트 길이 or 자식 요소 크기          | 부모 요소의 `width`의 100% |
+| `inline-flex`  | 텍스트 길이 or 자식 요소 크기          | 부모 요소의 `width`의 100% |
+| `inline-grid`  | 텍스트 길이 or 자식 요소 크기          | 부모 요소의 `width`의 100% |
+| `block`        | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소의 `width`의 100% |
+| `flex`         | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소의 `width`의 100% |
+| `grid`         | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소의 `width`의 100% |
+
+- `display` 값 별로 height 차이점
+
+|                | height: auto                    | height: 100%                       |
+| -------------- | ------------------------------- | ---------------------------------- |
+| `inline`       | X                               | X                                  |
+| `inline-block` | `line-height` or 자식 요소 높이 | 부모 요소의 설정된 `height`의 100% |
+| `inline-flex`  | `line-height` or 자식 요소 높이 | 부모 요소의 설정된 `height`의 100% |
+| `inline-grid`  | `line-height` or 자식 요소 높이 | 부모 요소의 설정된 `height`의 100% |
+| `block`        | `line-height` or 자식 요소 높이 | 부모 요소의 설정된 `height`의 100% |
+| `flex`         | `line-height` or 자식 요소 높이 | 부모 요소의 설정된 `height`의 100% |
+| `grid`         | `line-height` or 자식 요소 높이 | 부모 요소의 설정된 `height`의 100% |
+
+## width, height
+
+`vw, vh`는 뷰포트 기준값인데, `width: 100vw` 사용 시 스크롤 크기를 고려하지 않기 때문에 수직 스크롤이 생기면 수평 스크롤이 생기기 때문에 사용을 지양하자.
+
+`height: 100vh`보다는 `min-height: 100vh`를 더 사용한다. 이유는 브라우저는 항상 충분히 길어질 수 있기 때문에 레이아웃에서 고정 높이를 사용하는 것은 지양한다.
+
+레이아웃의 최대 너비를 고정하고 가운데 정렬하고 싶은 경우에는 `max-width` 값을 지정하고 `margin: auto`를 통해 정렬한다.
+
+반응형으로 작성 시 브라우저 너비가 매우 좁아졌을 때 컨텐츠들이 오버플로우로 인해 튀어나가는 현상을 방지하려면 컨텐츠를 감싸는 부모 요소의 `min-width` 값을 주고 `overflow-x: auto`를 통해 튀어나가는 현상을 방지하자.
+
+고정 너비 및 고정 높이는 반응형으로 작성할 경우 많이 사용되지 않으므로, 반응형 작성 시 `min-width`, `max-width`, `min-height`, `max-height` 등으로 제어하자.
+
+`min-content`는 컨텐츠가 가질 수 있는 최소의 길이를 의미한다.
+
+`max-content`는 컨텐츠가 가질 수 있는 최대의 길이를 의미한다.
+
+## box-sizing
+
+`box-sizing` 속성은 기본값이 `content-box`인데 이는 `width`, `padding`, `border` 중에 `width`만을 가지고 총 너비를 계산한다.
+
+`border-box`는 `width`, `padding`, `border` 모두를 가지고 총 너비를 계산한다. 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
+
+## border, outline, boxShadow
+
+보통 실무에서 `box-sizing: border-box` 상태의 요소를 작업한다. 이 때 `border`값이 너비에 포함되기 때문에 '어떤 요소가 포커싱되는 순간 테두리가 증가하는 동작'을 할 때 너비가 늘어나면서 주변 요소들이 움직이는 사이드 이펙트가 발생한다. 이는 너비에 영향을 주지 않는 `outline`이나 `box-shadow` 속성으로 `border` 처럼 보이게 트릭을 줘서 해결할 수 있다.
 
 ### flex
 
@@ -223,36 +265,6 @@ body {
 로우 높이를 일정하게 하기위해서 `grid-auto-rows` 속성을 `minmax()` 값으로 설정할 수 있다.
 
 auto-fill, auto-fit 반응형
-
-## width, height
-
-`width` 제어가 가능한 `display`인 경우 `width: auto`는 `width: 100%`에서 `margin-left` 값과 `margin-right` 값을 뺀 것이다. `width: 100%`는 부모 요소의 너비값이 없어도 부모 요소 너비의 `100%`가 설정된다.
-
-`height` 제어가 가능한 `display`인 경우 `height: auto`는 자식 요소의 높이를 기준으로 값이 설정되고, `height: 100%`는 부모 요소의 높이값이 있어야만 부모 요소 높이의 `100%`가 설정된다.
-
-`vw, vh`는 뷰포트 기준값인데, `width: 100vw` 사용 시 스크롤 크기를 고려하지 않기 때문에 수직 스크롤이 생기면 수평 스크롤이 생기기 때문에 사용을 지양하자.
-
-`height: 100vh`보다는 `min-height: 100vh`를 더 사용한다. 이유는 브라우저는 항상 충분히 길어질 수 있기 때문에 레이아웃에서 고정 높이를 사용하는 것은 지양한다.
-
-레이아웃의 최대 너비를 고정하고 가운데 정렬하고 싶은 경우에는 `max-width` 값을 지정하고 `margin: auto`를 통해 정렬한다.
-
-반응형으로 작성 시 브라우저 너비가 매우 좁아졌을 때 컨텐츠들이 오버플로우로 인해 튀어나가는 현상을 방지하려면 컨텐츠를 감싸는 부모 요소의 `min-width` 값을 주고 `overflow-x: auto`를 통해 튀어나가는 현상을 방지하자.
-
-고정 너비 및 고정 높이는 반응형으로 작성할 경우 많이 사용되지 않으므로, 반응형 작성 시 `min-width`, `max-width`, `min-height`, `max-height` 등으로 제어하자.
-
-`min-content`는 컨텐츠가 가질 수 있는 최소의 길이를 의미한다.
-
-`max-content`는 컨텐츠가 가질 수 있는 최대의 길이를 의미한다.
-
-## border, outline, boxShadow
-
-보통 실무에서 `box-sizing: border-box` 상태의 요소를 작업한다. 이 때 `border`값이 너비에 포함되기 때문에 '어떤 요소가 포커싱되는 순간 테두리가 증가하는 동작'을 할 때 너비가 늘어나면서 주변 요소들이 움직이는 사이드 이펙트가 발생한다. 이는 너비에 영향을 주지 않는 `outline`이나 `box-shadow` 속성으로 `border` 처럼 보이게 트릭을 줘서 해결할 수 있다.
-
-## box-sizing
-
-`box-sizing` 속성은 기본값이 `content-box`인데 이는 `width`, `padding`, `border` 중에 `width`만을 가지고 총 너비를 계산한다.
-
-`border-box`는 `width`, `padding`, `border` 모두를 가지고 총 너비를 계산한다. 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
 
 ## position
 
