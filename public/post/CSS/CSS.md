@@ -12,11 +12,14 @@ description: 실무를 통해 깨달은 걸 기록하자
   - [selector](#selector)
   - [variable](#variable)
   - [display](#display)
+    - [`display` 값 별로 제어 가능한 속성](#display-값-별로-제어-가능한-속성)
+    - [`display` 값 별로 width 차이점](#display-값-별로-width-차이점)
+    - [`display` 값 별로 height 차이점](#display-값-별로-height-차이점)
   - [box-sizing](#box-sizing)
   - [레이아웃 관련 팁](#레이아웃-관련-팁)
   - [outline, box-shadow 관련 팁](#outline-box-shadow-관련-팁)
   - [flex 관련 팁](#flex-관련-팁)
-    - [반응형 flex 응용](#반응형-flex-응용)
+    - [flex 응용](#flex-응용)
     - [grid](#grid)
   - [position](#position)
     - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
@@ -124,7 +127,11 @@ body {
 
 ## display
 
-- `display` 값 별로 제어 가능한 속성
+### `display` 값 별로 제어 가능한 속성
+
+- `inline` 요소는 `paddingY`와 `borderY`는 동작은 되지만 위아래로 영역을 침범한다.
+
+- `inline`, `inline-*` 요소는 줄 바꿈이 일어나지 않으며, 같은 `inline` 요소끼리 배치되면 제어가 어려운 여백이 생긴다.
 
 |                | `width` | `height` | `paddingX` | `paddingY` | `borderX` | `borderY` | `marginY` | `marginX` |
 | -------------- | :-----: | :------: | :--------: | :--------: | :-------: | :-------: | :-------: | :-------: |
@@ -136,13 +143,13 @@ body {
 | `flex`         |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
 | `grid`         |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
 
-`inline` 요소는 `paddingY`와 `borderY`는 동작은 되지만 위아래로 영역을 침범한다.
+### `display` 값 별로 width 차이점
 
-`inline`, `inline-*` 요소는 줄 바꿈이 일어나지 않으며, 같은 `inline` 요소끼리 배치되면 제어가 어려운 여백이 생긴다.
+- 가로 길이: `width`, `paddingX`, `borderX`, `marginX` 값을 합친 값
 
-- `display` 값 별로 width 차이점
+- 일반적으로 `inline` 요소는 자식으로 `inline` 요소를 제외한 요소를 넣지 않는다.
 
-가로 길이: `width`, `paddingX`, `borderX`, `marginX` 값을 합친 값
+- 텍스트 너비 or 자식 요소 가로 길이를 따르는 경우 해당 값이 유동적으로 변해도 값을 따라간다.
 
 |                | width: auto                            | width: 100%                           |
 | -------------- | -------------------------------------- | ------------------------------------- |
@@ -154,11 +161,11 @@ body {
 | `flex`         | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소 `min-width`, `width`의 100% |
 | `grid`         | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소 `min-width`, `width`의 100% |
 
-일반적으로 `inline` 요소는 자식으로 `inline` 요소를 제외한 요소를 넣지 않는다.
+### `display` 값 별로 height 차이점
 
-- `display` 값 별로 height 차이점
+- 세로 길이: `height`, `paddingY`, `borderY`, `marginY` 값을 합친 값
 
-세로 길이: `height`, `paddingY`, `borderY`, `marginY` 값을 합친 값
+- `inline-block` 요소의 경우 내부에 `inline-*` 요소를 가질 경우 이상한 높이값을 가진다.
 
 |                | height: auto                         | height: 100%              |
 | -------------- | ------------------------------------ | ------------------------- |
@@ -169,8 +176,6 @@ body {
 | `block`        | `line-height` or 자식 요소 세로 길이 | 부모 요소 `height`의 100% |
 | `flex`         | `line-height` or 자식 요소 세로 길이 | 부모 요소 `height`의 100% |
 | `grid`         | `line-height` or 자식 요소 세로 길이 | 부모 요소 `height`의 100% |
-
-`inline-block` 요소의 경우 내부에 `inline-*` 요소를 가질 경우 이상한 높이값을 가진다.
 
 ## box-sizing
 
@@ -231,11 +236,11 @@ body {
 
 `flex-basis` 값은 `width`, `height`보다 우선순위로 적용된다.
 
-### 반응형 flex 응용
+### flex 응용
 
 ```css
 .left-item {
-  flex: 30 0 200px;
+  flex: 100 0 200px;
 }
 
 .right-item {
