@@ -14,24 +14,27 @@ description: 실무를 통해 깨달은 걸 기록하자
   - [display](#display)
     - [`display` 값 별로 제어 가능한 속성](#display-값-별로-제어-가능한-속성)
     - [`display` 값 별로 width 차이점](#display-값-별로-width-차이점)
+    - [텍스트 너비](#텍스트-너비)
+      - [white-space](#white-space)
+      - [word-break](#word-break)
+      - [overflow-wrap](#overflow-wrap)
     - [`display` 값 별로 height 차이점](#display-값-별로-height-차이점)
   - [box-sizing](#box-sizing)
   - [레이아웃 관련 팁](#레이아웃-관련-팁)
   - [outline, box-shadow 관련 팁](#outline-box-shadow-관련-팁)
   - [flex 관련 팁](#flex-관련-팁)
+    - [flex-direction](#flex-direction)
+    - [flex-basis](#flex-basis)
     - [flex 응용](#flex-응용)
-    - [grid](#grid)
+  - [grid 관련 팁](#grid-관련-팁)
+    - [반응형 grid](#반응형-grid)
   - [position](#position)
     - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
-  - [pointer-events](#pointer-events)
+  - [pointer-events, user-select](#pointer-events-user-select)
   - [Typography](#typography)
     - [font 설정](#font-설정)
     - [폰트 최적화](#폰트-최적화)
-    - [line-height](#line-height)
     - [rem, em](#rem-em)
-    - [white-space](#white-space)
-    - [word-break, overflow-wrap](#word-break-overflow-wrap)
-    - [user-select](#user-select)
     - [text-overflow 속성 적용하기](#text-overflow-속성-적용하기)
   - [color](#color)
     - [HEX](#hex)
@@ -146,9 +149,7 @@ body {
 ### `display` 값 별로 width 차이점
 
 - 가로 길이: `width`, `paddingX`, `borderX`, `marginX` 값을 합친 값
-
 - 일반적으로 `inline` 요소는 자식으로 `inline` 요소를 제외한 요소를 넣지 않는다.
-
 - 텍스트 너비 or 자식 요소 가로 길이를 따르는 경우 해당 값이 유동적으로 변해도 값을 따라간다.
 
 |                | width: auto                            | width: 100%                           |
@@ -160,6 +161,40 @@ body {
 | `block`        | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소 `min-width`, `width`의 100% |
 | `flex`         | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소 `min-width`, `width`의 100% |
 | `grid`         | 부모 요소의 `width` - 자신의 `marginX` | 부모 요소 `min-width`, `width`의 100% |
+
+### 텍스트 너비
+
+- 텍스트는 기본적으로 텍스트를 최대한 보여주기 위한 너비를 가진다.
+- 반응형으로 동작할 경우 `white-space`, `word-break`, `overflow-wrap` 등을 통해 제어 가능하다.
+
+#### white-space
+
+| `white-space`     | 스페이스와 탭 | 줄바꿈 | 자동 줄바꿈 |
+| ----------------- | ------------- | ------ | ----------- |
+| `normal`(default) | 병합          | 병합   | O           |
+| `nowrap`          | 병합          | 병합   | X           |
+| `pre`             | 보존          | 보존   | X           |
+| `pre-wrap`        | 보존          | 보존   | O           |
+| `pre-line`        | 병합          | 보존   | O           |
+
+#### word-break
+
+| `word-break`      | 영어 단어 자름 여부 | 중국어/일본어/한국어 단어 자름 여부 |
+| ----------------- | ------------------- | ----------------------------------- |
+| `normal`(default) | X                   | O                                   |
+| `break-all`       | O                   | O                                   |
+| `keep-all`        | X                   | X                                   |
+
+#### overflow-wrap
+
+| `overflow-wrap`   | 텍스트가 오버플로우될 때만 자름 |
+| ----------------- | ------------------------------- |
+| `normal`(default) | O                               |
+| `break-word`      | X                               |
+
+- `word-break: break-all`과 `overflow-wrap: break-word`의 차이점을 보여주는 사진이다.
+
+![word_break_vs_overflow_wrap](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217063&authkey=%21AAi0P1aRCNqKe3c&width=360&height=405)
 
 ### `display` 값 별로 height 차이점
 
@@ -179,36 +214,25 @@ body {
 
 ## box-sizing
 
-`box-sizing` 속성은 `width`와 `height` 값이 `padding`, `border` 값을 포함하는 지를 의미한다.
-
-기본값이 `content-box`인데 `width`와 `height` 값과 `padding`, `border` 값이 따로 계산된다.
-
-`border-box`는 `padding`, `border` 값이 `width`와 `height` 값에 포함되어 계산된다.
-
-실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
+- `box-sizing` 속성은 `width`와 `height` 값이 `padding`, `border` 값을 포함하는 지를 의미한다.
+- `content-box`가 기본값이며 `width`와 `height` 값과 `padding`, `border` 값이 따로 계산된다.
+- `border-box`는 `padding`, `border` 값이 `width`와 `height` 값에 포함되어 계산된다.
+- 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
 
 ## 레이아웃 관련 팁
 
 - `vw`는 뷰포트 너비로, `width: 100vw` 사용 시 스크롤 크기를 고려하지 않기 때문에 수직 스크롤이 생기면 수평 스크롤이 생기기 때문에 사용을 지양한다.
-
 - `vh`는 뷰포트 높이로, `height: 100vh`보다는 `min-height: 100vh`를 더 사용한다. 이유는 브라우저는 항상 충분히 길어질 수 있기 때문에 레이아웃에서 고정 높이를 사용하는 것은 지양한다.
-
 - 레이아웃의 최대 너비를 고정하고 가운데 정렬하고 싶은 경우에는 `max-width` 값을 지정하고 `margin: auto`를 통해 가운데 정렬한다.
-
 - 반응형으로 작성 시 브라우저 너비가 매우 좁아졌을 때 컨텐츠들이 오버플로우로 인해 튀어나가는 현상을 방지하려면 컨텐츠를 감싸는 부모 요소의 `min-width` 값을 주고 `overflow-x: auto`를 통해 튀어나가는 현상을 방지한다.
-
 - 고정 너비 및 고정 높이는 반응형으로 작성할 경우 많이 사용되지 않으므로, 반응형 작성 시 `flex`, `grid`, `min-width`, `max-width`, `min-height`, `max-height` 등을 많이 활용한다.
-
 - `min-content`는 요소가 가질 수 있는 최소의 길이를 의미한다.
-
 - `max-content`는 요소가 가질 수 있는 최대의 길이를 의미한다.
 
 ## outline, box-shadow 관련 팁
 
 - `outline` 또는 `box-shadow` 속성은 동적으로 제어해도 주변 레이아웃에 영향을 주지 않는다.
-
 - `border` 값을 동적으로 조작하게 되면 주변 레이아웃들의 영향을 주기 때문에 영향을 주지 않고 스타일링을 하기 위해서는 `outline` 또는 `box-shadow` 속성으로 스타일링을 한다.
-
 - 자동완성의 스타일링은 `!important`로 브라우저 정의가 되어있어 `box-shadow`로 배경색을 제거해주는 트릭을 사용한다.
 
 ```css
@@ -219,50 +243,57 @@ body {
 
 ## flex 관련 팁
 
-- `display: flex`는 해당 속성이 적힌 요소를 플렉스 컨테이너로 만들고, 자식 요소들을 플렉스 아이템으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
+`display: flex`는 해당 속성이 적힌 요소를 플렉스 컨테이너로 만들고, 자식 요소들을 플렉스 아이템으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
 
-- `flex`의 모든 속성은 메인 축을 기준으로 작동하며, `flex-direction`으로 메인 축을 변경할 수 있다.
+### flex-direction
+
+`flex`의 모든 속성은 메인 축을 기준으로 작동하며, `flex-direction`으로 메인 축을 변경할 수 있다.
 
 ![flex_axis](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217057&authkey=%21AKTgRfuqIOQx4IU&width=668&height=171);
 
-- `flex-basis`는 메인 축을 기준으로 플렉스 컨테이너에서 얼만큼의 공간을 차지해야 하는지를 의미한다.
+|                   | `flex-direction: row`    | `flex-direction: column` |
+| ----------------- | ------------------------ | ------------------------ |
+| 메인 축           | 가로                     | 세로                     |
+| `justify-content` | 가로 정렬                | 세로 정렬                |
+| `align-*`         | 세로 정렬                | 가로 정렬                |
+| `flex-basis`      | 기본 가로 여백 차지 공간 | 기본 세로 여백 차지 공간 |
+| `flex-grow`       | 가로 증가                | 세로 증가                |
+| `flex-shrink`     | 가로 감소                | 세로 감소                |
 
-- 메인 축을 기준으로 `flex-basis` 값 보다 큰 경우 `flex-grow`는 남은 공간을 얼마나 더 차지할지, `flex-basis` 값 보다 작은 경우 `flex-shrink`는 남은 공간을 얼마나 덜 차지할지를 의미한다.
+### flex-basis
 
-아래는 `flex: 1 0 100px`과 `flex: 1 0 200px`의 차이를 보여주는 사진이다.
+`flex-basis`는 `width`와 `height`보다 우선시 된다. `flex-basis: auto`인 경우는 `width`와 `height`이 우선시 된다.
 
-![Alt text](/post/CSS/assets/image-2.png)
-![Alt text](/post/CSS/assets/image-1.png)
-
-`flex-basis` 값은 `width`, `height`보다 우선순위로 적용된다.
+|                          | `flex-basis: auto`                   |
+| ------------------------ | ------------------------------------ |
+| `flex-direction: row`    | 텍스트 너비 or 자식 요소 가로 길이   |
+| `flex-direction: column` | `line-height` or 자식 요소 세로 길이 |
 
 ### flex 응용
 
 ```css
-.left-item {
-  flex: 100 0 200px;
+div {
+  display: flex;
 }
 
-.right-item {
-  flex: 1 0 120px;
+div.flex-item-1 {
+  flex: 100 0;
+}
+
+div.flex-item-2 {
+  flex: 1 0;
 }
 ```
 
-위와 같이 설정하면 `.right-item` 요소는 고정 너비를 가진 것 처럼 보이다가 `flex-wrap: wrap` 설정을 통해 줄이 바뀌면 여백을 모두 차지하는 모양으로 바뀐다.
+위와 같이 여백을 차지하는 비율을 크게 해놓으면, `flex-wrap: wrap`일 경우 밑으로 내려가는 아이템이 아래 공간을 모두 차지할 수 있다.
 
-어지간한 반응형은 `flex`와 `flex-wrap: wrap` 속성을 통해 해결이 가능하다.
+## grid 관련 팁
 
-### grid
+`grid`는 해당 속성이 적힌 요소를 그리드 컨테이너로 만들고, 자식 요소들을 그리드 아이템으로 만들어 `grid` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
 
-- `grid`는 해당 속성이 적힌 요소를 그리드 컨테이너로 만들고, 자식 요소들을 그리드 아이템으로 만들어 `grid` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
+### 반응형 grid
 
-- `grid`로 복잡한 레이아웃을 작업하고 `flex`로 간단한 레이아웃을 작업한다. 화면 너비에 따른 스타일 조정이 필요할 때 `media query`를 사용한다.
-
-`grid-template-columns` 속성으로 열 지정을 기본으로 작성한다. `repeat()`, `minmax()` 등을 이용할 수 있다.
-
-로우 높이를 일정하게 하기위해서 `grid-auto-rows` 속성을 `minmax()` 값으로 설정할 수 있다.
-
-auto-fill, auto-fit 반응형
+`grid-template-columns` 속성의 값을 `repeat(auto-fit, minmax(100px ,1fr))` 또는 `repeat(auto-fill, minmax(100px ,1fr))`을 사용하여 반응형으로 구성 가능하다.
 
 ## position
 
@@ -280,9 +311,11 @@ auto-fill, auto-fit 반응형
 - 부모 요소에 `overflow` 속성이 적용되어 있는 경우
 - 부모 요소에 높이가 설정되어 있지 않는 경우
 
-## pointer-events
+## pointer-events, user-select
 
-css 속성 중 `pointer-events` 값을 `none`으로 설정하면 해당 속성이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
+- `pointer-events: none`으로 설정하면 해당 속성이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
+- `user-select: none`이면 텍스트가 클릭이나 드래그로 선택되는 것을 막는다.
+- `user-select: all`이면 클릭 한 번으로 텍스트가 선택된다.
 
 ## Typography
 
@@ -340,12 +373,6 @@ html 헤더에 link 태그에서 preload로 미리 불러오기
 
 ![Alt text](/post/CSS/assets/image-3.png)
 
-### line-height
-
-`display: inline`을 제외하고 `display: block`, `display: flex`, `display: inline-*` 등에서 텍스트 컨텐츠의 크기는 `line-height` 값으로 알 수 있다.
-
-`display: inline`인 경우에는 높이를 정확하게 계산하기 어려우며 매우 이해하기 힘든 형태로 되어있다. CSS로도 제어가 불가능하다.
-
 ### rem, em
 
 ```js
@@ -368,28 +395,6 @@ html {
 ```
 
 폰트는 `rem`으로 관리하되, 계산이 용이하도록 `html`에 `font-size: 62.5%`를 설정해 `1rem=10px`로 관리한다.
-
-### white-space
-
-| `white-space` | 스페이스와 탭 | 줄바꿈 | 자동 줄바꿈 |
-| ------------- | ------------- | ------ | ----------- |
-| `normal`      | 병합          | 병합   | O           |
-| `nowrap`      | 병합          | 병합   | X           |
-| `pre`         | 보존          | 보존   | X           |
-| `pre-wrap`    | 보존          | 보존   | O           |
-| `pre-line`    | 병합          | 보존   | O           |
-
-### word-break, overflow-wrap
-
-`word-break`과 `overflow-wrap` 모두 한 단어가 길게 이어져 부모 상자의 `width`를 넘길 때 어떻게 처리할 지에 관한 속성이다. 아래 그림을 통해서 차이를 확인하자.
-
-![word_break](/post/CSS/assets/word_break.png)
-
-![overflow_wrap](/post/CSS/assets/overflow_wrap.png)
-
-### user-select
-
-![user_select](/post/CSS/assets/user_select.png)
 
 ### text-overflow 속성 적용하기
 

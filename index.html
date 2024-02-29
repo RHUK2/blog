@@ -13,32 +13,47 @@
         height: 100vh;
       }
       div#box {
-        display: flex;
-        background-color: rgb(0, 255, 38);
-        max-width: 800px;
-        height: 50px;
+        margin: 10px;
+        border: 1px solid black;
+        /* white-space: pre-line; */
+        /* word-break: keep-all; */
+        overflow-wrap: break-word;
       }
-      div#one {
-        background-color: blue;
-        flex: 1 2 200px;
+      div#box2 {
+        margin: 10px;
+        border: 1px solid black;
+        /* white-space: pre-line; */
+        word-break: break-all;
+        /* overflow-wrap: break-word; */
       }
-      div#two {
-        background-color: red;
-        flex: 1 1 200px;
-      }
-      section {
-        display: inline-block;
-        background-color: brown;
-        /* word-break: break-all; */
+      span {
+        padding: 10px;
       }
     </style>
   </head>
   <body>
-    <!-- <div id="box">
-      <div id="one">123</div>
-      <div id="two">123</div>
-    </div> -->
-    <section>123425643643612342564364 3612342564364361234256436436</section>
+    <div id="box2">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. 아주아주아주아주아주아주아주아주아주아주아주아주긴단어
+      Officia est laudantium commodi fugiat cum velit ducimus suscipit hic! Aut quod ducimus eveniet. Magnam, sit.
+      Aspernatur quae ullam cum facilis dicta.
+    </div>
+    <span>word-break: break-all</span>
+    <div id="box2">
+      Lorem ipsum dolor sit amet consectetur <span style="color: red">adipisicing</span> elit.
+      아주아주아주아주아주아주아주아주아주아주아주아주긴단어 Officia est
+      <span style="color: red">laudantium</span> commodi fugiat cum velit ducimus
+      <span style="color: red">suscipit</span> hic! Aut quod ducimus eveniet. <span style="color: red">Magnam</span>,
+      sit. Aspernatur quae ullam cum facilis dicta.
+    </div>
+    <span>overflow-wrap: break-word</span>
+    <div id="box">
+      Lorem ipsum dolor sit amet consectetur <span style="color: red">adipisicing</span> elit.
+      아주아주아주아주아주아주아주아주아주아주아주아주긴단어 Officia est
+      <span style="color: red">laudantium</span> commodi fugiat cum velit ducimus
+      <span style="color: red">suscipit</span> hic! Aut quod ducimus eveniet. <span style="color: red">Magnam</span>,
+      sit. Aspernatur quae ullam cum facilis dicta.
+    </div>
+    <div style="text-align: end; padding-right: 10px">mady by RHUK2</div>
   </body>
   <script></script>
 </html>

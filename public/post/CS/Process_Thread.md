@@ -1,6 +1,6 @@
 ---
 title: Process_Thread
-directory: OS
+directory: CS
 ---
 
 # Process Thread

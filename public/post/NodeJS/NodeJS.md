@@ -1,6 +1,6 @@
 ---
-title: Node
-directory: Node
+title: NodeJS
+directory: NodeJS
 ---
 
 <!-- todo: 내용 보완 필요 -->

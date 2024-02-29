@@ -1,5 +1,5 @@
 ---
-title: Javascript_Visualized
+title: Visualized_Javascript
 directory: Javascript
 ---
 

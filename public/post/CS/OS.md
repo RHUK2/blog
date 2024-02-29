@@ -1,6 +1,6 @@
 ---
 title: OS
-directory: OS
+directory: CS
 ---
 
 # OS
