@@ -2,14 +2,13 @@
 updatedAt: 2024-02-23
 directory: Cheatsheet
 fileName: Linux_Cheat_Sheet
-title: Linux Cheat Sheet
+title: Bash Cheat Sheet
 description: 자주 사용하는 Linux 명령어 정리
 ---
 
-# Linux Cheat Sheet
+# Bash Cheat Sheet
 
-- [Linux Cheat Sheet](#linux-cheat-sheet)
-  - [Bash Cheat Sheet](#bash-cheat-sheet)
+- [Bash Cheat Sheet](#bash-cheat-sheet)
   - [Command History](#command-history)
   - [Navigating Directories](#navigating-directories)
   - [Creating Directories](#creating-directories)
@@ -76,10 +75,6 @@ description: 자주 사용하는 Linux 명령어 정리
     - [엠퍼센트( \& )](#엠퍼센트--)
     - [더블 엠퍼센트( \&\& )](#더블-엠퍼센트--)
     - [글로브 패턴](#글로브-패턴)
-
-## Bash Cheat Sheet
-
-A cheat sheet for bash commands.
 
 ## Command History
 
