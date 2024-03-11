@@ -16,7 +16,7 @@ description: 개발환경을 세팅해보자
 - [ ] oh-my-zsh [spaceship 테마 설치](https://spaceship-prompt.sh/) 및 설정
 - [ ] oh-my-zsh [zsh-autosuggestions 플러그인 설치](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
 - [ ] oh-my-zsh [zsh-syntax-highlighting 플러그인 설정](https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md)
-- [ ] docker engine 설치
+- [ ] docker 설치
 - [ ] [nvm 설치](https://github.com/nvm-sh/nvm) 후 node 설치(npm 자동 설치)
 
 ```sh

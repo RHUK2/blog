@@ -21,21 +21,22 @@ description: 실무를 통해 깨달은 걸 기록하자
     - [`display` 값 별로 height 차이점](#display-값-별로-height-차이점)
   - [box-sizing](#box-sizing)
   - [레이아웃 관련 팁](#레이아웃-관련-팁)
-  - [outline, box-shadow 관련 팁](#outline-box-shadow-관련-팁)
-  - [flex 관련 팁](#flex-관련-팁)
+  - [outline, box-shadow](#outline-box-shadow)
+  - [flex](#flex)
     - [flex-direction](#flex-direction)
     - [flex-basis](#flex-basis)
     - [flex 응용](#flex-응용)
-  - [grid 관련 팁](#grid-관련-팁)
+  - [grid](#grid)
     - [반응형 grid](#반응형-grid)
   - [position](#position)
     - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
   - [pointer-events, user-select](#pointer-events-user-select)
-  - [Typography](#typography)
-    - [font 설정](#font-설정)
-    - [폰트 최적화](#폰트-최적화)
-    - [rem, em](#rem-em)
-    - [text-overflow 속성 적용하기](#text-overflow-속성-적용하기)
+  - [font](#font)
+    - [font-family](#font-family)
+    - [font-face](#font-face)
+    - [font 최적화](#font-최적화)
+  - [rem, em](#rem-em)
+  - [text-overflow 속성 적용하기](#text-overflow-속성-적용하기)
   - [color](#color)
     - [HEX](#hex)
     - [RGB RGBA](#rgb-rgba)
@@ -229,7 +230,7 @@ body {
 - `min-content`는 요소가 가질 수 있는 최소의 길이를 의미한다.
 - `max-content`는 요소가 가질 수 있는 최대의 길이를 의미한다.
 
-## outline, box-shadow 관련 팁
+## outline, box-shadow
 
 - `outline` 또는 `box-shadow` 속성은 동적으로 제어해도 주변 레이아웃에 영향을 주지 않는다.
 - `border` 값을 동적으로 조작하게 되면 주변 레이아웃들의 영향을 주기 때문에 영향을 주지 않고 스타일링을 하기 위해서는 `outline` 또는 `box-shadow` 속성으로 스타일링을 한다.
@@ -241,7 +242,7 @@ body {
   },
 ```
 
-## flex 관련 팁
+## flex
 
 `display: flex`는 해당 속성이 적힌 요소를 플렉스 컨테이너로 만들고, 자식 요소들을 플렉스 아이템으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
 
@@ -287,7 +288,7 @@ div.flex-item-2 {
 
 위와 같이 여백을 차지하는 비율을 크게 해놓으면, `flex-wrap: wrap`일 경우 밑으로 내려가는 아이템이 아래 공간을 모두 차지할 수 있다.
 
-## grid 관련 팁
+## grid
 
 `grid`는 해당 속성이 적힌 요소를 그리드 컨테이너로 만들고, 자식 요소들을 그리드 아이템으로 만들어 `grid` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
 
@@ -317,15 +318,26 @@ div.flex-item-2 {
 - `user-select: none`이면 텍스트가 클릭이나 드래그로 선택되는 것을 막는다.
 - `user-select: all`이면 클릭 한 번으로 텍스트가 선택된다.
 
-## Typography
+## font
 
-### font 설정
+### font-family
 
-사용하고자 하는 폰트의 경량화 버전을 다운 받아 사용하는 경우, 프로젝트에 정적 자산이 놓일 폴더에 위치시켜두고 `font-face`를 아래와 같이 설정한다. `src` 속성에서 `local`은 로컬 컴퓨터에 설치된 폰트 위치 의미하고, `url`은 프로젝트 폰트 리소스의 위치를 의미한다. 보통은 `url`만 사용하는 것이 일반적이다.
+- `font-family` 설정이 따로 없다면, 기본적으로 각 운영체제의 설치된 시스템 기본 글꼴을 사용하게 된다.
+- 일반적으로 사용하려는 폰트명과 해당 글꼴이 없는 경우 대체할 폰트명을 나열한다.
+- 폰트명에 띄어쓰기가 존재하면 따옴표로 감싸주어야 인식한다.
 
-CDN을 사용한다면 `@font-face` 설정은 필요없다.
+```css
+body {
+  font-family: Times, 'Times New Roman', Georgia, serif;
+}
+```
 
-`font-family` 속성에서 폰트 이름을 작성할 때 공백이 존재하면 따옴표로 감싸주어야 한다.
+### font-face
+
+- 로컬 컴퓨터에 설치된 폰트뿐 아니라 외부 리소스를 가져와서 폰트를 정의하기 위해 사용된다.
+- `local()`은 로컬 컴퓨터에 설치된 폰트를 가리키기 위해 사용된다.
+- `url()`은 외부 리소스(폰트)를 가리키기 위해 사용된다.
+- `format()` 폰트 파일의 확장자를 명시하기 위해 사용된다.
 
 ```css
 /* ... */
@@ -350,20 +362,14 @@ CDN을 사용한다면 `@font-face` 설정은 필요없다.
 /* ... */
 
 body {
-  font-family:
-    'Pretendard',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-}
-
-* {
-  /* button, input 등 body의 설정만으로 적용이 안 되는 태그들이 있기에 설정 */
-  font: inherit;
+  font-family: Pretendard, Times, 'Times New Roman', Georgia, serif;
 }
 ```
 
-### 폰트 최적화
+- 웹 폰트를 사용하는 경우, 보통 `@font-face`가 적용된 css 파일을 보내주는 방식으로 동작한다.
+-
+
+### font 최적화
 
 font-display 옵션 조절
 html 헤더에 link 태그에서 preload로 미리 불러오기
@@ -373,7 +379,7 @@ html 헤더에 link 태그에서 preload로 미리 불러오기
 
 ![Alt text](/post/CSS/assets/image-3.png)
 
-### rem, em
+## rem, em
 
 ```js
 button: {
@@ -396,7 +402,7 @@ html {
 
 폰트는 `rem`으로 관리하되, 계산이 용이하도록 `html`에 `font-size: 62.5%`를 설정해 `1rem=10px`로 관리한다.
 
-### text-overflow 속성 적용하기
+## text-overflow 속성 적용하기
 
 ```css
 div {

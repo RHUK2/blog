@@ -45,9 +45,10 @@ description: 자주 사용하는 VSCode 단축키 정리
 | Ctrl + K + W                | 모든 창 닫기                                    |
 | Ctrl + Click                | go                                              |
 | -                           | **유틸 관련**                                   |
-| Ctrl + K + M or F1          | 원하는 언어 파일 생성하기                       |
+| Ctrl + K + M                | 원하는 언어 파일 생성하기                       |
 | Ctrl + P or E               | 파일명으로 파일 찾고 이동                       |
-| Ctrl + O                    | 파일 경로로 파일 찾고 이동                      |
+| Ctrl + O                    | 파일 열기                                       |
+| Ctrl + K + Ctrl + O         | 폴더 열기                                       |
 | Ctrl + R                    | 최근 연 파일 및 폴더                            |
 | Ctrl + Shift + P(>)         | 모든 명령어 보기 및 사용                        |
 | Ctrl + Shift + O(@)         | 현재 파일 안에서 심볼 찾기                      |
