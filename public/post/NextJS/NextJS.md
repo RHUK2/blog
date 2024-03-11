@@ -1,6 +1,6 @@
 ---
-title: Next
-directory: React
+title: NextJS
+directory: NextJS
 ---
 
 맞습니다. Next.js에서의 정적 생성(SSG)은 싱글 페이지 애플리케이션(SPA)과 유사한 형태를 가지지만, 가장 큰 차이점은 빌드 시에 페이지를 미리 렌더링하고 정적 파일로 생성한다는 것입니다. 이것은 초기 로딩 속도를 향상시키고, 서버 부하를 줄이는 데 도움이 됩니다.

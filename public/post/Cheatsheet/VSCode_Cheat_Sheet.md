@@ -8,6 +8,18 @@ description: 자주 사용하는 VSCode 단축키 정리
 
 # VScode Cheat Sheet
 
+- [VScode Cheat Sheet](#vscode-cheat-sheet)
+  - [IntelliSense](#intellisense)
+  - [단축키](#단축키)
+
+## IntelliSense
+
+- VSCode는 `jsconfig.json`이 있는 디렉토리를 자바스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
+- VSCode는 `tsconfig.json`이 있는 디렉토리를 타입스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
+- VSCode는 npm 모듈들의 IntelliSense를 지원하기 위해 자동 유형 획득(ATA)이라는 기능을 사용한다. ATA는 `package.json`에서 참조하는 npm 모듈에 대한 npm 유형 선언 파일(`*.d.ts`)을 가져온다. 이 방식으로 VSCode는 `node`, `axios`, `react` 등과 같은 여러 라이브러리들의 자동완성을 제공해준다.
+
+## 단축키
+
 | 단축키                      | 설명                                            |
 | --------------------------- | ----------------------------------------------- |
 | -                           | **접기/펼치기 관련**                            |
