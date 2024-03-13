@@ -2,8 +2,8 @@
 updatedAt: 2024-03-11
 directory: Typescript
 fileName: Typescript
-title: Typescript 알아보기
-description: Typescript 정리
+title: Typescript 톺아보기
+description:
 ---
 
 # Typescript
@@ -11,9 +11,7 @@ description: Typescript 정리
 - [Typescript](#typescript)
   - [Official Cheatsheet](#official-cheatsheet)
   - [Unofficial Cheatsheet](#unofficial-cheatsheet)
-  - [any vs unknown](#any-vs-unknown)
-  - [is](#is)
-  - [js instanceof vs ts instanceof](#js-instanceof-vs-ts-instanceof)
+  - [any vs unknown vs never](#any-vs-unknown-vs-never)
   - [.d.ts](#dts)
   - [tsconfig.json](#tsconfigjson)
 
@@ -29,34 +27,74 @@ description: Typescript 정리
 ![Unofficial_Typescript_Cheatsheet_1](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217094&authkey=%21APzTFPUQSBvnjzs&width=3172&height=2530)
 ![Unofficial_Typescript_Cheatsheet_2](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217096&authkey=%21AJS8nZ5TNfHfknc&width=3535&height=2530)
 
-## any vs unknown
+## any vs unknown vs never
 
-`any`는 모든 타입을 허용한다. 반면 `unknown`은 타입 가드를 통해 무슨 타입인지 정의해야 허용한다.
-
-<!-- todo: 내용 보완 필요 -->
-
-## is
-
-## js instanceof vs ts instanceof
+| 타입      | 설명                                                                                                                           | 사용 사례                                                                                                                        |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `any`     | 모든 타입의 값을 허용한다. 타입 검사를 하지 않고 모든 연산을 수행한다.                                                         | 외부 라이브러리와 상호작용하거나 타입 검사를 무시해야 하는 경우에 사용한다.                                                      |
+| `unknown` | 모든 타입의 값을 허용하지만, 타입 검사를 통해 값에 대한 정보를 제한한다. 타입 단언이 필요하다.                                 | 런타임에 타입을 안전하게 검사하거나, 타입 정보를 동적으로 처리해야 할 때 사용한다.                                               |
+| `never`   | 어떤 타입도 가지지 않는 값의 타입이다. 일반적으로 발생하지 않는 상황을 나타내며, 함수가 항상 예외를 던지는 경우 등에 사용된다. | 절대 발생하지 않는 값을 나타낼 때 사용하며, 주로 함수가 항상 예외를 던지거나, 무한 루프 등 특정한 상황에서만 반환될 때 사용한다. |
 
 ## .d.ts
 
-타입스크립트로 어플리케이션을 작성할 때 기존 자바스크립트만으로 구성된 라이브러리를 사용할 경우 타입이 필요하다고 에러를 뿜을 것이다. 자바스크립트 이후에 타입스크립트가 탄생하면서 자바스크립트만으로 구성된 라이브러리에게는 타입이 없기 때문에 타입을 작성해주어야 했다.
+TypeScript는 정적 타입 시스템을 도입하여 JavaScript 코드의 타입 안정성을 높이고 개발자가 실수를 미연에 방지하는 데 초점을 맞추었다. 그러나 이미 존재하는 JavaScript 라이브러리와의 호환성 문제가 발생했다. 이 문제를 해결하기 위해 `.d.ts` 파일이 등장하게 되었다.
 
-위에 말한 기능을 제공하는 것이 `.d.ts` 파일이다. 해당 파일은 기존 자바스크립트 파일을 굳이 `.ts`로 바꿔서 재작성할 필요가 없이 `.d.ts` 파일에 타입 정의만 작성해서 추가하면 타입스크립트가 타입을 인식하고 오류를 뿜지 않는다.
+`.d.ts` 파일은 TypeScript 컴파일러에 의해 인식되어 타입 검사를 수행할 때 사용된다. 이 파일들은 JavaScript 라이브러리의 API를 설명하는 TypeScript 타입 선언을 포함하고 있다. 이러한 타입 선언 파일을 사용하면 외부 라이브러리와의 상호작용 시에도 정적 타입 검사를 수행할 수 있다. 또한, 코드 자동 완성과 IDE의 IntelliSense 기능을 향상시키는 데에도 도움이 된다.
 
 `.ts` 파일은 표준 타입스크립트 파일로 타입스크립트 컴파일러에 의해 일반 자바스크립트 문법으로 변환되지만 `.d.ts` 파일은 타입스크립트 컴파일러에서 참조만 할 뿐 컴파일 결과물에 포함되지 않는다.
 
-| .ts                          | .d.ts                                 |
-| ---------------------------- | ------------------------------------- |
-| var a = 1                    | declare var a: number                 |
-| let a = 1                    | declare let a: number                 |
-| const a = 1                  | declare const : 1                     |
-| function a(b) { ... }        | declare function a(b: number): string |
-| class A { b() { return 3 } } | declare class A { b() : number }      |
-| namespace A { }              | declare namespace A {}                |
-| type A = number              | type A = number                       |
-| interface A { b?: string }   | interface A { b?: string }            |
+> \*.js
+
+```js
+// 변수 선언
+var num = 10;
+
+// 함수 선언
+function double(x) {
+  return x * 2;
+}
+
+// 객체 속성
+var person = {
+  name: 'Alice',
+  age: 25,
+  isAdmin: false,
+};
+
+// 배열
+var numbers = [1, 2, 3, 4, 5];
+
+// 콜백 함수
+function processArray(arr, callback) {
+  for (var i = 0; i < arr.length; i++) {
+    callback(arr[i]);
+  }
+}
+```
+
+> \*.d.ts
+
+```js
+// 변수 선언
+declare var num: number;
+
+// 함수 선언
+declare function double(x: number): number;
+
+// 객체 속성
+interface Person {
+  name: string;
+  age: number;
+  isAdmin: boolean;
+}
+declare var person: Person;
+
+// 배열
+declare var numbers: number[];
+
+// 콜백 함수
+declare function processArray(arr: any[], callback: (item: any) => void): void;
+```
 
 ## tsconfig.json
 

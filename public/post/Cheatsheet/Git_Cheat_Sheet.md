@@ -3,7 +3,7 @@ updatedAt: 2024-02-23
 directory: Cheatsheet
 fileName: Git_Cheat_Sheet
 title: Git Cheat Sheet
-description: 자주 사용하는 Git 명령어 정리
+description:
 ---
 
 # Git Cheat Sheet

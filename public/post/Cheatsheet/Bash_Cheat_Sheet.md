@@ -3,7 +3,7 @@ updatedAt: 2024-02-23
 directory: Cheatsheet
 fileName: Linux_Cheat_Sheet
 title: Bash Cheat Sheet
-description: 자주 사용하는 Linux 명령어 정리
+description:
 ---
 
 # Bash Cheat Sheet

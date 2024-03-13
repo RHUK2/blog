@@ -3,7 +3,7 @@ updatedAt: 2024-02-23
 directory: Cheatsheet
 fileName: Dev_Env_Check
 title: 개발환경 설정 체크리스트
-description: 개발환경을 세팅해보자
+description:
 ---
 
 # 개발 환경 설정 체크리스트

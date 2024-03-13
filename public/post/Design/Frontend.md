@@ -1,6 +1,9 @@
 ---
-title: Frontend_Design
-directory: Project
+updatedAt:
+directory: Design
+fileName: Frontend
+title: 프론트엔드 설계 톺아보기
+description:
 ---
 
 # Frontend Design
