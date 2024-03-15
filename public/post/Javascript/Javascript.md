@@ -52,6 +52,7 @@ directory: Javascript
   - [createObjectURL(), revokeObjectURL()](#createobjecturl-revokeobjecturl)
   - [배열, 이터러블 객체, 유사배열 객체](#배열-이터러블-객체-유사배열-객체)
   - [async await, 프로미스, 콜백](#async-await-프로미스-콜백)
+  - [class](#class)
 
 ## JavaScript vs ECMAScript
 
@@ -819,5 +820,26 @@ export function getDirectoryList() {
       console.error(err);
       return [];
     });
+}
+```
+
+## class
+
+```js
+class MyClass {
+  prop = value; // 프로퍼티(instance 속성)
+  static prop = value; // (class 속성)
+
+  constructor(...) { // 생성자 메서드(prototype 속성)
+    // ...
+  }
+
+  method(...) {} // 메서드(prototype 속성)
+
+  get something(...) {} // getter 메서드(prototype 속성)
+  set something(...) {} // setter 메서드(prototype 속성)
+
+  [Symbol.iterator]() {} // 계산된 이름(computed name)을 사용해 만드는 메서드 (심볼)(prototype 속성)
+  // ...
 }
 ```
