@@ -2,7 +2,7 @@
 updatedAt: 2024-03-11
 directory: Typescript
 fileName: Typescript
-title: Typescript 톺아보기
+title: Typescript 기록하기
 description:
 ---
 
