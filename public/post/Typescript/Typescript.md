@@ -11,6 +11,7 @@ description:
 - [Typescript](#typescript)
   - [Official Cheatsheet](#official-cheatsheet)
   - [Unofficial Cheatsheet](#unofficial-cheatsheet)
+  - [1](#1)
   - [any vs unknown vs never](#any-vs-unknown-vs-never)
   - [.d.ts](#dts)
   - [tsconfig.json](#tsconfigjson)
@@ -26,6 +27,10 @@ description:
 
 ![Unofficial_Typescript_Cheatsheet_1](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217094&authkey=%21APzTFPUQSBvnjzs&width=3172&height=2530)
 ![Unofficial_Typescript_Cheatsheet_2](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217096&authkey=%21AJS8nZ5TNfHfknc&width=3535&height=2530)
+
+## 1
+
+초기화자(initializer)와 선택적 매개변수(question mark)는 TypeScript에서 함께 사용할 수 없습니다. TypeScript에서 선택적 매개변수를 선언할 때는 기본값을 설정하지 않고, 매개변수 뒤에 물음표(?)를 붙여야 합니다.  
 
 ## any vs unknown vs never
 
