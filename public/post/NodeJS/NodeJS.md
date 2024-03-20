@@ -161,7 +161,7 @@ File System API (experimental): 파일 시스템에 접근하기 위한 API로, 
 
 DOM 제어 API는 node에서 사용불가 Canvas API는 라이브러리로 모듈을 가져와서 사용 가능
 
-node는 web api 기능과 비슷하게 수행하기 위해 내부 모듈들을 이용한다
+**node는 web api 기능이 없기에 비슷하게 수행하기 위해 내부 모듈들을 이용한다
 
 browser는 window 객체
-node는 global 객체
+node는 global 객체**
