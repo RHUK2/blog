@@ -119,7 +119,27 @@ console.log(\_\_dirname); // /home/huryu/personal/blog/.next/server/app/posts/[i
 // process.cwd()는 node명령을 호출한 작업디렉터리의 절대경로이다
 console.log(process.cwd()); // /home/huryu/personal/blog
 
-## fs.readFile
+## fs.readFile, createWriteStream, createReadStream, readFileSync
+
+## HTTP Response에 스트림 연결 개념
+
+PDFKit은 PDF 문서를 생성하기 위한 Node.js 라이브러리입니다. doc.pipe()은 PDFKit에서 생성된 문서를 다양한 목적지로 보내는 역할을 합니다.
+
+주로 사용되는 목적지로는 파일 시스템의 파일, HTTP 응답 객체, 그리고 다른 스트림 등이 있습니다. 이 함수는 생성된 PDF 문서를 지정된 목적지로 전송할 수 있도록 연결해줍니다.
+
+일반적으로 doc.pipe()은 PDF 생성 프로세스의 시작 부분에서 호출되며, PDF 문서가 생성되고 데이터가 추가될 때마다 해당 목적지로 전송됩니다.
+
+예를 들어, HTTP 응답 객체에 PDF를 전송하려면 다음과 같이 사용될 수 있습니다.
+
+doc.pipe(res)가 빠지면 요청에 대한 응답이 완료되지 않고 계속 pending 상태
+
+doc.pipe(res)를 코드에서 빼면 클라이언트 요청 후에 계속 pending 상태에 머무르는 이유는, PDF 문서가 생성되고 응답 스트림에 파이핑되지 않기 때문입니다.
+
+Node.js에서 HTTP 응답은 스트림이기 때문에, 클라이언트에게 응답을 보내려면 응답 스트림에 데이터를 쓰거나 파이핑해야 합니다. doc.pipe(res)는 PDF 문서를 생성하고, 해당 문서를 응답 스트림에 파이핑하여 클라이언트에게 보내기 위해 필요한 코드입니다.
+
+따라서 doc.pipe(res)를 코드에서 빼면 PDF 문서가 생성되고 응답 스트림에 전송되지 않으므로 클라이언트의 요청이 처리되지 않습니다. 이는 클라이언트 요청이 계속 pending 상태에 머무르게 되는 것을 의미합니다.
+
+반면에 doc.pipe(res)를 다시 삽입하면, PDF 문서가 생성되고 응답 스트림에 파이핑되므로 클라이언트에게 적절한 응답이 보내지게 됩니다. 따라서 요청이 무사히 완료되는 것을 확인할 수 있습니다.
 
 ## fs.readdir
 
@@ -161,7 +181,7 @@ File System API (experimental): 파일 시스템에 접근하기 위한 API로, 
 
 DOM 제어 API는 node에서 사용불가 Canvas API는 라이브러리로 모듈을 가져와서 사용 가능
 
-**node는 web api 기능이 없기에 비슷하게 수행하기 위해 내부 모듈들을 이용한다
+\*\*node는 web api 기능이 없기에 비슷하게 수행하기 위해 내부 모듈들을 이용한다
 
 browser는 window 객체
-node는 global 객체**
+node는 global 객체\*\*
