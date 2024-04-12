@@ -119,7 +119,7 @@ console.log(\_\_dirname); // /home/huryu/personal/blog/.next/server/app/posts/[i
 // process.cwd()는 node명령을 호출한 작업디렉터리의 절대경로이다
 console.log(process.cwd()); // /home/huryu/personal/blog
 
-## fs.readFile, createWriteStream, createReadStream, readFileSync
+## createWriteStream, createReadStream, readFile, readFileSync, readdir
 
 ## HTTP Response에 스트림 연결 개념
 
@@ -141,13 +141,78 @@ Node.js에서 HTTP 응답은 스트림이기 때문에, 클라이언트에게 �
 
 반면에 doc.pipe(res)를 다시 삽입하면, PDF 문서가 생성되고 응답 스트림에 파이핑되므로 클라이언트에게 적절한 응답이 보내지게 됩니다. 따라서 요청이 무사히 완료되는 것을 확인할 수 있습니다.
 
-## fs.readdir
+## asd
+
+res.end와 res.send의 차이
+ChatGPT
+res.end()와 res.send()는 각각 Node.js의 http.ServerResponse와 Express.js의 Response 객체의 메서드입니다. 이 두 메서드는 비슷한 역할을 하지만 사용되는 맥락이 조금 다릅니다.
+
+<!-- res.end([data][, encoding][, callback]): -->
+
+res.end() 메서드는 HTTP 응답을 종료합니다. 선택적으로 데이터와 인코딩을 제공할 수 있습니다. 클라이언트에게 응답을 보내고 응답 프로세스를 종료합니다.
+예를 들어, res.end('Hello, World!')는 'Hello, World!'를 포함하는 응답을 클라이언트에게 보내고 응답 프로세스를 종료합니다.
+res.send([body]):
+
+res.send() 메서드는 Express.js에서 사용되며, HTTP 응답을 보내는 역할을 합니다. 이 메서드는 여러 가지 유형의 데이터를 인자로 받을 수 있습니다(JSON, HTML, 문자열, 버퍼 등) 그리고 적절한 Content-Type 헤더를 설정하여 데이터를 클라이언트에게 보냅니다.
+예를 들어, res.send('Hello, World!')는 'Hello, World!'를 포함하는 응답을 클라이언트에게 보내고 Content-Type을 자동으로 설정합니다.
+주요 차이점은 res.send()가 Express.js의 기능이며 자동으로 Content-Type을 설정하고 다양한 유형의 데이터를 처리할 수 있다는 것입니다. 반면에 res.end()는 Node.js의 기본 HTTP 모듈의 일부이며 데이터를 직접 보내고 응답을 종료합니다. Express.js에서도 res.end()를 사용할 수 있지만, res.send()가 보다 편리하고 유연한 대안입니다.
+
+User
+res.writeHead, res.setHeader의 차이점
+ChatGPT
+res.writeHead()와 res.setHeader() 모두 HTTP 응답 헤더를 설정하는 데 사용되는 Node.js의 http.ServerResponse 객체의 메서드입니다. 그러나 두 메서드 간에는 몇 가지 중요한 차이점이 있습니다.
+
+<!-- res.writeHead(statusCode[, statusMessage][, headers]): -->
+
+이 메서드는 HTTP 응답 헤더를 설정하고, 응답의 상태 코드 및 선택적으로 상태 메시지를 지정합니다. 또한 headers 매개변수를 통해 추가적인 응답 헤더를 설정할 수 있습니다. 이 메서드를 호출하면 응답 헤더가 완전히 대체됩니다.
+예를 들어, res.writeHead(200, {'Content-Type': 'text/plain'})는 상태 코드가 200이고 Content-Type 헤더가 text/plain인 응답 헤더를 설정합니다.
+res.setHeader(name, value):
+
+이 메서드는 기존 응답 헤더에 추가적인 헤더 값을 설정합니다. 만약 해당 헤더가 이미 존재하는 경우, 새로운 값을 추가하거나 덮어쓰게 됩니다.
+예를 들어, res.setHeader('Cache-Control', 'no-cache')는 Cache-Control 헤더에 'no-cache' 값을 설정합니다. 만약 기존에 Cache-Control 헤더가 이미 있는 경우, 이 값은 덮어쓰게 됩니다.
+따라서 writeHead()는 응답 헤더를 완전히 교체하고, setHeader()는 기존 헤더에 새로운 값을 추가하거나 덮어쓰게 됩니다. 선택적으로 writeHead()를 사용하여 상태 코드와 함께 응답 헤더를 설정하고, setHeader()를 사용하여 추가적인 헤더 값을 설정할 수 있습니다.
+
+이 메서드는 메시지에서 한 번만 호출해야 하며 response.end()가 호출되기 전에 호출해야 합니다.
+
+이 함수를 호출하기 전에 response.write() 또는 response.end()가 호출되면 암시적/변경 가능한 헤더가 계산되어 이 함수를 호출합니다.
+
+응답.setHeader()로 헤더가 설정된 경우 응답.writeHead()로 전달된 모든 헤더와 병합되며, 응답.writeHead()로 전달된 헤더에 우선순위가 부여됩니다.
+
+이 메서드가 호출되고 response.setHeader()가 호출되지 않은 경우 내부적으로 캐싱하지 않고 제공된 헤더 값을 네트워크 채널에 직접 쓰고 헤더에 대한 response.getHeader()는 예상 결과를 산출하지 않습니다. 향후 검색 및 수정 가능성이 있는 점진적인 헤더 모집단이 필요한 경우 응답.setHeader()를 대신 사용하세요.
+
+Translated with www.DeepL.com/Translator (free version)
+
+```js
+// const data = fs.readFileSync(path.join(process.cwd(), '/pages/api/sub-project/[id]/report/TEST1.png'));
+const response = await fetch('https://via.placeholder.com/600/92c952');
+const data = await response.arrayBuffer();
+
+res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
+res.setHeader('Content-Type', 'image/png');
+res.setHeader('Content-Disposition', 'attachment; filename=sample.png');
+
+res.send(Buffer.from(data));
+```
+
+```js
+// const data = fs.readFileSync(path.join(process.cwd(), '/pages/api/sub-project/[id]/report/TEST1.png'));
+const response = await fetch('https://via.placeholder.com/600/92c952');
+const data = await response.arrayBuffer();
+
+res
+  .writeHead(200, {
+    'Access-Control-Expose-Headers': 'Content-Disposition',
+    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'Content-Disposition': 'attachment;filename=sample.xlsx',
+  })
+  .end(Buffer.from(data));
+```
 
 ## express.static()
 
 서버는 응답을 받으면 정적 자산을 제공하거나
 
-값에 가공이나 무언가 핑료하 ㄴ작업을 진행한 후 제공하는 동적 자산을 제공한다.
+값에 가공이나 무언가 필요한 작업을 진행한 후 제공하는 동적 자산을 제공한다.
 
 ## web api
 
