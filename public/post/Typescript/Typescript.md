@@ -11,8 +11,8 @@ description:
 - [Typescript](#typescript)
   - [Official Cheatsheet](#official-cheatsheet)
   - [Unofficial Cheatsheet](#unofficial-cheatsheet)
-  - [1](#1)
   - [any vs unknown vs never](#any-vs-unknown-vs-never)
+  - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
   - [.d.ts](#dts)
   - [tsconfig.json](#tsconfigjson)
 
@@ -28,10 +28,6 @@ description:
 ![Unofficial_Typescript_Cheatsheet_1](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217094&authkey=%21APzTFPUQSBvnjzs&width=3172&height=2530)
 ![Unofficial_Typescript_Cheatsheet_2](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217096&authkey=%21AJS8nZ5TNfHfknc&width=3535&height=2530)
 
-## 1
-
-초기화자(initializer)와 선택적 매개변수(question mark)는 TypeScript에서 함께 사용할 수 없습니다. TypeScript에서 선택적 매개변수를 선언할 때는 기본값을 설정하지 않고, 매개변수 뒤에 물음표(?)를 붙여야 합니다.  
-
 ## any vs unknown vs never
 
 | 타입      | 설명                                                                                                                           | 사용 사례                                                                                                                        |
@@ -39,6 +35,32 @@ description:
 | `any`     | 모든 타입의 값을 허용한다. 타입 검사를 하지 않고 모든 연산을 수행한다.                                                         | 외부 라이브러리와 상호작용하거나 타입 검사를 무시해야 하는 경우에 사용한다.                                                      |
 | `unknown` | 모든 타입의 값을 허용하지만, 타입 검사를 통해 값에 대한 정보를 제한한다. 타입 단언이 필요하다.                                 | 런타임에 타입을 안전하게 검사하거나, 타입 정보를 동적으로 처리해야 할 때 사용한다.                                               |
 | `never`   | 어떤 타입도 가지지 않는 값의 타입이다. 일반적으로 발생하지 않는 상황을 나타내며, 함수가 항상 예외를 던지는 경우 등에 사용된다. | 절대 발생하지 않는 값을 나타낼 때 사용하며, 주로 함수가 항상 예외를 던지거나, 무한 루프 등 특정한 상황에서만 반환될 때 사용한다. |
+
+## 옵셔널 프로퍼티
+
+```ts
+interface Person {
+  name: string;
+  age?: number; // number | undefined
+  hobby?: string | null; // number | null | undefined
+}
+```
+
+타입스크립트에서 옵셔널 프로퍼티(?)는 해당 변수가 `undefined`일 수 있다는 것을 유니온 타입으로 정의해준다.
+
+`null` 타입은 적용되지 않으므로 따로 유니온 타입으로 정의해주어야 한다.
+
+```ts
+function init(a: number, b?: number = 0) {
+  ...
+} // X
+
+function init(a: number, b?: number) {
+  ...
+} // O
+```
+
+선택적 매개변수에는 초기값을 부여할 수 없다. 초기값을 부여하려면 옵셔널 프로퍼티를 제거하고 정의해야 한다.
 
 ## .d.ts
 
