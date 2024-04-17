@@ -7,6 +7,7 @@ directory: React
 
 - [Component](#component)
   - [제어 컴포넌트 vs 비제어 컴포넌트](#제어-컴포넌트-vs-비제어-컴포넌트)
+  - [value, checked, defaultValue, defaultChecked](#value-checked-defaultvalue-defaultchecked)
   - [useRef()](#useref)
   - [forwardRef()](#forwardref)
   - [useImperativeHandle](#useimperativehandle)
@@ -62,8 +63,44 @@ function UncontrolledComponentExample() {
 }
 ```
 
+## value, checked, defaultValue, defaultChecked
+
+이러한 소품 중 하나를 전달하여 입력을 제어할 수 있습니다:
+
+checked: 부울입니다. 체크박스 입력 또는 라디오 버튼의 경우 선택 여부를 제어합니다.
+value: 문자열입니다. 텍스트 입력의 경우 텍스트를 제어합니다. (라디오 버튼의 경우 해당 양식 데이터를 지정합니다.)
+둘 중 하나를 전달할 때는 전달된 값을 업데이트하는 onChange 핸들러도 전달해야 합니다.
+
+이러한 <입력> 프로퍼티는 제어되지 않는 입력에만 해당됩니다:
+
+defaultChecked: 부울입니다. 유형="체크박스" 및 유형="라디오" 입력의 초기값을 지정합니다.
+defaultValue: 문자열입니다. 텍스트 입력의 초기값을 지정합니다.
+
 ## useRef()
 
+```js
+function App() {
+  const myRef = useRef(null);
+  // 직접 값 변경을 위해선 | null을 써야함
+  const myRef2 = useRef<HTMLButtonElement | null>(null);
+  const myRef3 = [useRef<HTMLButtonElement | null>(null), useRef<HTMLButtonElement | null>(null), useRef<HTMLButtonElement | null>(null)];
+
+
+  function handleClick() {
+    console.dir(myRef.current);
+  }
+
+  return (
+    <button ref={myRef} onClick={handleClick}>
+      Button
+    </button>
+    // ref={myRef}를 자세히 쓰면 아래와 같음
+    <button ref={(element) => { myRef2.current = element } } onClick={handleClick}>
+    Button
+    </button>
+  );
+}
+```
 
 네, 맞습니다. 리액트에서 ref 값은 컴포넌트가 마운트된 이후에 리렌더링이 발생해야 값이 채워집니다.
 
