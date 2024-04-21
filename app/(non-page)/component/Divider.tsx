@@ -1,3 +1,3 @@
 export function Divider() {
-  return <div className='border-b-2 border-gray-100 dark:border-gray-900'></div>;
+  return <div className='border-b border-gray-200 dark:border-gray-800'></div>;
 }

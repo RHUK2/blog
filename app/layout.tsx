@@ -36,7 +36,7 @@ export default function RootLayout({
       </head>
       <body className={`${(inter.variable, roboto_mono.variable)} font-mono dark:bg-gray-950 `}>
         <Header />
-        <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] bg-white pt-12 shadow-lg dark:bg-gray-950 dark:shadow-gray-600'>
+        <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] border-x border-x-gray-200 bg-white pt-12 dark:border-x-gray-800 dark:bg-gray-950 '>
           {children}
         </main>
         <Footer />
