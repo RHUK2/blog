@@ -2,8 +2,8 @@
 updatedAt: 2024-02-23
 directory: CSS
 fileName: CSS
-title: CSS 정복하기
-description: 실무를 통해 깨달은 걸 기록하자
+title: CSS 기록하기
+description: 
 ---
 
 # CSS

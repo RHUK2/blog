@@ -1,6 +1,9 @@
 ---
-title: OS
+updatedAt: 2024-04-29
 directory: CS
+fileName: OS
+title: OS 기록하기
+description:
 ---
 
 # OS

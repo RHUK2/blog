@@ -1,6 +1,9 @@
 ---
-title: Web
-directory: Web
+updatedAt: 2024-04-29
+directory: Browser
+fileName: Browser
+title: Browser 기록하기
+description:
 ---
 
 # Web

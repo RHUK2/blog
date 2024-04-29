@@ -1,6 +1,9 @@
 ---
-title: component
+updatedAt: 2024-04-29
 directory: React
+fileName: component
+title: component
+description:
 ---
 
 # Component

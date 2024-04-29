@@ -1,6 +1,9 @@
 ---
-title: Process_Thread
+updatedAt: 2024-04-29
 directory: CS
+fileName: Process_Thread
+title: Process, Thread 기록하기
+description:
 ---
 
 # Process Thread

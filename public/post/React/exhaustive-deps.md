@@ -1,6 +1,9 @@
 ---
-title: exhaustive-deps
+updatedAt: 2024-04-29
 directory: React
+fileName: exhaustive-deps
+title: exhaustive-deps
+description:
 ---
 
 # exhaustive-deps
@@ -32,15 +35,15 @@ export function useOptions(type) {
         {
           key: SEARCH_TYPE_EMPLOYER.CANDIDATE,
           text: intl.formatMessage({
-            id: "option.candidate",
-            defaultMessage: "후보자",
+            id: 'option.candidate',
+            defaultMessage: '후보자',
           }),
         },
         {
           key: SEARCH_TYPE_EMPLOYER.RECRUITER,
           text: intl.formatMessage({
-            id: "option.recruiter",
-            defaultMessage: "리크루터",
+            id: 'option.recruiter',
+            defaultMessage: '리크루터',
           }),
         },
       ];
@@ -58,13 +61,9 @@ const countryCodeOptions = useOptions(SELECT_TYPE_CLIENT.COUNTRY_CODE);
 
 useEffect(() => {
   const phoneCode = user.recruiter?.phone
-    ? countryCodeOptions.find((option) =>
-        user.recruiter.phone.includes(option.text),
-      )?.key ?? "+82"
-    : "+82";
-  const phone = user.recruiter?.phone
-    ? user.recruiter.phone.replace(phoneCode, "")
-    : "";
+    ? countryCodeOptions.find((option) => user.recruiter.phone.includes(option.text))?.key ?? '+82'
+    : '+82';
+  const phone = user.recruiter?.phone ? user.recruiter.phone.replace(phoneCode, '') : '';
   // ...생략
 }, [user, setValue, countryCodeOptions]);
 ```
@@ -83,15 +82,15 @@ export function useOptions(type) {
           {
             key: SEARCH_TYPE_EMPLOYER.CANDIDATE,
             text: intl.formatMessage({
-              id: "option.candidate",
-              defaultMessage: "후보자",
+              id: 'option.candidate',
+              defaultMessage: '후보자',
             }),
           },
           {
             key: SEARCH_TYPE_EMPLOYER.RECRUITER,
             text: intl.formatMessage({
-              id: "option.recruiter",
-              defaultMessage: "리크루터",
+              id: 'option.recruiter',
+              defaultMessage: '리크루터',
             }),
           },
         ];

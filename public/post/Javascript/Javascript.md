@@ -1,6 +1,9 @@
 ---
-title: Javascript
+updatedAt: 2024-04-29
 directory: Javascript
+fileName: Javascript
+title: Javascript 기록하기
+description:
 ---
 
 # Javascript

@@ -1,7 +1,7 @@
 ---
 updatedAt: 2024-02-23
 directory: Cheatsheet
-fileName: Linux_Cheat_Sheet
+fileName: Bash_Cheat_Sheet
 title: Bash Cheat Sheet
 description:
 ---

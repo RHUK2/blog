@@ -1,6 +1,9 @@
 ---
-title: Network
+updatedAt: 2024-04-29
 directory: CS
+fileName: Network
+title: Network 기록하기
+description:
 ---
 
 # Network

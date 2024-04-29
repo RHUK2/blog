@@ -1,6 +1,9 @@
 ---
-title: Visualized_Javascript
+updatedAt: 2024-04-29
 directory: Javascript
+fileName: Visualized_Javascript
+title: 자바스크립트 시각화
+description:
 ---
 
 # Javascript Visualized
