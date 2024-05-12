@@ -10,11 +10,11 @@ export function Header() {
         </Link>
         <div className='flex'>
           <DarkLightButton />
-          <Link href='/' className='block min-w-20 text-center tracking-tighter hover:tracking-wider'>
+          <Link href='/' className='block min-w-24 text-center tracking-tighter hover:tracking-wider'>
             🏠HOME
           </Link>
-          <Link href='/post-list' className=' block min-w-20 text-center tracking-tighter hover:tracking-wider'>
-            📚POST
+          <Link href='/post-list' className=' block min-w-24 text-center tracking-tighter hover:tracking-wider'>
+            🪢ARCHIVE
           </Link>
         </div>
       </div>

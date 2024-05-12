@@ -3,7 +3,7 @@ updatedAt: 2024-03-13
 directory: Security
 fileName: Encrpyion
 title: 암호화 알아보기
-description:
+description: ✅
 ---
 
 # 암호화

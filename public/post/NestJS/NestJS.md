@@ -1,5 +1,5 @@
 ---
-updatedAt:
+updatedAt: 2024-04-21
 directory: NestJS
 fileName: NestJS
 title: NestJS 기록하기

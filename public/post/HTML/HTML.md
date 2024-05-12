@@ -1,8 +1,8 @@
 ---
-updatedAt: 2024-04-17
+updatedAt: 2024-04-21
 directory: HTML
 fileName: HTML
-title: HTML 정복하기
+title: HTML 기록하기
 description:
 ---
 

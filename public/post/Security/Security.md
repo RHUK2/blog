@@ -1,5 +1,5 @@
 ---
-updatedAt:
+updatedAt: 2024-04-21
 directory: Security
 fileName: Auth
 title: 인증

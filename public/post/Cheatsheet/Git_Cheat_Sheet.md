@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-02-23
+updatedAt: 2024-04-21
 directory: Cheatsheet
 fileName: Git_Cheat_Sheet
 title: Git Cheat Sheet
-description:
+description: ✅
 ---
 
 # Git Cheat Sheet

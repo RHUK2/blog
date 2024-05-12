@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-02-23
+updatedAt: 2024-04-21
 directory: Cheatsheet
 fileName: WSL_Cheat_Sheet
 title: WSL Cheat Sheet
-description:
+description: ✅
 ---
 
 # WSL

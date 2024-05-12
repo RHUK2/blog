@@ -3,7 +3,7 @@ updatedAt: 2024-02-23
 directory: CSS
 fileName: CSS
 title: CSS 기록하기
-description: 
+description:
 ---
 
 # CSS
