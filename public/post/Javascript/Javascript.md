@@ -202,7 +202,7 @@ element.closest('#droppable');
 
 ### 마우스 좌표
 
-![mouse_coordinate](assets/mouse_coordinate.png)
+![mouse_coordinate](/assets/mouse_coordinate.png)
 
 ```js
 element.onmousemove = function (e) {

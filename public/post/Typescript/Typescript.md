@@ -9,24 +9,10 @@ description: ✅
 # Typescript
 
 - [Typescript](#typescript)
-  - [Official Cheatsheet](#official-cheatsheet)
-  - [Unofficial Cheatsheet](#unofficial-cheatsheet)
   - [any vs unknown vs never](#any-vs-unknown-vs-never)
   - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
   - [.d.ts](#dts)
   - [Typescript Config](#typescript-config)
-
-## Official Cheatsheet
-
-![TypeScript_Types](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216821&authkey=%21ALRXVkQAdnXe_FU&width=5542&height=3917)
-![TypeScript_Interfaces](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216818&authkey=%21ANuXJk_hsU09uRE&width=1330&height=940)
-![TypeScript_Control_Flow_Analysis](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216820&authkey=%21ABk3iSoA5iWH_28&width=1330&height=940)
-![TypeScript_Classes](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%216819&authkey=%21AFO0ZTehKtHAC-I&width=1330&height=940)
-
-## Unofficial Cheatsheet
-
-![Unofficial_Typescript_Cheatsheet_1](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217094&authkey=%21APzTFPUQSBvnjzs&width=3172&height=2530)
-![Unofficial_Typescript_Cheatsheet_2](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217096&authkey=%21AJS8nZ5TNfHfknc&width=3535&height=2530)
 
 ## any vs unknown vs never
 
