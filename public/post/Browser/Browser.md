@@ -75,7 +75,6 @@ description:
   - [FOUC(flash of unstyled content)](#foucflash-of-unstyled-content)
   - [script](#script)
   - [템플릿 엔진](#템플릿-엔진)
-  - [fetch](#fetch)
 
 ## 웹 브라우저란?
 
@@ -596,7 +595,3 @@ jsp = java
 
 렌더링 엔진
 = webkit, blink, gecko
-
-## fetch
-
-fetch 사용 시 400 에러는 try catch로 잡지 못한다. 따로 처리 필요

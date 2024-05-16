@@ -57,6 +57,9 @@ description:
   - [async await, 프로미스, 콜백](#async-await-프로미스-콜백)
   - [class](#class)
   - [module script, nomodule script, defer, async](#module-script-nomodule-script-defer-async)
+  - [fetch](#fetch)
+    - [Fetch 사용 시 네트워크 오류 처리](#fetch-사용-시-네트워크-오류-처리)
+    - [Axios 사용 시 네트워크 오류 처리](#axios-사용-시-네트워크-오류-처리)
 
 ## JavaScript vs ECMAScript
 
@@ -902,3 +905,51 @@ async 속성:
 defer 속성:(모듈 스크립트에서는 디폴트 값)
 일반 스크립트(<script>)에서만 사용할 수 있습니다.
 비동기적으로 다운로드되지만 페이지 파싱을 중단하지 않고, 페이지 파싱이 완료된 후에 실행됩니다.
+
+## fetch
+
+클라이언트에서 네트워크 오류를 처리하는 방법은 주로 HTTP 요청을 보내는 fetch나 axios와 같은 라이브러리의 에러 핸들링을 통해 이루어집니다. 네트워크 오류는 주로 HTTP 응답 코드를 통해 감지되며, 다음은 fetch와 axios를 사용하여 네트워크 오류를 처리하는 방법입니다.
+
+### Fetch 사용 시 네트워크 오류 처리
+
+```javascript
+fetch('https://api.example.com/data')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then((data) => {
+    // 데이터를 사용하는 로직
+  })
+  .catch((error) => {
+    console.error('Fetch Error:', error);
+    // 에러 처리 로직
+  });
+```
+
+### Axios 사용 시 네트워크 오류 처리
+
+```javascript
+axios
+  .get('https://api.example.com/data')
+  .then((response) => {
+    // 성공적인 응답 처리
+  })
+  .catch((error) => {
+    if (error.response) {
+      // 서버가 응답했지만 상태 코드가 실패인 경우
+      console.error('Axios Response Error:', error.response.data);
+    } else if (error.request) {
+      // 요청이 만들어졌지만 응답을 받지 못한 경우
+      console.error('Axios Request Error:', error.request);
+    } else {
+      // 오류를 발생시킨 요청을 설정하는 과정에서 오류가 발생한 경우
+      console.error('Axios Error:', error.message);
+    }
+    // 에러 처리 로직
+  });
+```
+
+네트워크 오류를 처리할 때, 주의해야 할 점은 클라이언트와 서버 간의 통신이 실패하거나 지연될 수 있으며, 이는 여러 가지 이유로 발생할 수 있다는 점입니다. 이에 대비하여 적절한 에러 핸들링을 구현하여 사용자 경험을 향상시키는 것이 중요합니다.
