@@ -13,7 +13,7 @@ export function Header() {
           <Link href='/' className='block min-w-24 text-center tracking-tighter hover:tracking-wider'>
             🏠HOME
           </Link>
-          <Link href='/post-list' className=' block min-w-24 text-center tracking-tighter hover:tracking-wider'>
+          <Link href='/archive' className=' block min-w-24 text-center tracking-tighter hover:tracking-wider'>
             🪢ARCHIVE
           </Link>
         </div>

@@ -17,6 +17,7 @@ export default async function PostListDirectoryTitlePage({ params, searchParams 
       <Mermaid>
         <article
           className='markdown-body'
+          // className='prose'
           data-theme='light'
           dangerouslySetInnerHTML={{
             __html: data,

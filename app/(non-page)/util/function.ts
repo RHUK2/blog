@@ -8,7 +8,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
-const FOLDER_NAME = 'post';
+export const FOLDER_NAME = 'archive';
 
 export async function readDirectory() {
   return (await readdir(`${process.cwd()}/public/${FOLDER_NAME}`)).filter((directory) => /^[^\.]*$/.test(directory));
