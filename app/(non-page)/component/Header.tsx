@@ -8,13 +8,13 @@ export function Header() {
         <Link href='/' className='block text-lg font-bold tracking-tighter'>
           RHUK2
         </Link>
-        <div className='flex'>
+        <div className='flex gap-5'>
           <DarkLightButton />
-          <Link href='/' className='block min-w-24 text-center tracking-tighter hover:tracking-wider'>
-            🏠HOME
+          <Link href='/' className='block'>
+            🏠 HOME
           </Link>
-          <Link href='/archive' className=' block min-w-24 text-center tracking-tighter hover:tracking-wider'>
-            🪢ARCHIVE
+          <Link href='/archive' className=' block'>
+            🪢 ARCHIVE
           </Link>
         </div>
       </div>

@@ -1,8 +1,7 @@
 import { Footer, Header } from '@/component';
 import { ScrollTopFloatingButton } from '@/component/client';
-import '@/css/github-markdown.css';
-import '@/css/github.css';
 import '@/css/globals.css';
+import '@/css/highlight.css';
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
@@ -43,7 +42,8 @@ export default function RootLayout({
       <head>
         <script async type='module' src='/script/dom_init.mjs'></script>
       </head>
-      <body className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} font-pret dark:bg-gray-950 `}>
+      <body
+        className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} font-pret dark:bg-gray-950 dark:text-white`}>
         <Header />
         <main className='m-auto min-h-screen min-w-[320px] max-w-[1024px] border-x border-x-gray-200 bg-white pt-12 dark:border-x-gray-800 dark:bg-gray-950 '>
           {children}

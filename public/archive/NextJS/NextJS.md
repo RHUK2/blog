@@ -8,16 +8,15 @@ description:
 
 # NextJS
 
-- [NextJS](#nextjs)
-  - [렌더링 전략 4가지](#렌더링-전략-4가지)
-    - [SSG](#ssg)
-    - [CSR](#csr)
-    - [ISR](#isr)
-    - [SSR](#ssr)
-  - [hydration](#hydration)
-  - [웹 성능 지표](#웹-성능-지표)
-  - [코드스플리팅, 프리렌더링](#코드스플리팅-프리렌더링)
-  - [app router, page router](#app-router-page-router)
+- [렌더링 전략 4가지](#렌더링-전략-4가지)
+  - [SSG](#ssg)
+  - [CSR](#csr)
+  - [ISR](#isr)
+  - [SSR](#ssr)
+- [hydration](#hydration)
+- [웹 성능 지표](#웹-성능-지표)
+- [코드스플리팅, 프리렌더링](#코드스플리팅-프리렌더링)
+- [app router, page router](#app-router-page-router)
 
 ## 렌더링 전략 4가지
 
@@ -118,3 +117,50 @@ SSR을 사용하면 클라이언트가 페이지를 요청할 때마다 서버�
 위 두 방식은 렌더링 방식이 아예 다르다
 
 전자는 서버 컴포넌트를 활용하며, 후자는 ssr, ssg, isr 등 다양한 전략을 취한다.
+
+```mermaid
+sequenceDiagram
+    participant User as 사용자
+    participant Terminal as 터미널
+    participant NVM as NVM
+    participant PM2 as PM2
+    participant App1 as 앱1 (Node.js 14)
+    participant App2 as 앱2 (Node.js 16)
+
+    User->>Terminal: NVM 설치
+    Terminal->>NVM: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+    User->>Terminal: Node.js 14 버전 설치
+    Terminal->>NVM: nvm install 14
+
+    User->>Terminal: Node.js 16 버전 설치
+    Terminal->>NVM: nvm install 16
+
+    User->>Terminal: 앱1 디렉토리로 이동 및 .nvmrc 생성
+    Terminal->>App1: echo "14" > .nvmrc
+
+    User->>Terminal: 앱2 디렉토리로 이동 및 .nvmrc 생성
+    Terminal->>App2: echo "16" > .nvmrc
+
+    User->>Terminal: start_app1.sh 스크립트 작성
+    Terminal->>NVM: nvm use 14
+    Terminal->>PM2: pm2 start /path/to/app1/app.js --name app1
+
+    User->>Terminal: start_app2.sh 스크립트 작성
+    Terminal->>NVM: nvm use 16
+    Terminal->>PM2: pm2 start /path/to/app2/app.js --name app2
+
+    User->>Terminal: start_app1.sh 스크립트 실행
+    Terminal->>NVM: nvm use 14
+    Terminal->>PM2: pm2 start /path/to/app1/app.js --name app1
+    PM2->>App1: 앱1 시작
+
+    User->>Terminal: start_app2.sh 스크립트 실행
+    Terminal->>NVM: nvm use 16
+    Terminal->>PM2: pm2 start /path/to/app2/app.js --name app2
+    PM2->>App2: 앱2 시작
+
+    User->>PM2: PM2로 앱 관리
+    PM2->>User: pm2 list, pm2 logs, pm2 restart, pm2 save 등
+
+```

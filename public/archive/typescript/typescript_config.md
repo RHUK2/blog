@@ -8,8 +8,6 @@ description: ✅
 
 # Typescript 설정
 
-- [Typescript 설정](#typescript-설정)
-
 ```js
 // tsconfig.json
 

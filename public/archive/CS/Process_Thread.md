@@ -8,13 +8,12 @@ description:
 
 # Process Thread
 
-- [Process Thread](#process-thread)
-  - [Program과 Process](#program과-process)
-    - [System Program과 Application Program](#system-program과-application-program)
-  - [Thread](#thread)
-  - [Memory Model](#memory-model)
-  - [자원 할당과 공유](#자원-할당과-공유)
-  - [Core와 Thread, 병렬성과 동시성](#core와-thread-병렬성과-동시성)
+- [Program과 Process](#program과-process)
+  - [System Program과 Application Program](#system-program과-application-program)
+- [Thread](#thread)
+- [Memory Model](#memory-model)
+- [자원 할당과 공유](#자원-할당과-공유)
+- [Core와 Thread, 병렬성과 동시성](#core와-thread-병렬성과-동시성)
 
 ## Program과 Process
 

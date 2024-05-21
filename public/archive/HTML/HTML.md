@@ -8,8 +8,7 @@ description:
 
 # HTML
 
-- [HTML](#html)
-  - [HTMLFormElement](#htmlformelement)
+- [HTMLFormElement](#htmlformelement)
 
 ## HTMLFormElement
 

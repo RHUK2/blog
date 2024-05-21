@@ -10,7 +10,6 @@
     "prettier": "prettier --write './**/*.tsx'"
   },
   "dependencies": {
-    "framer-motion": "^11.0.3",
     "gray-matter": "^4.0.3",
     "mermaid": "^10.8.0",
     "next": "14.1.0",

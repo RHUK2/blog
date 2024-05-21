@@ -8,17 +8,16 @@ description: ✅
 
 # SQL Cheat Sheet
 
-- [SQL Cheat Sheet](#sql-cheat-sheet)
-  - [특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정](#특정-테이블에서-컬럼-데이터-확인하기-및-별칭-지정)
-  - [조건문](#조건문)
-  - [정렬](#정렬)
-  - [출력 갯수 제한](#출력-갯수-제한)
-  - [조인](#조인)
-  - [관계형 DB의 관계](#관계형-db의-관계)
-    - [일대일 관계 (One-to-One Relationship)](#일대일-관계-one-to-one-relationship)
-    - [일대다 관계 (One-to-Many Relationship)](#일대다-관계-one-to-many-relationship)
-    - [다대일 관계 (Many-to-One Relationship)](#다대일-관계-many-to-one-relationship)
-    - [다대다 관계 (Many-to-Many Relationship)](#다대다-관계-many-to-many-relationship)
+- [특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정](#특정-테이블에서-컬럼-데이터-확인하기-및-별칭-지정)
+- [조건문](#조건문)
+- [정렬](#정렬)
+- [출력 갯수 제한](#출력-갯수-제한)
+- [조인](#조인)
+- [관계형 DB의 관계](#관계형-db의-관계)
+  - [일대일 관계 (One-to-One Relationship)](#일대일-관계-one-to-one-relationship)
+  - [일대다 관계 (One-to-Many Relationship)](#일대다-관계-one-to-many-relationship)
+  - [다대일 관계 (Many-to-One Relationship)](#다대일-관계-many-to-one-relationship)
+  - [다대다 관계 (Many-to-Many Relationship)](#다대다-관계-many-to-many-relationship)
 
 ## 특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정
 

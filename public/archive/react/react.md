@@ -8,28 +8,27 @@ description:
 
 # React 기록하기
 
-- [React 기록하기](#react-기록하기)
-  - [가상 돔(Virtual DOM)](#가상-돔virtual-dom)
-  - [JSX(JavaScript XML)](#jsxjavascript-xml)
-  - [useState](#usestate)
-    - [Strict Mode](#strict-mode)
-  - [useRef](#useref)
-    - [forwardRef()](#forwardref)
-    - [useImperativeHandle](#useimperativehandle)
-  - [useEffect](#useeffect)
-    - [의존성 배열에 상태 변수 없애기](#의존성-배열에-상태-변수-없애기)
-    - [의존성 배열에 객체 변수 없애기](#의존성-배열에-객체-변수-없애기)
-    - [의존성 배열에 함수 없애기](#의존성-배열에-함수-없애기)
-    - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
-  - [useMemo vs useCallback](#usememo-vs-usecallback)
-  - [memo](#memo)
-  - [사용자 훅과 일반 유틸 함수의 차이점](#사용자-훅과-일반-유틸-함수의-차이점)
-  - [사용자 Hook](#사용자-hook)
-  - [manifest.json](#manifestjson)
-  - [react에서 환경변수](#react에서-환경변수)
-    - [checked](#checked)
-    - [oninput vs onchange](#oninput-vs-onchange)
-    - [사용자 입력 제한](#사용자-입력-제한)
+- [가상 돔(Virtual DOM)](#가상-돔virtual-dom)
+- [JSX(JavaScript XML)](#jsxjavascript-xml)
+- [useState](#usestate)
+  - [Strict Mode](#strict-mode)
+- [useRef](#useref)
+  - [forwardRef()](#forwardref)
+  - [useImperativeHandle](#useimperativehandle)
+- [useEffect](#useeffect)
+  - [의존성 배열에 상태 변수 없애기](#의존성-배열에-상태-변수-없애기)
+  - [의존성 배열에 객체 변수 없애기](#의존성-배열에-객체-변수-없애기)
+  - [의존성 배열에 함수 없애기](#의존성-배열에-함수-없애기)
+  - [useEffect 두 번 호출 이슈](#useeffect-두-번-호출-이슈)
+- [useMemo vs useCallback](#usememo-vs-usecallback)
+- [memo](#memo)
+- [사용자 훅과 일반 유틸 함수의 차이점](#사용자-훅과-일반-유틸-함수의-차이점)
+- [사용자 Hook](#사용자-hook)
+- [manifest.json](#manifestjson)
+- [react에서 환경변수](#react에서-환경변수)
+  - [checked](#checked)
+  - [oninput vs onchange](#oninput-vs-onchange)
+  - [사용자 입력 제한](#사용자-입력-제한)
 
 ## 가상 돔(Virtual DOM)
 
@@ -39,10 +38,14 @@ description:
 
 ## JSX(JavaScript XML)
 
-- JavaScript의 확장 문법으로, React 컴포넌트를 더 직관적이고 가독성이 높은 방식으로 작성할 수 있도록 도와준다.
-- XML과 유사한 구문을 사용하여 JavaScript 코드 안에 HTML 마크업을 작성할 수 있게 해준다.
-- JSX는 JavaScript 표현식을 중괄호(`{}`)로 감싸서 삽입할 수도 있다. 이를 통해 동적으로 값을 계산하거나 변수를 사용할 수 있다.
-- 바벨(Babel)과 같은 도구를 사용하여 일반 JavaScript 코드로 변환된다.
+전통적인 웹은 HTML, CSS, JavaScript를 기반으로 구축됐었다. 하지만 웹이 발전하면서 로직이 콘텐츠를 결정하는 경우가 많아졌다. 그래서 HTML을 자바스크립트가 제어하는 형태가 탄생했다. 이것이 바로 React에서 렌더링 로직과 마크업이 같은 위치, 즉 컴포넌트에 함께 존재하는 이유다.
+
+- JSX와 React는 별개의 개념이다. JSX는 구문 확장이고 React는 자바스크립트 라이브러리이다.
+- JavaScript 표현식을 중괄호(`{}`)로 감싸서 삽입할 수도 있다. 이를 통해 보다 동적으로 마크업할 수 있다.
+- 컴포넌트에서 여러 요소를 반환하려면 단일 부모 태그로 래핑하거나 Fragment(`<>`, `</>`)를 래핑해야 한다.
+  - JSX는 HTML처럼 보이지만 내부적으로는 일반 JavaScript 객체로 변환된다. 함수에서 두 개의 객체를 배열로 래핑하지 않고는 반환할 수 없다
+- JSX로 작성된 속성은 객체의 키가 된다. 그래서 속성은 모두 카멜 케이스로 작성해야 하고 대시를 포함하거나 class와 같은 예약어를 사용할 수 없다.
+  - 역사적인 이유로 `aria-*` 및 `data-*` 속성은 HTML에서와 같이 대시를 사용하여 작성된다.
 
 ## useState
 
@@ -50,7 +53,11 @@ description:
 const [state, setState] = useState(initialState);
 ```
 
-`useState`의 첫 번째 인자로 값을 전달하면 해당 값을 초기 상태로 설정해준다. 함수를 전달하면 이 함수는 초기화 함수로 취급된다. 이 함수는 순수해야 하고 인수를 받지 않아야 하며 어떤 유형의 값도 반환해야 한다. React는 컴포넌트를 초기화할 때 초기화 함수를 호출하고 그 반환값을 초기 상태로 저장한다. 초기 상태는 컴포넌트가 처음 렌더링되는 시점에만 설정되고, 이후에는 무시된다.
+- `useState`의 인자로 값을 전달하면 해당 값을 초기 상태로 설정한다.
+- `useState`의 인자로 함수를 전달하면 이 함수의 반환값을 초기 상태로 설정한다.
+  - 초기화 함수는 순수해야 하고 인수를 받지 않아야 하며 무조건 값을 반환해야 한다.
+- 초기 상태는 컴포넌트가 처음 렌더링되는 시점에만 설정되고, 이후에는 무시된다.
+- 최상위 레벨 또는 자체 Hook에서만 호출할 수 있다. 루프나 조건 내부에서는 호출할 수 없다.
 
 ### Strict Mode
 

@@ -8,11 +8,10 @@ description:
 
 # NestJS
 
-- [NestJS](#nestjs)
-  - [의존성 주입](#의존성-주입)
-  - [Module](#module)
-  - [Controller](#controller)
-  - [Provider](#provider)
+- [의존성 주입](#의존성-주입)
+- [Module](#module)
+- [Controller](#controller)
+- [Provider](#provider)
 
 ## 의존성 주입
 

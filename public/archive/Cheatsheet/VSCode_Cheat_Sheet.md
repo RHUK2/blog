@@ -8,9 +8,8 @@ description: ✅
 
 # VScode Cheat Sheet
 
-- [VScode Cheat Sheet](#vscode-cheat-sheet)
-  - [IntelliSense](#intellisense)
-  - [단축키](#단축키)
+- [IntelliSense](#intellisense)
+- [단축키](#단축키)
 
 ## IntelliSense
 

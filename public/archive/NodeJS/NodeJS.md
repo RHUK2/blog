@@ -10,21 +10,20 @@ description:
 
 # NodeJS
 
-- [NodeJS](#nodejs)
-  - [탄생 배경](#탄생-배경)
-  - [NPM](#npm)
-  - [package.json](#packagejson)
-    - [devDependencies](#devdependencies)
-    - [scripts](#scripts)
-    - [workspaces](#workspaces)
-    - [브라우저 단에서 node_moduels](#브라우저-단에서-node_moduels)
-  - [PM2 무중단 배포](#pm2-무중단-배포)
-  - [\_\_dirname, \_\_filename, process.cwd()](#__dirname-__filename-processcwd)
-  - [createWriteStream, createReadStream, readFile, readFileSync, readdir](#createwritestream-createreadstream-readfile-readfilesync-readdir)
-  - [HTTP Response에 스트림 연결 개념](#http-response에-스트림-연결-개념)
-  - [asd](#asd)
-  - [express.static()](#expressstatic)
-  - [web api](#web-api)
+- [탄생 배경](#탄생-배경)
+- [NPM](#npm)
+- [package.json](#packagejson)
+  - [devDependencies](#devdependencies)
+  - [scripts](#scripts)
+  - [workspaces](#workspaces)
+  - [브라우저 단에서 node\_moduels](#브라우저-단에서-node_moduels)
+- [PM2 무중단 배포](#pm2-무중단-배포)
+- [\_\_dirname, \_\_filename, process.cwd()](#__dirname-__filename-processcwd)
+- [createWriteStream, createReadStream, readFile, readFileSync, readdir](#createwritestream-createreadstream-readfile-readfilesync-readdir)
+- [HTTP Response에 스트림 연결 개념](#http-response에-스트림-연결-개념)
+- [asd](#asd)
+- [express.static()](#expressstatic)
+- [web api](#web-api)
 
 ## 탄생 배경
 

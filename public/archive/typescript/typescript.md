@@ -8,10 +8,9 @@ description: ✅
 
 # Typescript 기록하기
 
-- [Typescript 기록하기](#typescript-기록하기)
-  - [any vs unknown vs never](#any-vs-unknown-vs-never)
-  - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
-  - [.d.ts](#dts)
+- [any vs unknown vs never](#any-vs-unknown-vs-never)
+- [옵셔널 프로퍼티](#옵셔널-프로퍼티)
+- [.d.ts](#dts)
 
 ## any vs unknown vs never
 
