@@ -17,6 +17,7 @@ description:
 - [웹 성능 지표](#웹-성능-지표)
 - [코드스플리팅, 프리렌더링](#코드스플리팅-프리렌더링)
 - [app router, page router](#app-router-page-router)
+- [빌드](#빌드)
 
 ## 렌더링 전략 4가지
 
@@ -164,3 +165,91 @@ sequenceDiagram
     PM2->>User: pm2 list, pm2 logs, pm2 restart, pm2 save 등
 
 ```
+
+## 빌드
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+
+    Browser->>Server: GET / (HTML 요청)
+    Server-->>Browser: index.html (HTML 응답)
+
+    Browser->>Server: GET /_next/static/chunks/webpack.js (웹팩 JS 파일 요청)
+    Server-->>Browser: webpack.js (웹팩 JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/main.js (메인 JS 파일 요청)
+    Server-->>Browser: main.js (메인 JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/pages/_app.js (App JS 파일 요청)
+    Server-->>Browser: _app.js (App JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/pages/index.js (Index 페이지 JS 파일 요청)
+    Server-->>Browser: index.js (Index 페이지 JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/css/main.css (CSS 파일 요청)
+    Server-->>Browser: main.css (CSS 파일 응답)
+
+    Browser->>Server: GET /_next/static/media/logo.png (로고 이미지 파일 요청)
+    Server-->>Browser: logo.png (로고 이미지 파일 응답)
+
+    note over Browser: HTML 파일 파싱 및 리소스 로딩
+    note over Browser: JS 파일 파싱 및 Next.js 앱 초기화
+```
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+
+    Browser->>Server: GET / (HTML 요청)
+    Server-->>Browser: HTML 응답 (서버 사이드 렌더링된 HTML)
+
+    Browser->>Server: GET /_next/static/chunks/main.js (메인 JS 파일 요청)
+    Server-->>Browser: main.js (메인 JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/webpack.js (웹팩 JS 파일 요청)
+    Server-->>Browser: webpack.js (웹팩 JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/pages/_app.js (App JS 파일 요청)
+    Server-->>Browser: _app.js (App JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/pages/_layout.js (Layout JS 파일 요청)
+    Server-->>Browser: _layout.js (Layout JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/chunks/pages/index.js (Index 페이지 JS 파일 요청)
+    Server-->>Browser: index.js (Index 페이지 JS 파일 응답)
+
+    Browser->>Server: GET /_next/static/css/main.css (CSS 파일 요청)
+    Server-->>Browser: main.css (CSS 파일 응답)
+
+    Browser->>Server: GET /_next/static/media/logo.png (로고 이미지 파일 요청)
+    Server-->>Browser: logo.png (로고 이미지 파일 응답)
+
+    note over Browser: HTML 파일 파싱 및 리소스 로딩
+    note over Browser: JS 파일 파싱 및 Next.js 앱 초기화
+
+```
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+
+    note over Browser: 사용자가 다른 페이지로 이동하는 링크 클릭
+    Browser->>Server: GET /_next/data/build-id/other-page.json (데이터 요청)
+    Server-->>Browser: other-page.json (데이터 응답)
+
+    Browser->>Server: GET /_next/static/chunks/pages/other-page.js (다른 페이지 JS 파일 요청)
+    Server-->>Browser: other-page.js (다른 페이지 JS 파일 응답)
+
+    note over Browser: 다른 페이지로 클라이언트 사이드 네비게이션
+    note over Browser: 페이지 컴포넌트 초기화 및 렌더링
+```
+
+NextJS는 서버에서 HTML 로딩을 가속화하여 SEO 점수를 높이기 위해 사전 렌더링을 수행하지만 이미 웹사이트에 있는 경우 전체 새 페이지 HTML을 다시 로드할 필요가 없으며 표시되는 구성 요소를 변경할 때만 React를 사용합니다.
+
+브라우저의 네트워크 탭에서 첫 번째 페이지가 완전히 로드되는 동안 다른 페이지는 현재 페이지를 변경하기 위한 정보가 포함된 .json 파일을 로드하는 것을 볼 수 있습니다.
+
+또한 페이지 소스 코드가 표시되면 새 요청을 수행하여 새 URL에 대한 HTML을 가져옵니다.

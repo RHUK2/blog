@@ -29,6 +29,7 @@ description:
   - [checked](#checked)
   - [oninput vs onchange](#oninput-vs-onchange)
   - [사용자 입력 제한](#사용자-입력-제한)
+- [빌드](#빌드)
 
 ## 가상 돔(Virtual DOM)
 
@@ -315,3 +316,33 @@ HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기
 위 방법은 개발자 도구에서 `disabled` 값을 수정하거나 마스킹 스타일을 수정해서 클릭할 수 있는 상태로 변경이 가능하다. 이런 이유로 클라이언트에서는 데이터 무결성을 완벽히 체크하지 못하므로 서버에서 꼼꼼한 예외처리가 필요하다. 리액트에서는 가상 돔을 이용하므로 `disabled` 값이 상태 값에 의존하는 경우에는 입력 제한이 가능하다(?). 속성 값을 수정해도 상태 값이 변경되지 않아 리렌더링이 발생하지 않고 화면 상에서는 클릭 가능해보이지만 클릭해보면 이벤트가 발생하지 않는다.
 
 인증된 사용자의 토큰이 필요한 API의 경우 추적도 가능하고 인증된 사용자가 위와 같은 편법을 쓸 확률을 낮기 떄문에 비교적 위험성이 적지만, 토큰이 필요없는 API나 중요한 정보가 오가는 API(가격, 사용자 정보, 결제 등)가 동작하는 입력 요소의 경우 보안적인 부분을 꼼꼼히 신경쓰는 것이 좋다.
+
+## 빌드
+
+웹브라우저에서 리액트 앱에 접속하면 아래와 같이 네트워크 요청이 이루어진다. 항상 `index.html`을 우선적으로 호출하고 파일에 연결된 정적 파일들을 호출한다.
+
+index.html에는 난수가 붙지않음. 각 각에 정적 파일에는 난수값이 적혀져있고 매 빌드마다 바뀌기 때문에 빌드 후에 파일만 교체해주면 서버(정적 파일 서빙)를 다운시키지 않고 파일 변경이 가능하다
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+
+    Browser->>Server: GET / (HTML 요청)
+    Server-->>Browser: index.html (HTML 응답)
+
+    Browser->>Server: GET /static/js/main.js (메인 JS 파일 요청)
+    Server-->>Browser: main.js (메인 JS 파일 응답)
+
+    Browser->>Server: GET /static/css/main.css (CSS 파일 요청)
+    Server-->>Browser: main.css (CSS 파일 응답)
+
+    Browser->>Server: GET /static/js/vendors~main.js (벤더 JS 파일 요청)
+    Server-->>Browser: vendors~main.js (벤더 JS 파일 응답)
+
+    Browser->>Server: GET /static/media/logo.png (로고 이미지 파일 요청)
+    Server-->>Browser: logo.png (로고 이미지 파일 응답)
+
+    note over Browser: HTML 파일 파싱 및 리소스 로딩
+    note over Browser: JS 파일 파싱 및 React 앱 초기화
+```
