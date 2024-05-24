@@ -42,7 +42,7 @@ fi
 
 if [ -e .next/static ]; then
     datetime=$(date +%Y%m%d_%H%M%S)
-    cp -r .next/static backup/"$datetime"/
+    cp -r .next backup/"$datetime"
     echo "🔥  Complete backup 🔥"
 fi
 
