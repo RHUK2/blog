@@ -1,12 +1,12 @@
 ---
 updatedAt: 2024-04-21
-directory: Cheatsheet
-fileName: Dev_Env_Check
-title: 개발환경 설정 체크리스트
+directory: cheatsheet
+fileName: dev_env_check
+title: Dev Environment
 description: ✅
 ---
 
-# 개발 환경 설정 체크리스트
+# Dev Environment
 
 - [ ] Windows Terminal 설치 및 설정
 - [ ] WSL2 설치

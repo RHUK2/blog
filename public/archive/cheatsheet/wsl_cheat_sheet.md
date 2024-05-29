@@ -1,7 +1,7 @@
 ---
 updatedAt: 2024-04-21
-directory: Cheatsheet
-fileName: WSL_Cheat_Sheet
+directory: cheatsheet
+fileName: wsl_cheat_sheet
 title: WSL Cheat Sheet
 description: ✅
 ---

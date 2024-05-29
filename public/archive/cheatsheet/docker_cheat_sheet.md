@@ -1,14 +1,14 @@
 ---
 updatedAt: 2024-04-21
-directory: Cheatsheet
-fileName: Docker_Cheat_Sheet
+directory: cheatsheet
+fileName: docker_cheat_sheet
 title: Docker Cheat Sheet
 description: ✅
 ---
 
 # Docker Cheat Sheet
 
-- [Structure](#structure)
+- [Docker Architecture](#docker-architecture)
 - [Dockerfile](#dockerfile)
 - [Docker Registry](#docker-registry)
   - [Login to a Docker registry](#login-to-a-docker-registry)
@@ -74,16 +74,9 @@ description: ✅
   - [View service logs](#view-service-logs)
   - [Scale services](#scale-services)
 
-## Structure
+## Docker Architecture
 
-```mermaid
-graph LR
-    A[Docker Client] -- sends command --> B[Docker Daemon]
-    B -- manages --> C[Docker Container]
-    B -- pulls from/pushes to --> D[Docker Registry]
-    C -- is instance of --> E[Docker Image]
-    E -- built from --> F[Dockerfile]
-```
+![docker_architecture](images/docker_architecture.jpg)
 
 ## Dockerfile
 
@@ -596,50 +589,4 @@ Scale services to a specified number of instances.
 
 ```bash
 docker compose scale service_name=num_of_instances
-```
-
-```mermaid
-graph LR
-    subgraph Docker_Container_1
-    A[Container 1]
-    end
-
-    subgraph Docker_Container_2
-    B[Container 2]
-    end
-
-    subgraph Docker_Container_3
-    C[Container 3]
-    end
-
-    subgraph Docker_Network
-    N1[Network]
-    end
-
-    subgraph Docker_Volume
-    V1[Volume]
-    end
-
-    A -- Network --> N1
-    B -- Network --> N1
-    C -- Network --> N1
-
-    A -- Volume --> V1
-```
-
-```mermaid
-graph TB
-    subgraph Docker_Host
-        A[Docker Daemon]
-        B[Volume my_volume]
-    end
-
-    subgraph Docker_Container
-        C[Container 1]
-        D[Container 2]
-        C ---|Mount| B
-        D ---|Mount| B
-    end
-
-    A -- Manages --> B
 ```

@@ -1,7 +1,7 @@
 ---
 updatedAt: 2024-04-21
-directory: Cheatsheet
-fileName: SQL_Cheat_Sheet
+directory: cheatsheet
+fileName: sql_cheat_sheet
 title: SQL Cheat Sheet
 description: ✅
 ---

@@ -1,7 +1,7 @@
 ---
 updatedAt: 2024-04-21
-directory: Cheatsheet
-fileName: VSCode_Cheat_Sheet
+directory: cheatsheet
+fileName: vscode_cheat_sheet
 title: VSCode Cheat Sheet
 description: ✅
 ---

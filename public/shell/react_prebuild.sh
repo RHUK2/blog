@@ -2,22 +2,23 @@
 
 echo "⚠️  WARNING ⚠️"
 echo "You want to try to build and deploy."
+
+# check 1
 echo -n "Is everything ready? [y/n] "
 read -r answer
-
-if [ "$answer" != "y" ] && [ "$answer" != "yes" ]; then
+if [ "$answer" != "y" ] && [ "$answer" != "Y" ]; then
     exit 1
 fi
 
+# check 2
 echo -n "Are you sure? [y/n] "
 read -r answer
-
-if [ "$answer" != "y" ] && [ "$answer" != "yes" ]; then
+if [ "$answer" != "y" ] && [ "$answer" != "Y" ]; then
     exit 1
 fi
 
-env=$(find . -maxdepth 1 -type f -name "*.env.*")
-
+# find environment file
+env=$(find . -maxdepth 1 -type f -name "*env*")
 if [ -z "$env" ]; then
     echo ""
     echo "⚠️  Don't find env file ⚠️"
@@ -26,26 +27,29 @@ else
     echo "🔥  Detect env file 🔥"
 fi
 
+# input branch name
 echo -n "Enter the branch name to import from origin: "
 read -r branch
-
 if [ -z "$branch" ]; then
     echo ""
     echo "⚠️  Please input branch name ⚠️"
     exit 1
 fi
 
+# create backup folder
 if [ ! -e backup ]; then
     mkdir backup
     echo "🔥  Make backup directory 🔥"
 fi
 
-if [ -e .next/static ]; then
+# output folder(build file) backup
+if [ -e output ]; then
     datetime=$(date +%Y%m%d_%H%M%S)
-    cp -r .next backup/"$datetime"
+    cp -r output backup/"$datetime"/
     echo "🔥  Complete backup 🔥"
 fi
 
+# delete old backup
 if [ -e backup ]; then
     cd backup || exit 1
 
@@ -82,6 +86,11 @@ fi
 
 echo "🔥  Merge origin/${branch:-master} 🔥"
 if ! git merge "origin/${branch:-master}"; then
+    exit 1
+fi
+
+echo "🔥  npm Install 🔥"
+if ! npm install; then
     exit 1
 fi
 
