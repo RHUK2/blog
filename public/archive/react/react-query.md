@@ -1,3 +1,16 @@
+---
+updatedAt: 2024-04-29
+directory: react
+fileName: react-query
+title: React Query
+description:
+---
+
+# React Query
+
+- [react-query 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
+- [react-query](#react-query-1)
+
 ## react-query 사용 시 애니메이션 렌더링 문제
 
 아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 상태에 따라 트랜지션이 일어나고 리액트 쿼리로 리스트 값을 업데이트하는 API 요청을 하게 된다. 그리고 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
