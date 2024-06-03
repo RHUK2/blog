@@ -1,12 +1,12 @@
 ---
 updatedAt: 2024-04-29
-directory: CS
-fileName: Process_Thread
-title: Process, Thread 기록하기
+directory: cs
+fileName: process_thread
+title: Process와 Thread
 description:
 ---
 
-# Process Thread
+# Process와 Thread
 
 - [Program과 Process](#program과-process)
   - [System Program과 Application Program](#system-program과-application-program)
@@ -14,6 +14,10 @@ description:
 - [Memory Model](#memory-model)
 - [자원 할당과 공유](#자원-할당과-공유)
 - [Core와 Thread, 병렬성과 동시성](#core와-thread-병렬성과-동시성)
+- [CPU vs GPU](#cpu-vs-gpu)
+  - [CPU(중앙처리장치)](#cpu중앙처리장치)
+  - [GPU(그래픽처리장치)](#gpu그래픽처리장치)
+  - [요약](#요약)
 
 ## Program과 Process
 
@@ -23,11 +27,11 @@ Program과 Process의 차이는 Program을 실행하냐 안하냐의 차이를 �
 
 Program은 `*.exe`, `*.dmg`와 같은 실행 파일을 의미하며, 컴퓨터 메모리에 올라가 있지 않다.
 
-![program](assets/program.png)
+![program](images/program.png)
 
 Process는 위와 같은 Program을 실행시켜서 만든 하나의 인스턴스를 의미하며, 컴퓨터 메모리에 올라가고 CPU 자원을 할당 받는다. 하나의 Program은 여러 개의 Process를 가질 수 있다.
 
-![process](assets/process.png)
+![process](images/process.png)
 
 ### System Program과 Application Program
 
@@ -41,7 +45,7 @@ Thread가 없던 시절 하나의 Process는 동시에 여러 작업을 수행�
 
 Thread는 하나의 Process 내에서 동시에 진행되는 작업의 단위를 뜻한다.
 
-![process_thread](assets/process_thread.png)
+![process_thread](images/process_thread.png)
 
 보통 하나의 Program은 하나 이상의 Process를 가지고 있고, 하나의 Process는 하나 이상의 Thread를 가지고 있다.
 
@@ -49,7 +53,7 @@ Thread는 하나의 Process 내에서 동시에 진행되는 작업의 단위를
 
 위에서 Process는 메모리에 적재되고 CPU에게 자원을 할당받은 상태라고 설명했는데, 그 자원이 어떻게 구성되어 있는지 살펴보자.
 
-![memory_model](assets/memory_model.png)
+![memory_model](images/memory_model.png)
 
 - Text(Code) Area: 기계어로 컴파일된 코드들이 저장되는 공간이다.
 
@@ -63,19 +67,19 @@ Thread는 하나의 Process 내에서 동시에 진행되는 작업의 단위를
 
 Process는 아래와 같이 자원을 할당받게 된다.
 
-![process_allocate](assets/process_allocate.gif)
+![process_allocate](images/process_allocate.gif)
 
 Thread는 Process가 할당받은 자원 중 Stack 영역 내에서 독립적인 Stack을 할당받게 되고 그 공간의 크기는 Thread마다 다를 수 있으며, Stack 영역의 공간이 제한적인 만큼 Thread도 생성 가능한 수가 제한된다.
 
 그리고 Process 내에서 서로 다른 Thread들 간에는 Text, Data, Heap 영역이 공유가 되어 자원을 공유해서 사용할 수 있으며, 자원의 생성과 관리에 있어서 중복을 최소화한다.
 
-![thread_allocate](assets/thread_allocate.png)
+![thread_allocate](images/thread_allocate.png)
 
 서로 다른 Process는 각 자 별도의 공간을 차지하기 때문에 Thread가 정보를 공유하는 것과는 다른 방법을 취해야 한다.
 
 대표적으로 두 가지 모델이 있고, 아래 그림과 같이 공유 메모리를 사용하는 (a) 모델과 메세지를 전달하는 (b) 모델이 있다.
 
-![process_data_share](assets/process_data_share.png)
+![process_data_share](images/process_data_share.png)
 
 ## Core와 Thread, 병렬성과 동시성
 
@@ -83,7 +87,7 @@ Thread는 Process가 할당받은 자원 중 Stack 영역 내에서 독립적인
 
 CPU 구매 시 스펙을 살펴보면 6 Core 12 Thread, 4 Core 8 Thread 등이 적혀 있을 것이다. CPU는 명령어를 메모리에서 뽑아 해석하고 실행하는 반도체 유닛을 한 개 이상 가지고 있고 이를 Core라고 부른다. 그리고 Thread는 운영체제가 인식하는 Core의 수다. Hyper Threading이라는 기술을 이용해서 Core의 수가 증가한 것처럼 운영체제를 속인다. 위에서 설명한 Thread와는 다른 개념이다.
 
-![core_thread](assets/core_thread.png)
+![core_thread](images/core_thread.png)
 
 위 사진은 작업 관리자의 성능 탭에서 확인할 수 있는데, 사진에서 보듯이 실제로 존재하는 물리적인 Core의 수는 4개지만, 운영체제는 8개로 인식하는 모습을 볼 수 있다.
 
@@ -95,4 +99,43 @@ CPU 구매 시 스펙을 살펴보면 6 Core 12 Thread, 4 Core 8 Thread 등이 �
 
 병렬성과 동시성을 통해서 수많은 Process가 동시에 처리되는 것이 아니라 동시에 처리되는 것처럼 느끼게 해주는 것이다.
 
-![parallel_concurrent](assets/parallel_concurrent.jpg)
+![parallel_concurrent](images/parallel_concurrent.jpg)
+
+## CPU vs GPU
+
+CPU(중앙처리장치)와 GPU(그래픽처리장치)는 모두 컴퓨터에서 데이터를 처리하는 데 사용되지만, 그들의 설계와 주요 목적에는 몇 가지 중요한 차이점이 있습니다.
+
+### CPU(중앙처리장치)
+
+1. **목적:**
+
+   - 범용 처리: CPU는 다양한 작업을 수행할 수 있도록 설계되었습니다. 운영 체제 실행, 애플리케이션 실행, 복잡한 계산 등 모든 컴퓨터 작업의 중심 역할을 합니다.
+
+2. **구조:**
+
+   - 소수의 강력한 코어: CPU는 일반적으로 소수의 강력한 코어를 가지고 있습니다(보통 4-16개). 각 코어는 복잡한 명령을 빠르게 처리할 수 있습니다.
+   - 고속 캐시 메모리: CPU는 더 빠른 데이터 접근을 위해 큰 용량의 캐시 메모리를 포함하고 있습니다.
+
+3. **작업 방식:**
+   - 직렬 처리: CPU는 복잡한 작업을 순차적으로 처리하는 데 강합니다. 단일 또는 적은 수의 스레드에서 높은 성능을 발휘합니다.
+
+### GPU(그래픽처리장치)
+
+1. **목적:**
+
+   - 병렬 처리: GPU는 대규모 병렬 연산을 효율적으로 처리할 수 있도록 설계되었습니다. 주로 그래픽 렌더링, 비디오 처리, 과학 계산, 인공지능 연산 등에 사용됩니다.
+
+2. **구조:**
+
+   - 다수의 단순한 코어: GPU는 수천 개의 작은 코어를 가지고 있습니다. 각 코어는 단순한 명령을 동시에 실행할 수 있습니다.
+   - 고대역폭 메모리: GPU는 대량의 데이터를 빠르게 처리하기 위해 고대역폭 메모리를 사용합니다.
+
+3. **작업 방식:**
+   - 병렬 처리: GPU는 많은 수의 작은 작업을 동시에 처리하는 데 뛰어납니다. 이를 통해 복잡한 그래픽과 대규모 데이터 처리를 효율적으로 수행합니다.
+
+### 요약
+
+- **CPU**: 범용적이고 복잡한 작업을 직렬로 처리하는 소수의 강력한 코어를 가짐.
+- **GPU**: 대규모 병렬 작업을 효율적으로 처리하는 다수의 단순한 코어를 가짐.
+
+이 차이로 인해 CPU는 일반적인 컴퓨터 작업에, GPU는 그래픽 및 데이터 병렬 처리 작업에 각각 최적화되어 사용됩니다.

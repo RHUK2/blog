@@ -220,6 +220,59 @@ setinterval
 
 settimeout
 
+```ts
+const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+
+useEffect(() => {
+  if (time > 0 && ing.count < config.count - 2)
+    timerIdRef.current = setTimeout(() => {
+      setIng((prev) => ({
+        ...prev,
+        progress: prev.progress + config.borderLength / config.count,
+        percent: prev.percent + 100 / config.count,
+        count: prev.count + 1,
+      }));
+    }, config.intervalTime);
+
+  return () => {
+    if (timerIdRef.current) clearTimeout(timerIdRef.current);
+  };
+}, [config, ing, time]);
+```
+
+```ts
+const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+
+
+useEffect(() => {
+    if (time > 0)
+      timerIdRef.current = setInterval(() => {
+        setIng((prev) => {
+          if (prev.count >= config.count - 2 && timerIdRef.current) {
+            clearTimeout(timerIdRef.current);
+          }
+
+          return {
+            ...prev,
+            progress: prev.progress + config.borderLength / config.count,
+            percent: prev.percent + 100 / config.count,
+            count: prev.count + 1,
+          };
+        });
+      }, config.intervalTime);
+
+    return () => {
+      if (timerIdRef.current) clearTimeout(timerIdRef.current);
+
+      setIng((prev) => ({
+        progress: 0,
+        percent: 0,
+        count: 0,
+      }));
+    };
+  }, [config, ing, time]);
+```
+
 ### 의존성 배열에 객체 변수 없애기
 
 useEffect 내부에 객체 선언하기

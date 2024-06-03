@@ -61,6 +61,7 @@ description:
   - [불변성 유지하기](#불변성-유지하기)
   - [불변 라이브러리](#불변-라이브러리)
   - [결론](#결론)
+- [시간 구하기](#시간-구하기)
 
 ## JavaScript vs ECMAScript
 
@@ -782,6 +783,7 @@ defer 속성:(모듈 스크립트에서는 디폴트 값)
 fetch('https://api.example.com/data')
   .then((response) => {
     if (!response.ok) {
+      // 응답 했지만 상태코드가 200대가 아닌 경우
       throw new Error('Network response was not ok');
     }
     return response.json();
@@ -790,6 +792,7 @@ fetch('https://api.example.com/data')
     // 데이터를 사용하는 로직
   })
   .catch((error) => {
+    // 응답 자체를 실패한 경우
     console.error('Fetch Error:', error);
     // 에러 처리 로직
   });
@@ -911,3 +914,19 @@ console.log(map2.get('b')); // 50
 ### 결론
 
 JavaScript에서 mutable과 immutable 데이터 구조는 데이터의 변경 가능성을 관리하는 중요한 개념입니다. 특히, 상태 관리가 중요한 애플리케이션에서는 불변성을 유지하는 것이 예측 가능성을 높이고, 코드의 유지보수성을 향상시키는 데 도움이 됩니다. Spread 연산자, `Object.assign`, 또는 `Immutable.js`와 같은 도구를 사용하여 불변성을 유지할 수 있습니다.
+
+## 시간 구하기
+
+10분짜리 오디오 초로 변환: 600초
+
+번역 걸리는 시간: 15초
+
+오디오 초로 번역 시간을 알아내기: 600 / x = 15
+
+x = 40, 600을 40으로 나누면 15초 나옴
+
+15초를 interval 0.2초 간격으로 나누면 총 75회 카운트
+
+75회 카운트 동안 100퍼센트를 채우려면 1.333...%씩
+
+보더 길이를 채우려면 보더 총 길이 / 75
