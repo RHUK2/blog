@@ -77,7 +77,7 @@ exit;
 
 #All the ports you want to forward separated by coma
 # $ports=@(80,443,10000,3000,5000);
-$ports=@(3000);
+$ports=@(80,81,443,3000);
 
 #[Static ip]
 #You can change the addr to your ip config to listen to a specific address
