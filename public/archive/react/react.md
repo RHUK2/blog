@@ -12,7 +12,7 @@ description:
 - [JSX(JavaScript XML)](#jsxjavascript-xml)
 - [useState](#usestate)
 - [useRef](#useref)
-  - [forwardRef()](#forwardref)
+  - [forwardRef](#forwardref)
   - [useImperativeHandle](#useimperativehandle)
 - [useEffect](#useeffect)
   - [의존성 배열에 상태 변수 없애기](#의존성-배열에-상태-변수-없애기)
@@ -106,7 +106,7 @@ function App() {
 }
 ```
 
-### forwardRef()
+### forwardRef
 
 부모 컴포넌트에서 사용자 정의 컴포넌트의 내부 요소를 참조하려는 경우 `forwardRef()` 메서드를 사용해야 한다.
 
@@ -184,33 +184,14 @@ useEffect(function setup () {
 
 - 설정 함수는 선택적으로 정리 함수를 반환할 수도 있습니다. 컴포넌트가 DOM에 추가되면 React는 설정 함수를 실행합니다. 변경된 종속성으로 다시 렌더링할 때마다 React는 먼저 이전 값으로 정리 함수(제공한 경우)를 실행한 다음 새 값으로 설정 함수를 실행합니다. 컴포넌트가 DOM에서 제거된 후 React는 정리 함수를 실행합니다.
 
-선택적 의존성: 설정 코드 내부에서 참조된 모든 반응형 값의 목록입니다. 반응형 값에는 프로퍼티, state, 컴포넌트 본문 안에 직접 선언된 모든 변수와 함수가 포함됩니다. 린터가 React용으로 구성된 경우, 모든 반응형 값이 종속성으로 올바르게 지정되었는지 확인합니다. 의존성 목록에는 일정한 수의 항목이 있어야 하며 [dep1, dep2, dep3]와 같이 인라인으로 작성해야 합니다. React는 Object.is 비교를 사용하여 각 종속성을 이전 값과 비교합니다. 이 인수를 생략하면 컴포넌트를 다시 렌더링할 때마다 Effect가 다시 실행됩니다. 의존성 배열을 전달할 때와 빈 배열을 전달할 때, 그리고 의존성을 전혀 전달하지 않을 때의 차이를 살펴보세요.
+- 선택적 의존성: 설정 코드 내부에서 참조된 모든 반응형 값의 목록입니다. 반응형 값에는 프로퍼티, state, 컴포넌트 본문 안에 직접 선언된 모든 변수와 함수가 포함됩니다. 린터가 React용으로 구성된 경우, 모든 반응형 값이 종속성으로 올바르게 지정되었는지 확인합니다. 의존성 목록에는 일정한 수의 항목이 있어야 하며 [dep1, dep2, dep3]와 같이 인라인으로 작성해야 합니다. React는 Object.is 비교를 사용하여 각 종속성을 이전 값과 비교합니다. 이 인수를 생략하면 컴포넌트를 다시 렌더링할 때마다 Effect가 다시 실행됩니다. 의존성 배열을 전달할 때와 빈 배열을 전달할 때, 그리고 의존성을 전혀 전달하지 않을 때의 차이를 살펴보세요.
 
-사용 효과는 Hook이므로 컴포넌트의 최상위 레벨 또는 자체 Hook에서만 호출할 수 있습니다. 루프나 조건 내부에서는 호출할 수 없습니다. 필요한 경우 새 컴포넌트를 추출하고 상태를 그 안으로 옮기세요.
-
-외부 시스템과 동기화하려는 것이 아니라면 Effect가 필요하지 않을 것입니다.
-
-Strict 모드가 켜져 있으면 React는 첫 번째 실제 설정 전에 개발 전용 설정+정리 사이클을 한 번 더 실행합니다. 이는 클린업 로직이 설정 로직을 "미러링"하고 설정이 수행 중인 모든 작업을 중지하거나 실행 취소하는지 확인하는 스트레스 테스트입니다. 문제가 발생하면 정리 기능을 구현하세요.
-
-종속성 중 일부가 컴포넌트 내부에 정의된 객체나 함수인 경우 이펙트가 필요 이상으로 자주 다시 실행될 위험이 있습니다. 이 문제를 해결하려면 불필요한 객체 및 함수 종속성을 제거하세요. 또한 상태 업데이트와 비반응형 로직을 Effect 외부에서 추출할 수도 있습니다.
-
-이펙트가 클릭과 같은 상호작용으로 인해 발생한 것이 아니라면, React는 일반적으로 브라우저가 이펙트를 실행하기 전에 업데이트된 화면을 먼저 그리도록 합니다. Effect가 시각적인 작업(예: 툴팁 위치 지정)을 하고 있는데 지연이 눈에 띄는 경우(예: 깜박임), useEffect를 useLayoutEffect로 바꾸세요.
-
-클릭과 같은 상호작용으로 인해 이펙트가 발생하는 경우 브라우저가 업데이트된 화면을 그리기 전에 React가 이펙트를 실행할 수 있습니다. 이렇게 하면 이벤트 시스템에서 Effect의 결과를 관찰할 수 있습니다. 일반적으로 이것은 예상대로 작동합니다. 그러나 alert()와 같이 페인트 이후까지 작업을 연기해야 하는 경우 setTimeout을 사용할 수 있습니다. 자세한 내용은 reactwg/react-18/128을 참조하세요.
-
-클릭과 같은 상호작용으로 인해 이펙트가 발생한 경우에도 React는 브라우저가 이펙트 내부의 상태 업데이트를 처리하기 전에 화면을 다시 칠하도록 허용할 수 있습니다. 일반적으로 이것은 예상대로 작동합니다. 하지만 브라우저가 화면을 다시 칠하지 못하도록 차단해야 하는 경우, useEffect를 useLayoutEffect로 대체해야 합니다.
-
-효과는 클라이언트에서만 실행됩니다. 서버 렌더링 중에는 실행되지 않습니다.
-
-- 모든 `useEffect`에는 설정 함수가 있고 정리 함수가 있을 수 있다. 컴포넌트가 마운트될 때(화면에 추가될 때) 설정 함수를 호출하고 컴포넌트가 마운트 해제될 때(화면에서 제거될 때) 정리 함수를 호출한다. 그 다음 마지막 렌더링 이후 종속성이 변경된 경우 React는 정리 함수를 호출한 후 설정 함수을 다시 호출한다.
-
-`useEffect`는 화면이 한 번 렌더링된 이후에 동작한다.
-
-의존성 배열이 없는 경우 `return`을 통한 정리 함수는 언마운트 시에만 동작한다
-
-의존성 배열이 있는 경우 `return`을 통한 정리 함수는 렌더링 마다 동작한다
-
-효과의 로직이 포함된 함수입니다. 설정 함수는 선택적으로 정리 함수를 반환할 수도 있습니다. 컴포넌트가 DOM에 추가되면 React는 설정 함수를 실행합니다. **변경된 종속성으로 다시 렌더링할 때마다 React는 먼저 이전 값으로 정리 함수(제공한 경우)를 실행한 다음 새 값으로 설정 함수를 실행합니다**. 컴포넌트가 DOM에서 제거된 후 React는 정리 함수를 실행합니다.
+- 외부 시스템과 동기화하려는 것이 아니라면 Effect가 필요하지 않을 것입니다.
+- 종속성 중 일부가 컴포넌트 내부에 정의된 객체나 함수인 경우 이펙트가 필요 이상으로 자주 다시 실행될 위험이 있습니다. 이 문제를 해결하려면 불필요한 객체 및 함수 종속성을 제거하세요. 또한 상태 업데이트와 비반응형 로직을 Effect 외부에서 추출할 수도 있습니다.
+- 이펙트가 클릭과 같은 상호작용으로 인해 발생한 것이 아니라면, React는 일반적으로 브라우저가 이펙트를 실행하기 전에 업데이트된 화면을 먼저 그리도록 합니다. Effect가 시각적인 작업(예: 툴팁 위치 지정)을 하고 있는데 지연이 눈에 띄는 경우(예: 깜박임), useEffect를 useLayoutEffect로 바꾸세요.
+- 클릭과 같은 상호작용으로 인해 이펙트가 발생하는 경우 브라우저가 업데이트된 화면을 그리기 전에 React가 이펙트를 실행할 수 있습니다. 이렇게 하면 이벤트 시스템에서 Effect의 결과를 관찰할 수 있습니다. 일반적으로 이것은 예상대로 작동합니다. 그러나 alert()와 같이 페인트 이후까지 작업을 연기해야 하는 경우 setTimeout을 사용할 수 있습니다. 자세한 내용은 reactwg/react-18/128을 참조하세요.
+- 클릭과 같은 상호작용으로 인해 이펙트가 발생한 경우에도 React는 브라우저가 이펙트 내부의 상태 업데이트를 처리하기 전에 화면을 다시 칠하도록 허용할 수 있습니다. 일반적으로 이것은 예상대로 작동합니다. 하지만 브라우저가 화면을 다시 칠하지 못하도록 차단해야 하는 경우, useEffect를 useLayoutEffect로 대체해야 합니다.
+- 효과는 클라이언트에서만 실행됩니다. 서버 렌더링 중에는 실행되지 않습니다.
 
 ### 의존성 배열에 상태 변수 없애기
 
@@ -243,34 +224,33 @@ useEffect(() => {
 ```ts
 const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
-
 useEffect(() => {
-    if (time > 0)
-      timerIdRef.current = setInterval(() => {
-        setIng((prev) => {
-          if (prev.count >= config.count - 2 && timerIdRef.current) {
-            clearTimeout(timerIdRef.current);
-          }
+  if (time > 0)
+    timerIdRef.current = setInterval(() => {
+      setIng((prev) => {
+        if (prev.count >= config.count - 2 && timerIdRef.current) {
+          clearTimeout(timerIdRef.current);
+        }
 
-          return {
-            ...prev,
-            progress: prev.progress + config.borderLength / config.count,
-            percent: prev.percent + 100 / config.count,
-            count: prev.count + 1,
-          };
-        });
-      }, config.intervalTime);
+        return {
+          ...prev,
+          progress: prev.progress + config.borderLength / config.count,
+          percent: prev.percent + 100 / config.count,
+          count: prev.count + 1,
+        };
+      });
+    }, config.intervalTime);
 
-    return () => {
-      if (timerIdRef.current) clearTimeout(timerIdRef.current);
+  return () => {
+    if (timerIdRef.current) clearTimeout(timerIdRef.current);
 
-      setIng((prev) => ({
-        progress: 0,
-        percent: 0,
-        count: 0,
-      }));
-    };
-  }, [config, ing, time]);
+    setIng((prev) => ({
+      progress: 0,
+      percent: 0,
+      count: 0,
+    }));
+  };
+}, [config, ing, time]);
 ```
 
 ### 의존성 배열에 객체 변수 없애기
@@ -325,9 +305,11 @@ const callback: () => number = useCallback(() => {
 
 ## 사용자 정의 훅 vs 일반 함수
 
-사용자 훅은 로직을 재사용하기 위해서 리액트의 훅들을 이용해 개발자가 직접 작성하는 훅이다. 보통 `useState`, `useEffect`의 조합으로 구성되며 함수명 규칙은 앞에 `use`를 사용해야 한다.
+사용자 정의 훅은 로직을 재사용하기 위해서 리액트의 훅들을 이용해 개발자가 직접 작성하는 훅이다. 일반 함수와 구분짓기 위해 함수명의 접두사로 `use`를 사용해야 한다.
 
 일반 함수와의 차이점은 리액트에서 제공하는 훅을 사용할 수 있냐 없냐의 차이다.
+
+사용자 정의 훅, 리액트 훅은 컴포넌트의 최상위 레벨에서만 호출할 수 있다. 루프나 조건 내부에서는 호출할 수 없다.
 
 ## manifest.json
 

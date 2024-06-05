@@ -59,6 +59,8 @@ ubuntu2004.exe config --default-user johndoe # When you have Ubuntu 20.04 versio
 
 ## WSL 외부 호스트 연결하기
 
+![wsl_network](images/wsl_network.png)
+
 - 관리자권한으로 PowerShell 실행
 - 방화벽 인바우드 규칙 설정(포트 허용) 및 wsl2 portproxy 작업 자동화 스크립트 복붙
 
