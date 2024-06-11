@@ -9,6 +9,7 @@ description:
 # React Hook Form
 
 - [react-hook-form 제어 컴포넌트 연동](#react-hook-form-제어-컴포넌트-연동)
+- [setValues](#setvalues)
 
 ## react-hook-form 제어 컴포넌트 연동
 
@@ -28,3 +29,15 @@ description:
   render={({ field }) => <Select id='select' value={field.value} onChange={field.onChange} />}
 />
 ```
+
+## setValues
+
+다음 조건에서만 다시 렌더링이 트리거됩니다:
+
+값 업데이트로 인해 오류가 트리거되거나 수정된 경우
+
+더티 및 터치와 같이 setValue가 상태 업데이트를 유발하는 경우.
+
+중첩 객체의 경우 내부 속성을 타켓팅해서 업데이트하면 리렌더링 발생안함
+
+객체를 타겟팅해서 내부 속성을 변경하면 리렌더링 발생
