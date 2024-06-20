@@ -1,5 +1,5 @@
 ---
-updatedAt: 2024-05-20
+updatedAt: 2024-06-18
 directory: typescript
 fileName: typescript
 title: Typescript 기록하기
@@ -10,6 +10,7 @@ description: ✅
 
 - [any vs unknown vs never](#any-vs-unknown-vs-never)
 - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
+- [분배적 조건부 타입 (Distributive Conditional Types)](#분배적-조건부-타입-distributive-conditional-types)
 - [.d.ts](#dts)
 
 ## any vs unknown vs never
@@ -46,6 +47,18 @@ function init(a: number, b?: number = 0) {
 function init(a: number, b?: number) {
   ...
 } // ⭕
+```
+
+## 분배적 조건부 타입 (Distributive Conditional Types)
+
+조건부 타입은 분배적으로 동작한다. 분배적 조건부 타입은 유니온 타입에서 각 구성 요소에 대해 개별적으로 조건부 타입을 적용한다.
+
+```ts
+// Exclude null and undefined from T
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+type Example = NonNullable<string | undefined | null>;
+// string
 ```
 
 ## .d.ts

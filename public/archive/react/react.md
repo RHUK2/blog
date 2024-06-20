@@ -15,14 +15,12 @@ description:
   - [forwardRef](#forwardref)
   - [useImperativeHandle](#useimperativehandle)
 - [useEffect](#useeffect)
-  - [의존성 배열에 상태 변수 없애기](#의존성-배열에-상태-변수-없애기)
-  - [의존성 배열에 객체 변수 없애기](#의존성-배열에-객체-변수-없애기)
-  - [의존성 배열에 함수 없애기](#의존성-배열에-함수-없애기)
-- [useMemo vs useCallback](#usememo-vs-usecallback)
-- [memo](#memo)
+  - [종속성 줄이기](#종속성-줄이기)
+  - [useEffect 내부에서 타이머 사용하기](#useeffect-내부에서-타이머-사용하기)
+- [useMemo](#usememo)
+  - [사용처](#사용처)
 - [useContext](#usecontext)
 - [useReducer](#usereducer)
-- [useId](#useid)
 - [StrictMode](#strictmode)
 - [사용자 정의 훅 vs 일반 함수](#사용자-정의-훅-vs-일반-함수)
 - [manifest.json](#manifestjson)
@@ -64,11 +62,28 @@ const [state, setState] = useState(initialState);
   - 현재 상태 값(`state`)
   - 상태를 다른 값으로 업데이트하고 다시 렌더링을 트리거할 수 있는 `set` 함수
 - `state`는 immutable하다
-- `useState`의 인자로 값을 전달하면 해당 값을 초기 상태로 설정한다.
-- `useState`의 인자로 함수를 전달하면 이 함수의 반환값을 초기 상태로 설정한다.
+- `useState`의 인수로 값을 전달하면 해당 값을 초기 상태로 설정한다.
+- `useState`의 인수로 함수를 전달하면 이 함수의 반환값을 초기 상태로 설정한다.
   - 초기화 함수는 순수해야 하고 인수를 받지 않아야 하며 무조건 값을 반환해야 한다.
 - 초기 상태는 컴포넌트가 처음 렌더링되는 시점에만 설정되고, 이후에는 무시된다.
 - 최상위 레벨 또는 자체 Hook에서만 호출할 수 있다. 루프나 조건 내부에서는 호출할 수 없다.
+
+```ts
+setState({ foo: 'bar' });
+setState((prevState) => ({
+  ...prevState,
+  foo: 'bar',
+}));
+```
+
+- `set` 함수의 인수로 모든 유형의 값이 될 수 있고, 함수에 대해서는 특별한 동작이 있다.
+- `set` 함수의 인수로 함수를 전달하면 업데이트 함수로 취급된다. 순수해야 하고, 이전 상태 값을 유일한 인수로 사용해야 하며, 다음 상태를 반환해야 한다.
+- `set` 함수에는 반환값이 없다.
+- `Object.is` 비교에 의해 제공한 새 값이 현재 상태와 동일한 경우, React는 컴포넌트와 그 자식들을 다시 렌더링하는 것을 건너뛴다.
+- `set` 함수로 업데이트된 값은 트리거된 렌더링 이후에 적용된다. `set` 함수를 호출한 후 렌더링 전에 상태 변수를 읽으면 호출 전 화면에 있던 이전 값을 계속 가져온다.
+- React는 상태 업데이트를 처리하기 전에 이벤트 핸들러의 모든 코드가 실행될 때까지 기다린다. 이후 일괄로 상태 업데이트를 처리한다.
+- 클릭처럼 여러 번 이벤트 핸들러가 실행되면, 각 클릭을 개별적으로 처리한다. 예를 들어, 첫 클릭에 양식을 `disabled` 시키면 두번째 클릭에 양식을 사용할 수 없다.
+- 렌더링 도중 `set` 함수를 호출하는 것은 현재 렌더링 중인 컴포넌트 내에서만 허용된다. React는 해당 출력을 버리고 즉시 새로운 상태로 다시 렌더링을 시도한다.
 
 ## useRef
 
@@ -78,7 +93,7 @@ const ref = useRef(initialValue);
 
 - `current` 속성을 가진 객체(`ref`)를 반환한다.
 - `ref` 객체는 mutable하다.
-- `useRef`의 인자로 값을 전달하면 해당 값을 `current`의 값으로 설정한다.
+- `useRef`의 인수로 값을 전달하면 해당 값을 `current`의 값으로 설정한다.
 - 초기 값은 컴포넌트가 처음 렌더링되는 시점에만 설정되고, 이후에는 무시된다.
 - `ref` 객체는 변경돼어도 렌더링을 트리거하지 않는다.
   - `ref`는 일반 자바스크립트 객체이기 때문에 React는 해당 값의 변경 여부를 추적하지 못한다.
@@ -192,97 +207,89 @@ useEffect(function setup () {
 - `[dep1, dep2, dep3]`와 같이 종속성이 작성된 경우, 종속성 변경됨과 함께 렌더링을 할 때마다 React는 먼저 이전 값으로 정리 함수(제공한 경우)를 실행한 다음 새 값으로 설정 함수를 실행한다.
 - 종속성의 변경됨은 `Object.is()`를 사용하여 이전 값과 얕은 비교를 통해 확인한다.
 
-- 종속성 중 일부가 컴포넌트 내부에 정의된 객체나 함수인 경우 이펙트가 필요 이상으로 자주 다시 실행될 위험이 있다. 이 문제를 해결하려면 불필요한 객체 및 함수 종속성을 제거하세요. 또한 상태 업데이트와 비반응형 로직을 Effect 외부에서 추출할 수도 있습니다.
+### 종속성 줄이기
 
-### 의존성 배열에 상태 변수 없애기
+종속성 중 일부가 컴포넌트 내부에 정의된 객체나 함수인 경우 이펙트가 필요 이상으로 자주 다시 실행될 위험이 있다. 이 문제를 해결하려면 아래와 같이 조치를 취한다.
 
-setCount 안에 prev 변수를 사용하기, 직접 컴포넌트 상위 단에 정의된 상태 변수 쓰지않기
+- `useEffect` 내부에 객체 선언하기
+- `useEffect` 내부에 함수 선언하기
+- 컴포넌트 상위 단에 정의된 상태 변수 쓰지않기
+- `set` 함수 함수를 제공해 이전 상태 값을 활용하기
 
-setinterval
-
-settimeout
+### useEffect 내부에서 타이머 사용하기
 
 ```ts
-const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+// setTimeout
+const [count, setCount] = useState(0);
+
+const timerId = useRef<NodeJS.Timeout | null>(null);
 
 useEffect(() => {
-  if (time > 0 && ing.count < config.count - 2)
-    timerIdRef.current = setTimeout(() => {
-      setIng((prev) => ({
-        ...prev,
-        progress: prev.progress + config.borderLength / config.count,
-        percent: prev.percent + 100 / config.count,
-        count: prev.count + 1,
-      }));
-    }, config.intervalTime);
+  timerId.current = setTimeout(() => {
+    setCount((prev) => ++prev);
+  }, 1000);
 
   return () => {
-    if (timerIdRef.current) clearTimeout(timerIdRef.current);
+    if (timerId.current != null) clearTimeout(timerId.current);
   };
-}, [config, ing, time]);
+}, [count]); // <--
 ```
 
 ```ts
-const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+// setInterval
+const [count, setCount] = useState(0);
+
+const timerId = useRef<NodeJS.Timeout | null>(null);
 
 useEffect(() => {
-  if (time > 0)
-    timerIdRef.current = setInterval(() => {
-      setIng((prev) => {
-        if (prev.count >= config.count - 2 && timerIdRef.current) {
-          clearTimeout(timerIdRef.current);
-        }
-
-        return {
-          ...prev,
-          progress: prev.progress + config.borderLength / config.count,
-          percent: prev.percent + 100 / config.count,
-          count: prev.count + 1,
-        };
-      });
-    }, config.intervalTime);
+  timerId.current = setInterval(() => {
+    setCount((prev) => ++prev);
+  }, 1000);
 
   return () => {
-    if (timerIdRef.current) clearTimeout(timerIdRef.current);
-
-    setIng((prev) => ({
-      progress: 0,
-      percent: 0,
-      count: 0,
-    }));
+    if (timerId.current != null) clearInterval(timerId.current);
   };
-}, [config, ing, time]);
+}, []); // <--
 ```
 
-### 의존성 배열에 객체 변수 없애기
+## useMemo
 
-useEffect 내부에 객체 선언하기
-
-### 의존성 배열에 함수 없애기
-
-useEffect 내부에 함수 선언하기
-
-## useMemo vs useCallback
-
-```js
-const memo: number = useMemo(() => {
-  return 1;
-}, []);
-
-const callback: () => number = useCallback(() => {
-  return 1;
-}, []);
+```ts
+function TodoList({ todos, tab }) {
+  const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
+  // ...
+}
 ```
 
-## memo
+- `useMemo`는 인수로 캐시하려는 값을 계산하는 함수를 받는다. 순수해야 하고 인수를 받지 않아야 하며 모든 유형의 값을 반환해야 한다.
+- React는 초기 렌더링 중에 계산 함수를 호출해서 결과를 저장한다.
+- 초기 렌더링 이후 React는 마지막 렌더링 이후 종속성이 변경되지 않은 경우 동일한 값을 다시 반환한다.
+- 종속성이 변경된 경우 계산값을 호출하고 결과를 반환한 후 나중에 재사용할 수 있도록 저장한다.
+- 종속성은 인수로 받은 함수 내에서 참조된 모든 반응형 값의 목록이다.
+- lint가 React용으로 구성된 경우, 모든 반응형 값이 종속성으로 올바르게 지정되었는지 확인한다.
+- `[]`와 같이 종속성이 작성된 경우, 컴포넌트가 DOM에 추가될 때만 계산 함수를 실행한다.
+- 종속성이 없는 경우, 렌더링을 할 때마다 계산 함수를 실행한다.
+- `[dep1, dep2, dep3]`와 같이 종속성이 작성된 경우, 종속성 변경됨과 함께 렌더링을 할 때마다 계산 함수를 실행한다.
+- 종속성의 변경됨은 `Object.is()`를 사용하여 이전 값과 얕은 비교를 통해 확인한다.
 
-컴포넌트가 소품에 따른 렌더링 방지
+### 사용처
+
+`useMemo`는 성능 최적화를 위해 사용되며, 남용하면 오히려 성능이 떨어질 수 있다. 평소에는 사용하지 않다가 필요하다고 생각하는 경우에만 적용하는 것이 좋다.
+
+- 컴퓨팅 자원이 많이 드는 재계산 건너뛰기
+- 컴포넌트 재렌더링 건너뛰기
+- 다른 Hook의 종속성 메모화하기
+- 함수 메모화하기
 
 ## useContext
 
-## useReducer
+context api가 유용한 경우
 
-## useId
+1.여러개의 동일한 컴포넌트가 같은 값 props로 제공 받아서 처리를 해야하는 경우
+
+2.radio, checkbox는 name 속성을 통해 같은 값인지를 확인
+
+## useReducer
 
 ## StrictMode
 
@@ -292,7 +299,7 @@ const callback: () => number = useCallback(() => {
 
   - React는 모든 컴포넌트를 순수한 함수라고 가정한다. 즉, 컴포넌트는 동일한 입력(`props`, `state`, `context`)이 주어졌을 때 항상 동일한 JSX를 반환해야 한다.
 
-    이 규칙을 위반하는 컴포넌트는 예측할 수 없는 동작을 하며 버그를 유발한다. 실수로 발생한 버그를 찾을 수 있도록 `<StrictMode>`는 일부 함수(순수해야 하는 함수만)를 두 번 호출합니다. 일부 함수는 다음과 같다.
+    이 규칙을 위반하는 컴포넌트는 예측할 수 없는 동작을 하며 버그를 유발한다. 실수로 발생한 버그를 찾을 수 있도록 `<StrictMode>`는 일부 함수(순수해야 하는 함수만)를 두 번 호출한다. 일부 함수는 다음과 같다.
 
     - 컴포넌트 함수 본문(최상위 로직만 포함하므로 이벤트 핸들러 내부의 코드는 포함되지 않음)
 
@@ -300,7 +307,7 @@ const callback: () => number = useCallback(() => {
 
     순수 함수는 매번 동일한 결과를 생성하므로 함수가 순수하면 두 번 실행해도 동작이 변경되지 않는다. 그러나 함수가 불순한 경우 두 번 실행하면 눈에 띄는 경향이 있으므로 버그를 조기에 발견하고 수정하는 데 도움이 됩니다.
 
-- 컴포넌트가 정리 함수가 누락되어 발생한 버그를 찾기 위해 초기에 설정 함수 -> 정리 함수 -> 설정 함수 사이클을 실행한다.
+- 컴포넌트가 정리 함수가 누락되어 발생한 버그를 찾기 위해 마운트 시에 설정 함수 -> 정리 함수 -> 설정 함수 사이클을 실행한다.
 
 - 더 이상 사용되지 않는 리액트 API를 찾아준다.
 
