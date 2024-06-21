@@ -18,7 +18,8 @@ description:
   - [종속성 줄이기](#종속성-줄이기)
   - [useEffect 내부에서 타이머 사용하기](#useeffect-내부에서-타이머-사용하기)
 - [useMemo](#usememo)
-  - [사용처](#사용처)
+- [useCallback](#usecallback)
+- [memo](#memo)
 - [useContext](#usecontext)
 - [useReducer](#usereducer)
 - [StrictMode](#strictmode)
@@ -255,10 +256,9 @@ useEffect(() => {
 ## useMemo
 
 ```ts
-function TodoList({ todos, tab }) {
-  const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
-  // ...
-}
+const cachedValue = useMemo(function calculateFunction {
+  return calculateValue;
+}, dependencies)
 ```
 
 - `useMemo`는 인수로 캐시하려는 값을 계산하는 함수를 받는다. 순수해야 하고 인수를 받지 않아야 하며 모든 유형의 값을 반환해야 한다.
@@ -271,15 +271,21 @@ function TodoList({ todos, tab }) {
 - 종속성이 없는 경우, 렌더링을 할 때마다 계산 함수를 실행한다.
 - `[dep1, dep2, dep3]`와 같이 종속성이 작성된 경우, 종속성 변경됨과 함께 렌더링을 할 때마다 계산 함수를 실행한다.
 - 종속성의 변경됨은 `Object.is()`를 사용하여 이전 값과 얕은 비교를 통해 확인한다.
+- `useMemo`는 성능 최적화를 위해 사용되며, 남용하면 오히려 성능이 떨어질 수 있다. 평소에는 사용하지 않다가 필요하다고 생각하는 경우에만 적용하는 것이 좋다.
+- 컴퓨팅 자원이 많이 드는 재계산을 매 렌더링마다 반복하지 않으려 할 때 사용한다.
+- 다른 훅의 종속성을 메모화할 때 사용한다.
 
-### 사용처
+## useCallback
 
-`useMemo`는 성능 최적화를 위해 사용되며, 남용하면 오히려 성능이 떨어질 수 있다. 평소에는 사용하지 않다가 필요하다고 생각하는 경우에만 적용하는 것이 좋다.
+```ts
 
-- 컴퓨팅 자원이 많이 드는 재계산 건너뛰기
-- 컴포넌트 재렌더링 건너뛰기
-- 다른 Hook의 종속성 메모화하기
-- 함수 메모화하기
+```
+
+## memo
+
+```ts
+
+```
 
 ## useContext
 
