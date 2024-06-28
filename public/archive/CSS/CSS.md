@@ -16,7 +16,6 @@ description:
   - [텍스트 너비](#텍스트-너비)
     - [white-space](#white-space)
     - [word-break](#word-break)
-    - [overflow-wrap](#overflow-wrap)
   - [`display` 값 별로 height 차이점](#display-값-별로-height-차이점)
 - [box-sizing](#box-sizing)
 - [레이아웃 관련 팁](#레이아웃-관련-팁)
@@ -47,6 +46,7 @@ description:
 - [transition \& animation](#transition--animation)
 - [초기 CSS 설정](#초기-css-설정)
 - [모달 창 스크롤 바 제어](#모달-창-스크롤-바-제어)
+- [overflow 적용 안되는 이슈](#overflow-적용-안되는-이슈)
 
 ## selector
 
@@ -165,41 +165,33 @@ body {
 ### 텍스트 너비
 
 - 텍스트는 기본적으로 텍스트를 최대한 보여주기 위한 너비를 가진다.
-- 반응형으로 동작할 경우 `white-space`, `word-break`, `overflow-wrap` 등을 통해 제어 가능하다.
+- 반응형으로 동작할 경우 `white-space`, `word-break` 등을 통해 제어 가능하다.
 
 #### white-space
 
-| `white-space`     | 스페이스와 탭 | 줄바꿈 | 자동 줄바꿈 |
-| ----------------- | ------------- | ------ | ----------- |
-| `normal`(default) | 병합          | 병합   | O           |
-| `nowrap`          | 병합          | 병합   | X           |
-| `pre`             | 보존          | 보존   | X           |
-| `pre-wrap`        | 보존          | 보존   | O           |
-| `pre-line`        | 병합          | 보존   | O           |
+| `white-space`     | 스페이스와 탭         | 줄바꿈                | 줄바꿈 특수문자에 관계없이 오버플로우 시 줄바꿈 |
+| ----------------- | --------------------- | --------------------- | ----------------------------------------------- |
+| `normal`(default) | 한 개의 공백으로 변경 | 한 개의 공백으로 변경 | O                                               |
+| `nowrap`          | 한 개의 공백으로 변경 | 한 개의 공백으로 변경 | X                                               |
+| `pre`             | 그대로 보존           | 그대로 보존           | X                                               |
+| `pre-wrap`        | 그대로 보존           | 그대로 보존           | O                                               |
+| `pre-line`        | 한 개의 공백으로 변경 | 그대로 보존           | O                                               |
 
 #### word-break
 
-| `word-break`      | 영어 단어 자름 여부 | 중국어/일본어/한국어 단어 자름 여부 |
-| ----------------- | ------------------- | ----------------------------------- |
-| `normal`(default) | X                   | O                                   |
-| `break-all`       | O                   | O                                   |
-| `keep-all`        | X                   | X                                   |
+- CJK(Chinese/Japanese/Korean): 띄어쓰기 없이 이어진 중국어, 일본어, 한국어 단어
+- Non-CJK(Chinese/Japanese/Korean): 띄어쓰기 없이 이어진 중국어, 일본어, 한국어 제외 단어(영어, 숫자 등)
+- 단어 중간에 특수문자가 있으면 예상대로 동작하지 않을 수 있다. 이럴 땐 `white-space` 속성을 같이 사용한다.
 
-#### overflow-wrap
-
-| `overflow-wrap`   | 텍스트가 오버플로우될 때만 자름 |
-| ----------------- | ------------------------------- |
-| `normal`(default) | O                               |
-| `break-word`      | X                               |
-
-- `word-break: break-all`과 `overflow-wrap: break-word`의 차이점을 보여주는 사진이다.
-
-![word_break_vs_overflow_wrap](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217063&authkey=%21AAi0P1aRCNqKe3c&width=360&height=405)
+| `word-break`      | 오버플로우 시 Non-CJK 자름 여부 | 오버플로우 시 CJK 자름 여부 |
+| ----------------- | ------------------------------- | --------------------------- |
+| `normal`(default) | X                               | O                           |
+| `break-all`       | O                               | O                           |
+| `keep-all`        | X                               | X                           |
 
 ### `display` 값 별로 height 차이점
 
 - 세로 길이: `height`, `paddingY`, `borderY`, `marginY` 값을 합친 값
-
 - `inline-block` 요소의 경우 내부에 `inline-*` 요소를 가질 경우 이상한 높이값을 가진다.
 
 |                | height: auto                         | height: 100%              |
@@ -249,7 +241,7 @@ body {
 
 `flex`의 모든 속성은 메인 축을 기준으로 작동하며, `flex-direction`으로 메인 축을 변경할 수 있다.
 
-![flex_axis](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217057&authkey=%21AKTgRfuqIOQx4IU&width=668&height=171);
+![flex_axis](images/flex_axis.png)
 
 |                   | `flex-direction: row`    | `flex-direction: column` |
 | ----------------- | ------------------------ | ------------------------ |
@@ -262,7 +254,10 @@ body {
 
 ### flex-basis
 
-`flex-basis`는 `width`와 `height`보다 우선시 된다. `flex-basis: auto`인 경우는 `width`와 `height`이 우선시 된다.
+![flex_basis](images/flex_basis.jpg);
+
+- `flex-basis`는 `width`와 `height`보다 우선시 된다.
+- `flex-basis: auto`인 경우는 `width`와 `height`이 우선시 된다.
 
 |                          | `flex-basis: auto`                   |
 | ------------------------ | ------------------------------------ |
@@ -373,9 +368,9 @@ font-display 옵션 조절
 html 헤더에 link 태그에서 preload로 미리 불러오기
 웹폰트 사용해서 캐싱하기
 
-![Alt text](/post/CSS/assets/image.png)
+![Alt text](images/image.png)
 
-![Alt text](/post/CSS/assets/image-3.png)
+![Alt text](images/image-3.png)
 
 ## rem, em
 
@@ -445,7 +440,7 @@ width와 height 둘 중 하나 값이 설정되면 이미지 파일의 종횡비
 
 aspect-ratio 값도 둘 중 하나를 기준으로 맞춰진다
 
-![Alt text](/post/CSS/assets/image-4.png)
+![Alt text](images/image-4.png)
 
 | `object-fit` | 종횡비 유지 | 컨테이너에 맞춤 | 너비,높이 변화 |
 | ------------ | ----------- | --------------- | -------------- |
@@ -606,3 +601,24 @@ if (userInterface.isAsideOpen === true) {
   header.style.paddingRight = '';
 }
 ```
+
+## overflow 적용 안되는 이슈
+
+1. **부모 요소의 `overflow` 설정 확인**
+
+   - 부모 요소에 `overflow: hidden`, `overflow: auto`, 또는 `overflow: scroll`이 설정되어 있는지 확인한다. 부모 요소가 자식 요소의 overflow를 제어할 수 있기 때문이다.
+
+2. **부모 요소의 크기 설정**
+
+   - 부모 요소의 크기가 고정되어 있지 않으면 자식 요소의 `overflow` 속성이 제대로 작동하지 않을 수 있다. 부모 요소의 크기를 명시적으로 설정한다.
+
+3. **포지셔닝 설정**
+
+   - 자식 요소에 `position: absolute` 또는 `position: fixed`가 설정되어 있을 때, `overflow` 속성이 예상대로 작동하지 않을 수 있다. 이런 경우 부모 요소의 `position`을 `relative`로 설정하거나, 자식 요소의 크기를 명확히 지정한다.
+
+4. **Flexbox 사용 시**
+
+   - Flexbox 레이아웃을 사용할 때 자식 요소의 `overflow` 속성이 제대로 작동하지 않을 수 있다. 부모 요소에 `min-height`나 `min-width`를 설정하거나, 자식 요소에 `flex-shrink: 0`을 설정하여 자식 요소가 줄어들지 않도록 한다.
+
+5. **Grid 사용 시**:
+   - Grid 레이아웃을 사용할 때도 비슷한 문제가 발생할 수 있다. 부모 요소와 자식 요소의 크기와 배치를 명확하게 설정하여 `overflow` 속성이 적용되도록 한다.

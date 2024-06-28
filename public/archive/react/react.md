@@ -9,8 +9,11 @@ description:
 # React 기록하기
 
 - [가상 돔(Virtual DOM)](#가상-돔virtual-dom)
+  - [사용자 입력 제한](#사용자-입력-제한)
 - [JSX(JavaScript XML)](#jsxjavascript-xml)
+  - [텍스트 줄바꿈](#텍스트-줄바꿈)
 - [useState](#usestate)
+- [useReducer](#usereducer)
 - [useRef](#useref)
   - [forwardRef](#forwardref)
   - [useImperativeHandle](#useimperativehandle)
@@ -20,18 +23,12 @@ description:
 - [useMemo](#usememo)
 - [useCallback](#usecallback)
 - [memo](#memo)
-- [useContext](#usecontext)
-- [useReducer](#usereducer)
+- [Context API](#context-api)
 - [StrictMode](#strictmode)
 - [사용자 정의 훅 vs 일반 함수](#사용자-정의-훅-vs-일반-함수)
-- [manifest.json](#manifestjson)
-- [react에서 환경변수](#react에서-환경변수)
-- [checked](#checked)
-- [oninput vs onchange](#oninput-vs-onchange)
-  - [사용자 입력 제한](#사용자-입력-제한)
-- [빌드](#빌드)
-- [제어 컴포넌트 vs 비제어 컴포넌트](#제어-컴포넌트-vs-비제어-컴포넌트)
 - [value, checked, defaultValue, defaultChecked](#value-checked-defaultvalue-defaultchecked)
+- [oninput vs onchange](#oninput-vs-onchange)
+- [제어 컴포넌트 vs 비제어 컴포넌트](#제어-컴포넌트-vs-비제어-컴포넌트)
 - [내가 생각하는 컴포넌트의 종류](#내가-생각하는-컴포넌트의-종류)
 - [값을 반환하냐? 컴포넌트를 반환하냐?](#값을-반환하냐-컴포넌트를-반환하냐)
 - [비동기 데이터가 포함된 컴포넌트](#비동기-데이터가-포함된-컴포넌트)
@@ -42,16 +39,29 @@ description:
 
 ![virtual_dom](images/virtual_dom.png)
 
+### 사용자 입력 제한
+
+개발하다 보면 사용자 입력을 제한해야 하는 상황이 생긴다. 일반적으로 생각나는 방법은 입력 요소의 `disabled` 속성을 주는 방법 또는 해당 화면을 마스킹 처리해서 클릭이 일어나지 않도록 방지하는 것이다.
+
+위 방법은 개발자 도구에서 `disabled` 값을 수정하거나 마스킹 스타일을 수정해서 클릭할 수 있는 상태로 변경이 가능하다. 이런 이유로 클라이언트에서는 데이터 무결성을 완벽히 체크하지 못하므로 서버에서 꼼꼼한 예외처리가 필요하다. 리액트에서는 가상 돔을 이용하므로 `disabled` 값이 상태 값에 의존하는 경우에는 입력 제한이 가능하다. 속성 값을 수정해도 상태 값이 변경되지 않아 리렌더링이 발생하지 않고 화면 상에서는 클릭 가능해보이지만 클릭해보면 이벤트가 발생하지 않는다.
+
+인증된 사용자의 토큰이 필요한 API의 경우 추적도 가능하고 인증된 사용자가 위와 같은 편법을 쓸 확률을 낮기 떄문에 비교적 위험성이 적지만, 토큰이 필요없는 API나 중요한 정보가 오가는 API(가격, 사용자 정보, 결제 등)가 동작하는 입력 요소의 경우 보안적인 부분을 꼼꼼히 신경쓰는 것이 좋다.
+
 ## JSX(JavaScript XML)
 
 전통적인 웹은 HTML, CSS, JavaScript를 기반으로 구축됐었다. 하지만 웹이 발전하면서 로직이 콘텐츠를 결정하는 경우가 많아졌다. 그래서 HTML을 자바스크립트가 제어하는 형태가 탄생했다. 이것이 바로 React에서 렌더링 로직과 마크업이 같은 위치, 즉 컴포넌트에 함께 존재하는 이유다.
 
 - JSX와 React는 별개의 개념이다. JSX는 구문 확장이고 React는 자바스크립트 라이브러리이다.
-- JavaScript 표현식을 중괄호(`{}`)로 감싸서 삽입할 수도 있다. 이를 통해 보다 동적으로 마크업할 수 있다.
+- 중괄호(`{}`)를 사용하면 자바스크립트 로직과 변수를 마크업으로 가져올 수 있다.
 - 컴포넌트에서 여러 요소를 반환하려면 단일 부모 태그로 래핑하거나 Fragment(`<>`, `</>`)를 래핑해야 한다.
-  - JSX는 HTML처럼 보이지만 내부적으로는 일반 JavaScript 객체로 변환된다. 함수에서 두 개의 객체를 배열로 래핑하지 않고는 반환할 수 없다
+  - JSX는 HTML처럼 보이지만 내부적으로는 일반 JavaScript 객체로 변환된다. 함수에서 두 개의 객체를 배열로 래핑하지 않고는 반환할 수 없는 것과 같은 원리다.
 - JSX로 작성된 속성은 객체의 키가 된다. 그래서 속성은 모두 카멜 케이스로 작성해야 하고 대시를 포함하거나 `class`와 같은 예약어를 사용할 수 없다.
   - 역사적인 이유로 `aria-*` 및 `data-*` 속성은 HTML에서와 같이 대시를 사용하여 작성된다.
+
+### 텍스트 줄바꿈
+
+HTML에서는 `\n` 줄바꿈 특수문자를 인식하지 못해서 `<br/>` 태그를 사용하거나 Javascript를 이용해 `textContent` 값에 `\n`을 포함한 문자열을 입력한다.
+React에서는 JSX를 통해 `{}` 중괄호를 이용해 쉽게 줄바꿈이 가능하다.
 
 ## useState
 
@@ -86,6 +96,73 @@ setState((prevState) => ({
 - 클릭처럼 여러 번 이벤트 핸들러가 실행되면, 각 클릭을 개별적으로 처리한다. 예를 들어, 첫 클릭에 양식을 `disabled` 시키면 두번째 클릭에 양식을 사용할 수 없다.
 - 렌더링 도중 `set` 함수를 호출하는 것은 현재 렌더링 중인 컴포넌트 내에서만 허용된다. React는 해당 출력을 버리고 즉시 새로운 상태로 다시 렌더링을 시도한다.
 
+## useReducer
+
+`useState`로 관리하기에는 더 복잡한 상태를 구조적으로 다루고 싶을 때 `useReducer`를 사용한다.
+
+```ts
+export interface State {
+  isIdle: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  data: Data | null;
+  error: Error | null;
+}
+
+interface Data {
+  isAuthenticated: boolean;
+}
+
+export const initAuthState: State = {
+  isIdle: true,
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  data: null,
+  error: null,
+};
+
+export interface Action {
+  type: 'idle_auth' | 'execute_auth' | 'success_auth' | 'fail_auth';
+  payload?: Data;
+  error?: Error;
+}
+
+function authReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'idle_auth':
+      return initAuthState;
+    case 'execute_auth':
+      return {
+        ...initAuthState,
+        isIdle: false,
+        isLoading: true,
+      };
+    case 'success_auth':
+      return {
+        ...initAuthState,
+        isIdle: false,
+        isSuccess: true,
+        data: action.payload ?? null,
+      };
+    case 'fail_auth':
+      return {
+        ...initAuthState,
+        isIdle: false,
+        isError: true,
+        error: action.error ?? null,
+      };
+    default:
+      return initAuthState;
+  }
+}
+
+export function useAuthReducer() {
+  return useReducer(authReducer, initAuthState);
+}
+```
+
 ## useRef
 
 ```ts
@@ -118,7 +195,7 @@ function App() {
     // ref 설정 방법 축약 버전
     <button ref={ref} onClick={handleClick}>
         Button
-      </button>
+    </button>
   );
 }
 ```
@@ -162,9 +239,9 @@ const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
     <div>
       <input css={{ display: 'none' }} ref={ref} type='file' {...inputProps} />
 
-      <Button onClick={(e) => /* input 요소를 클릭하게 하고싶다.. */} {...buttonProps}>
-        <span className='material-icons'>file_upload</span>
-      </Button>
+      <button onClick={(e) => /* input 요소를 클릭하게 하고싶다.. */} {...buttonProps}>
+        Button
+      </button>
     </div>
   );
 });
@@ -180,7 +257,7 @@ const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
       <input css={{ display: 'none' }} ref={inputRef} type='file' {...inputProps} />
 
       <Button onClick={(e) => inputRef.current.click()} {...buttonProps}>
-        <span className='material-icons'>file_upload</span>
+        Button
       </Button>
     </div>
   );
@@ -202,7 +279,6 @@ useEffect(function setup () {
 - 컴포넌트가 DOM에 추가되면 React는 설정 함수를 실행한다.
 - 컴포넌트가 DOM에서 제거되면 React는 정리 함수를 실행한다.
 - 종속성은 설정 코드 내부에서 참조된 모든 반응형 값의 목록이다.
-- linter가 React용으로 구성된 경우, 모든 반응형 값이 종속성으로 올바르게 지정되었는지 확인한다.
 - `[]`와 같이 종속성이 작성된 경우, 컴포넌트가 DOM에 추가될 때만 설정 함수를 실행한다.
 - 종속성이 없는 경우, 렌더링을 할 때마다 React는 먼저 이전 값으로 정리 함수(제공한 경우)를 실행한 다음 새 값으로 설정 함수를 실행한다.
 - `[dep1, dep2, dep3]`와 같이 종속성이 작성된 경우, 종속성 변경됨과 함께 렌더링을 할 때마다 React는 먼저 이전 값으로 정리 함수(제공한 경우)를 실행한 다음 새 값으로 설정 함수를 실행한다.
@@ -263,13 +339,9 @@ const cachedValue = useMemo(function calculateFunction {
 
 - `useMemo`는 인수로 캐시하려는 값을 계산하는 함수를 받는다. 순수해야 하고 인수를 받지 않아야 하며 모든 유형의 값을 반환해야 한다.
 - React는 초기 렌더링 중에 계산 함수를 호출해서 결과를 저장한다.
-- 초기 렌더링 이후 React는 마지막 렌더링 이후 종속성이 변경되지 않은 경우 동일한 값을 다시 반환한다.
-- 종속성이 변경된 경우 계산값을 호출하고 결과를 반환한 후 나중에 재사용할 수 있도록 저장한다.
+- 초기 렌더링이 지난 후 React는 마지막 렌더링 이후 종속성이 변경되지 않은 경우 동일한 값을 다시 반환한다.
+- 종속성이 변경된 경우 계산 함수를 호출하고 결과를 반환한 후 나중에 재사용할 수 있도록 저장한다.
 - 종속성은 인수로 받은 함수 내에서 참조된 모든 반응형 값의 목록이다.
-- lint가 React용으로 구성된 경우, 모든 반응형 값이 종속성으로 올바르게 지정되었는지 확인한다.
-- `[]`와 같이 종속성이 작성된 경우, 컴포넌트가 DOM에 추가될 때만 계산 함수를 실행한다.
-- 종속성이 없는 경우, 렌더링을 할 때마다 계산 함수를 실행한다.
-- `[dep1, dep2, dep3]`와 같이 종속성이 작성된 경우, 종속성 변경됨과 함께 렌더링을 할 때마다 계산 함수를 실행한다.
 - 종속성의 변경됨은 `Object.is()`를 사용하여 이전 값과 얕은 비교를 통해 확인한다.
 - `useMemo`는 성능 최적화를 위해 사용되며, 남용하면 오히려 성능이 떨어질 수 있다. 평소에는 사용하지 않다가 필요하다고 생각하는 경우에만 적용하는 것이 좋다.
 - 컴퓨팅 자원이 많이 드는 재계산을 매 렌더링마다 반복하지 않으려 할 때 사용한다.
@@ -278,24 +350,109 @@ const cachedValue = useMemo(function calculateFunction {
 ## useCallback
 
 ```ts
-
+const cachedFn = useCallback(function fn {
+  // ...
+}, dependencies)
 ```
+
+- `useCallback`은 인수로 캐시하려는 함수를 받는다. 어떤 인수를 받거나 어떤 값도 반환할 수 있다.
+- React는 초기 렌더링 중에 함수를 다시 반환한다.
+- 초기 렌더링이 지난 후 React는 마지막 렌더링 이후 종속성이 변경되지 않은 경우 동일한 함수를 다시 제공한다.
+- 종속성이 변경된 경우 현재 렌더링 중에 전달된 함수를 제공하고 나중에 재사용할 수 있도록 저장한다.
+- 함수를 호출하지 않고 사용자에게 반환되므로 사용자는 언제 호출할지 결정할 수 있다.
+- 종속성은 인수로 받은 함수 내에서 참조된 모든 반응형 값의 목록이다.
+- 종속성의 변경됨은 `Object.is()`를 사용하여 이전 값과 얕은 비교를 통해 확인한다.
+- `useCallback`은 성능 최적화를 위해 사용되며, 남용하면 오히려 성능이 떨어질 수 있다. 평소에는 사용하지 않다가 필요하다고 생각하는 경우에만 적용하는 것이 좋다.
+- 다른 훅의 종속성을 메모화할 때 사용한다.
 
 ## memo
 
 ```ts
-
+const MemoizedComponent = memo(SomeComponent);
 ```
 
-## useContext
+- `meom`는 이 컴포넌트를 수정하지 않고 메모화된 새 컴포넌트를 반환한다.
+- 함수 및 `forwardRef` 컴포넌트를 포함한 모든 유효한 React 컴포넌트를 사용할 수 있다.
+- 부모 컴포넌트가 다시 렌더링될 때 소품이 변경되지 않는 한 메모화된 컴포넌트는 항상 다시 렌더링하지는 않는다.
+- `useMemo`와 `useCallback`과의 조합으로 컴포넌트의 리렌더링을 줄이는 데에 사용한다.
 
-context api가 유용한 경우
+## Context API
 
-1.여러개의 동일한 컴포넌트가 같은 값 props로 제공 받아서 처리를 해야하는 경우
+Context API는 아래와 같은 경우 사용된다.
 
-2.radio, checkbox는 name 속성을 통해 같은 값인지를 확인
+- 전역에 값을 선언하여 여러 컴포넌트들에게 제공해야 하는 경우
+- 동일한 값을 같은 컴포넌트들에게 제공해야 하는 경우
 
-## useReducer
+```ts
+// Group.tsx
+interface Context {
+  name: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+// 1. Context 생성
+const GroupContext = createContext<Context>({
+  name: '',
+  onChange: () => {},
+});
+
+interface Props {
+  children: React.ReactNode;
+  name: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+// 2. Provider로 내보낼 value 정의
+export function Group({ children, name, onChange }: Props) {
+  const field = useMemo(
+    () => ({
+      name,
+      onChange,
+    }),
+    [name, onChange],
+  );
+
+  return <GroupContext.Provider value={field}>{children}</GroupContext.Provider>;
+}
+
+// 3. 커스텀 훅 작성
+export function useGroup() {
+  return useContext(GroupContext);
+}
+```
+
+```ts
+// Radio.tsx
+interface Props { value: string }
+
+// 4. 자식 컴포넌트에서 커스텀 훅 사용
+function Radio({ value }: Props) {
+  const { name, onChange } = useGroup();
+
+  return <input type='radio' name={name} value={value} onChange={onChange} />;
+}
+```
+
+```ts
+// App.tsx
+export default function App() {
+  const [value, setValue] = useState('');
+
+  return (
+    <div className='App'>
+      <Group
+        name='radio'
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}>
+        <Radio value='foo' />
+        <Radio value='bar' />
+        <Radio value='baz' />
+      </Group>
+    </div>
+  );
+}
+```
 
 ## StrictMode
 
@@ -327,21 +484,7 @@ context api가 유용한 경우
 
 사용자 정의 훅, 리액트 훅은 컴포넌트의 최상위 레벨에서만 호출할 수 있다. 루프나 조건 내부에서는 호출할 수 없다.
 
-## manifest.json
-
-`manifest.json` 파일은 Progressive Web App(PWA)에서 사용되는 파일로, 해당 웹 앱의 메타데이터와 구성 요소를 정의하는 역할을 한다. PWA는 웹과 네이티브 앱의 장점을 결합한 형태이다.
-
-![pwa_install](images/pwa_install.png)
-
-CRA로 리액트 프로젝트 생성 시 `public` 폴더 아래에 해당 파일이 있는데 PWA를 지원하지 않으려면 삭제해도 된다. `index.html`의 관련 코드도 같이 삭제해야 한다.
-
-## react에서 환경변수
-
-![react_env](images/react_env.png)
-
-CRA에 의해 `.env` 파일에 규칙을 가지고 작성된 환경변수는 빌드 타임에 `process.env`로 객체화되서 클라이언트에서 접근이 가능한 형태가 된다.
-
-## checked
+## value, checked, defaultValue, defaultChecked
 
 HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기값을 설정하는 속성이다. `checked` 속성은 `Boolean` 타입으로 HTML에서 `Boolean` 타입은 해당 속성을 단순히 명시하거나 명시하지 않는 방식으로 제어한다. 아래와 같이 문자열을 넣든 빈 문자열을 넣든 명시할 경우 `true` 값이 된다.
 
@@ -356,26 +499,39 @@ HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기
 
 이와 달리, 리액트에서는 JSX 문법을 사용하므로 HTML 요소의 속성을 동적으로 제어할 수 있다. 그래서 상태(state) 변수와 바인딩되어 동적으로 체크 상태를 제어할 수 있다.
 
+이러한 소품 중 하나를 전달하여 입력을 제어할 수 있습니다:
+
+checked: 부울입니다. 체크박스 입력 또는 라디오 버튼의 경우 선택 여부를 제어합니다.
+value: 문자열입니다. 텍스트 입력의 경우 텍스트를 제어합니다. (라디오 버튼의 경우 해당 양식 데이터를 지정합니다.)
+둘 중 하나를 전달할 때는 전달된 값을 업데이트하는 onChange 핸들러도 전달해야 합니다.
+
+이러한 <입력> 프로퍼티는 제어되지 않는 입력에만 해당됩니다:
+
+defaultChecked: 부울입니다. 유형="체크박스" 및 유형="라디오" 입력의 초기값을 지정합니다.
+defaultValue: 문자열입니다. 텍스트 입력의 초기값을 지정합니다.
+
+비제어 radio
+
+name으로 같은 radio 그룹 식별
+checked 선택됐는 지 안됐는 지
+value 없으면 checked 상관없이 'on', 있으면 그 값
+
+form에서 submit 시 name 값 하나만 나옴
+
+비제어 checkbox
+
+name은 독립적
+checked 선택됐는 지 안됐는 지
+value 없으면 checked 상관없이 'on', 있으면 그 값
+
+form에서 submit 시 선택된 값만(여러개가능) 출력
+
 ## oninput vs onchange
 
 - `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
 - `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
 
 리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
-
-### 사용자 입력 제한
-
-개발하다 보면 사용자 입력을 제한해야 하는 상황이 생긴다. 일반적으로 생각나는 방법은 입력 요소의 `disabled` 속성을 주는 방법 또는 해당 화면을 마스킹 처리해서 클릭이 일어나지 않도록 방지하는 것이다.
-
-위 방법은 개발자 도구에서 `disabled` 값을 수정하거나 마스킹 스타일을 수정해서 클릭할 수 있는 상태로 변경이 가능하다. 이런 이유로 클라이언트에서는 데이터 무결성을 완벽히 체크하지 못하므로 서버에서 꼼꼼한 예외처리가 필요하다. 리액트에서는 가상 돔을 이용하므로 `disabled` 값이 상태 값에 의존하는 경우에는 입력 제한이 가능하다(?). 속성 값을 수정해도 상태 값이 변경되지 않아 리렌더링이 발생하지 않고 화면 상에서는 클릭 가능해보이지만 클릭해보면 이벤트가 발생하지 않는다.
-
-인증된 사용자의 토큰이 필요한 API의 경우 추적도 가능하고 인증된 사용자가 위와 같은 편법을 쓸 확률을 낮기 떄문에 비교적 위험성이 적지만, 토큰이 필요없는 API나 중요한 정보가 오가는 API(가격, 사용자 정보, 결제 등)가 동작하는 입력 요소의 경우 보안적인 부분을 꼼꼼히 신경쓰는 것이 좋다.
-
-## 빌드
-
-웹브라우저에서 리액트 앱에 접속하면 아래와 같이 네트워크 요청이 이루어진다. 항상 `index.html`을 우선적으로 호출하고 파일에 연결된 정적 파일들을 호출한다.
-
-index.html에는 난수가 붙지않음. 각 각에 정적 파일에는 난수값이 적혀져있고 매 빌드마다 바뀌기 때문에 빌드 후에 파일만 교체해주면 서버(정적 파일 서빙)를 다운시키지 않고 파일 변경이 가능하다
 
 ## 제어 컴포넌트 vs 비제어 컴포넌트
 
@@ -416,19 +572,6 @@ function UncontrolledComponentExample() {
   );
 }
 ```
-
-## value, checked, defaultValue, defaultChecked
-
-이러한 소품 중 하나를 전달하여 입력을 제어할 수 있습니다:
-
-checked: 부울입니다. 체크박스 입력 또는 라디오 버튼의 경우 선택 여부를 제어합니다.
-value: 문자열입니다. 텍스트 입력의 경우 텍스트를 제어합니다. (라디오 버튼의 경우 해당 양식 데이터를 지정합니다.)
-둘 중 하나를 전달할 때는 전달된 값을 업데이트하는 onChange 핸들러도 전달해야 합니다.
-
-이러한 <입력> 프로퍼티는 제어되지 않는 입력에만 해당됩니다:
-
-defaultChecked: 부울입니다. 유형="체크박스" 및 유형="라디오" 입력의 초기값을 지정합니다.
-defaultValue: 문자열입니다. 텍스트 입력의 초기값을 지정합니다.
 
 ## 내가 생각하는 컴포넌트의 종류
 
