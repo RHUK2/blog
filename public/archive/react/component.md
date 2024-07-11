@@ -8,791 +8,414 @@ description:
 
 # Component
 
-- [한 개의 input 요소로 output을 만드는 제어 컴포넌트](#한-개의-input-요소로-output을-만드는-제어-컴포넌트)
-- [여러 개의 input 요소로 output을 만드는 제어 컴포넌트](#여러-개의-input-요소로-output을-만드는-제어-컴포넌트)
-- [Wrapper로 감싸지면 그룹핑되는 컴포넌트](#wrapper로-감싸지면-그룹핑되는-컴포넌트)
-- [empty1](#empty1)
-- [empty2](#empty2)
+- [제어 컴포넌트](#제어-컴포넌트)
+- [비제어 컴포넌트](#비제어-컴포넌트)
+- [바닐라 자바스크립트 폼 제어](#바닐라-자바스크립트-폼-제어)
 - [값 수정 시](#값-수정-시)
 - [다중 요소 참조](#다중-요소-참조)
+- [value, checked, defaultValue, defaultChecked](#value-checked-defaultvalue-defaultchecked)
+- [oninput vs onchange](#oninput-vs-onchange)
+- [내가 생각하는 컴포넌트의 종류](#내가-생각하는-컴포넌트의-종류)
+- [값을 반환하냐? 컴포넌트를 반환하냐?](#값을-반환하냐-컴포넌트를-반환하냐)
+- [비동기 데이터가 포함된 컴포넌트](#비동기-데이터가-포함된-컴포넌트)
 
-## 한 개의 input 요소로 output을 만드는 제어 컴포넌트
+## 제어 컴포넌트
 
-```js
-const Switch = forwardRef(({ checked = false, onChange = () => {}, ...inputProps }, ref) => {
-  const [isOn, setIsOn] = useState(checked);
-  const [isClickable, setIsClickable] = useState(true);
+- 제어 컴포넌트는 `value`, `checked`와 상태를 연결하고 `onChange`에 상태 핸들링 함수를 넘겨 값을 제어할 수 있다.
+- 값의 초기값은 상태값의 초기값으로 설정 가능하다.
 
-  const inputRef = useRef(null);
+```ts
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-  useImperativeHandle(ref, () => inputRef.current);
+function App() {
+  const [form, setForm] = useState({
+    text: '',
+    textarea: '',
+    select: 'select2',
+    files: {},
+    radio: 'radio2',
+    checkboxAll: false,
+    checkbox: [
+      { id: 1, checked: false },
+      { id: 2, checked: false },
+      { id: 3, checked: false },
+    ],
+    range: '0',
+    color: '#ffffff',
+    date: new Date().toISOString().split('T')[0],
+  });
 
-  function handleSwitch(e) {
-    setIsOn(checked);
-    onChange(e);
-  }
+  function handleInputForm(e: ChangeEvent<HTMLInputElement>) {
+    const name = e.target.name;
+    const value = e.target.value;
+    let result = {};
 
-  useEffect(() => {
-    if (isOn !== checked) setIsOn(checked);
-  }, [checked, isOn]);
+    switch (name) {
+      case 'text':
+        // Enter 입력 시 제출 이벤트 방지
+        e.preventDefault();
 
-  return (
-    <div
-      css={{
-        transition: isClickable === false ? 'background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0px 5px',
-        width: 50,
-        height: 25,
-        borderRadius: 20,
-        backgroundColor: isOn ? $color.primary : $color.grey[5],
-        cursor: 'pointer',
-        boxShadow: 'inset 2px 2px 2px rgba(0, 0, 0, 0.16)',
-      }}
-      onClick={() => {
-        if (isClickable) {
-          inputRef.current.click();
-          setIsClickable(false);
-          return;
-        }
-      }}
-      onTransitionEnd={() => setIsClickable(true)}>
-      <div
-        css={{
-          transition: isClickable === false ? 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)' : 'none',
-          width: 15,
-          height: 15,
-          borderRadius: '50%',
-          backgroundColor: 'white',
-          boxShadow: '-3px 3px 3px rgba(0, 0, 0, 0.16)',
-          transform: isOn ? 'translateX(25px)' : 'translateX(0px)',
-        }}></div>
-      <input
-        ref={inputRef}
-        type='checkbox'
-        checked={isOn}
-        css={{ display: 'none' }}
-        onChange={handleSwitch}
-        {...inputProps}
-      />
-    </div>
-  );
-});
-```
-
-## 여러 개의 input 요소로 output을 만드는 제어 컴포넌트
-
-```js
-// ? @param output 'string' or [{ object }, 'object key string']
-
-function TextListInput({ output = 'string', disabled = false, value = [], onChange = () => {}, ...inputProps }) {
-  const intl = useIntl();
-
-  const [text, setText] = useState('');
-
-  const [textList, setTextList] = useState(value);
-
-  function handleClick(e) {
-    const targetValue = e.target.dataset.value;
-
-    const copyTextList = [...textList];
-
-    if (output === 'string') {
-      const value = targetValue;
-      const index = copyTextList.findIndex((text) => text === value);
-
-      copyTextList.splice(index, index !== -1 ? 1 : 0);
-    } else if (Array.isArray(output) && output.length === 2) {
-      const value = {
-        ...output[0],
-        [output[1]]: targetValue,
-      };
-      const index = copyTextList.findIndex((object) => object[output[1]] === value[output[1]]);
-
-      copyTextList.splice(index, index !== -1 ? 1 : 0);
+        result = { text: value };
+        break;
+      case 'radio':
+        result = { radio: value };
+        break;
+      case 'range':
+        result = { range: value };
+        break;
+      case 'color':
+        result = { color: value };
+        break;
+      case 'date':
+        result = { date: value };
+        break;
+      default:
+        break;
     }
 
-    setTextList(copyTextList);
-    onChange(copyTextList);
+    setForm((prev) => ({
+      ...prev,
+      ...result,
+    }));
   }
 
-  function handleKeyUp(e) {
-    const targetValue = e.target.value.replace(/\s/g, '');
+  function handleFileForm(e: ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files != null ? e.target.files : {};
 
-    if (targetValue.length === 0) return;
+    setForm((prev) => ({
+      ...prev,
+      files: files,
+    }));
+  }
 
-    if (e.key === 'Enter' || e.key === ' ') {
-      const copyTextList = [...textList];
-      let updatedValue = [];
+  function handleCheckboxForm(e: ChangeEvent<HTMLInputElement>) {
+    const name = e.target.name;
+    const value = e.target.value;
+    const checked = e.target.checked;
 
-      if (output === 'string') {
-        const value = targetValue;
-
-        updatedValue = copyTextList.includes(value) ? copyTextList : copyTextList.concat(targetValue);
-      } else if (Array.isArray(output) && output.length === 2) {
-        const value = {
-          ...output[0],
-          [output[1]]: targetValue,
-        };
-
-        updatedValue = copyTextList.find((object) => object[output[1]] === value[output[1]])
-          ? copyTextList
-          : copyTextList.concat(value);
-      }
-
-      setText('');
-      setTextList(updatedValue);
-      onChange(updatedValue);
+    if (name === 'checkboxAll') {
+      setForm((prev) => ({
+        ...prev,
+        checkboxAll: checked,
+        checkbox: prev.checkbox.map((cb) => ({ ...cb, checked: checked })),
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        checkbox: prev.checkbox.map((cb) => (cb.id === parseInt(value) ? { ...cb, checked: checked } : cb)),
+      }));
+      setForm((prev) => ({
+        ...prev,
+        checkboxAll: prev.checkbox.every((cb) => cb.checked),
+      }));
     }
   }
 
-  useEffect(() => {
-    setTextList(value);
-  }, [value]);
-
-  return (
-    <div
-      css={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: 8,
-        padding: 8,
-        backgroundColor: disabled ? $color.disabled : $color.white,
-        color: disabled ? $color.disabledText : 'canvastext',
-        border: `1px solid ${$color.divider}`,
-        borderRadius: 4,
-        minHeight: 40,
-        '&:hover': {
-          boxShadow: disabled ? 'none' : $boxShadow.shallow,
-        },
-        '&:focus-within': {
-          outline: `${$color.black} solid 1px`,
-          boxShadow: $boxShadow.shallow,
-        },
-      }}>
-      {textList.map((text, index) => (
-        <span
-          key={`${text}${index}`}
-          css={{
-            borderRadius: 8,
-            padding: '0 8px',
-            backgroundColor: disabled ? $color.grey[2] : $color.grey[1],
-            cursor: disabled ? 'not-allowed' : 'pointer',
-          }}
-          data-value={output === 'string' ? text : text[output[1]]}
-          onClick={disabled ? () => {} : (e) => handleClick(e, index)}>
-          {output === 'string' ? text : text[output[1]]}
-        </span>
-      ))}
-      <input
-        css={{
-          backgroundColor: 'transparent',
-          border: 'none',
-          padding: 0,
-          flex: '1 0 0',
-          minWidth: 40,
-          '&:focus': {
-            outline: 'none',
-          },
-        }}
-        type='text'
-        inputMode='search'
-        disabled={disabled}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={intl.formatMessage({
-          id: 'placeholder.input',
-          defaultMessage: '입력',
-        })}
-        onKeyUp={handleKeyUp}
-        {...inputProps}
-      />
-    </div>
-  );
-}
-```
-
-## Wrapper로 감싸지면 그룹핑되는 컴포넌트
-
-```js
-// CheckboxGroup.js
-const CheckBoxGroupContext = createContext();
-
-const CheckBoxGroup = ({ value = [], onChange = () => {}, children, ...inputProps }) => {
-  const [group, setGroup] = useState(value);
-
-  return (
-    <>
-      <CheckBoxGroupContext.Provider value={[group, setGroup, onChange]}>{children}</CheckBoxGroupContext.Provider>
-    </>
-  );
-};
-
-// Checkbox.js
-const CheckBox = forwardRef(({ checked = false, value = '', onChange = () => {}, ...inputProps }, ref) => {
-  const [group, setGroup, onGroupChange] = useContext(CheckBoxGroupContext) ?? [null, null];
-
-  const [_checked, setChecked] = useState(checked);
-
-  function handleChecked(e) {
+  function handleSelectForm(e: ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value;
 
-    if (group !== null) {
-      const copyGroup = [...group];
+    setForm((prev) => ({
+      ...prev,
+      select: value,
+    }));
+  }
 
-      if (!group.includes(value)) {
-        const result = copyGroup.includes(value) ? copyGroup : copyGroup.concat(value);
-        setGroup(result);
-        onGroupChange({
-          ...e,
-          target: {
-            value: result,
-          },
-        });
+  function handleTextareaForm(e: ChangeEvent<HTMLTextAreaElement>) {
+    const value = e.target.value;
+
+    setForm((prev) => ({
+      ...prev,
+      textarea: value,
+    }));
+  }
+
+  function isValid() {
+    // 상태 값으로 유효성 판단
+    if (true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    // 제출 이벤트 방지
+    e.preventDefault();
+
+    if (isValid()) {
+      // 상태 값으로 HTTP 요청
+      const body = {
+        text: form.text,
+        textarea: form.textarea,
+        select: form.select,
+        files: form.files,
+        radio: form.radio,
+        checkbox: form.checkbox.filter((cb) => cb.checked).map((cb) => cb.id),
+        range: form.range,
+        color: form.color,
+        date: form.date,
+      };
+
+      console.log(body);
+    } else {
+      // 유효성 실패
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type='text' name='text' value={form.text} onChange={handleInputForm} />
+      <textarea value={form.textarea} onChange={handleTextareaForm} />
+      <input type='file' onChange={handleFileForm} multiple />
+      <select value={form.select} onChange={handleSelectForm}>
+        <option value=''>-</option>
+        <option value='select1'>select1</option>
+        <option value='select2'>select2</option>
+        <option value='select3'>select3</option>
+      </select>
+      <input type='radio' name='radio' value='radio1' checked={form.radio === 'radio1'} onChange={handleInputForm} />
+      <input type='radio' name='radio' value='radio2' checked={form.radio === 'radio2'} onChange={handleInputForm} />
+      <input type='radio' name='radio' value='radio3' checked={form.radio === 'radio3'} onChange={handleInputForm} />
+      <input type='checkbox' name='checkboxAll' checked={form.checkboxAll} onChange={handleCheckboxForm} />
+      {form.checkbox.map((cb) => (
+        <input
+          key={`checkbox_${cb.id}`}
+          type='checkbox'
+          name={`checkbox_${cb.id}`}
+          value={cb.id.toString()}
+          checked={cb.checked}
+          onChange={handleCheckboxForm}
+        />
+      ))}
+      <input type='range' name='range' value={form.range} min={0} max={50} step={0.5} onChange={handleInputForm} />
+      <input type='color' name='color' value={form.color} onChange={handleInputForm} />
+      <input type='date' name='date' value={form.date} onChange={handleInputForm} />
+      <button type='submit'>Submit</button>
+    </form>
+  );
+}
+
+export default App;
+```
+
+## 비제어 컴포넌트
+
+- 비제어 컴포넌트는 `useRef`로 요소 객체를 가져와 직접 요소 객체의 `value`, `checked` 값을 사용한다.
+- 상태 값으로 제어되지 않고 기존 Javascript에서 제어하는 방식과 동일한 것이 비제어 컴포넌트이다.
+- 값의 초기값은 `defaultValue`, `defaultChecked`로 설정이 가능하다. 이는 React에서 `value`와 `checked`가 상태 제어용으로 쓰이기 때문에 만들어졌다.
+
+```ts
+import { FormEvent, useEffect, useMemo, useRef } from 'react';
+
+function App() {
+  const form = useRef<HTMLFormElement>(null);
+  const text = useRef<HTMLInputElement>(null);
+  const textarea = useRef<HTMLTextAreaElement>(null);
+  const select = useRef<HTMLSelectElement>(null);
+  const files = useRef<HTMLInputElement>(null);
+  const checkboxAll = useRef<HTMLInputElement>(null);
+  const checkbox = useRef<(HTMLInputElement | null)[]>([]);
+  const range = useRef<HTMLInputElement>(null);
+  const color = useRef<HTMLInputElement>(null);
+  const date = useRef<HTMLInputElement>(null);
+
+  const ids = useMemo(() => [1, 2, 3], []);
+
+  function isValid() {
+    // ref 값으로 유효성 판단
+    if (true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    // 제출 이벤트 방지
+    e.preventDefault();
+
+    if (isValid()) {
+      // ref 값으로 HTTP 요청
+      const body = {
+        text: text.current?.value ?? '',
+        textarea: textarea.current?.value ?? '',
+        select: select.current?.value ?? 'select2',
+        files: files.current?.files ?? null,
+        radio: (form.current?.elements.namedItem('radio') as RadioNodeList).value ?? 'radio2',
+        checkbox: checkbox.current?.filter((cb) => cb?.checked).map((cb) => cb?.value && parseInt(cb.value)),
+        range: range.current?.value ?? '0',
+        color: color.current?.value ?? '#ffffff',
+        date: date.current?.value ?? new Date().toISOString().split('T')[0],
+      };
+
+      console.log(body);
+    } else {
+      // 유효성 실패
+    }
+  }
+
+  useEffect(() => {
+    if (checkboxAll.current == null) return;
+    if (checkbox.current == null) return;
+
+    const checkboxAllRef = checkboxAll.current;
+    const checkboxRef = checkbox.current;
+
+    function handleCheckboxForm(this: HTMLInputElement, e: Event) {
+      const name = this.name;
+      const checked = this.checked;
+
+      if (name === 'checkboxAll') {
+        checkbox.current.forEach((cb) => cb && (cb.checked = checked));
       } else {
-        const result = copyGroup.filter((item) => item !== value);
-        setGroup(result);
-        onGroupChange({
-          ...e,
-          target: {
-            value: result,
-          },
-        });
+        if (checkboxAll.current == null) return;
+
+        checkboxAll.current.checked = checkbox.current.every((cb) => cb && cb.checked);
       }
     }
 
-    setChecked(e.target.checked);
-    onChange(e);
-  }
+    checkboxAllRef.addEventListener('input', handleCheckboxForm);
+    checkboxRef.forEach((ref) => ref?.addEventListener('input', handleCheckboxForm));
+
+    return () => {
+      checkboxAllRef.removeEventListener('input', handleCheckboxForm);
+      checkboxRef.forEach((ref) => ref?.removeEventListener('input', handleCheckboxForm));
+    };
+  }, []);
 
   return (
-    <input
-      ref={ref}
-      css={{
-        appearance: 'none',
-        cursor: 'pointer',
-        minWidth: 16,
-        maxWidth: 16,
-        height: 16,
-        padding: 0,
-        outline: `1px solid ${$color.grey[6]}`,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        '&:checked': {
-          outline: 'none',
-          backgroundColor: $color.primary,
-        },
-        '&:checked:after': {
-          content: '"✓"',
-          color: $color.white,
-        },
-        '&:hover': {
-          outline: `3px solid rgba(0, 0, 0, 0.2)`,
-        },
-        '&:disabled': {
-          outline: 'none',
-          opacity: 0.5,
-        },
-      }}
-      type='checkbox'
-      value={value.toString()}
-      checked={group !== null ? group.includes(value.toString()) : _checked}
-      onChange={handleChecked}
-      {...inputProps}
-    />
-  );
-});
-```
-
-## empty1
-
-```js
-interface RefereeListItemSelectGroup {
-  value?: RefereeRelationship[];
-  onChange?: (selectGroup: RefereeRelationship[]) => void;
-  children?: React.ReactNode;
-}
-
-interface ContextType {
-  selectGroup?: RefereeRelationship[];
-  setSelectGroup?: Dispatch<SetStateAction<RefereeRelationship[]>>;
-  onChange?: (selectGroup: RefereeRelationship[]) => void;
-}
-
-export const RefereeListItemSelectGroupContext = createContext < ContextType > {};
-
-export function RefereeListItemSelectGroup({ value = [], onChange = () => {}, children }: RefereeListItemSelectGroup) {
-  /*********/
-  /* Hooks */
-  /*********/
-
-  /***********/
-  /* useForm */
-  /***********/
-
-  /****************************/
-  /* state & ref & definition */
-  /****************************/
-
-  const [selectGroup, setSelectGroup] = useState(value ?? []);
-
-  /************/
-  /* useQuery */
-  /************/
-
-  /***************/
-  /* useMutation */
-  /***************/
-
-  /*********************/
-  /* API Call Function */
-  /*********************/
-
-  /***********/
-  /* handler */
-  /***********/
-
-  /*******/
-  /* etc */
-  /*******/
-
-  /***********/
-  /* useMemo */
-  /***********/
-
-  /*************/
-  /* useEffect */
-  /*************/
-
-  useEffect(() => {
-    setSelectGroup(value);
-  }, [selectGroup, value]);
-
-  /**********/
-  /* return */
-  /**********/
-
-  return (
-    <>
-      <RefereeListItemSelectGroupContext.Provider
-        value={{
-          selectGroup,
-          setSelectGroup,
-          onChange,
-        }}
-      >
-        {children}
-      </RefereeListItemSelectGroupContext.Provider>
-    </>
-  );
-}
-
-interface Props {
-  data?: RefereeDetail;
-  onChange?: (value: string) => void;
-}
-
-export function RefereeListItemSelect({ data, onChange = () => {}, ...listItemProps }: Props & ListItemProps) {
-  /*********/
-  /* Hooks */
-  /*********/
-
-  const { t } = useTranslation('common');
-
-  const theme = useTheme();
-
-  /***********/
-  /* useForm */
-  /***********/
-
-  /****************************/
-  /* state & ref & definition */
-  /****************************/
-
-  const { id, name, relationship, relationshipIdentifier, email, phone, profile, updatedAt, status, isSelected } =
-    data || {};
-
-  const setAlert = useSetRecoilState(alertState);
-
-  const { selectGroup, setSelectGroup, onChange: onGroupChange } = useContext(RefereeListItemSelectGroupContext);
-
-  const [select, setSelect] = useState(data?.relationship?.key ?? '');
-
-  /************/
-  /* useQuery */
-  /************/
-
-  const { status: relationshipSelectStatus, data: relationshipSelectData } = useSelectQuery(
-    SELECT_REQUEST.RELATIONSHIP,
-  );
-
-  /***************/
-  /* useMutation */
-  /***************/
-
-  /*********************/
-  /* API Call Function */
-  /*********************/
-
-  /***********/
-  /* handler */
-  /***********/
-
-  function handleSelect(e: SelectChangeEvent<unknown>) {
-    if (id == null || typeof e.target.value !== 'string') {
-      setAlert((prev) => ({
-        ...prev,
-        open: true,
-        type: 'error',
-        message: '오류가 발생했습니다.',
-      }));
-      return;
-    }
-
-    setSelect(e.target.value);
-    onChange(e.target.value);
-
-    if (selectGroup && setSelectGroup && onGroupChange) {
-      const copySelectGroup = [...selectGroup];
-
-      const index = copySelectGroup.findIndex((select) => select.id === id);
-
-      if (index !== -1) copySelectGroup.splice(index, 1);
-
-      copySelectGroup.push({ id: id, relationship: e.target.value });
-
-      setSelectGroup(copySelectGroup);
-      onGroupChange(copySelectGroup);
-    }
-  }
-
-  /*******/
-  /* etc */
-  /*******/
-
-  /***********/
-  /* useMemo */
-  /***********/
-
-  /*************/
-  /* useEffect */
-  /*************/
-
-  useEffect(() => {
-    if (selectGroup) {
-      const select = selectGroup.find((select) => select.id === (id ?? 0));
-
-      if (select) setSelect(select.relationship);
-    }
-  }, [id, selectGroup]);
-
-  /**********/
-  /* return */
-  /**********/
-
-  return (
-    <ListItem divider sx={{ gap: 2, backgroundColor: isSelected ? 'grey.A100' : 'inherit' }} {...listItemProps}>
-      <Avatar
-        sx={{ width: 30, height: 30, border: `1px solid ${theme.palette.grey[300]}` }}
-        alt='profile'
-        src={profile != null ? `data:image;base64,${profile}` : '/images/DEFAULT.png'}
-      />
-
-      <Box sx={{ flex: '1 0 0', display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-        <Box sx={{ flex: '30 0 200px', display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-          <ListItemText
-            sx={{ flex: '1 0 150px' }}
-            primary={name ?? '-'}
-            secondary={`${relationship ? relationship?.value : relationshipIdentifier?.value ?? '-'} • ${
-              dayjs(updatedAt).isValid() ? dayjs(updatedAt).fromNow() : '-'
-            }`}
-          />
-
-          <Box
-            sx={{
-              flex: '3 0 200px',
-              display: 'flex',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant='body2'>{email ?? '-'}</Typography>
-              <CopyIcon text={email} />
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant='body2'>{`• ${phone == null ? '-' : computedPhone(phone)}`}</Typography>
-              <CopyIcon text={computedPhone(phone)} />
-            </Box>
-          </Box>
-        </Box>
-
-        {(() => {
-          switch (relationshipSelectStatus) {
-            case 'loading':
-              return <Skeleton variant='rounded' sx={{ flex: '1 0 120px' }} height={30} />;
-            case 'success':
-              return (
-                <Select
-                  sx={{ flex: '1 0 120px' }}
-                  displayEmpty
-                  color='secondary'
-                  value={select}
-                  onChange={handleSelect}
-                >
-                  <MenuItem value=''>선택하지 않음</MenuItem>
-                  {relationshipSelectData?.relationship?.map((relationship: Option) => (
-                    <MenuItem key={relationship.key} value={relationship.key}>
-                      {relationship.value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              );
-            case 'error':
-            default:
-              return <Skeleton variant='rounded' animation={false} sx={{ flex: '1 0 120px' }} height={30} />;
-          }
-        })()}
-      </Box>
-    </ListItem>
-  );
-}
-```
-
-## empty2
-
-```js
-interface AddEmployerInputProps {
-  value?: Employer[];
-  onChange?: (value: Employer[]) => void;
-  mode?: 'add' | 'edit';
-}
-
-interface AddEmployerInputForm {
-  employerIdentifier: string;
-  employers: Employer[];
-}
-
-export function AddEmployerInput({ mode = 'add', value = [], onChange = () => {} }: AddEmployerInputProps) {
-  /*********/
-  /* Hooks */
-  /*********/
-
-  const theme = useTheme();
-
-  /***********/
-  /* useForm */
-  /***********/
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    getValues,
-    formState: { errors },
-  } = useForm <
-  AddEmployerInputForm >
-  {
-    mode: 'onChange',
-    defaultValues: {
-      employerIdentifier: '',
-      employers: [],
-    },
-  };
-
-  const employers = watch('employers');
-
-  /****************************/
-  /* state & ref & definition */
-  /****************************/
-
-  const setAlert = useSetRecoilState(alertState);
-
-  /************/
-  /* useQuery */
-  /************/
-
-  const apiCheckEmployer = useCheckEmployerMutation();
-
-  const { status: employerMeStatus, data: employerMeData } = useEmployerMeQuery();
-
-  /***************/
-  /* useMutation */
-  /***************/
-
-  /*********************/
-  /* API Call Function */
-  /*********************/
-
-  function onCheckEmployer(data: AddEmployerInputForm) {
-    apiCheckEmployer.mutate(
-      { email: data.employerIdentifier },
-      {
-        onSuccess(response) {
-          const {
-            data: { id, email, name, profile },
-          } = response;
-
-          if (id == null || name == null) {
-            setAlert((prev) => ({
-              ...prev,
-              open: true,
-              type: 'error',
-              message: '오류가 발생했습니다.',
-            }));
-            return;
-          }
-
-          const copyEmployers = [...data.employers];
-
-          const index = copyEmployers.findIndex((copyEmployer) => copyEmployer.id === id);
-
-          if (index !== -1) copyEmployers.splice(index, 1);
-
-          copyEmployers.push({
-            id: id,
-            email: email,
-            name: name,
-            profile: profile,
-          });
-
-          setValue('employers', copyEmployers);
-          onChange(copyEmployers);
-        },
-        onError(error) {
-          if (!axios.isAxiosError(error)) return; // axios의 에러 처리를 위한 typeguard
-
-          setAlert((prev) => ({
-            ...prev,
-            open: true,
-            type: 'error',
-            message: error?.response?.data.message ?? '오류가 발생했습니다.',
-          }));
-        },
-      },
-    );
-  }
-
-  /***********/
-  /* handler */
-  /***********/
-
-  function deleteEmployers(id: number | null) {
-    if (id == null) {
-      setAlert((prev) => ({
-        ...prev,
-        open: true,
-        type: 'error',
-        message: '오류가 발생했습니다.',
-      }));
-      return;
-    }
-
-    const employers = getValues('employers');
-
-    const copyEmployers = [...employers];
-
-    const index = copyEmployers.findIndex((copyEmployer) => copyEmployer.id === id);
-
-    if (index !== -1) copyEmployers.splice(index, 1);
-
-    setValue('employers', copyEmployers);
-    onChange(copyEmployers);
-  }
-
-  /*******/
-  /* etc */
-  /*******/
-
-  /***********/
-  /* useMemo */
-  /***********/
-
-  /*************/
-  /* useEffect */
-  /*************/
-
-  useEffect(() => {
-    setValue('employers', value);
-  }, [setValue, value]);
-
-  /**********/
-  /* return */
-  /**********/
-
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 5,
-      }}
-    >
-      <Box sx={{ flex: '1 0 250px', display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <InputBase
-          placeholder='이메일'
-          {...register('employerIdentifier', {
-            required: true,
-            pattern: {
-              value: reg_exp.email,
-              message: '유효하지 않은 입력입니다.',
-            },
-          })}
+    <form ref={form} onSubmit={onSubmit}>
+      <input type='text' name='text' ref={text} />
+      <textarea name='textarea' ref={textarea} />
+      <input type='file' name='files' ref={files} multiple />
+      <select name='select' ref={select} defaultValue={'select2'}>
+        <option value=''>-</option>
+        <option value='select1'>select1</option>
+        <option value='select2'>select2</option>
+        <option value='select3'>select3</option>
+      </select>
+      <input type='radio' name='radio' value='radio1' />
+      <input type='radio' name='radio' value='radio2' defaultChecked />
+      <input type='radio' name='radio' value='radio3' />
+      <input type='checkbox' name='checkboxAll' ref={checkboxAll} />
+      {ids.map((id, index) => (
+        <input
+          key={`checkbox_${id}`}
+          type='checkbox'
+          name='checkbox'
+          value={id.toString()}
+          ref={(elem) => (checkbox.current[index] = elem)}
         />
-        <Button variant='outlined' color='secondary' onClick={debounce(handleSubmit(onCheckEmployer))}>
-          관리자 추가
-        </Button>
-        {errors.employerIdentifier?.message && (
-          <Typography color='error' variant='body2'>
-            {errors.employerIdentifier.message}
-          </Typography>
-        )}
-      </Box>
-      <Box sx={{ flex: '1 0 250px', display: 'flex', flexDirection: 'column', gap: 1 }}>
-        {mode === 'add' && (
-          <ListItem sx={{ gap: 1, backgroundColor: 'grey.100', borderRadius: 1 }}>
-            <Avatar
-              sx={{ width: 30, height: 30, border: `1px solid ${theme.palette.grey[300]}` }}
-              alt='profile'
-              src={
-                employerMeData?.profile != null ? `data:image;base64,${employerMeData?.profile}` : '/images/DEFAULT.png'
-              }
-            />
-            <ListItemText sx={{ flex: '0 1 max-content' }} primary={employerMeData?.name ?? '-'} />
-            <ListItemText sx={{ color: 'primary.main' }} primary={'내 계정'} />
-          </ListItem>
-        )}
-        {employers.map((employer) => (
-          <Fragment key={employer.id}>
-            <ListItem
-              sx={{ gap: 1, backgroundColor: 'grey.100', borderRadius: 1 }}
-              secondaryAction={
-                <IconButton edge='end' onClick={debounce(() => deleteEmployers(employer.id))}>
-                  <CloseIcon />
-                </IconButton>
-              }
-            >
-              <Avatar
-                sx={{ width: 30, height: 30, border: `1px solid ${theme.palette.grey[300]}` }}
-                alt='profile'
-                src={employer.profile != null ? `data:image;base64,${employer.profile}` : '/images/DEFAULT.png'}
-              />
-              <ListItemText sx={{ flex: '0 1 max-content' }} primary={employer.name} />
-              {employer.email === employerMeData?.email && (
-                <ListItemText sx={{ color: 'primary.main' }} primary={'내 계정'} />
-              )}
-            </ListItem>
-          </Fragment>
-        ))}
-      </Box>
-    </Box>
+      ))}
+      <input type='range' name='range' min={0} max={50} step={0.5} ref={range} defaultValue={'0'} />
+      <input type='color' name='color' ref={color} defaultValue={'#ffffff'} />
+      <input type='date' name='date' ref={date} defaultValue={new Date().toISOString().split('T')[0]} />
+      <button type='submit'>Submit</button>
+    </form>
   );
 }
+
+export default App;
+```
+
+## 바닐라 자바스크립트 폼 제어
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" name="text" />
+      <textarea name="textarea"></textarea>
+      <input type="file" name="files" multiple />
+      <select name="select">
+        <option value="">-</option>
+        <option value="select1">select1</option>
+        <option value="select2" selected>select2</option>
+        <option value="select3">select3</option>
+      </select>
+      <input type="radio" name="radio" value="radio1" />
+      <input type="radio" name="radio" value="radio2" checked />
+      <input type="radio" name="radio" value="radio3" />
+      <input type="checkbox" name="checkboxAll" />
+      <input type="range" name="range" value="0" min="0" max="50" step="0.5" />
+      <input type="color" name="color" value="#ffffff" />
+      <input type="date" name="date" />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+  <script>
+    const form = document.querySelector('form');
+    const text = document.querySelector('input[type="text"]');
+    const textarea = document.querySelector('textarea');
+    const select = document.querySelector('select');
+    const files = document.querySelector('input[type="file"]');
+    const checkboxAll = document.querySelector('input[name="checkboxAll"]');
+    const range = document.querySelector('input[type="range"]');
+    const color = document.querySelector('input[type="color"]');
+    const date = document.querySelector('input[type="date"]');
+
+    date.value = new Date().toISOString().split('T')[0];
+
+    const ids = [1, 2, 3];
+
+    ids.map((id) => {
+      const checkbox = document.createElement('input');
+      checkbox.setAttribute('type', 'checkbox');
+      checkbox.setAttribute('name', 'checkbox');
+      checkbox.setAttribute('value', id.toString());
+      form.insertBefore(checkbox, range);
+    });
+
+    const checkbox = document.querySelectorAll('input[name="checkbox"]');
+
+    function handleCheckboxForm(e) {
+      const name = e.target.name;
+      const checked = e.target.checked;
+
+      if (name === 'checkboxAll') {
+        checkbox.forEach((cb) => cb && (cb.checked = checked));
+      } else {
+        checkboxAll.checked = Array.from(checkbox).every((cb) => cb && cb.checked);
+      }
+    }
+
+    function onSubmit(e) {
+      e.preventDefault();
+
+      const body = {
+        text: text.value,
+        textarea: textarea.value,
+        select: select.value,
+        files: files.files,
+        radio: form.elements.namedItem('radio').value,
+        checkbox: Array.from(checkbox)
+          .filter((cb) => cb.checked)
+          .map((cb) => parseInt(cb.value)),
+        range: range.value,
+        color: color.value,
+        date: date.value,
+      };
+
+      console.log(body);
+    }
+
+    function register() {
+      checkboxAll.addEventListener('input', handleCheckboxForm);
+      checkbox.forEach((cb) => {
+        cb.addEventListener('input', handleCheckboxForm);
+      });
+      form.addEventListener('submit', onSubmit);
+    }
+
+    register();
+  </script>
+</html>
 ```
 
 ## 값 수정 시
@@ -827,3 +450,47 @@ DB 값을 보여주는 디스플레이와 입력이 분리되는 인풋
   </div>
 </Popper>
 ```
+
+## value, checked, defaultValue, defaultChecked
+
+HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기값을 설정하는 속성이다. `checked` 속성은 `Boolean` 타입으로 HTML에서 `Boolean` 타입은 해당 속성을 단순히 명시하거나 명시하지 않는 방식으로 제어한다. 아래와 같이 문자열을 넣든 빈 문자열을 넣든 명시할 경우 `true` 값이 된다.
+
+```html
+<!-- checked === true -->
+<input type="checkbox" checked />
+<input type="checkbox" checked="" />
+<input type="checkbox" checked="false" />
+<!-- checked === false -->
+<input type="checkbox" />
+```
+
+## oninput vs onchange
+
+- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
+- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
+
+리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
+
+## 내가 생각하는 컴포넌트의 종류
+
+MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트를 디자인 컴포넌트라고 나는 정의했다. 디자인 컴포넌트는 매우 재사용성이 높다. 하지만 서버의 요청을 보내기 위해 일반적인 입력이 아닌 인풋 컴포넌트나 비동기 데이터와 연동되어 데이터를 출력하는 컴포넌트는 재사용성이 떨어진다.
+
+그래서 나는 재사용성이 높은 디자인 컴포넌트와 해당 디자인 컴포넌트들을 사용해 단일 책임 원칙을 따르는 데이터 컴포넌트 두가지의 컴포넌트로 구성된다고 생각한다. 비동기 데이터 컴포넌트의 경우 비동기 데이터의 상태까지 같이 받아서 해당 데이터의 상태에 따라 표현하는 UI를 같이 작성하는 방향으로 생각하자
+
+도메인, 권한 등등 분기되는 로직이 최대한 들어가지 않게 작성하도록 하며, 분기가 필요한 경우 새로운 파일에 작성하는 것이 옳다고 생각한다.
+
+## 값을 반환하냐? 컴포넌트를 반환하냐?
+
+만약 어떠한 값에 따라 색깔이 변경되는 컴포넌트가 있다고 하자. 처음 든 생각은 컴포넌트를 구성하는 요소에 필요한 데이터와 동적으로 변경되는 색깔 값을 객체 배열로 생성하고 해당 객체를 `map()`으로 요소와 함께 뿌려주려고 생각했다. 하지만 단순히 색깔만 고려하는 게 아니고 요소의 속성이나 요소 값이 바뀐다고 생각하면 객체 값의 재정의가 필요하고 통일성도 떨어진다. 그래서 위와 같은 상황에서는 요소 값 또는 컴포넌트 값을 리턴하는 것이 훨씬 낫다.
+
+만약 스타일 변경 없이 단순히 입력에 따라 출력 데이터가 바뀌는 경우에는 값을 반환하는 것이 좋다.
+
+<!-- todo: 내용 보완 필요 -->
+
+## 비동기 데이터가 포함된 컴포넌트
+
+비동기 데이터의 로딩 상태를 고려해서 작성해야한다.
+
+페이지네이션 작성 시 셀렉트 리스트 데이터가 다 오지 않았는데 값을 선택하려다 보니 에러가 발생했음
+
+데이터가 로딩된 이후에 동작되어야함.

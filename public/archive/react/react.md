@@ -1,13 +1,14 @@
 ---
-updatedAt: 2024-05-20
+updatedAt: 2024-07-10
 directory: react
 fileName: react
 title: React 기록하기
-description:
+description: ✅
 ---
 
-# React 기록하기
+## React 기록하기
 
+- [React 기록하기](#react-기록하기)
 - [가상 돔(Virtual DOM)](#가상-돔virtual-dom)
   - [사용자 입력 제한](#사용자-입력-제한)
 - [JSX(JavaScript XML)](#jsxjavascript-xml)
@@ -26,12 +27,6 @@ description:
 - [Context API](#context-api)
 - [StrictMode](#strictmode)
 - [사용자 정의 훅 vs 일반 함수](#사용자-정의-훅-vs-일반-함수)
-- [value, checked, defaultValue, defaultChecked](#value-checked-defaultvalue-defaultchecked)
-- [oninput vs onchange](#oninput-vs-onchange)
-- [제어 컴포넌트 vs 비제어 컴포넌트](#제어-컴포넌트-vs-비제어-컴포넌트)
-- [내가 생각하는 컴포넌트의 종류](#내가-생각하는-컴포넌트의-종류)
-- [값을 반환하냐? 컴포넌트를 반환하냐?](#값을-반환하냐-컴포넌트를-반환하냐)
-- [비동기 데이터가 포함된 컴포넌트](#비동기-데이터가-포함된-컴포넌트)
 
 ## 가상 돔(Virtual DOM)
 
@@ -483,116 +478,3 @@ export default function App() {
 일반 함수와의 차이점은 리액트에서 제공하는 훅을 사용할 수 있냐 없냐의 차이다.
 
 사용자 정의 훅, 리액트 훅은 컴포넌트의 최상위 레벨에서만 호출할 수 있다. 루프나 조건 내부에서는 호출할 수 없다.
-
-## value, checked, defaultValue, defaultChecked
-
-HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기값을 설정하는 속성이다. `checked` 속성은 `Boolean` 타입으로 HTML에서 `Boolean` 타입은 해당 속성을 단순히 명시하거나 명시하지 않는 방식으로 제어한다. 아래와 같이 문자열을 넣든 빈 문자열을 넣든 명시할 경우 `true` 값이 된다.
-
-```html
-<!-- checked === true -->
-<input type="checkbox" checked />
-<input type="checkbox" checked="" />
-<input type="checkbox" checked="false" />
-<!-- checked === false -->
-<input type="checkbox" />
-```
-
-이와 달리, 리액트에서는 JSX 문법을 사용하므로 HTML 요소의 속성을 동적으로 제어할 수 있다. 그래서 상태(state) 변수와 바인딩되어 동적으로 체크 상태를 제어할 수 있다.
-
-이러한 소품 중 하나를 전달하여 입력을 제어할 수 있습니다:
-
-checked: 부울입니다. 체크박스 입력 또는 라디오 버튼의 경우 선택 여부를 제어합니다.
-value: 문자열입니다. 텍스트 입력의 경우 텍스트를 제어합니다. (라디오 버튼의 경우 해당 양식 데이터를 지정합니다.)
-둘 중 하나를 전달할 때는 전달된 값을 업데이트하는 onChange 핸들러도 전달해야 합니다.
-
-이러한 <입력> 프로퍼티는 제어되지 않는 입력에만 해당됩니다:
-
-defaultChecked: 부울입니다. 유형="체크박스" 및 유형="라디오" 입력의 초기값을 지정합니다.
-defaultValue: 문자열입니다. 텍스트 입력의 초기값을 지정합니다.
-
-비제어 radio
-
-name으로 같은 radio 그룹 식별
-checked 선택됐는 지 안됐는 지
-value 없으면 checked 상관없이 'on', 있으면 그 값
-
-form에서 submit 시 name 값 하나만 나옴
-
-비제어 checkbox
-
-name은 독립적
-checked 선택됐는 지 안됐는 지
-value 없으면 checked 상관없이 'on', 있으면 그 값
-
-form에서 submit 시 선택된 값만(여러개가능) 출력
-
-## oninput vs onchange
-
-- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
-- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
-
-리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
-
-## 제어 컴포넌트 vs 비제어 컴포넌트
-
-제어 컴포넌트와 비제어 컴포넌트는 `input` 요소의 상태 관리 방식을 의미한다.
-
-제어 컴포넌트는 React의 상태값과 입력 필드값이 동기화되고 입력 필드값이 변경됐을 때, 상태값을 조작하고 리렌더링을 발생시키는 핸들러가 동작하는 방식으로 제어된다. 상태를 활용하므로 React가 값을 추적하면서 유효성 검사, 값을 수정 또는 가공하는 등의 추가적인 로직을 구현하기에 용이하다.
-
-비제어 컴포넌트는 React의 상태를 사용하지 않고 입력 필드값을 직접 처리한다. 바닐라 자바스크립트에 동작과 동일하다고 보면 된다. React는 입력 필드의 값을 추적하지 않고, 직접 DOM에서 값을 가져오거나 업데이트합니다. `ref`를 사용하여 입력 필드의 DOM 요소에 접근하고, 이벤트 핸들러를 이용해 값의 변경을 감지한다. 값을 추적하거나 수정하는 데 제한적이며, 유효성 검사나 추가적인 로직을 구현하기에는 제한적이다.
-
-`props`로 `value`와 `onChange`를 받는다면 `useEffect`를 이용해 값 업데이트도 필요하다.
-
-```js
-// Controlled Component
-function ControlledComponentExample() {
-  const [value, setValue] = useState('');
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  return <input type='text' value={value} onChange={handleChange} />;
-}
-
-// Uncontrolled Component
-function UncontrolledComponentExample() {
-  const inputRef = useRef(null);
-
-  const handleSubmit = () => {
-    const value = inputRef.current.value;
-    // 값 처리 로직
-  };
-
-  return (
-    <div>
-      <input type='text' ref={inputRef} />
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
-  );
-}
-```
-
-## 내가 생각하는 컴포넌트의 종류
-
-MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트를 디자인 컴포넌트라고 나는 정의했다. 디자인 컴포넌트는 매우 재사용성이 높다. 하지만 서버의 요청을 보내기 위해 일반적인 입력이 아닌 인풋 컴포넌트나 비동기 데이터와 연동되어 데이터를 출력하는 컴포넌트는 재사용성이 떨어진다.
-
-그래서 나는 재사용성이 높은 디자인 컴포넌트와 해당 디자인 컴포넌트들을 사용해 단일 책임 원칙을 따르는 데이터 컴포넌트 두가지의 컴포넌트로 구성된다고 생각한다. 비동기 데이터 컴포넌트의 경우 비동기 데이터의 상태까지 같이 받아서 해당 데이터의 상태에 따라 표현하는 UI를 같이 작성하는 방향으로 생각하자
-
-도메인, 권한 등등 분기되는 로직이 최대한 들어가지 않게 작성하도록 하며, 분기가 필요한 경우 새로운 파일에 작성하는 것이 옳다고 생각한다.
-
-## 값을 반환하냐? 컴포넌트를 반환하냐?
-
-만약 어떠한 값에 따라 색깔이 변경되는 컴포넌트가 있다고 하자. 처음 든 생각은 컴포넌트를 구성하는 요소에 필요한 데이터와 동적으로 변경되는 색깔 값을 객체 배열로 생성하고 해당 객체를 `map()`으로 요소와 함께 뿌려주려고 생각했다. 하지만 단순히 색깔만 고려하는 게 아니고 요소의 속성이나 요소 값이 바뀐다고 생각하면 객체 값의 재정의가 필요하고 통일성도 떨어진다. 그래서 위와 같은 상황에서는 요소 값 또는 컴포넌트 값을 리턴하는 것이 훨씬 낫다.
-
-만약 스타일 변경 없이 단순히 입력에 따라 출력 데이터가 바뀌는 경우에는 값을 반환하는 것이 좋다.
-
-<!-- todo: 내용 보완 필요 -->
-
-## 비동기 데이터가 포함된 컴포넌트
-
-비동기 데이터의 로딩 상태를 고려해서 작성해야한다.
-
-페이지네이션 작성 시 셀렉트 리스트 데이터가 다 오지 않았는데 값을 선택하려다 보니 에러가 발생했음
-
-데이터가 로딩된 이후에 동작되어야함.

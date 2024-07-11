@@ -10,7 +10,7 @@ description:
 
 - [HTMLFormElement](#htmlformelement)
 - [outerHTML, innerHTML, innerText, textContent](#outerhtml-innerhtml-innertext-textcontent)
-- [radio](#radio)
+- [HTMLInputElement](#htmlinputelement)
 
 ## HTMLFormElement
 
@@ -37,7 +37,7 @@ textContent는 <script> 및 <style> 요소를 포함한 모든 요소의 콘텐�
 
 또한 textContent를 사용하면 XSS 공격을 방지할 수 있습니다.
 
-## radio
+## HTMLInputElement
 
 비제어 radio
 
