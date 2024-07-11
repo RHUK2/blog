@@ -8,21 +8,57 @@ description:
 
 # Component
 
+- [내가 생각하는 컴포넌트의 종류](#내가-생각하는-컴포넌트의-종류)
+- [맵으로 요소를 뿌려줄 때 객체 배열? 컴포넌트 배열?](#맵으로-요소를-뿌려줄-때-객체-배열-컴포넌트-배열)
 - [제어 컴포넌트](#제어-컴포넌트)
 - [비제어 컴포넌트](#비제어-컴포넌트)
 - [바닐라 자바스크립트 폼 제어](#바닐라-자바스크립트-폼-제어)
-- [값 수정 시](#값-수정-시)
-- [다중 요소 참조](#다중-요소-참조)
-- [value, checked, defaultValue, defaultChecked](#value-checked-defaultvalue-defaultchecked)
-- [oninput vs onchange](#oninput-vs-onchange)
-- [내가 생각하는 컴포넌트의 종류](#내가-생각하는-컴포넌트의-종류)
-- [값을 반환하냐? 컴포넌트를 반환하냐?](#값을-반환하냐-컴포넌트를-반환하냐)
-- [비동기 데이터가 포함된 컴포넌트](#비동기-데이터가-포함된-컴포넌트)
+
+## 내가 생각하는 컴포넌트의 종류
+
+1. **디자인 컴포넌트**
+
+   - MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트
+   - 재사용성이 높다
+
+하지만 서버의 요청을 보내기 위해 일반적인 입력이 아닌 인풋 컴포넌트나 비동기 데이터와 연동되어 데이터를 출력하는 컴포넌트는 재사용성이 떨어진다.
+
+그래서 나는 재사용성이 높은 디자인 컴포넌트와 해당 디자인 컴포넌트들을 사용해 단일 책임 원칙을 따르는 데이터 컴포넌트 두가지의 컴포넌트로 구성된다고 생각한다. 비동기 데이터 컴포넌트의 경우 비동기 데이터의 상태까지 같이 받아서 해당 데이터의 상태에 따라 표현하는 UI를 같이 작성하는 방향으로 생각하자
+
+도메인, 권한 등등 분기되는 로직이 최대한 들어가지 않게 작성하도록 하며, 분기가 필요한 경우 새로운 파일에 작성하는 것이 옳다고 생각한다.
+
+비동기 데이터의 로딩 상태를 고려해서 작성해야한다.
+
+페이지네이션 작성 시 셀렉트 리스트 데이터가 다 오지 않았는데 값을 선택하려다 보니 에러가 발생했음
+
+데이터가 로딩된 이후에 동작되어야함.
+
+사용자 입력했던 DB 값을 보여주는 디스플레이와 입력이 동시에 되는 인풋
+
+DB 값을 보여주는 디스플레이와 입력이 분리되는 인풋
+
+## 맵으로 요소를 뿌려줄 때 객체 배열? 컴포넌트 배열?
+
+맵으로 요소를 뿌려줄 때, 배열에 컴포넌트의 속성 데이터가 담긴 객체들을 담는 것이 좋다. 이유는 아래와 같다.
+
+1. **성능 향상**
+
+   - 컴포넌트를 직접 배열에 담고 이를 맵핑할 경우, 매번 리렌더링 시 컴포넌트 인스턴스가 다시 생성된다. 이는 불필요한 성능 저하를 초래할 수 있다.
+   - 객체 데이터를 배열에 담아 컴포넌트를 생성하면, 리렌더링 시 변경된 데이터에 대해서만 렌더링을 수행할 수 있어 성능이 향상된다.
+
+2. **유지보수 용이**
+
+   - 데이터와 뷰가 분리되어 있어 유지보수가 용이하다. 데이터를 조작하거나 변형하는 로직이 명확하게 분리되기 때문에 코드를 이해하고 수정하기 쉬워진다.
+   - 재사용성이 높아져 다른 컴포넌트나 부분에서 동일한 데이터를 다양한 방식으로 사용할 수 있다.
+
+3. **상태 관리**
+   - 데이터와 컴포넌트를 분리하면 상태 관리가 더 쉬워진다. 상태 변경 시 데이터만 변경하면 되기 때문에 컴포넌트의 불필요한 리렌더링을 방지할 수 있다.
 
 ## 제어 컴포넌트
 
 - 제어 컴포넌트는 `value`, `checked`와 상태를 연결하고 `onChange`에 상태 핸들링 함수를 넘겨 값을 제어할 수 있다.
 - 값의 초기값은 상태값의 초기값으로 설정 가능하다.
+- 리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
 
 ```ts
 import { ChangeEvent, FormEvent, useState } from 'react';
@@ -203,6 +239,8 @@ export default App;
 - 비제어 컴포넌트는 `useRef`로 요소 객체를 가져와 직접 요소 객체의 `value`, `checked` 값을 사용한다.
 - 상태 값으로 제어되지 않고 기존 Javascript에서 제어하는 방식과 동일한 것이 비제어 컴포넌트이다.
 - 값의 초기값은 `defaultValue`, `defaultChecked`로 설정이 가능하다. 이는 React에서 `value`와 `checked`가 상태 제어용으로 쓰이기 때문에 만들어졌다.
+- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
+- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
 
 ```ts
 import { FormEvent, useEffect, useMemo, useRef } from 'react';
@@ -320,6 +358,11 @@ export default App;
 
 ## 바닐라 자바스크립트 폼 제어
 
+- `document.querySelector` 메서드로 요소 객체를 가져와 직접 요소 객체의 `value`, `checked` 값을 사용한다.
+- `value`, `checked`, `selected` 속성으로 초기값을 설정한다.
+- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
+- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
+
 ```html
 <!doctype html>
 <html lang="en">
@@ -417,80 +460,3 @@ export default App;
   </script>
 </html>
 ```
-
-## 값 수정 시
-
-사용자 입력했던 DB 값을 보여주는 디스플레이와 입력이 동시에 되는 인풋
-
-DB 값을 보여주는 디스플레이와 입력이 분리되는 인풋
-
-## 다중 요소 참조
-
-```js
-<Popper
-  open={menuPopper}
-  onClose={() => setMenuPopper(false)}
-  ref={menuPopperRef.current[activeMenuPopper.index]} // <<<<-----
->
-  <div css={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-    <Link to={`/admin/job/${activeMenuPopper.id}`}>
-      <Button fullWidth>
-        {intl.formatMessage({ id: 'text.detail.job.post', defaultMessage: '채용공고 상세보기' })}
-      </Button>
-    </Link>
-    <Link to={`/admin/job/${activeMenuPopper.id}/recruiter`}>
-      <Button fullWidth>{intl.formatMessage({ id: 'text.recruiter.manage', defaultMessage: '리크루터 관리' })}</Button>
-    </Link>
-    <Link to={`/admin/job/${activeMenuPopper.id}/candidate`}>
-      <Button fullWidth>{intl.formatMessage({ id: 'text.candidate.manage', defaultMessage: '후보자 관리' })}</Button>
-    </Link>
-    <Link to={`/admin/job/${activeMenuPopper.id}/qna`}>
-      <Button fullWidth>{intl.formatMessage({ id: 'text.qna.manage', defaultMessage: 'Q&A 관리' })}</Button>
-    </Link>
-  </div>
-</Popper>
-```
-
-## value, checked, defaultValue, defaultChecked
-
-HTML 파일에서 체크박스나 라디오 인풋의 `checked` 속성은 초기값을 설정하는 속성이다. `checked` 속성은 `Boolean` 타입으로 HTML에서 `Boolean` 타입은 해당 속성을 단순히 명시하거나 명시하지 않는 방식으로 제어한다. 아래와 같이 문자열을 넣든 빈 문자열을 넣든 명시할 경우 `true` 값이 된다.
-
-```html
-<!-- checked === true -->
-<input type="checkbox" checked />
-<input type="checkbox" checked="" />
-<input type="checkbox" checked="false" />
-<!-- checked === false -->
-<input type="checkbox" />
-```
-
-## oninput vs onchange
-
-- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
-- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
-
-리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
-
-## 내가 생각하는 컴포넌트의 종류
-
-MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트를 디자인 컴포넌트라고 나는 정의했다. 디자인 컴포넌트는 매우 재사용성이 높다. 하지만 서버의 요청을 보내기 위해 일반적인 입력이 아닌 인풋 컴포넌트나 비동기 데이터와 연동되어 데이터를 출력하는 컴포넌트는 재사용성이 떨어진다.
-
-그래서 나는 재사용성이 높은 디자인 컴포넌트와 해당 디자인 컴포넌트들을 사용해 단일 책임 원칙을 따르는 데이터 컴포넌트 두가지의 컴포넌트로 구성된다고 생각한다. 비동기 데이터 컴포넌트의 경우 비동기 데이터의 상태까지 같이 받아서 해당 데이터의 상태에 따라 표현하는 UI를 같이 작성하는 방향으로 생각하자
-
-도메인, 권한 등등 분기되는 로직이 최대한 들어가지 않게 작성하도록 하며, 분기가 필요한 경우 새로운 파일에 작성하는 것이 옳다고 생각한다.
-
-## 값을 반환하냐? 컴포넌트를 반환하냐?
-
-만약 어떠한 값에 따라 색깔이 변경되는 컴포넌트가 있다고 하자. 처음 든 생각은 컴포넌트를 구성하는 요소에 필요한 데이터와 동적으로 변경되는 색깔 값을 객체 배열로 생성하고 해당 객체를 `map()`으로 요소와 함께 뿌려주려고 생각했다. 하지만 단순히 색깔만 고려하는 게 아니고 요소의 속성이나 요소 값이 바뀐다고 생각하면 객체 값의 재정의가 필요하고 통일성도 떨어진다. 그래서 위와 같은 상황에서는 요소 값 또는 컴포넌트 값을 리턴하는 것이 훨씬 낫다.
-
-만약 스타일 변경 없이 단순히 입력에 따라 출력 데이터가 바뀌는 경우에는 값을 반환하는 것이 좋다.
-
-<!-- todo: 내용 보완 필요 -->
-
-## 비동기 데이터가 포함된 컴포넌트
-
-비동기 데이터의 로딩 상태를 고려해서 작성해야한다.
-
-페이지네이션 작성 시 셀렉트 리스트 데이터가 다 오지 않았는데 값을 선택하려다 보니 에러가 발생했음
-
-데이터가 로딩된 이후에 동작되어야함.
