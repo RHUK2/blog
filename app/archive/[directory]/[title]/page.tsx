@@ -1,4 +1,3 @@
-import { Mermaid } from '@/component/client';
 import { getPost } from '@/util';
 
 interface PostListTitlePageProps {
@@ -14,14 +13,12 @@ export default async function PostListDirectoryTitlePage({ params, searchParams 
 
   return (
     <section className='m-auto min-w-[320px] max-w-[768px] px-4 py-10 '>
-      <Mermaid>
-        <article
-          className='prose max-w-none dark:prose-invert'
-          dangerouslySetInnerHTML={{
-            __html: data,
-          }}
-        />
-      </Mermaid>
+      <article
+        className='prose max-w-none dark:prose-invert'
+        dangerouslySetInnerHTML={{
+          __html: data,
+        }}
+      />
     </section>
   );
 }
