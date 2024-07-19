@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-04-29
+updatedAt: 2024-07-18
 directory: react
 fileName: react-library
 title: React Library 기록하기
-description:
+description: ✅
 ---
 
 # React Library 기록하기
@@ -11,16 +11,11 @@ description:
 - [(create-react-app) CRA 빌드](#create-react-app-cra-빌드)
 - [(create-react-app) manifest.json](#create-react-app-manifestjson)
 - [(create-react-app) react에서 환경변수](#create-react-app-react에서-환경변수)
-- [(react-query) 사용 시 애니메이션 렌더링 문제](#react-query-사용-시-애니메이션-렌더링-문제)
-- [(react-query)](#react-query)
 - [(react-query) staleTime, gcTime](#react-query-staletime-gctime)
 - [(react-query) status, fetchStatus](#react-query-status-fetchstatus)
-- [(react-query) initialData, placeholderData](#react-query-initialdata-placeholderdata)
-  - [`placeholderData`](#placeholderdata)
-  - [차이점 요약](#차이점-요약)
-  - [결론](#결론)
-- [(react-query) useQuery](#react-query-usequery)
+- [(react-query) select, initialData, placeholderData](#react-query-select-initialdata-placeholderdata)
 - [(react-query) useMutation](#react-query-usemutation)
+- [(react-query) 애니메이션 렌더링 문제](#react-query-애니메이션-렌더링-문제)
 
 ## (create-react-app) CRA 빌드
 
@@ -28,7 +23,7 @@ description:
 
 1. 프로덕션 모드 설정
 
-   - NODE_ENV를 production으로 설정하여 최적화된 빌드를 생성한다.
+   - `NODE_ENV`를 `production`으로 설정하여 최적화된 빌드를 생성한다.
 
 2. 코드 번들링 및 최적화
 
@@ -57,159 +52,118 @@ CRA로 리액트 프로젝트 생성 시 `public` 폴더 아래에 해당 파일
 
 CRA에 의해 `.env` 파일에 규칙을 가지고 작성된 환경변수는 빌드 타임에 `process.env`로 객체화되서 클라이언트에서 접근이 가능한 형태가 된다.
 
-## (react-query) 사용 시 애니메이션 렌더링 문제
-
-아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 상태에 따라 트랜지션이 일어나고 리액트 쿼리로 리스트 값을 업데이트하는 API 요청을 하게 된다. 그리고 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
-
-![switch_rendering](images/switch_rendering.png)
-
-이 과정에서 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다. 이를 해결하기 위해 리스트 값을 업데이트하지 않고 리액트 쿼리의 `cacheTime` 속성을 `0`으로 설정하여 해결했다.
-
-## (react-query)
-
-queryClient.getQueryState
-queryClient.getQueryData
-
-useQuery 키공유
-
-상태 동기화가 잘 안됨
-
 ## (react-query) staleTime, gcTime
 
-staleTime 기본값은 `0` 패칭 후 무조건 `stale`됨, staleTime 설정 시 설정 시간 후에 `stale`됨
+1. `staleTime`
 
-cacheTime은 보통 staleTime 보다 길게 설정 stale 이후 재요청 시 cache된 데이터를 이용해서 로딩 작업을 없애야하는데 짧아서 제거되버리면 로딩해야함
+   - 해당 값으로 쿼리의 상태가 `stale`인지 `fresh`인지 설정할 수 있다.
+   - 기본값은 `0`이며, 패칭 후에 쿼리의 상태는 `stale`이 된다.
+   - `0` 이상으로 설정 시, 해당 수의 ms만큼 동안 쿼리의 상태는 `fresh`가 된다.
+   - `stale` 상태의 쿼리는 다음과 같은 경우에 자동으로 새로 데이터를 불러온다.
 
-cacheTime은 refresh, stale 상태가 아닌 inactive 상태의 쿼리에서 시간이 흘러가기 시작 staleTime보다 길 필요 없음
+     - 쿼리의 새 인스턴스가 마운트된 경우 (`refetchOnMount: true`)
+     - 창이 다시 포커싱된 경우 (`refetchOnWindowFocus: true`)
+     - 네트워크가 다시 연결된 경우 (`refetchOnReconnect: true`)
+     - `refetchInterval`이 설정된 경우, 해당 시간간격마다 매번 새로 데이터를 불러온다. (`refetchInterval: 30000`)
 
-새로고침 시 캐시는 전부 삭제됨
+2. `gcTime`
 
-오래된 쿼리는 다음과 같은 경우에 백그라운드에서 자동으로 새로 고쳐진다.
-
-- 쿼리의 새 인스턴스가 마운트됨
-- 창이 다시 포커싱됨
-- 네트워크가 다시 연결됨
-- 쿼리가 선택적으로 새로 고침 간격으로 구성됨
+   - `stale` 또는 `fresh`가 아닌 `inactive` 상태에서만 시간이 흘러간다.
+   - 기본값은 `30000`으로 5분동안 캐시된다.
+   - 초기에 한 번 데이터를 로드 후 캐싱되는 동안에는 재로드할 필요가 없어진다.
+   - 새로고침 시 캐시는 전부 삭제된다.
 
 ## (react-query) status, fetchStatus
 
-상태는 데이터에 대한 정보를 제공합니다: 데이터가 있는지 없는지?
-fetchStatus는 쿼리Fn에 대한 정보를 제공합니다: 실행 중인가요, 아닌가요?
+1. `status`
 
-## (react-query) initialData, placeholderData
+   - 데이터에 대한 정보를 제공한다. (데이터가 있는지? 없는지?)
 
-`initialData`와 `placeholderData`는 React Query에서 데이터를 로드할 때 사용자 경험을 향상시키기 위해 사용되는 두 가지 옵션이다. 둘 다 페이지 로드 시 사용자에게 임시 데이터를 제공하는 역할을 하지만, 사용하는 목적과 방식에 차이가 있다.
+2. `fetchStatus`
 
-`initialData`는 쿼리가 처음 실행될 때 사용할 초기 데이터를 제공한다. 이 데이터는 쿼리가 실제 데이터를 가져올 때까지 사용되며, 캐시에도 저장된다.
+   - 쿼리 패칭에 대한 정보를 제공한다. (실행 중인지? 아닌지?)
 
-- **용도**
+## (react-query) select, initialData, placeholderData
 
-  - 서버에서 데이터를 가져오기 전에 기본적으로 보여줄 데이터를 제공한다.
-  - 캐시가 비어 있을 때만 사용된다.
-  - `initialData`로 설정된 데이터는 마치 서버에서 가져온 데이터처럼 취급된다.
-  - 주로 SSR(서버 사이드 렌더링)이나 SSG(정적 사이트 생성)와 함께 사용되어 초기 데이터를 제공한다.
+1. `select`
 
-- **사용 예시**
+   - 서버로부터 받아온 데이터를 가공하거나 필터링하여 필요한 부분만 선택할 수 있다. 예를 들어, 객체의 특정 필드만 추출하거나, 배열을 특정 조건에 맞게 필터링할 수 있다.
+   - 내부적으로 메모이제이션이 적용되어, 동일한 입력 데이터가 들어왔을 때 동일한 출력 데이터를 반환하여 불필요한 재연산을 방지한다.
+   - 필요한 데이터만 선택하여 컴포넌트에 전달하므로, 불필요한 데이터로 인해 발생할 수 있는 성능 문제를 줄일 수 있다.
 
-  ```javascript
-  const queryConfig = {
-    queryKey: ['user', userId],
-    queryFn: fetchUserData,
-    initialData: { name: 'Loading...', age: 0 },
-  };
+2. `initialData`
 
-  const { data } = useQuery(queryConfig);
-  ```
+   - 서버에서 데이터를 가져오기 전에 기본적으로 보여줄 데이터를 제공한다.
+   - 캐시가 비어 있을 때만 사용된다.
+   - `initialData`로 설정된 데이터는 마치 서버에서 가져온 데이터처럼 취급된다.
+   - 주로 SSR(서버 사이드 렌더링)이나 SSG(정적 사이트 생성)와 함께 사용되어 초기 데이터를 제공한다.
 
-### `placeholderData`
+3. `placeholderData`
 
-`placeholderData`는 쿼리가 데이터를 가져오는 동안 사용자에게 보여줄 임시 데이터를 제공한다. 이 데이터는 캐시에 저장되지 않으며, 데이터가 로드되면 즉시 실제 데이터로 교체된다.
+   - 데이터를 로드하는 동안 사용자에게 임시 데이터를 제공하여 화면이 덜 깜빡이도록 한다.
+   - 캐시와 상관없이 항상 사용될 수 있다.
+   - 사용자 경험을 개선하기 위해 로딩 중에 보여줄 임시 데이터를 설정한다.
 
-- **용도**
+- 사용 예시
 
-  - 데이터를 로드하는 동안 사용자에게 임시 데이터를 제공하여 화면이 덜 깜빡이도록 한다.
-  - 캐시와 상관없이 항상 사용될 수 있다.
-  - 사용자 경험을 개선하기 위해 로딩 중에 보여줄 임시 데이터를 설정한다.
-
-- **사용 예시**
-
-  ```javascript
-  const queryConfig = {
-    queryKey: ['user', userId],
-    queryFn: fetchUserData,
-    placeholderData: { name: 'Loading...', age: 0 },
-  };
-
-  const { data } = useQuery(queryConfig);
-  ```
-
-### 차이점 요약
-
-- **캐시와의 관계**
-
-  - `initialData`: 쿼리가 처음 실행될 때만 사용되며, 캐시에 저장된다.
-  - `placeholderData`: 데이터가 로드될 때까지 임시로 사용되며, 캐시에 저장되지 않는다.
-
-- **사용 시점**
-
-  - `initialData`: 쿼리가 처음 실행될 때, 초기 데이터를 제공하고자 할 때 사용된다.
-  - `placeholderData`: 데이터를 로드하는 동안, 사용자 경험을 향상시키기 위해 임시 데이터를 제공하고자 할 때 사용된다.
-
-- **데이터 갱신**
-  - `initialData`: 쿼리 함수가 실행되고, 실제 데이터가 로드되면 캐시가 업데이트된다.
-  - `placeholderData`: 쿼리 함수가 실행되고, 실제 데이터가 로드되면 즉시 임시 데이터가 교체된다.
-
-### 결론
-
-- `initialData`는 초기 데이터를 제공하고 이를 캐시에 저장하여 SSR이나 SSG 환경에서 유용하다.
-- `placeholderData`는 데이터 로드 중 사용자 경험을 향상시키기 위해 임시 데이터를 제공하며, 캐시에 저장되지 않는다.
-
-사용자는 이러한 속성들을 상황에 맞게 활용하여, 데이터를 로드하는 동안 더 나은 사용자 경험을 제공할 수 있다.
-
-## (react-query) useQuery
-
-select 속성으로 비동기 데이터 가공 가능
+```javascript
+const { data } = useQuery(
+  queryKey: ['user', userId],
+  queryFn: fetchUserData,
+  initialData: { name: 'Loading...', age: 0 },
+  placeholderData: { name: 'Loading...', age: 0 },
+  select: (data) => data.filter((user) => user.name),
+);
+```
 
 ## (react-query) useMutation
+
+- `useMutation`의 `onMutate`, `onSuccess`, `onError`, `onSettled`는 모든 변이 호출에 대해 적용되며 우선순위가 높다.
+- `mutate`의 `onSuccess`, `onError`, `onSettled`는 특정 변이 호출에 대해 적용된다.
 
 ```ts
 useMutation({
   mutationFn: addTodo,
   onMutate: (variables) => {
-    // 1
-    // I will fire first
+    // I will fire first(1)
   },
   onSuccess: (data, variables, context) => {
-    // 2
-    // I will fire first
-    // occur 3times
+    // I will fire first(2)
   },
   onError: (error, variables, context) => {
-    // 2
-    // I will fire first
+    // I will fire first(2)
   },
   onSettled: (data, error, variables, context) => {
-    // 3
-    // I will fire first
+    // I will fire first(4)
   },
 });
 
 mutate(todo, {
   onSuccess: (data, variables, context) => {
-    // 4
-    // I will fire second!
+    // I will fire second!(3)
   },
   onError: (error, variables, context) => {
-    // 4
-    // I will fire second!
+    // I will fire second!(3)
   },
   onSettled: (data, error, variables, context) => {
-    // 5
-    // I will fire second!
+    // I will fire second!(5)
+  },
+});
+```
+
+- `mutate`가 호출될 때마다 뮤테이션 옵저버가 제거되었다가 다시 구독되면서, 컴포넌트가 아직 마운트되어 있는 경우에만 한 번만 실행된다.
+- 반대로, `useMutation`의 `onMutate`, `onSuccess`, `onError`, `onSettled`는 각 `mutate` 호출에 대해 실행됩니다.
+
+```ts
+useMutation({
+  mutationFn: addTodo,
+  onSuccess: (data, variables, context) => {
+    // Will be called 3 times
   },
 });
 
 const todos = ['Todo 1', 'Todo 2', 'Todo 3'];
+
 todos.forEach((todo) => {
   mutate(todo, {
     onSuccess: (data, error, variables, context) => {
@@ -219,3 +173,11 @@ todos.forEach((todo) => {
   });
 });
 ```
+
+## (react-query) 애니메이션 렌더링 문제
+
+아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 상태에 따라 트랜지션이 일어나고 리스트 값을 업데이트한다. 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
+
+![switch_rendering](images/switch_rendering.png)
+
+다른 페이지에서 위 페이지로 넘어오는 경우 또는 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다. 이를 해결하기 위해 상태 업데이트 시 리스트 값을 업데이트하지 않고 `gcTime`을 `0`으로 설정하여 해결했다.

@@ -35,15 +35,7 @@ description: ✅
 
 ## Initialization
 
-```mermaid
-flowchart TD
-    1("git init")
-    2("git add")
-    3("git commit")
-    4("git remote add origin")
-    5("git push origin master")
-    1-->2-->3-->4-->5
-```
+![git_init](images/git_init.png)
 
 ### git init
 
@@ -83,16 +75,7 @@ rm -rf .git
 
 ## Source Control
 
-```mermaid
-sequenceDiagram
-    changes->>staged changes: git add
-    staged changes->>local repository: git commit
-    local repository->>remote repository: git push
-    remote repository->>local repository: git pull
-    remote repository->>local repository: git revert
-    local repository->>staged changes: git reset --soft
-    staged changes->>changes: git restore --staged
-```
+![git_source_control](images/git_source_control.png)
 
 ### git add
 
