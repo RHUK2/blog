@@ -3,29 +3,63 @@
 ```mermaid
 sequenceDiagram
     participant User
-    participant Browser
+    participant Client
     participant Server
-    participant Database
+    participant AuthServer
 
-    User->>Browser: 입력 (이메일/아이디, 비밀번호)
-    Browser->>Server: 로그인 요청 (이메일/아이디, 비밀번호)
-    Server->>Database: 사용자 정보 조회 (이메일/아이디)
-    Database-->>Server: 사용자 정보 반환
-    Server->>Server: 비밀번호 검증
-    alt 비밀번호 일치
-        Server->>Browser: 인증 토큰 응답
-        Browser->>Browser: 토큰 저장 (로컬 스토리지/세션 스토리지/쿠키)
-        User->>Browser: 추가 요청 (API 호출 등)
-        Browser->>Server: 인증된 요청 (토큰 포함)
-        Server->>Server: 토큰 검증
-        alt 토큰 유효
-            Server-->>Browser: 요청 처리 응답
-        else 토큰 무효
-            Server-->>Browser: 인증 실패 응답 (401 Unauthorized)
-        end
-    else 비밀번호 불일치
-        Server-->>Browser: 인증 실패 응답
-    end
+    User->>Client: 요청 (아이디, 비밀번호)
+    Client->>AuthServer: 인증 요청 (아이디, 비밀번호)
+    AuthServer->>Client: 세션 ID 반환
+    Client->>Server: API 요청 (세션 ID 포함)
+    Server->>AuthServer: 세션 검증 (세션 ID)
+    AuthServer->>Server: 세션 검증 결과
+    Server->>Client: API 응답
+    Note over Client: 세션 만료 시
+    Client->>AuthServer: 새 세션 요청 (로그인 재시도)
+    AuthServer->>Client: 새 세션 ID 반환
+```
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Client
+    participant Server
+    participant AuthServer
+
+    User->>Client: 요청 (아이디, 비밀번호)
+    Client->>AuthServer: 인증 요청 (아이디, 비밀번호)
+    AuthServer->>Client: 액세스 토큰, 리프레시 토큰 반환
+    Client->>Server: API 요청 (액세스 토큰 포함)
+    Server->>AuthServer: 토큰 검증 (액세스 토큰)
+    AuthServer->>Server: 토큰 검증 결과
+    Server->>Client: API 응답
+    Note over Client: 액세스 토큰 만료 시
+    Client->>AuthServer: 리프레시 토큰으로 새 액세스 토큰 요청
+    AuthServer->>Client: 새 액세스 토큰 반환
+```
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Client
+    participant Server
+    participant AuthServer
+
+    User->>Client: 요청 (아이디, 비밀번호)
+    Client->>AuthServer: 인증 요청 (아이디, 비밀번호)
+    AuthServer->>Client: 액세스 토큰, 리프레시 토큰 반환
+    Client->>Server: API 요청 (액세스 토큰 포함)
+    Server->>AuthServer: 토큰 검증 (액세스 토큰)
+    AuthServer->>Server: 토큰 검증 결과
+    Server->>Client: API 응답
+    Note over Client: 액세스 토큰 만료 시
+    Client->>AuthServer: 리프레시 토큰으로 새 액세스 토큰 요청
+    AuthServer->>Client: 새 액세스 토큰, 새 리프레시 토큰 반환
+    AuthServer->>AuthServer: 이전 리프레시 토큰 폐기
+    Client->>Server: API 요청 (새 액세스 토큰 포함)
+    Server->>AuthServer: 토큰 검증 (새 액세스 토큰)
+    AuthServer->>Server: 토큰 검증 결과
+    Server->>Client: API 응답
 ```
 
 ```mermaid
