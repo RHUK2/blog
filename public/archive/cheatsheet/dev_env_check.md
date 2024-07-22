@@ -33,3 +33,4 @@ nvm use default
 - [ ] VScode 설치/세팅/깃허브 계정 동기화 후 확장 프로그램 연동
 - [ ] VScode D2Coding 폰트 세팅
 - [ ] Brave Browser 설치/동기화/개발자 도구 설정
+- [ ] DeepL 설치
