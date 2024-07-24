@@ -24,6 +24,7 @@ description:
 - [asd](#asd)
 - [express.static()](#expressstatic)
 - [web api](#web-api)
+- [monorepo](#monorepo)
 
 ## 탄생 배경
 
@@ -66,6 +67,10 @@ npm과 같은 패키지 관리 도구는 이러한 레지스트리를 사용하�
 ### devDependencies
 
 개발과정에서만 필요한 패키지들, 대표적으로 포맷팅, 번들러, 바벨, 테스트툴, 타입스크립트가 해당된다.
+
+peerDependencies..
+
+의존성 캐럿 의미도 파악 필요 `^` 같은 거
 
 ### scripts
 
@@ -236,3 +241,5 @@ DOM 제어 API는 node에서 사용불가 Canvas API는 라이브러리로 모�
 
 browser는 window 객체
 node는 global 객체\*\*
+
+## monorepo

@@ -6,9 +6,9 @@ title: CSS 기록하기
 description:
 ---
 
-# CSS
+# CSS 기록하기
 
-- [selector](#selector)
+- [pseudo class, pesudo element](#pseudo-class-pesudo-element)
 - [variable](#variable)
 - [display](#display)
   - [`display` 값 별로 제어 가능한 속성](#display-값-별로-제어-가능한-속성)
@@ -48,69 +48,37 @@ description:
 - [모달 창 스크롤 바 제어](#모달-창-스크롤-바-제어)
 - [overflow 적용 안되는 이슈](#overflow-적용-안되는-이슈)
 
-## selector
+## pseudo class, pesudo element
 
-```css
-* /* all elements */
-div /* all div tags */
-div,p /* all divs and paragraphs */
-div p /* paragraphs inside divs */
-div > p /* all p tags, one level deep in div */
-div + p /* p tags immediately after div */
-div ~ p /* p tags preceded by div */
-.classname /* all elements with class */
-#idname /* element with */
-div.classname /* divs with certain classname */
-div#idname /* div with certain ID */
-#idname * /* all elements inside #idname */
+| 분류 | 의사 클래스            | 설명                                                     |
+| ---- | ---------------------- | -------------------------------------------------------- |
+| 동적 | `:hover`               | 마우스를 요소 위로 올렸을 때 스타일 적용                 |
+|      | `:focus`               | 요소가 포커스를 받을 때 스타일 적용                      |
+|      | `:active`              | 요소가 활성 상태(클릭 중)일 때 스타일 적용               |
+| 상태 | `:checked`             | 선택된 상태(주로 체크박스나 라디오 버튼)에 스타일 적용   |
+|      | `:disabled`            | 비활성화된 요소에 스타일 적용                            |
+|      | `:enabled`             | 활성화된 요소에 스타일 적용                              |
+|      | `:visited`             | 방문한 링크에 스타일 적용                                |
+|      | `:link`                | 방문하지 않은 링크에 스타일 적용                         |
+| 구조 | `:first-child`         | 부모 요소의 첫 번째 자식 요소에 스타일 적용              |
+|      | `:last-child`          | 부모 요소의 마지막 자식 요소에 스타일 적용               |
+|      | `:nth-child(n)`        | 부모 요소의 n번째 자식 요소에 스타일 적용                |
+|      | `:nth-last-child(n)`   | 부모 요소의 뒤에서 n번째 자식 요소에 스타일 적용         |
+|      | `:only-child`          | 부모 요소의 유일한 자식 요소에 스타일 적용               |
+|      | `:first-of-type`       | 동일한 형제 중 첫 번째 특정 타입 요소에 스타일 적용      |
+|      | `:last-of-type`        | 동일한 형제 중 마지막 특정 타입 요소에 스타일 적용       |
+|      | `:nth-of-type(n)`      | 동일한 형제 중 n번째 특정 타입 요소에 스타일 적용        |
+|      | `:nth-last-of-type(n)` | 동일한 형제 중 뒤에서 n번째 특정 타입 요소에 스타일 적용 |
+|      | `:only-of-type`        | 동일한 형제 중 유일한 특정 타입 요소에 스타일 적용       |
 
-a:link /* link in normal state */
-a:active /* link in clicked state */
-a:hover /* link with mouse over it */
-a:visited /* visited link */
-p::after{content:"foo";} /* add content after p */
-p::before{content:"foo";} /* add content before p */
-input:checked /* checked */
-input:disabled /* disabled inputs */
-input:enabled /* enabled inputs */
-input:focus /* input has focus */
-input:in-range /* value in range */
-input:out-of-range /* input value out of range */
-input:valid /* input with valid value */
-input:invalid /* input with invalid value */
-input:optional /* no required attribute */
-input:required /* input with requred attribute */
-input:read-only /* with readonly attribute */
-input:read-write /* no readonly attrib. */
-div:empty /* element with no children */
-p::first-letter /* first letter in p */
-p::first-line /* first line in p */
-p:first-of-type /* first of some type */
-p:last-of-type /* last of some type */
-p:lang(en) /* p with en language attribute */
-:not(span) /* element that's not a span */
-p:first-child /* first child of its parent */
-p:last-child /* last child of its parent */
-p:nth-child(2) /* second child of its parent */
-p:nth-child(3n+1) /* nth-child (an + b) formula */
-p:nth-last-child(2) /* second child from behind */
-p:nth-of-type(2) /* second p of its parent */
-p:nth-last-of-type(2) /* ...from behind */
-p:only-of-type /* unique of its parent */
-p:only-child /* only child of its parent */
-:root /* documents root element */
-::selection /* portion selected by user */
-:target /* highlight active anchor */
-
-a[target] /* links with a target attribute */
-a[target="_blank"] /* links which open in new tab */
-[title~="chair"] /* title element containing a word */
-[class^="chair"] /* class starts with chair */
-[class|="chair"] /* class starts with the chair word */
-[class*="chair"] /* class contains chair */
-[class$="chair"] /* class ends with chair */
-input[type="button"] /* specified input type */
-```
+| 의사 요소        | 설명                                                |
+| ---------------- | --------------------------------------------------- |
+| `::before`       | 요소의 콘텐츠 앞에 생성되는 가상 요소에 스타일 적용 |
+| `::after`        | 요소의 콘텐츠 뒤에 생성되는 가상 요소에 스타일 적용 |
+| `::first-letter` | 요소의 첫 번째 글자에 스타일 적용                   |
+| `::first-line`   | 요소의 첫 번째 줄에 스타일 적용                     |
+| `::selection`    | 사용자가 선택한 텍스트 부분에 스타일 적용           |
+| `::placeholder`  | 입력 요소의 placeholder 텍스트에 스타일 적용        |
 
 ## variable
 
@@ -288,7 +256,25 @@ div.flex-item-2 {
 
 ### 반응형 grid
 
-`grid-template-columns` 속성의 값을 `repeat(auto-fit, minmax(100px ,1fr))` 또는 `repeat(auto-fill, minmax(100px ,1fr))`을 사용하여 반응형으로 구성 가능하다.
+- `grid-template-columns` 속성의 값을 `repeat(auto-fit, minmax(100px ,1fr))` 또는 `repeat(auto-fill, minmax(100px ,1fr))`을 사용하여 반응형으로 구성 가능하다.
+
+  - `auto-fill`: 행에 들어갈 수 있는 만큼의 열로 행을 채운다. 따라서 가능한 한 많은 열로 행을 채우려고 하기 때문에 새 열이 들어갈 수 있을 때마다 암시적 열을 생성한다. 새로 추가된 열은 비어 있을 수도 있고 비어 있지 않을 수도 있지만 여전히 행의 지정된 공간을 차지한다.
+  - `auto-fit`: 현재 사용 가능한 열을 확장하여 사용 가능한 공간을 차지하도록 열을 공간에 끼워 넣습니다.
+
+- `grid-template-columns` 속성의 값을 미디어쿼리로 제어하여 반응형으로 구성한다.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+```
 
 ## position
 
@@ -604,21 +590,21 @@ if (userInterface.isAsideOpen === true) {
 
 ## overflow 적용 안되는 이슈
 
-1. **부모 요소의 `overflow` 설정 확인**
+1. 부모 요소의 `overflow` 설정 확인
 
    - 부모 요소에 `overflow: hidden`, `overflow: auto`, 또는 `overflow: scroll`이 설정되어 있는지 확인한다. 부모 요소가 자식 요소의 overflow를 제어할 수 있기 때문이다.
 
-2. **부모 요소의 크기 설정**
+2. 부모 요소의 크기 설정
 
    - 부모 요소의 크기가 고정되어 있지 않으면 자식 요소의 `overflow` 속성이 제대로 작동하지 않을 수 있다. 부모 요소의 크기를 명시적으로 설정한다.
 
-3. **포지셔닝 설정**
+3. 포지셔닝 설정
 
    - 자식 요소에 `position: absolute` 또는 `position: fixed`가 설정되어 있을 때, `overflow` 속성이 예상대로 작동하지 않을 수 있다. 이런 경우 부모 요소의 `position`을 `relative`로 설정하거나, 자식 요소의 크기를 명확히 지정한다.
 
-4. **Flexbox 사용 시**
+4. Flexbox 사용 시
 
    - Flexbox 레이아웃을 사용할 때 자식 요소의 `overflow` 속성이 제대로 작동하지 않을 수 있다. 부모 요소에 `min-height`나 `min-width`를 설정하거나, 자식 요소에 `flex-shrink: 0`을 설정하여 자식 요소가 줄어들지 않도록 한다.
 
-5. **Grid 사용 시**:
+5. Grid 사용 시:
    - Grid 레이아웃을 사용할 때도 비슷한 문제가 발생할 수 있다. 부모 요소와 자식 요소의 크기와 배치를 명확하게 설정하여 `overflow` 속성이 적용되도록 한다.

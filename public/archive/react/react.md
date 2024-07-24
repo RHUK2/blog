@@ -25,6 +25,7 @@ description: ✅
 - [useCallback](#usecallback)
 - [memo](#memo)
 - [Context API](#context-api)
+- [dangerouslySetInnerHTML](#dangerouslysetinnerhtml)
 - [StrictMode](#strictmode)
 - [사용자 정의 훅 vs 일반 함수](#사용자-정의-훅-vs-일반-함수)
 - [요소 렌더링](#요소-렌더링)
@@ -449,6 +450,8 @@ export default function App() {
   );
 }
 ```
+
+## dangerouslySetInnerHTML
 
 ## StrictMode
 
