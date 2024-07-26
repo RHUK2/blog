@@ -26,6 +26,10 @@ description: ✅
 - [memo](#memo)
 - [Context API](#context-api)
 - [dangerouslySetInnerHTML](#dangerouslysetinnerhtml)
+  - [`innerHTML`](#innerhtml)
+  - [`innerText`](#innertext)
+  - [`textContent`](#textcontent)
+  - [비교 요약](#비교-요약)
 - [StrictMode](#strictmode)
 - [사용자 정의 훅 vs 일반 함수](#사용자-정의-훅-vs-일반-함수)
 - [요소 렌더링](#요소-렌더링)
@@ -452,6 +456,38 @@ export default function App() {
 ```
 
 ## dangerouslySetInnerHTML
+
+https://www.freecodecamp.org/news/innerhtml-vs-innertext-vs-textcontent/
+
+### `innerHTML`
+
+특징:
+
+- HTML 태그 파싱: HTML 태그를 포함한 문자열을 설정하면, 브라우저는 이를 HTML로 파싱하여 DOM 트리로 변환한다.
+- 보안 문제: 사용자 입력을 그대로 `innerHTML`에 삽입하면 XSS(교차 사이트 스크립팅) 공격에 취약할 수 있다.
+- 읽기 및 쓰기: 요소의 HTML 구조를 읽거나, 새로운 HTML 콘텐츠를 추가할 수 있다.
+
+### `innerText`
+
+특징:
+
+- 스타일 반영: 요소의 CSS 스타일에 따라 숨겨진 텍스트는 무시합니다.
+- 읽기 및 쓰기: 요소의 텍스트 콘텐츠를 읽거나, 새로운 텍스트로 변경할 수 있습니다.
+- 텍스트 포맷 유지: 공백과 줄바꿈 등의 텍스트 포맷을 유지합니다.
+
+### `textContent`
+
+특징:
+
+- HTML 태그 무시: HTML 태그를 포함하지 않고, 요소 내의 모든 텍스트를 단순 문자열로 반환합니다.
+- 빠른 성능: `innerText`보다 성능이 더 빠르며, 스타일을 고려하지 않습니다.
+- 읽기 및 쓰기: 요소의 텍스트 콘텐츠를 읽거나, 새로운 텍스트로 변경할 수 있습니다.
+
+### 비교 요약
+
+- `innerHTML`: HTML 태그를 포함한 전체 콘텐츠를 읽고 쓰기 위해 사용. XSS 공격에 주의 필요.
+- `innerText`: 사용자가 볼 수 있는 텍스트만을 읽고 쓰기 위해 사용. CSS 스타일을 반영.
+- `textContent`: 모든 텍스트 콘텐츠를 단순 문자열로 읽고 쓰기 위해 사용. 성능이 빠름.
 
 ## StrictMode
 

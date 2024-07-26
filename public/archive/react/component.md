@@ -70,6 +70,7 @@ description: ✅
 - 제어 컴포넌트는 `value`, `checked`와 상태를 연결하고 `onChange`에 상태 핸들링 함수를 넘겨 값을 제어할 수 있다.
 - 값의 초기값은 상태값의 초기값으로 설정 가능하다.
 - 리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
+- 라디오, 체크박스 입력은 `value` 값을 할당하지 않으면 자동으로 `'on'` 값을 할당 받는다.
 
 ```ts
 import { ChangeEvent, FormEvent, useState } from 'react';
@@ -252,6 +253,7 @@ export default App;
 - 값의 초기값은 `defaultValue`, `defaultChecked`로 설정이 가능하다. 이는 React에서 `value`와 `checked`가 상태 제어용으로 쓰이기 때문에 만들어졌다.
 - `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
 - `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
+- 라디오, 체크박스 입력은 `value` 값을 할당하지 않으면 자동으로 `'on'` 값을 할당 받는다.
 
 ```ts
 import { FormEvent, useEffect, useMemo, useRef } from 'react';
@@ -373,6 +375,7 @@ export default App;
 - `value`, `checked`, `selected` 속성으로 초기값을 설정한다.
 - `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
 - `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
+- 라디오, 체크박스 입력은 `value` 값을 할당하지 않으면 자동으로 `'on'` 값을 할당 받는다.
 
 ```html
 <!doctype html>
