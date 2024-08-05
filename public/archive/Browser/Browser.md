@@ -61,11 +61,6 @@ description:
   - [CSS가 안 먹히는 경우](#css가-안-먹히는-경우)
   - [화면이 하얗게 뜨는 경우](#화면이-하얗게-뜨는-경우)
   - [이미지 로드 시 개발자 도구에서 미리보기가 안 뜨는 이슈](#이미지-로드-시-개발자-도구에서-미리보기가-안-뜨는-이슈)
-- [Web API](#web-api)
-  - [Clipboard API](#clipboard-api)
-  - [History API](#history-api)
-  - [Location API](#location-api)
-- [외부 API 연동](#외부-api-연동)
 - [CMS](#cms)
   - [CMS (Monolithic CMS)](#cms-monolithic-cms)
   - [Headless CMS:](#headless-cms)
@@ -518,32 +513,6 @@ async function getResource() {
 ```
 
 위 코드에서 보듯이 `fetch`로 가져온 자원은 개발자 도구 Network 탭에서 미리보기 가능한 상태이지만 `blob()` 메서드를 적용하면서 해당 `response`의 타입이 변경되었으니 미리보기가 불가능해진다.
-
-## Web API
-
-<!-- todo: 내용 보완 필요 -->
-
-### Clipboard API
-
-로컬호스트 및 HTTPS 통신에서만 동작함
-
-### History API
-
-window.location.href = '/'
-history.pushState
-history.replaceState
-
-### Location API
-
-## 외부 API 연동
-
-보통 외부 서비스에서 만든 API를 사용하기 위해서는 서비스 제공자가 제공해주는 API 키를 요청에 함께 보내야한다.
-
-그래야 신뢰성 있는 사용자인지 파악이 가능하기 때문이다.
-
-보통 오픈된 API의 경우에는 따로 API 키가 필요하지 않다.
-
-무튼 외부에 무언가와 소통할 때는 거기서 주는 어떠한 신뢰를 증명하는 것을 받고 그걸 같이 보여주는 식이다.
 
 ## CMS
 
