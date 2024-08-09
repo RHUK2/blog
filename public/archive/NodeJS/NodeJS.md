@@ -243,3 +243,4 @@ browser는 window 객체
 node는 global 객체\*\*
 
 ## monorepo
+![alt text](image.png)

@@ -272,3 +272,5 @@ NextJS는 서버에서 HTML 로딩을 가속화하여 SEO 점수를 높이기 �
 초기 HTML 파일 위치 .next/server/pages
 ssg 방식인 페이지는 빌드 시 html 파일이 생기나
 ssr 방식인 페이지는 html 파일이 안생김
+
+![alt text](image.png)

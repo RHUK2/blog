@@ -8,19 +8,25 @@ description:
 
 # 기하와 좌표
 
-- [요소 사이즈와 스크롤](#요소-사이즈와-스크롤)
-- [브라우저창/문서 사이즈와 스크롤](#브라우저창문서-사이즈와-스크롤)
-- [스크롤바 막기](#스크롤바-막기)
+- [요소 사이즈와 요소 스크롤](#요소-사이즈와-요소-스크롤)
+- [브라우저창 사이즈](#브라우저창-사이즈)
+- [문서 사이즈](#문서-사이즈)
+- [브라우저창/문서 스크롤](#브라우저창문서-스크롤)
+  - [스크롤바 막기](#스크롤바-막기)
 - [요소의 좌표](#요소의-좌표)
 - [마우스 좌표](#마우스-좌표)
 
-## 요소 사이즈와 스크롤
+## 요소 사이즈와 요소 스크롤
+
+![geometry_element](images/geometry_element.png)
+
+요소 스크롤바는 `scrollTop`과 `scrollLeft`를 조작하여 움직일 수 있다. `scrollTop`과 `scrollLeft`를 제외한 모든 프로퍼티는 읽기 전용이다.
 
 | 속성           | 설명                                                           |
 | -------------- | -------------------------------------------------------------- |
 | `offsetParent` | 해당 요소의 위치를 기준으로 하는 가장 가까운 상위 요소         |
-| `offsetTop`    | offsetParent를 기준으로 한 요소의 `borderY` 시작까지의 거리    |
-| `offsetLeft`   | offsetParent를 기준으로 한 요소의 `borderX` 시작까지의 거리    |
+| `offsetTop`    | `offsetParent`를 기준으로 한 요소의 `borderY` 시작까지의 거리  |
+| `offsetLeft`   | `offsetParent`를 기준으로 한 요소의 `borderX` 시작까지의 거리  |
 | `offsetWidth`  | `paddingX` + `width` + `borderX` + y축 스크롤바 너비           |
 | `offsetHeight` | `paddingY` + `height` + `borderY` + x축 스크롤바 높이          |
 | `clientTop`    | 요소의 가장 상단에서 `clientHeight` 시작까지의 거리(`borderY`) |
@@ -32,10 +38,9 @@ description:
 | `scrollWidth`  | `clientWidth` + 오버플로우된 영역의 너비                       |
 | `scrollHeight` | `clientHeight` + 오버플로우된 영역의 높이                      |
 
-- 요소 스크롤바는 `scrollLeft`와 `scrollTop`을 조작하여 움직일 수 있다.
-- `scrollLeft`와 `scrollTop`을 제외한 모든 프로퍼티는 읽기 전용이다.
+## 브라우저창 사이즈
 
-## 브라우저창/문서 사이즈와 스크롤
+`document.documentElement`는 `html` 요소를 의미한다.
 
 | 속성                                    | 설명                                               |
 | --------------------------------------- | -------------------------------------------------- |
@@ -44,7 +49,9 @@ description:
 | `document.documentElement.clientWidth`  | y축 스크롤바 너비가 포함되지 않은 브라우저 창 너비 |
 | `document.documentElement.clientHeight` | x축 스크롤바 높이가 포함되지 않은 브라우저 창 높이 |
 
-- `document.documentElement`는 `html` 요소를 의미한다.
+## 문서 사이즈
+
+아래 방식은 정확한 문서 전체 너비/높이를 얻기 위해 오래 전부터 사용하던 방식이므로 이해할 필요가 없다.
 
 ```js
 console.log(
@@ -57,6 +64,7 @@ console.log(
     document.documentElement.clientWidth,
   ),
 ); // 스크롤에 가려진 부분 포함 문서 총 너비
+
 console.log(
   Math.max(
     document.body.scrollHeight,
@@ -69,7 +77,7 @@ console.log(
 ); // 스크롤에 가려진 부분 포함 문서 총 높이
 ```
 
-- 위 방식은 정확한 문서 전체 너비/높이를 얻기 위해 오래 전부터 사용하던 방식이므로 이해할 필요가 없다.
+## 브라우저창/문서 스크롤
 
 | 속성                            | 설명                                                        |
 | ------------------------------- | ----------------------------------------------------------- |
@@ -80,7 +88,7 @@ console.log(
 | `element.scrollIntoView(true)`  | 요소의 위쪽 모서리가 창 위쪽 모서리와 일치하게 이동         |
 | `element.scrollIntoView(false)` | 요소의 아래쪽 모서리가 창 아래쪽 모서리와 일치하게 이동     |
 
-## 스크롤바 막기
+### 스크롤바 막기
 
 ```js
 // 스크롤바 고정
@@ -95,9 +103,11 @@ document.body.style.paddingRight = '';
 
 ## 요소의 좌표
 
-자바스크립트에서 `document.querySelector`를 사용하든, 리액트에서 `useRef`를 사용하든, 좌표를 알고싶은 요소의 객체를 가져와서 `getBoundingClientRect` 함수를 사용한다.
+![element_box_diagram](images/coordinate_element.png)
 
-![element_box_diagram](assets/element_box_diagram.png)
+자바스크립트에서 `document.querySelector`를 사용하든, 리액트에서 `useRef`를 사용하든, 좌표를 알고싶은 요소의 객체를 가져와서 `getBoundingClientRect()` 메서드를 사용한다.
+
+창 기준 좌표는 `position: fixed`와 사용하고 문서 기준 좌표는 `position: absolute`와 사용한다.
 
 ```js
 // 브라우저창 기준 좌표(position: fixed)
@@ -116,19 +126,17 @@ function getCoords(elem) {
 }
 ```
 
-- 창 기준 좌표는 `position: fixed`와 사용하고 문서 기준 좌표는 `position: absolute`와 사용한다.
+아래 메서드로 css 선택자와 일치하는 요소를 부모로 올라가면서 찾을 수 있다.
 
 ```js
-// 주어진 좌표 아래의 가장 가까운 중첩 요소를 반환
-document.elementFromPoint(x, y);
-
-// css 선택자와 일치하는 요소를 부모로 올라가면서 찾음
 element.closest('#droppable');
 ```
 
 ## 마우스 좌표
 
-![mouse_coordinate](/assets/mouse_coordinate.png)
+![mouse_coordinate](images/coordinate_mouse.png)
+
+아래는 기준에 따라 달라지는 마우스 좌표 값이다.
 
 ```js
 element.onmousemove = function (e) {
@@ -145,4 +153,10 @@ element.onmousemove = function (e) {
   console.log(e.offsetX);
   console.log(e.offsetY);
 };
+```
+
+아래 메서드는 주어진 마우스 좌표 아래의 가장 가까운 중첩 요소를 반환한다.
+
+```ts
+document.elementFromPoint(x, y);
 ```
