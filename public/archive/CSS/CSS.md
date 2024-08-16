@@ -222,10 +222,14 @@ body {
 
 ### flex-basis
 
-![flex_basis](images/flex_basis.jpg);
+1. 자식의 `flex-basis`
+2. 자식의 `width`, `height`
+3. 자식의 `flex-basis: auto`
+4. 부모의 `flex-basis`
+5. 부모의 `width`, `height`
+6. 부모의 `flex-basis: auto`
 
-- `flex-basis`는 `width`와 `height`보다 우선시 된다.
-- `flex-basis: auto`인 경우는 `width`와 `height`이 우선시 된다.
+![flex_basis](images/flex_basis.jpg);
 
 |                          | `flex-basis: auto`                   |
 | ------------------------ | ------------------------------------ |
