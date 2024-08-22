@@ -104,3 +104,5 @@ History API를 사용하면 사용자가 페이지를 탐색하는 동안 페이
   - `href`, `assign`, `replace`, `reload` 등을 사용.
 
 이러한 차이점을 이해하면 두 API를 적절히 사용하여 웹 애플리케이션의 동작을 더 유연하고 사용자 친화적으로 만들 수 있습니다.
+
+Navigation API
