@@ -19,6 +19,8 @@ description:
 - [app router, page router](#app-router-page-router)
 - [빌드](#빌드)
 - [240806](#240806)
+- [edge function, edge network, middelware](#edge-function-edge-network-middelware)
+- [미들웨어 개념](#미들웨어-개념)
 
 ## 렌더링 전략 4가지
 
@@ -274,3 +276,13 @@ ssg 방식인 페이지는 빌드 시 html 파일이 생기나
 ssr 방식인 페이지는 html 파일이 안생김
 
 ![alt text](image.png)
+
+## edge function, edge network, middelware
+
+api 또는 서버 사이드 렌더링 쪽은 node base
+
+## 미들웨어 개념
+
+요청 -> 미들웨어 -> 엔드포인트 -> 응답
+
+요청 -> 엔드포인트 -> 미들웨어 -> 응답 (?)
