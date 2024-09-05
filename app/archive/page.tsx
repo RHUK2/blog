@@ -1,6 +1,6 @@
-import { Divider, Navigation } from '@/component';
-import { Pagination } from '@/component/client';
-import { FOLDER_NAME, getPostList } from '@/util';
+import { Divider, Navigation } from '@/_component';
+import { Pagination } from '@/_component/client';
+import { FOLDER_NAME, getPostList } from '@/_util';
 import Link from 'next/link';
 
 interface PostListPageProps {
@@ -37,7 +37,8 @@ export default async function PostListPage({ params, searchParams }: PostListPag
           <Link
             key={`post_${index}`}
             href={`/${FOLDER_NAME}/${post.directory}/${post.fileName}`}
-            className='min-h-28 rounded-lg border border-gray-200 bg-gradient-to-br from-gray-100 from-30% to-gray-50 to-70% p-4  hover:relative hover:-top-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
+            className='min-h-28 rounded-lg border border-gray-200 bg-gradient-to-br from-gray-100 from-30% to-gray-50 to-70% p-4
+            hover:relative hover:-top-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
             <span className='block'>{post.title ?? '-'}</span>
             <span className='block'>{post.description ?? '-'}</span>
             <span className='block'>{new Date(post.updatedAt).toUTCString() ?? '-'}</span>
