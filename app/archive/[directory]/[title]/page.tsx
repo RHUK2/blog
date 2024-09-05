@@ -1,4 +1,4 @@
-import { getPost } from '@/util';
+import { getPost } from '@/_util';
 
 interface PostListTitlePageProps {
   params: {

@@ -1,6 +1,6 @@
-import { Divider, Navigation } from '@/component';
-import { Pagination } from '@/component/client';
-import { FOLDER_NAME, getPostList } from '@/util';
+import { Divider, Navigation } from '@/_component';
+import { Pagination } from '@/_component/client';
+import { FOLDER_NAME, getPostList } from '@/_util';
 import Link from 'next/link';
 
 interface PostListPageProps {

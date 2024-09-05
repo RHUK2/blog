@@ -1,7 +1,7 @@
-import { Footer, Header } from '@/component';
-import { ScrollTopFloatingButton } from '@/component/client';
-import '@/css/globals.css';
-import '@/css/highlight.css';
+import { Footer, Header } from '@/_component';
+import { ScrollTopFloatingButton } from '@/_component/client';
+import '@/_css/globals.css';
+import '@/_css/highlight.css';
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
