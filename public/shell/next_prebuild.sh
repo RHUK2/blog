@@ -90,8 +90,8 @@ if ! git merge "origin/${branch:-master}"; then
 fi
 
 echo "🔥  npm Install 🔥"
-if ! npm install; then
-    exit 1
-fi
+
+# because monorepo case
+cd ../../ && npm install && cd ./apps/feedback || exit 1
 
 echo "🔥  npm run build 🔥"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 folderName=$(pwd | rev | cut -d'/' -f1 | rev)-deploy
-pm2Name=checker360-web
+pm2Name=feedback-web
 notice="true,
 서비스 점검 중 입니다.
 0000년 00월 00일 00:00 - 00:00"
