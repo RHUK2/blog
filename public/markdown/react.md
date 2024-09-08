@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-07-10
-directory: react
 fileName: react
+updatedAt: 2024-07-10
 title: React 기록하기
 description: ✅
+tag: react
 ---
 
 ## React 기록하기

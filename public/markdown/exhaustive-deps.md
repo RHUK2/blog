@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-05-20
-directory: react
 fileName: exhaustive-deps
+updatedAt: 2024-05-20
 title: exhaustive-deps 벗어나기
 description: ✅
+tag: react, error
 ---
 
 # exhaustive-deps 벗어나기
@@ -34,7 +34,7 @@ const countryCodeOptions = useOptions(SELECT_TYPE_CLIENT.COUNTRY_CODE);
 
 useEffect(() => {
   const phoneCode = user.recruiter?.phone
-    ? countryCodeOptions.find((option) => user.recruiter.phone.includes(option.text))?.key ?? '+82'
+    ? (countryCodeOptions.find((option) => user.recruiter.phone.includes(option.text))?.key ?? '+82')
     : '+82';
   const phone = user.recruiter?.phone ? user.recruiter.phone.replace(phoneCode, '') : '';
   // ...생략

@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-07-18
-directory: react
 fileName: react-library
+updatedAt: 2024-07-18
 title: React Library 기록하기
 description: ✅
+tag: react, react-query
 ---
 
 # React Library 기록하기

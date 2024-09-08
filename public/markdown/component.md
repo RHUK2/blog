@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-07-15
-directory: react
 fileName: component
+updatedAt: 2024-07-15
 title: Component
 description: ✅
+tag: react, component
 ---
 
 # Component

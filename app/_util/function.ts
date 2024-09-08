@@ -10,6 +10,39 @@ import { unified } from 'unified';
 
 export const FOLDER_NAME = 'markdown';
 
+export async function readMarkdownMetaDataList() {
+  const markdownFileNameList = (await readdir(`${process.cwd()}/public/${FOLDER_NAME}`)).filter((content) =>
+    /^.*\.md$/.test(content),
+  );
+
+  const markdownContentList = await Promise.all(
+    markdownFileNameList.map((fileName) => readFile(`${process.cwd()}/public/${FOLDER_NAME}/${fileName}`)),
+  );
+
+  const markdownMetaDataList = markdownContentList.map((content) => matter(content));
+
+  return markdownMetaDataList;
+}
+
+export async function getNavigationList2() {
+  const tagList = (await readMarkdownMetaDataList())
+    .filter((metaData) => metaData.data.tag != null && typeof metaData.data.tag === 'string')
+    .map((metaData) => metaData.data.tag.split(','))
+    .flat()
+    .map((a) => a.trim());
+
+  // const tagListOnly = Array.from(new Set(tagList));
+
+  // const result = tagListOnly.map((tag) => tagList.map);
+
+  const result = tagList.reduce((obj, item) => {
+    obj[item] = (obj[item] || 0) + 1;
+    return obj;
+  }, {});
+
+  return { all: tagList.length, ...result };
+}
+
 export async function readDirectory() {
   return (await readdir(`${process.cwd()}/public/${FOLDER_NAME}`)).filter((directory) => /^[^\.]*$/.test(directory));
 }
