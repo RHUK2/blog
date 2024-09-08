@@ -39,9 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <head>
-        <script async type='module' src='/script/dom_init.mjs'></script>
-      </head>
+      <head>{/* <script async type='module' src='/script/dom_init.mjs'></script> */}</head>
       <body
         className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} font-pret
         dark:bg-gray-950 dark:text-white`}>
