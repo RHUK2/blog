@@ -7,11 +7,12 @@ interface PostListPageProps {
   params: {};
   searchParams: {
     directory?: string;
+    tag?: string;
     page?: string;
   };
 }
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 export default async function PostListPage({ params, searchParams }: PostListPageProps) {
   const postList = await getPostList(searchParams.directory);
@@ -27,7 +28,7 @@ export default async function PostListPage({ params, searchParams }: PostListPag
   return (
     <>
       <section className='m-auto flex min-w-[320px] max-w-[768px] flex-col gap-8 px-4 py-10'>
-        <Navigation currentDirectory={searchParams.directory} />
+        <Navigation current={searchParams.tag} />
 
         <Divider />
 

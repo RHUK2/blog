@@ -24,23 +24,24 @@ export async function readMarkdownMetaDataList() {
   return markdownMetaDataList;
 }
 
-export async function getNavigationList2() {
+export async function getTagList() {
   const tagList = (await readMarkdownMetaDataList())
     .filter((metaData) => metaData.data.tag != null && typeof metaData.data.tag === 'string')
     .map((metaData) => metaData.data.tag.split(','))
     .flat()
     .map((a) => a.trim());
 
-  // const tagListOnly = Array.from(new Set(tagList));
+  const computedTagList = tagList.reduce(
+    (obj, tag) => {
+      obj[tag] = (obj[tag] || 0) + 1;
+      return obj;
+    },
+    { all: tagList.length },
+  );
 
-  // const result = tagListOnly.map((tag) => tagList.map);
+  const result = Object.entries(computedTagList).map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] }));
 
-  const result = tagList.reduce((obj, item) => {
-    obj[item] = (obj[item] || 0) + 1;
-    return obj;
-  }, {});
-
-  return { all: tagList.length, ...result };
+  return result;
 }
 
 export async function readDirectory() {
@@ -57,40 +58,6 @@ export async function readMarkdownFrontMatter(directory: string, post: string) {
   const frontMatter = matter(content);
 
   return frontMatter.data;
-}
-
-export async function getNavigationList() {
-  try {
-    let allCount = 0;
-
-    const directoryList = await readDirectory();
-
-    const result = await Promise.all(
-      directoryList.map(async (directory) => {
-        const postList = await readMarkdownInDirectory(directory);
-
-        allCount += postList.length;
-
-        return {
-          name: directory,
-          count: postList.length,
-        };
-      }),
-    );
-
-    return [
-      {
-        name: '',
-        count: allCount,
-      },
-      ...result,
-    ];
-  } catch (err) {
-    console.error('getNavigationList');
-    console.error(err);
-
-    return [];
-  }
 }
 
 export async function getPostList(directory?: string, page?: string) {
