@@ -17,7 +17,7 @@ export default function Error({ error, reset }: ErrorProps) {
       className='flex flex-col items-center gap-4 pt-12 
       text-xl tracking-tighter'>
       <p>서버에서 에러가 발생하였습니다.</p>
-      <button onClick={() => reset()}>🔃 RETRY</button>
+      <button onClick={() => reset()}>🔃RETRY</button>
     </div>
   );
 }

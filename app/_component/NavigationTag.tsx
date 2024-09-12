@@ -12,7 +12,7 @@ export async function NavigationTag({ currentTag }: NavigationTagProps) {
     <nav className='flex flex-wrap items-center gap-2'>
       {tagList.map((tag, index) => (
         <Link
-          href={tag.name ? `/archive?tag=${tag.name}` : '/archive'}
+          href={tag.name ? `/markdown?tag=${tag.name}` : '/markdown'}
           key={`tag_${index}`}
           className={`rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-200 px-2 py-1
             text-xs font-medium

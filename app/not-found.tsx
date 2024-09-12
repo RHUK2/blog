@@ -6,7 +6,7 @@ export default function NotFound() {
       className='flex flex-col items-center gap-4 pt-12 
       text-xl tracking-tighter'>
       <p>페이지를 찾을 수 없습니다.</p>
-      <Link href='/'>🏠 HOME</Link>
+      <Link href='/'>🏠HOME</Link>
     </div>
   );
 }

@@ -14,9 +14,9 @@ export function Header() {
         </Link>
         <div className='flex gap-4 '>
           <DarkLightButton />
-          <Link href='/'>🏠 HOME</Link>
-          <Link href='/archive'>🪢 ARCHIVE</Link>
-          <Link href='/gpt'>🤖 GPT</Link>
+          <Link href='/'>🏠HOME</Link>
+          <Link href='/markdown'>📕MARKDOWN</Link>
+          <Link href='/gpt'>🤖GPT</Link>
         </div>
       </div>
     </header>

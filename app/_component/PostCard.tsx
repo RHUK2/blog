@@ -10,7 +10,7 @@ export function PostCard({ post, ...divProps }: PostCardProps) {
   return (
     <div {...divProps}>
       <Link
-        href={`/archive/${encodeURIComponent(post.data.fileName ?? '')}`}
+        href={`/markdown/${post.data.fileName}`}
         className='flex flex-col gap-1
         rounded-lg border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-200  p-4
         hover:relative hover:-top-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
