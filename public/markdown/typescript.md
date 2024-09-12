@@ -19,7 +19,7 @@ isPublished: true
 
 ## 타입은 집합이다
 
-![img](/images/type_hierarchy.png)
+![img](images/type_hierarchy.png)
 
 - 위 계층도는 타입스크립트 컴파일러 옵션 중 `strictNullCheck` 옵션이 `true`인 경우에 해당한다.
 - 타입을 집합으로 생각하면 상위 집합에 하위 집합을 할당할 수 있지만, 하위 집합에 상위 집합은 할당 불가능하다.

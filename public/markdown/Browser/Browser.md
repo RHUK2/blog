@@ -76,7 +76,7 @@ description:
 
 ### 렌더링 과정
 
-![img](/images/browser_rendering.png)
+![img](images/browser_rendering.png)
 
 ## 웹 서버란?
 
@@ -115,11 +115,11 @@ flowchart LR
 
 ## 브라우저의 주소 표시창에 URL을 입력했을 때 발생하는 동작
 
-![img](/images/browser_url_input.jpg)
+![img](images/browser_url_input.jpg)
 
 ## URL(Uniform Resource Locator)
 
-![img](/images/url.png)
+![img](images/url.png)
 
 URL은 말 그대로 자원(리소스)을 가리키는 지시자이다. 자원의 종류는 아래와 같다.
 
@@ -168,7 +168,7 @@ SSR은 SSR 서버에서 렌더링을 한다. SSR 서버는 첫 요청에서 초�
 
 미리 작성해놓은 정적인 파일들을 Static 서버에 저장해놓고 클라이언트가 요청하면 해당 파일을 보여주는 방식이며, 동적인 변화가 불가능하다.
 
-![img](/images/compare_rendering.png)
+![img](images/compare_rendering.png)
 
 ## 마크업 언어(Markup Language)
 
@@ -252,7 +252,7 @@ Markdown은 간단한 구문 (강조를 위한 별표, 제목을 위한 해시�
 
 컴퓨터가 세상에 나왔을 때는 영어와 몇가지 특수문자만 사용했고 이를 저장하기 위해서 1 byte면 충분했다. 시간이 흘러 다른 국가 사람들이 컴퓨터를 이용하다보니 자국어도 컴퓨터로 표시하고 싶어졌다. 그래서 1 byte 안에 임의대로 알파벳 대신 자기나라 글자를 할당해서 그럭저럭 쓸 수는 있었다. 그러나 네트워크가 발전하고 다른 사람 홈페이지를 들어갔더니 글자가 와장창 깨지고 만다. 그리하여 국제적으로 전세계 언어를 모두 표시할 수 있는 표준코드를 만들기로 했다. 그게 바로 유니코드다.
 
-![img](/images/image-1.png)
+![img](images/image-1.png)
 
 #### UTF-8
 
@@ -260,7 +260,7 @@ UTF-8은 유니코드를 인코딩하는 방식이다. 전세계에서 사용하
 
 유니코드를 통해 코드표가 정의되었다. 남은 것은 그 코드가 컴퓨터에 어떻게 저장되어야 하는 것이다. 다른 말로 인코딩이라고 하는데, 컴퓨터가 이해할 수 있는 이진 데이터로 바꿔주는 것이다. UTF-8은 가변 인코딩방식이다. 쉬운 말로 하면 글자마다 byte 길이가 다르다는 것이다. 'a'는 1 byte이고 '가'는 3 byte이다. 가변을 구분하기 위해 첫 바이트에 표식을 넣었는데 2 byte는 110으로 시작하고 3바이트는 1110으로 시작한다. 나머지 바이트는 10으로 시작한다.
 
-![img](/images/image-2.png)
+![img](images/image-2.png)
 
 ### 문자열 인코딩
 
@@ -282,7 +282,7 @@ UTF-8은 유니코드를 인코딩하는 방식이다. 전세계에서 사용하
 
 ### memory cache vs disk cache
 
-![img](/images/cache_size.png)
+![img](images/cache_size.png)
 
 위의 개발자 도구에서 확인할 수 있듯이, 브라우저에서는 자원을 캐싱할 때 저장되는 위치에 따라 memory cache와 disk cache로 나뉜다. memory cache는 컴퓨터의 RAM(메모리)에 저장되고, disk cache는 컴퓨터의 하드디스크의 저장된다. 윈도우 운영체제에서 크롬을 사용한다면 아래 경로를 통해 저장된 캐시를 확인할 수 있다.
 
@@ -346,9 +346,9 @@ MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유
 
 HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
 
-![img](/images/payload_multipart1.png)
+![img](images/payload_multipart1.png)
 
-![img](/images/payload_multipart2.png)
+![img](images/payload_multipart2.png)
 
 ### application/json
 
@@ -356,11 +356,11 @@ HTTP 요청의 body 값으로 JSON 데이터를 보낼 때 사용한다.
 
 fetch API, axios 방식으로 요청 가능하다.
 
-![img](/images/payload_json1.png)
+![img](images/payload_json1.png)
 
 바이너리 데이터를 Base64 형식으로 인코딩해서 보내는 경우는 아래와 같다.
 
-![img](/images/payload_json2.png)
+![img](images/payload_json2.png)
 
 ### application/octet-stream
 
@@ -370,15 +370,15 @@ HTTP 요청의 body 값으로 아무런 특별한 분류나 변환 없이 원시
 
 fetch API, axios 방식으로 요청 가능하다.
 
-![img](/images/payload_octet_stream.png)
+![img](images/payload_octet_stream.png)
 
 ### application/x-www-form-urlencoded
 
 HTML 폼 방식으로 HTTP 요청을 할 때 기본값으로 설정되며, HTTP 요청의 body 값으로 데이터를 URL 인코딩하여 보낼 때 사용한다.
 
-![img](/images/payload_form_urlencoded1.png)
+![img](images/payload_form_urlencoded1.png)
 
-![img](/images/payload_form_urlencoded2.png)
+![img](images/payload_form_urlencoded2.png)
 
 HTML 폼 방식, fetch API, axios 방식으로 요청 가능하다.
 
@@ -462,7 +462,7 @@ getEventListeners(document);
 
 또는 개발자 도구
 
-![img](/images/image.png)
+![img](images/image.png)
 
 ### initial connection
 
@@ -472,7 +472,7 @@ getEventListeners(document);
 
 그래서 개발자 도구를 좀 더 디테일하게 살펴보니 진입점 파일인 index.html을 불러오는데 약 20초 정도가 걸렸다. 원인은 아래 사진과 같이 initial connection 이슈였다. 이걸 보니 단순히 프론트 쪽에 코드를 수정해서 될 일이 아니라 네트워크 쪽 이슈 같았다. 백엔드 개발자가 도메인 연결 쪽을 검토해줬는데 연결한 도메인이 다른 IP에도 연결되어 있어서 해당 IP를 잘 찾지못해서 일어난 이슈였다.
 
-![img](/images/initial_connection.png)
+![img](images/initial_connection.png)
 
 해당 이슈가 다시 발생한다면 도메인 연결을 검토해보자.
 
@@ -498,7 +498,7 @@ Content-Disposition: attachment; filename="example.dat"
 
 ### 이미지 로드 시 개발자 도구에서 미리보기가 안 뜨는 이슈
 
-![img](/images/preview_image.png)
+![img](images/preview_image.png)
 
 ```js
 async function getResource() {

@@ -62,6 +62,8 @@ sequenceDiagram
     Server->>Client: API 응답
 ```
 
+<!-- git -->
+
 ```mermaid
 flowchart TD
     1("git init")
@@ -82,6 +84,8 @@ sequenceDiagram
     local repository->>staged changes: git reset --soft
     staged changes->>changes: git restore --staged
 ```
+
+<!-- sql -->
 
 ```mermaid
 erDiagram

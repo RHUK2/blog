@@ -18,7 +18,7 @@ description:
 
 ## 요소 사이즈와 요소 스크롤
 
-![img](/images/geometry_element.png)
+![img](images/geometry_element.png)
 
 요소 스크롤바는 `scrollTop`과 `scrollLeft`를 조작하여 움직일 수 있다. `scrollTop`과 `scrollLeft`를 제외한 모든 프로퍼티는 읽기 전용이다.
 
@@ -103,7 +103,7 @@ document.body.style.paddingRight = '';
 
 ## 요소의 좌표
 
-![img](/images/coordinate_element.png)
+![img](images/coordinate_element.png)
 
 자바스크립트에서 `document.querySelector`를 사용하든, 리액트에서 `useRef`를 사용하든, 좌표를 알고싶은 요소의 객체를 가져와서 `getBoundingClientRect()` 메서드를 사용한다.
 
@@ -134,7 +134,7 @@ element.closest('#droppable');
 
 ## 마우스 좌표
 
-![img](/images/coordinate_mouse.png)
+![img](images/coordinate_mouse.png)
 
 아래는 기준에 따라 달라지는 마우스 좌표 값이다.
 

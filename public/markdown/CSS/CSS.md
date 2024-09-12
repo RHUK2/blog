@@ -209,7 +209,7 @@ body {
 
 `flex`의 모든 속성은 메인 축을 기준으로 작동하며, `flex-direction`으로 메인 축을 변경할 수 있다.
 
-![img](/images/flex_axis.png)
+![img](images/flex_axis.png)
 
 |                   | `flex-direction: row`    | `flex-direction: column` |
 | ----------------- | ------------------------ | ------------------------ |
@@ -229,7 +229,7 @@ body {
 5. 부모의 `width`, `height`
 6. 부모의 `flex-basis: auto`
 
-![img](/images/flex_basis.jpg);
+![img](images/flex_basis.jpg);
 
 |                          | `flex-basis: auto`                   |
 | ------------------------ | ------------------------------------ |
@@ -358,9 +358,9 @@ font-display 옵션 조절
 html 헤더에 link 태그에서 preload로 미리 불러오기
 웹폰트 사용해서 캐싱하기
 
-![img](/images/image.png)
+![img](images/image.png)
 
-![img](/images/image-3.png)
+![img](images/image-3.png)
 
 ## rem, em
 
@@ -430,7 +430,7 @@ width와 height 둘 중 하나 값이 설정되면 이미지 파일의 종횡비
 
 aspect-ratio 값도 둘 중 하나를 기준으로 맞춰진다
 
-![img](/images/image-4.png)
+![img](images/image-4.png)
 
 | `object-fit` | 종횡비 유지 | 컨테이너에 맞춤 | 너비,높이 변화 |
 | ------------ | ----------- | --------------- | -------------- |

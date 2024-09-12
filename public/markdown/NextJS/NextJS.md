@@ -24,7 +24,7 @@ description:
 
 ## 렌더링 전략 4가지
 
-![img](/https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217106&authkey=%21AGBjZT-fCNEb1ME&width=1920&height=2200)
+![img](https://onedrive.live.com/embed?resid=7DCB8F9953BAAF94%217106&authkey=%21AGBjZT-fCNEb1ME&width=1920&height=2200)
 
 ### SSG
 
@@ -269,13 +269,13 @@ NextJS는 서버에서 HTML 로딩을 가속화하여 SEO 점수를 높이기 �
 
 이러한 방식은 Next.js가 SSR과 CSR을 조합하여, 초기 로딩 성능을 극대화하고, 이후 사용자 경험을 매끄럽게 유지할 수 있도록 합니다. SPA처럼 클라이언트 측에서 동적으로 페이지를 업데이트하는 이점을 살리면서도, 초기 렌더링에서 서버의 지원을 받아 효율적인 SEO와 성능을 유지할 수 있습니다.
 
-![img](/images/image.png)
+![img](images/image.png)
 
 초기 HTML 파일 위치 .next/server/pages
 ssg 방식인 페이지는 빌드 시 html 파일이 생기나
 ssr 방식인 페이지는 html 파일이 안생김
 
-![img](/image.png)
+![img](image.png)
 
 ## edge function, edge network, middelware
 

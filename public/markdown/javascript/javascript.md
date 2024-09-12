@@ -129,7 +129,7 @@ export let a = 'a';
 export let b = 'b';
 ```
 
-![img](/assets/import_network.png)
+![img](assets/import_network.png)
 
 모듈 번들러 툴은 보통 아래와 같이 동작합니다.
 
@@ -261,15 +261,15 @@ console.log(b) 'end'
 
 ## Pass By Value vs Pass By Reference
 
-![img](/assets/pass_by_value_1.png)
-![img](/assets/pass_by_value_2.png)
-![img](/assets/pass_by_value_3.png)
-![img](/assets/pass_by_value_4.png)
+![img](assets/pass_by_value_1.png)
+![img](assets/pass_by_value_2.png)
+![img](assets/pass_by_value_3.png)
+![img](assets/pass_by_value_4.png)
 
-![img](/assets/pass_by_reference_1.png)
-![img](/assets/pass_by_reference_2.png)
-![img](/assets/pass_by_reference_3.png)
-![img](/assets/pass_by_reference_4.png)
+![img](assets/pass_by_reference_1.png)
+![img](assets/pass_by_reference_2.png)
+![img](assets/pass_by_reference_3.png)
+![img](assets/pass_by_reference_4.png)
 
 ## 깊은 객체 복사
 
@@ -425,7 +425,7 @@ try {
 `throttle`은 클릭을 여러번할 때 사용자가 설정한 n초 당 한 번씩 이벤트가 발생한다
 `debounce`는 클릭을 여러번할 때 클릭과 클릭 사이에 간격이 사용자가 설정한 n초를 넘어가면 이벤트가 발생한다
 
-![img](/assets/debounce_vs_throttle.png)
+![img](assets/debounce_vs_throttle.png)
 
 사용법은 아래와 같다. 리액트의 경우 리렌더링 시에 컴포넌트를 계속 호출하므로 `useRef` 훅으로 감싸서 매 렌더링마다 새로운 함수가 생성되는 것을 막는다.
 

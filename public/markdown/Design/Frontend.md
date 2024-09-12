@@ -121,7 +121,7 @@ description:
 
 ## 그림으로 보는 프론트엔드 설계
 
-![img](/assets/frontend_design.jpg)
+![img](assets/frontend_design.jpg)
 
 ## 유효성 설계
 

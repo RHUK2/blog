@@ -244,4 +244,4 @@ node는 global 객체\*\*
 
 ## monorepo
 
-![img](/image.png)
+![img](image.png)
