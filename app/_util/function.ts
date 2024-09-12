@@ -1,3 +1,4 @@
+import { readMarkdownMetaDataResponse, readTagResponse } from '@/_type';
 import { readdir, readFile } from 'fs/promises';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
@@ -7,103 +8,80 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
+import { MARKDOWN_PATH, PAGE_SIZE } from './enum';
 
-export const FOLDER_NAME = 'markdown';
-
-export async function readMarkdownMetaDataList() {
-  const markdownFileNameList = (await readdir(`${process.cwd()}/public/${FOLDER_NAME}`)).filter((content) =>
-    /^.*\.md$/.test(content),
-  );
-
-  const markdownContentList = await Promise.all(
-    markdownFileNameList.map((fileName) => readFile(`${process.cwd()}/public/${FOLDER_NAME}/${fileName}`)),
-  );
-
-  const markdownMetaDataList = markdownContentList.map((content) => matter(content));
-
-  return markdownMetaDataList;
-}
-
-export async function getTagList() {
-  const tagList = (await readMarkdownMetaDataList())
-    .filter((metaData) => metaData.data.tag != null && typeof metaData.data.tag === 'string')
-    .map((metaData) => metaData.data.tag.split(','))
-    .flat()
-    .map((a) => a.trim());
-
-  const computedTagList = tagList.reduce(
-    (obj, tag) => {
-      obj[tag] = (obj[tag] || 0) + 1;
-      return obj;
-    },
-    { all: tagList.length },
-  );
-
-  const result = Object.entries(computedTagList).map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] }));
-
-  return result;
-}
-
-export async function readDirectory() {
-  return (await readdir(`${process.cwd()}/public/${FOLDER_NAME}`)).filter((directory) => /^[^\.]*$/.test(directory));
-}
-
-export async function readMarkdownInDirectory(directory: string) {
-  return (await readdir(`${process.cwd()}/public/${FOLDER_NAME}/${directory}`)).filter((file) => /.*.md/.test(file));
-}
-
-export async function readMarkdownFrontMatter(directory: string, post: string) {
-  const content = await readFile(`${process.cwd()}/public/${FOLDER_NAME}/${directory}/${post}`, 'utf8');
-
-  const frontMatter = matter(content);
-
-  return frontMatter.data;
-}
-
-export async function getPostList(directory?: string, page?: string) {
+export async function readMarkdownMetaDataList(): Promise<readMarkdownMetaDataResponse[]> {
   try {
-    if (directory == null || directory === '') {
-      const directoryList = await readDirectory();
+    const markdownFileNameList = (await readdir(MARKDOWN_PATH)).filter((content) => /^.*\.md$/.test(content));
 
-      const result = (
-        await Promise.all(
-          directoryList.map(async (directory) => {
-            const postList = await readMarkdownInDirectory(directory);
+    const markdownContentList = await Promise.all(
+      markdownFileNameList.map((fileName) => readFile(`${MARKDOWN_PATH}/${fileName}`)),
+    );
 
-            const data = await Promise.all(
-              postList.map(async (post) => {
-                return await readMarkdownFrontMatter(directory, post);
-              }),
-            );
+    const markdownMetaDataList = markdownContentList.map((content) => matter(content));
 
-            return data;
-          }),
-        )
-      ).flat();
-
-      return result;
-    } else {
-      const postList = await readMarkdownInDirectory(directory);
-
-      const result = await Promise.all(
-        postList.map(async (post) => {
-          return await readMarkdownFrontMatter(directory, post);
-        }),
-      );
-
-      return result;
-    }
-  } catch (err) {
-    console.error('getPostList');
-    console.error(err);
-
-    return [];
+    return markdownMetaDataList;
+  } catch (error) {
+    console.error(error);
+    throw new Error('readMarkdownMetaDataList error occurred.');
   }
 }
 
-export async function getPost(directory: string, title: string) {
+export async function readTagList(): Promise<readTagResponse[]> {
   try {
-    const post = await readFile(`${process.cwd()}/public/${FOLDER_NAME}/${directory}/${title}.md`, 'utf8');
+    const tagList = (await readMarkdownMetaDataList())
+      .filter((metaData) => metaData.data.tag != null)
+      .map((metaData) => metaData.data.tag?.split(',') ?? '')
+      .flat()
+      .map((metaData) => metaData.trim());
+
+    const computedTagList = tagList.reduce<Record<string, number>>((obj, tag) => {
+      obj[tag] = (obj[tag] || 0) + 1;
+      return obj;
+    }, {});
+
+    const result = [
+      { name: '', postCount: tagList.length },
+      ...Object.entries(computedTagList).map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] })),
+    ];
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('readTagList error occurred.');
+  }
+}
+
+export async function readPostList(tag?: string, page?: string, size?: string) {
+  try {
+    let postList;
+
+    if (tag == null || tag === '') postList = await readMarkdownMetaDataList();
+    else
+      postList = (await readMarkdownMetaDataList()).filter(
+        (metaData) => metaData.data.tag != null && metaData.data.tag.includes(tag),
+      );
+
+    if (postList.length === 0) throw new Error('No data found.');
+
+    const result = postList.slice(
+      parseInt(page ?? '0') * parseInt(size ?? PAGE_SIZE),
+      (parseInt(page ?? '0') + 1) * parseInt(size ?? PAGE_SIZE),
+    );
+
+    return {
+      totalCount: postList.length,
+      list: result,
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error('readPostList error occurred.');
+  }
+}
+
+export async function readPost(title: string) {
+  try {
+    const post = await readFile(`${process.cwd()}/public/markdown/${title}.md`, 'utf8');
 
     const result = await unified()
       .use(remarkParse)
@@ -115,10 +93,8 @@ export async function getPost(directory: string, title: string) {
       .process(matter(post).content);
 
     return result.value;
-  } catch (err) {
-    console.error('getPost');
-    console.error(err);
-
-    return '';
+  } catch (error) {
+    console.error(error);
+    throw new Error('readPost error occurred.');
   }
 }
