@@ -1,4 +1,4 @@
-import { readMarkdownMetaDataResponse, readTagResponse } from '@/_type';
+import { readMarkdownDataResponse, readTagResponse } from '@/_type';
 import { readdir, readFile } from 'fs/promises';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
@@ -10,7 +10,7 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { MARKDOWN_PATH, PAGE_SIZE } from './enum';
 
-export async function readMarkdownMetaDataList(): Promise<readMarkdownMetaDataResponse[]> {
+export async function readMarkdownDataList() {
   try {
     const markdownFileNameList = (await readdir(MARKDOWN_PATH)).filter((content) => /^.*\.md$/.test(content));
 
@@ -18,18 +18,22 @@ export async function readMarkdownMetaDataList(): Promise<readMarkdownMetaDataRe
       markdownFileNameList.map((fileName) => readFile(`${MARKDOWN_PATH}/${fileName}`)),
     );
 
-    const markdownMetaDataList = markdownContentList.map((content) => matter(content));
+    const markdownDataList: readMarkdownDataResponse[] = markdownContentList
+      .map((content) => matter(content))
+      .filter((data) => !!data.data.isPublished);
 
-    return markdownMetaDataList;
+    return markdownDataList;
   } catch (error) {
     console.error(error);
     throw new Error('readMarkdownMetaDataList error occurred.');
   }
 }
 
-export async function readTagList(): Promise<readTagResponse[]> {
+export async function readTagList() {
   try {
-    const tagList = (await readMarkdownMetaDataList())
+    const markdownDataList = await readMarkdownDataList();
+
+    const tagList = markdownDataList
       .filter((metaData) => metaData.data.tag != null)
       .map((metaData) => metaData.data.tag?.split(',') ?? '')
       .flat()
@@ -40,8 +44,8 @@ export async function readTagList(): Promise<readTagResponse[]> {
       return obj;
     }, {});
 
-    const result = [
-      { name: '', postCount: tagList.length },
+    const result: readTagResponse[] = [
+      { name: '', postCount: markdownDataList.length },
       ...Object.entries(computedTagList).map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] })),
     ];
 
@@ -56,9 +60,9 @@ export async function readPostList(tag?: string, page?: string, size?: string) {
   try {
     let postList;
 
-    if (tag == null || tag === '') postList = await readMarkdownMetaDataList();
+    if (tag == null || tag === '') postList = await readMarkdownDataList();
     else
-      postList = (await readMarkdownMetaDataList()).filter(
+      postList = (await readMarkdownDataList()).filter(
         (metaData) => metaData.data.tag != null && metaData.data.tag.includes(tag),
       );
 
@@ -81,7 +85,7 @@ export async function readPostList(tag?: string, page?: string, size?: string) {
 
 export async function readPost(title: string) {
   try {
-    const post = await readFile(`${process.cwd()}/public/markdown/${title}.md`, 'utf8');
+    const post = await readFile(`${MARKDOWN_PATH}/${title}.md`, 'utf8');
 
     const result = await unified()
       .use(remarkParse)

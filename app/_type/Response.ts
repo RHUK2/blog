@@ -1,6 +1,6 @@
 import { GrayMatterFile } from 'gray-matter';
 
-export interface readMarkdownMetaDataResponse extends GrayMatterFile<Buffer> {
+export interface readMarkdownDataResponse extends GrayMatterFile<Buffer> {
   data: frontMatterData;
 }
 
@@ -8,8 +8,8 @@ export interface frontMatterData {
   fileName?: string;
   updatedAt?: string;
   title?: string;
-  description?: string;
   tag?: string;
+  isPublished?: string;
 }
 
 export interface readTagResponse {
