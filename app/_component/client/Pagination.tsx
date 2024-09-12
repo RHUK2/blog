@@ -5,7 +5,12 @@ import { MouseEvent, useCallback, useMemo, useState } from 'react';
 import { Menu } from '.';
 import Button from './Button';
 
-export function Pagination({ totalCount, size }: { totalCount: number; size: number }) {
+interface PaginationProps {
+  totalCount: number;
+  size: number;
+}
+
+export function Pagination({ totalCount, size }: PaginationProps) {
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
@@ -31,15 +36,16 @@ export function Pagination({ totalCount, size }: { totalCount: number; size: num
     handleMenuClose();
 
     router.push(
-      `${pathname}${index > 1 ? `?${createQueryString('page', String(index - 1))}` : `?${createQueryString('page', '')}`}`,
+      `${pathname}${index > 0 ? `?${createQueryString('page', String(index - 1))}` : `?${searchParams.toString()}`}`,
     );
   }
 
   function handlePageQuery(index: number) {
+    console.log('🚀 ~ handlePageQuery ~ index:', index);
     handleMenuClose();
 
     router.push(
-      `${pathname}${index > 0 ? `?${createQueryString('page', String(index))}` : `?${createQueryString('page', '')}`}`,
+      `${pathname}${index >= 0 ? `?${createQueryString('page', String(index))}` : `?${searchParams.toString()}`}`,
     );
   }
 
@@ -62,16 +68,8 @@ export function Pagination({ totalCount, size }: { totalCount: number; size: num
   return (
     <>
       <div className='flex justify-center gap-3'>
-        <Button
-          buttonProps={{
-            onClick: () => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0')),
-          }}>
-          {'<'}
-        </Button>
-        <Button
-          buttonProps={{
-            onClick: handleMenuToggle,
-          }}>
+        <Button onClick={() => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0'))}>{'<'}</Button>
+        <Button onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
           <Menu open={isMenuOpen} onClose={handleMenuClose}>
             {new Array(pageCount).fill('0').map((item, index) => (
@@ -84,12 +82,7 @@ export function Pagination({ totalCount, size }: { totalCount: number; size: num
             ))}
           </Menu>
         </Button>
-        <Button
-          buttonProps={{
-            onClick: () => handleNextPageQuery(parseInt(searchParams.get('page') || '0')),
-          }}>
-          {'>'}
-        </Button>
+        <Button onClick={() => handleNextPageQuery(parseInt(searchParams.get('page') || '0'))}>{'>'}</Button>
       </div>
     </>
   );
