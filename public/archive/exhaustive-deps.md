@@ -2,8 +2,8 @@
 fileName: exhaustive-deps
 updatedAt: 2024-05-20
 title: exhaustive-deps 벗어나기
-description: ✅
 tag: react, error
+isPublished: true
 ---
 
 # exhaustive-deps 벗어나기
@@ -15,7 +15,7 @@ tag: react, error
 
 eslint와 함께 개발을 진행하다보면 아래와 같은 오류를 많이 접하게 된다.
 
-"React Hook useEffect has a missing dependency: 'state'. Either include it or remove the dependency array."
+> "React Hook useEffect has a missing dependency: 'state'. Either include it or remove the dependency array."
 
 이는 의존성 배열을 사용하는 리액트 훅(`useEffect`, `useMemo`, `useCallback` 등)에서 발생한다. 특히, 의존성 배열을 빈 배열로 사용하려고 할 때 많이 마주치게 된다. 이는 의존성 배열이 빈 배열일 때를 "컴포넌트가 마운트된 후 한 번만 실행하고 싶을 때"라고 이해하고 있기 때문이다. 기존 리액트 라이프 사이클과 연관지어 이해하다 보니 생긴 오류라고 생각한다.
 
@@ -27,9 +27,9 @@ eslint와 함께 개발을 진행하다보면 아래와 같은 오류를 많이 
 
 ## 실무에서 발생한 에러 수정
 
-`useEffect`가 `user`의 데이터가 변경되지 않았는데도 매 렌더링마다 호출되는 이슈가 발생했었다. 이는 매 렌더링마다 `countryCodeOptions`의 값이 변경되면서 일어난 이슈였다. `useOptions` 훅은 매 렌더링마다 새로운 참조를 가진 배열을 던졌고, 의존성 배열에 참조가 계속 바뀌는 배열 값이 존재했기 때문에 계속 호출이 일어났던 것이다.
+`useEffect`의 의존성 배열 데이터들이 변경되지 않았다고 생각했는데, 매 렌더링마다 호출되는 이슈가 발생했었다. 이는 매 렌더링마다 `countryCodeOptions`의 값이 변경되면서 일어난 이슈였다. `useOptions` 훅은 매 렌더링마다 새로운 참조를 가진 배열을 던졌고, 의존성 배열에 참조가 계속 바뀌는 배열 값이 존재했기 때문에 계속 호출이 일어났던 것이다.
 
-```js
+```ts
 const countryCodeOptions = useOptions(SELECT_TYPE_CLIENT.COUNTRY_CODE);
 
 useEffect(() => {

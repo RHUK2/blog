@@ -2,8 +2,8 @@
 fileName: react
 updatedAt: 2024-07-10
 title: React 기록하기
-description: ✅
 tag: react
+isPublished: true
 ---
 
 ## React 기록하기

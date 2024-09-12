@@ -1,3 +1,11 @@
+---
+fileName: 임시
+updatedAt: 2024-07-10
+title: 임시
+tag: temp
+isPublished: false
+---
+
 웹 보안에서 **XSS**(Cross-Site Scripting)와 **CSRF**(Cross-Site Request Forgery)는 매우 중요한 두 가지 공격 벡터로, 웹 서버의 구성 방식에 따라 그 위협이 달라질 수 있다. 여기서는 클라이언트와 같은 도메인을 사용하는 전통적인 웹 서버와 클라이언트와 분리되어 다른 도메인을 사용하는 API 서버의 관점에서 XSS와 CSRF 공격을 분석해 보겠다.
 
 ### 1. 클라이언트와 같은 도메인을 사용하는 전통적인 웹 서버
