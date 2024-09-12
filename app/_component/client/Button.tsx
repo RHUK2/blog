@@ -18,7 +18,7 @@ const Button = forwardRef(function Button(
     <button
       ref={buttonRef}
       className={`min-h-8 min-w-12
-        rounded-md border border-gray-200 bg-gradient-to-br from-gray-100 from-30% to-gray-50 to-70% px-2
+        rounded-md border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-200 px-2
         dark:border-gray-700 dark:from-gray-900 dark:to-gray-800
         ${className ?? ''}`}
       {...buttonProps}>

@@ -1,5 +1,4 @@
 import { readPost } from '@/_util';
-import { notFound } from 'next/navigation';
 
 interface ArchiveTitlePageProps {
   params: {
