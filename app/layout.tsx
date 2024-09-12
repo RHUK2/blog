@@ -2,9 +2,15 @@ import { Footer, Header } from '@/_component';
 import { ScrollTopFloatingButton } from '@/_component/client';
 import '@/_css/globals.css';
 import '@/_css/highlight.css';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
+
+dayjs.locale('ko');
+dayjs.extend(relativeTime);
 
 // next/font/google
 const inter = Inter({

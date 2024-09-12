@@ -23,9 +23,11 @@ export default async function ArchivePage({ params, searchParams }: ArchivePageP
 
         <Pagination totalCount={postList.totalCount} size={parseInt(PAGE_SIZE)} />
 
-        {postList.list.map((post, index) => (
-          <PostCard key={`post_${index}`} post={post} />
-        ))}
+        {postList.list
+          .sort((a, b) => new Date(b.data.updatedAt ?? '').getTime() - new Date(a.data.updatedAt ?? '').getTime())
+          .map((post, index) => (
+            <PostCard key={`post_${index}`} post={post} />
+          ))}
       </section>
     </>
   );
