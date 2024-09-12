@@ -10,6 +10,7 @@
     "prettier": "prettier --write './**/*.tsx'"
   },
   "dependencies": {
+    "dayjs": "^1.11.13",
     "gray-matter": "^4.0.3",
     "next": "^14.2.7",
     "openai": "^4.58.2",
