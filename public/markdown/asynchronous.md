@@ -22,7 +22,19 @@ isPublished: true
 ![img](images/promise_2.gif)
 ![img](images/promise_3.gif)
 ![img](images/promise_4.gif)
+
+설명:
+
+1. 실행흐름 중 비동기 함수를 만나 Web API로 넘겨서 처리한다.
+2. 비동기 함수가 완료되면 내부 콜백을 매크로태스크 큐로 넘긴다.
+
 ![img](images/promise_5.gif)
+
+설명:
+
+1. 실행흐름 중 비동기 함수를 만나 Web API로 넘겨서 처리한다.
+2. 비동기 함수가 완료되면 내부 콜백을 매크로태스크 큐로 넘긴다.
+
 ![img](images/promise_6.gif)
 ![img](images/promise_7.gif)
 ![img](images/promise_8.gif)
