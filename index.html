@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let promiseList = [
+        new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+        new Promise((resolve, reject) => setTimeout(() => reject(new Error('에러 발생!')), 2000)),
+        new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000)),
+      ];
+
+      Promise.all(promiseList)
+        .then((result) => result.forEach((item) => console.log(item)))
+        .catch((error) => console.error(error));
+
+      Promise.allSettled(promiseList).then((item) => {
+        item.forEach((value, index) => {
+          if (value.status == 'fulfilled') {
+            console.log(`${value.value}`);
+          }
+          if (value.status == 'rejected') {
+            console.log(`${value.reason}`);
+          }
+        });
+      });
+
+      Promise.race(promiseList)
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+    </script>
+  </body>
+</html>

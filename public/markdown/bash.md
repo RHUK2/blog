@@ -204,9 +204,6 @@ head foo.txt           # Print top 10 lines of file
 tail foo.txt           # Print bottom 10 lines of file
 open foo.txt           # Open file in the default editor
 wc foo.txt             # List number of lines words and characters in the file
-wc -l foo.txt             # number of row
-wc -w foo.txt             # number of word
-wc -c foo.txt             # number of bytes
 ```
 
 ## File Permissions
@@ -791,6 +788,10 @@ esac
 
   - `*.txt`는 확장자가 '.txt'인 모든 파일과 일치합니다.
 
+- `**`: 임의의 디렉터리와 그 하위 디렉터리를 재귀적으로 일치시킨다. 디렉터리 구분 기호를 포함한다.
+
+  - `dir/**/*.txt`는 'dir' 디렉터리와 그 하위 모든 디렉터리에서 확장자가 '.txt'인 파일과 일치한다.
+
 - `?`: 정확히 한 개의 임의의 문자와 일치한다.
 
   - `file?.txt`는 'file1.txt', 'fileA.txt' 등과 일치하지만 'file.txt'와 일치하지 않는다.
@@ -804,11 +805,8 @@ esac
 
   - `file[!0-9].txt`는 'fileA.txt', 'fileX.txt' 등과 일치하지만 'file1.txt'와 일치하지 않는다.
 
-- `**`: 임의의 디렉터리와 그 하위 디렉터리를 재귀적으로 일치시킨다. 디렉터리 구분 기호를 포함한다.
-
-  - `dir/**/*.txt`는 'dir' 디렉터리와 그 하위 모든 디렉터리에서 확장자가 '.txt'인 파일과 일치한다.
-
 - `{pattern1,pattern2,...}`: 괄호 안에 나열된 여러 패턴 중 하나와 일치한다.
+
   - `file{.txt,.md}`는 'file.txt' 또는 'file.md'와 일치한다.
 
 ## 세미콜론( ; )

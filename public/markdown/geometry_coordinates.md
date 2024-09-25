@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-04-29
-directory: javascript
 fileName: geometry_coordinates
+updatedAt: 2024-04-21
 title: 기하와 좌표
-description:
+tag: javascript, browser
+isPublished: true
 ---
 
 # 기하와 좌표
