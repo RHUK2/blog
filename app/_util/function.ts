@@ -44,10 +44,11 @@ export async function readTagList() {
       return obj;
     }, {});
 
-    const result: readTagResponse[] = [
-      { name: '', postCount: markdownDataList.length },
-      ...Object.entries(computedTagList).map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] })),
-    ];
+    const sortTagList = Object.entries(computedTagList)
+      .map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    const result: readTagResponse[] = [{ name: '', postCount: markdownDataList.length }, ...sortTagList];
 
     return result;
   } catch (error) {
