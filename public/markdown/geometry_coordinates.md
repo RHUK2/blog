@@ -31,8 +31,8 @@ isPublished: true
 | `offsetHeight` | `paddingY` + `height` + `borderY` + x축 스크롤바 높이          |
 | `clientTop`    | 요소의 가장 상단에서 `clientHeight` 시작까지의 거리(`borderY`) |
 | `clientLeft`   | 요소의 가장 왼쪽에서 `clientWidth` 시작까지의 거리(`borderX`)  |
-| `clientWidth`  | `padding` + `width`(y축 스크롤바 너비 제외)                    |
-| `clientHeight` | `padding` + `height`(x축 스크롤바 높이 제외)                   |
+| `clientWidth`  | `paddingX` + `width`                                           |
+| `clientHeight` | `paddingY` + `height`                                          |
 | `scrollTop`    | 요소의 세로 스크롤 위치                                        |
 | `scrollLeft`   | 요소의 가로 스크롤 위치                                        |
 | `scrollWidth`  | `clientWidth` + 오버플로우된 영역의 너비                       |

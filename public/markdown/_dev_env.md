@@ -19,14 +19,14 @@ isPublished: false
 - [ ] docker 설치
 - [ ] [nvm 설치](https://github.com/nvm-sh/nvm) 후 node 설치(npm 자동 설치)
 
-```sh
-# how to fix nvm version
-nvm alias default lts/*
-nvm use default
-# close vscode terminal
-# close vscode
-# open vscode
-```
+  ```sh
+  # how to fix nvm version
+  nvm alias default lts/*
+  nvm use default
+  # close vscode terminal
+  # close vscode
+  # open vscode
+  ```
 
 - [ ] pm2 설치
 - [ ] git 설치/계정 연동 설정

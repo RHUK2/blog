@@ -2,7 +2,7 @@
 fileName: tsconfig
 updatedAt: 2024-04-29
 title: tsconfig.json
-tag: typescript, config
+tag: typescript
 isPublished: true
 ---
 

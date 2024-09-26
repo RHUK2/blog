@@ -2,7 +2,7 @@
 fileName: session
 updatedAt: 2024-05-20
 title: Session
-tag: session, auth
+tag: auth, security
 isPublished: true
 ---
 

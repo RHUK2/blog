@@ -2,7 +2,7 @@
 fileName: http_protocol
 updatedAt: 2024-04-21
 title: HTTP 통신
-tag: http, network
+tag: network
 isPublished: true
 ---
 

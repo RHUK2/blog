@@ -2,7 +2,7 @@
 fileName: web_vulnerabilities
 updatedAt: 2024-08-14
 title: 웹 취약점
-tag: security, web vulnerabilities
+tag: auth, security
 isPublished: true
 ---
 

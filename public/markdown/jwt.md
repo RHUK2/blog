@@ -2,7 +2,7 @@
 fileName: jwt
 updatedAt: 2024-09-15
 title: JWT
-tag: jwt, auth
+tag: auth, security
 isPublished: true
 ---
 

@@ -2,7 +2,7 @@
 fileName: wsl
 updatedAt: 2024-04-21
 title: WSL
-tag: linux, wsl
+tag: wsl
 isPublished: true
 ---
 

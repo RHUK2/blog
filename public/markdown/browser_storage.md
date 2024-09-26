@@ -2,7 +2,7 @@
 fileName: browser_storage
 updatedAt: 2024-09-15
 title: 브라우저 저장소
-tag: browser storage, web vulnerabilities
+tag: browser, security, auth
 isPublished: true
 ---
 

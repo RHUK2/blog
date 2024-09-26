@@ -1,5 +1,5 @@
 ---
-fileName: _vscode
+fileName: vscode
 updatedAt: 2024-09-09
 title: VSCode 단축키
 tag: vscode

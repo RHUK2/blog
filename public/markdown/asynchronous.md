@@ -8,11 +8,22 @@ isPublished: true
 
 # Asynchronous
 
+- [Callback](#callback)
+  - [일급객체](#일급객체)
 - [Promise](#promise)
   - [Promise.resolve](#promiseresolve)
   - [Promise.reject](#promisereject)
   - [다중 프로미스 처리](#다중-프로미스-처리)
 - [async/await](#asyncawait)
+
+## Callback
+
+https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%BD%9C%EB%B0%B1-%ED%95%A8%EC%88%98
+https://inpa.tistory.com/entry/%F0%9F%8C%90-js-async
+https://inpa.tistory.com/entry/CS-%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB-%EC%9D%BC%EA%B8%89-%EA%B0%9D%EC%B2%B4first-class-object
+https://ko.javascript.info/callbacks
+
+### 일급객체
 
 ## Promise
 
@@ -99,31 +110,46 @@ axios.interceptors.response.use(
 다중 프로미스는 `Promise.all`, `Promise.allSettled`, `Promise.race` 함수로 처리가 가능하다.
 
 - `Promise.all`은 모든 프로미스가 이행될 때까지 기다렸다가 그 결괏값을 담은 배열을 반환한다. 주어진 프로미스 중 하나라도 실패하면 `Promise.all`은 거부되고, 나머지 프로미스의 결과는 무시된다.
-- `Promise.allSettled`은 모든 프로미스가 처리될 때까지 기다렸다가 그 결과를 담은 배열을 반환한다
+- `Promise.allSettled`은 모든 프로미스가 처리될 때까지 기다렸다가 그 결과(객체)를 담은 배열을 반환한다. 객체는 아래와 같은 정보를 담는다.
+  - `status`: `"fulfilled"` 또는 `"rejected"`
+  - `value`: `status`가 `"fulfilled"`일 경우 결과값이 해당 속성에 담긴다.
+  - `reason`: `status`가 `"rejected"`일 경우 에러가 해당 속성에 담긴다.
 - `Promise.race` 가장 먼저 처리된 프로미스의 결과 또는 에러를 담은 프로미스를 반환한다.
 
 ```ts
 let promiseList = [
   new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(2), 2000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000)),
+];
+
+let promiseListError = [
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
   new Promise((resolve, reject) => setTimeout(() => reject(new Error('에러 발생!')), 2000)),
   new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000)),
 ];
 
+// promiseList가 인수일 경우, then으로 넘어간다.
+// promiseListError가 인수일 경우, catch로 넘어간다.
 Promise.all(promiseList)
-  .then((result) => result.forEach((item) => console.log(item)))
+  .then((resultList) => resultList.forEach((result) => console.log(result)))
   .catch((error) => console.error(error));
 
-Promise.allSettled(promiseList).then((item) => {
-  item.forEach((value, index) => {
-    if (value.status == 'fulfilled') {
-      console.log(`${value.value}`);
+// promiseList가 인수일 경우, then으로 넘어간다.
+// promiseListError가 인수일 경우, then으로 넘어간다.
+Promise.allSettled(promiseList).then((resultList) => {
+  resultList.forEach((result, index) => {
+    if (result.status == 'fulfilled') {
+      console.log(`${result.value}`);
     }
-    if (value.status == 'rejected') {
-      console.log(`${value.reason}`);
+    if (result.status == 'rejected') {
+      console.log(`${result.reason}`);
     }
   });
 });
 
+// promiseList가 인수일 경우, then으로 넘어간다.
+// promiseListError가 인수일 경우, catch로 넘어간다.
 Promise.race(promiseList)
   .then((result) => console.log(result))
   .catch((error) => console.error(error));

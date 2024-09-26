@@ -2,7 +2,7 @@
 fileName: react_query
 updatedAt: 2024-07-18
 title: React Query
-tag: react, react query
+tag: react
 isPublished: true
 ---
 

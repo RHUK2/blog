@@ -2,7 +2,7 @@
 fileName: react_component
 updatedAt: 2024-09-12
 title: React Component
-tag: react, component
+tag: react
 isPublished: true
 ---
 

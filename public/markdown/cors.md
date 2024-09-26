@@ -2,7 +2,7 @@
 fileName: cors
 updatedAt: 2024-05-20
 title: CORS
-tag: cors, auth, security
+tag: network, security
 isPublished: true
 ---
 
