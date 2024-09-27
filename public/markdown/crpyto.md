@@ -2,7 +2,7 @@
 fileName: crpyto
 updatedAt: 2024-05-20
 title: 암호화
-tag: auth, security
+tag: security
 isPublished: true
 ---
 

@@ -1,9 +1,9 @@
 ---
 fileName: _customer_response
-updatedAt: 2024-05-20
+updatedAt:
 title: 고객사 대응
 tag:
-isPublished: false
+isPublished:
 ---
 
 # 고객사 대응

@@ -1,12 +1,12 @@
 ---
 fileName: _dev_env
-updatedAt: 2024-04-21
-title: Develop Envrionment
+updatedAt:
+title: 개발환경 설정
 tag:
-isPublished: false
+isPublished:
 ---
 
-# Develop Envrionment
+# 개발환경 설정
 
 - [ ] Windows Terminal 설치 및 설정
 - [ ] WSL2 설치

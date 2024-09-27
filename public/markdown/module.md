@@ -3,7 +3,7 @@ fileName: module
 updatedAt: 2024-04-21
 title: 모듈
 tag: javascript
-isPublished: true
+isPublished:
 ---
 
 ## 모듈

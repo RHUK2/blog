@@ -3,7 +3,7 @@ fileName: react_query
 updatedAt: 2024-07-18
 title: React Query
 tag: react
-isPublished: true
+isPublished:
 ---
 
 # React Query
@@ -12,7 +12,6 @@ isPublished: true
 - [status, fetchStatus](#status-fetchstatus)
 - [select, initialData, placeholderData](#select-initialdata-placeholderdata)
 - [useMutation](#usemutation)
-- [애니메이션 렌더링 이슈](#애니메이션-렌더링-이슈)
 
 ## staleTime, gcTime
 
@@ -137,11 +136,3 @@ todos.forEach((todo) => {
   });
 });
 ```
-
-## 애니메이션 렌더링 이슈
-
-아래와 같은 어드민 패널에 진행과정 메일링을 보면 Switch 컴포넌트가 적용되어 있는데, 이 컴포넌트는 클릭 시 상태에 따라 트랜지션이 일어나고 리스트 값을 업데이트한다. 성공 시 해당 화면에 정보를 다시 불러와서 업데이트한다.
-
-![img](images/switch_rendering.png)
-
-다른 페이지에서 위 페이지로 넘어오는 경우 또는 연속으로 상태를 바꿀 경우 새로 불러오는 데이터와 버튼의 상태 데이터가 충돌해서 애니메이션이 왔다갔다하는 경우를 발견할 수 있다. 이를 해결하기 위해 상태 업데이트 시 리스트 값을 업데이트하지 않고 `gcTime`을 `0`으로 설정하여 해결했다.

@@ -1,9 +1,9 @@
 ---
-fileName: 임시
-updatedAt: 2024-07-10
-title: 임시
-tag: temp
-isPublished: false
+fileName: browser_routing
+updatedAt:
+title: 브라우저 라우팅
+tag: network
+isPublished:
 ---
 
 기존 라우팅과 클라이언트 사이드 라우팅은 웹 애플리케이션에서 페이지 전환을 처리하는 두 가지 주요 방식입니다. 이 두 접근 방식은 서로 다른 방식으로 페이지 요청을 처리하며, 각각의 장단점이 있습니다.
@@ -100,5 +100,3 @@ Navigation API의 주요 기능은 다음과 같습니다:
 이 인터페이스는 브라우저의 기본 탐색 동작을 제어하는 데 사용되며, URL에 대한 다양한 작업을 수행할 수 있습니다.
 
 이 세 가지 API와 인터페이스는 웹 애플리케이션의 네비게이션과 URL 관리에 중요한 도구들로, 사용자 경험을 최적화하는 데 큰 도움이 됩니다.
-
-## fetch vs axios vs XMLHttpRequest vs form action

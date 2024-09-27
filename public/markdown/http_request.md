@@ -1,10 +1,22 @@
 ---
-fileName: http_protocol
-updatedAt: 2024-04-21
-title: HTTP 통신
+fileName: http_request
+updatedAt:
+title: 다양한 HTTP 요청 방법
 tag: network
-isPublished: true
+isPublished:
 ---
+
+## fetch vs axios vs XMLHttpRequest vs form action
+
+## curl
+
+## script src
+
+## img src
+
+## browser 주소창
+
+## form action
 
 ## fetch
 
@@ -113,6 +125,8 @@ fetch('https://example.com')
     console.log('Fetch failed:', error);
   });
 ```
+
+axios와는 다름
 
 ### 결론
 

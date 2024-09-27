@@ -3,7 +3,7 @@ fileName: react_build
 updatedAt: 2024-09-12
 title: React Build
 tag: react
-isPublished: true
+isPublished:
 ---
 
 # React Build

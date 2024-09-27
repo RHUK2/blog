@@ -1,12 +1,12 @@
 ---
-fileName:
-updatedAt:
-title:
-tag:
+fileName: url
+updatedAt: 2024-09-20
+title: URL
+tag: browser
 isPublished:
 ---
 
-# Example1
+# URL
 
 ## createObjectURL(), revokeObjectURL()
 
