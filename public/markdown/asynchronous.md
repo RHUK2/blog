@@ -9,7 +9,6 @@ isPublished: true
 # Asynchronous
 
 - [Callback](#callback)
-  - [일급객체](#일급객체)
 - [Promise](#promise)
   - [Promise.resolve](#promiseresolve)
   - [Promise.reject](#promisereject)
@@ -22,8 +21,6 @@ https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81
 https://inpa.tistory.com/entry/%F0%9F%8C%90-js-async
 https://inpa.tistory.com/entry/CS-%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB-%EC%9D%BC%EA%B8%89-%EA%B0%9D%EC%B2%B4first-class-object
 https://ko.javascript.info/callbacks
-
-### 일급객체
 
 ## Promise
 
