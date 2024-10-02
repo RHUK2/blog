@@ -17,10 +17,17 @@ isPublished: true
 
 ## Callback
 
-https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%BD%9C%EB%B0%B1-%ED%95%A8%EC%88%98
-https://inpa.tistory.com/entry/%F0%9F%8C%90-js-async
-https://inpa.tistory.com/entry/CS-%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB-%EC%9D%BC%EA%B8%89-%EA%B0%9D%EC%B2%B4first-class-object
-https://ko.javascript.info/callbacks
+```ts
+function loadScript(src) {
+  // <script> 태그를 만들고 페이지에 태그를 추가합니다.
+  // 태그가 페이지에 추가되면 src에 있는 스크립트를 로딩하고 실행합니다.
+  let script = document.createElement('script');
+  script.src = src;
+  document.head.append(script);
+}
+
+loadScript('/my/script.js');
+```
 
 ## Promise
 
@@ -30,8 +37,8 @@ https://ko.javascript.info/callbacks
 
 아래 그림 설명:
 
-1. 실행흐름 중 비동기 함수를 만나 Web API로 넘겨서 처리한다.
-2. 비동기 함수가 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
+1. 실행흐름 중 비동기 API를 만나 Web API로 넘겨서 처리한다.
+2. 비동기 API가 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
 
 ![img](images/promise_4.gif)
 
