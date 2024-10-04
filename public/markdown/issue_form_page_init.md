@@ -6,6 +6,173 @@ tag: react, error
 isPublished: true
 ---
 
+```ts
+export function App() {
+  const [list, setList] = useState<string[]>([]);
+
+  useEffect(() => {
+    setList([crypto.randomUUID(), crypto.randomUUID(), crypto.randomUUID()]);
+  }, []);
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, marginTop: 2 }}>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [crypto.randomUUID(), crypto.randomUUID(), crypto.randomUUID()]);
+          }}
+        >
+          reset
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [crypto.randomUUID(), ...prev]);
+          }}
+        >
+          unshift
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [...prev, crypto.randomUUID()]);
+          }}
+        >
+          push
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [...prev.slice(0, 2), crypto.randomUUID(), ...prev.slice(2)]);
+          }}
+        >
+          middle add
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [...prev.slice(1)]);
+          }}
+        >
+          shift
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [...prev.slice(0, -1)]);
+          }}
+        >
+          pop
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => [...prev.slice(0, 2), ...prev.slice(3)]);
+          }}
+        >
+          middle delete
+        </button>
+        <button
+          style={{ border: '1px solid black', padding: 4, cursor: 'pointer' }}
+          onClick={() => {
+            setList((prev) => {
+              const copy = [...prev];
+              copy.reverse();
+              return copy;
+            });
+          }}
+        >
+          sort
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', gap: 8 }}>
+        <ul id='no_key_group'>
+          {list.map((item) => {
+            return (
+              <li key={'a'} data-key='no_key'>
+                {item.slice(0, 7)}
+              </li>
+            );
+          })}
+        </ul>
+        <ul id='Math.random()_key_group'>
+          {list.map((item) => {
+            return (
+              <li key={Math.random()} data-key={Math.random()}>
+                {item.slice(0, 7)}
+              </li>
+            );
+          })}
+        </ul>
+        <ul id='index_key_group'>
+          {list.map((item, index) => {
+            return (
+              <li key={index} data-key={index}>
+                {item.slice(0, 7)}
+              </li>
+            );
+          })}
+        </ul>
+        <ul id='unique_key_group'>
+          {list.map((item) => {
+            return (
+              <li key={item} data-key={item}>
+                {item.slice(0, 7)}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div style={{ display: 'flex', gap: 8 }}>
+        <ul id='no_key_checkbox_group'>
+          {list.map((item) => {
+            return (
+              <div key={'a'} data-key='no_key'>
+                <input type='checkbox' />
+                <label>{item.slice(0, 7)}</label>
+              </div>
+            );
+          })}
+        </ul>
+        <ul id='Math.random()_key_checkbox_group'>
+          {list.map((item) => {
+            return (
+              <div key={Math.random()} data-key={Math.random()}>
+                <input type='checkbox' />
+                <label>{item.slice(0, 7)}</label>
+              </div>
+            );
+          })}
+        </ul>
+        <ul id='index_key_checkbox_group'>
+          {list.map((item, index) => {
+            return (
+              <div key={index} data-key={index}>
+                <input type='checkbox' />
+                <label>{item.slice(0, 7)}</label>
+              </div>
+            );
+          })}
+        </ul>
+        <ul id='unique_key_checkbox_group'>
+          {list.map((item) => {
+            return (
+              <div key={item} data-key={item}>
+                <input type='checkbox' />
+                <label>{item.slice(0, 7)}</label>
+              </div>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  )
+}
+```
+
 react-hook-form의 비제어 업데이트를 사용
 
 렌더링 되기 전 값을 리셋시키고 렌더링해야했음
