@@ -100,3 +100,11 @@ Navigation API의 주요 기능은 다음과 같습니다:
 이 인터페이스는 브라우저의 기본 탐색 동작을 제어하는 데 사용되며, URL에 대한 다양한 작업을 수행할 수 있습니다.
 
 이 세 가지 API와 인터페이스는 웹 애플리케이션의 네비게이션과 URL 관리에 중요한 도구들로, 사용자 경험을 최적화하는 데 큰 도움이 됩니다.
+
+클라이언트 사이드 라우팅의 핵심
+
+window.location.href = '/'
+history.pushState
+history.replaceState
+
+history.state 세션 유지됨

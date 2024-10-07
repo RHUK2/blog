@@ -1,9 +1,9 @@
 ---
 fileName: asynchronous
 updatedAt: 2024-04-29
-title: Asynchronous
+title: 비동기 작업 제어하기
 tag: javascript
-isPublished: true
+isPublished:
 ---
 
 # Asynchronous
@@ -14,6 +14,8 @@ isPublished: true
   - [Promise.reject](#promisereject)
   - [다중 프로미스 처리](#다중-프로미스-처리)
 - [async/await](#asyncawait)
+
+브라우저는
 
 ## Callback
 
@@ -37,8 +39,8 @@ loadScript('/my/script.js');
 
 아래 그림 설명:
 
-1. 실행흐름 중 비동기 API를 만나 Web API로 넘겨서 처리한다.
-2. 비동기 API가 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
+1. 실행흐름 중 비동기 동작을 만나 Web API로 넘겨서 처리한다.
+2. 비동기 동작이 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
 
 ![img](images/promise_4.gif)
 

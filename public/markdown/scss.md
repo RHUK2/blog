@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-02-23
-directory: CSS
-fileName: SCSS
-title: SCSS 기록하기
-description:
+fileName: scss
+updatedAt:
+title: scss
+tag: 
+isPublished:
 ---
 
 # SCSS 기록하기

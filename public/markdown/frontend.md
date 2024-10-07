@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-04-21
-directory: Design
-fileName: Frontend
-title: 프론트엔드 설계 톺아보기
-description:
+fileName: frontend
+updatedAt:
+title: frontend
+tag:
+isPublished:
 ---
 
 # Frontend Design
@@ -121,7 +121,7 @@ description:
 
 ## 그림으로 보는 프론트엔드 설계
 
-![img](assets/frontend_design.jpg)
+![img](images/frontend_design.jpg)
 
 ## 유효성 설계
 

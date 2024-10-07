@@ -7,6 +7,8 @@ isPublished: true
 ---
 
 ```ts
+import { useEffect, useState } from 'react';
+
 export function App() {
   const [list, setList] = useState<string[]>([]);
 
@@ -90,11 +92,7 @@ export function App() {
       <div style={{ display: 'flex', gap: 8 }}>
         <ul id='no_key_group'>
           {list.map((item) => {
-            return (
-              <li key={'a'} data-key='no_key'>
-                {item.slice(0, 7)}
-              </li>
-            );
+            return <li data-key='no_key'>{item.slice(0, 7)}</li>;
           })}
         </ul>
         <ul id='Math.random()_key_group'>
@@ -130,7 +128,7 @@ export function App() {
         <ul id='no_key_checkbox_group'>
           {list.map((item) => {
             return (
-              <div key={'a'} data-key='no_key'>
+              <div data-key='no_key'>
                 <input type='checkbox' />
                 <label>{item.slice(0, 7)}</label>
               </div>
@@ -169,7 +167,7 @@ export function App() {
         </ul>
       </div>
     </div>
-  )
+  );
 }
 ```
 

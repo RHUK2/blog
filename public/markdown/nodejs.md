@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-04-15
-directory: NodeJS
-fileName: NodeJS
-title: NodeJS 기록하기
-description:
+fileName: nodejs
+updatedAt:
+title: nodejs
+tag:
+isPublished:
 ---
 
 <!-- todo: 내용 보완 필요 -->
@@ -183,4 +183,4 @@ DOM 제어 API는 node에서 사용불가 Canvas API는 라이브러리로 모�
 browser는 window 객체
 node는 global 객체\*\*
 
-![img](image.png)
+![img](images/express_middleware.png)

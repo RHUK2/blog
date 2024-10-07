@@ -1,3 +1,11 @@
+---
+fileName: mutable_immutable
+updatedAt:
+title: mutable immutable
+tag: javascript
+isPublished:
+---
+
 ## Pass By Value vs Pass By Reference
 
 ![img](images/pass_by_value_1.png)

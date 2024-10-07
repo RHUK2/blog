@@ -1,9 +1,9 @@
 ---
-fileName: 임시
-updatedAt: 2024-07-10
-title: 임시
-tag: temp
-isPublished: false
+fileName: font
+updatedAt:
+title: 폰트
+tag:
+isPublished:
 ---
 
 네, 폰트 파일에 아이콘을 저장하는 것이 가능합니다. 이러한 폰트를 흔히 "아이콘 폰트"라고 부르며, 웹사이트나 애플리케이션에서 다양한 아이콘을 글꼴처럼 사용할 수 있게 해줍니다.

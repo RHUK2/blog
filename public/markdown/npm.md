@@ -3,7 +3,7 @@ fileName: npm
 updatedAt: 2024-04-21
 title: NPM
 tag: npm
-isPublished: true
+isPublished:
 ---
 
 ## NPM

@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-03-20
-directory: Graphic
-fileName: Graphic
-title: Graphic 기록하기
-description:
+fileName: graphic
+updatedAt:
+title: graphic
+tag:
+isPublished:
 ---
 
 # chartjs
