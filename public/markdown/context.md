@@ -8,6 +8,8 @@ isPublished:
 
 # Context
 
+전역 스코프, 모듈 스코프, 로컬 스코프
+
 ## context와 this
 
 자바스크립트 컨텍스트와 this의 상관관계
@@ -26,6 +28,8 @@ this 키워드는 함수가 어떻게 호출되었는지에 따라 값이 결정
 함수가 call(), apply(), bind() 메서드를 사용하여 호출되면 this는 첫 번째 인수로 전달된 객체를 참조합니다.
 
 화살표 함수는 this가 없음
+
+모듈 스코프일 경우 undefined
 
 ```js
 const noObjThis = this; // window
