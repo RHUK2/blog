@@ -1,0 +1,12 @@
+---
+fileName:
+updatedAt:
+title:
+tag:
+isPublished:
+---
+
+for file in *.md; do
+  dirname="${file%.md}";  # 확장자 제거
+  mv "$file" "$dirname";  # 파일을 해당 디렉토리로 이동
+done
