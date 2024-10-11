@@ -12,10 +12,10 @@ import { MARKDOWN_PATH, PAGE_SIZE } from './enum';
 
 export async function readMarkdownDataList() {
   try {
-    const markdownFileNameList = (await readdir(MARKDOWN_PATH)).filter((content) => /^.*\.md$/.test(content));
+    const markdownFolderNameList = (await readdir(MARKDOWN_PATH)).filter((content) => /^[^@.]*$/.test(content));
 
     const markdownContentList = await Promise.all(
-      markdownFileNameList.map((fileName) => readFile(`${MARKDOWN_PATH}/${fileName}`)),
+      markdownFolderNameList.map((folderName) => readFile(`${MARKDOWN_PATH}/${folderName}/index.md`)),
     );
 
     const markdownDataList: readMarkdownDataResponse[] = markdownContentList
@@ -84,9 +84,9 @@ export async function readPostList(tag?: string, page?: string, size?: string) {
   }
 }
 
-export async function readPost(title: string) {
+export async function readPost(folderName: string) {
   try {
-    const post = await readFile(`${MARKDOWN_PATH}/${title}.md`, 'utf8');
+    const post = await readFile(`${MARKDOWN_PATH}/${folderName}/index.md`, 'utf8');
 
     const result = await unified()
       .use(remarkParse)

@@ -5,7 +5,7 @@ export interface readMarkdownDataResponse extends GrayMatterFile<Buffer> {
 }
 
 export interface frontMatterData {
-  fileName?: string;
+  folderName?: string;
   updatedAt?: string;
   title?: string;
   tag?: string;
