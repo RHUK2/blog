@@ -1,9 +1,9 @@
 ---
-folderName: scss
-updatedAt:
-title: scss
-tag:
-isPublished:
+folderName: scss_record
+updatedAt: 2024-08-03
+title: SCSS 기록하기
+tag: css
+isPublished: true
 ---
 
 # SCSS 기록하기

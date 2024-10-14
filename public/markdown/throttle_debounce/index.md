@@ -1,12 +1,12 @@
 ---
 folderName: throttle_debounce
-updatedAt:
-title: throttle_debounce
-tag:
+updatedAt: 2024-10-14
+title: throttle과 debounce
+tag: javascript
 isPublished:
 ---
 
-## throttle vs debounce(feat. lodash 라이브러리)
+## throttle과 debounce
 
 <!-- todo: 내용 보완 필요 -->
 

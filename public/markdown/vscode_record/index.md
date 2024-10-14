@@ -1,12 +1,12 @@
 ---
-folderName: vscode
+folderName: vscode_record
 updatedAt: 2024-09-09
-title: VSCode 단축키
+title: VSCode 기록하기
 tag: vscode
 isPublished: true
 ---
 
-# VScode
+# VScode 기록하기
 
 - [IntelliSense](#intellisense)
 - [단축키](#단축키)

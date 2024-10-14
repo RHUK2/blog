@@ -61,7 +61,7 @@ ubuntu2004.exe config --default-user johndoe # When you have Ubuntu 20.04 versio
 
 ![img](images/wsl_network.png)
 
-관리자권한으로 PowerShell 실행 후, 방화벽 인바우드 규칙 설정(포트 허용) 및 wsl2 portproxy 작업 자동화 스크립트 복붙
+관리자권한으로 PowerShell 실행 후, 방화벽 인바우드 규칙 설정(포트 허용) 및 wsl2 portproxy 작업 자동화 스크립트 실행
 
 ```sh
 $remoteport = bash.exe -c "ifconfig eth0 | grep 'inet '"
@@ -99,7 +99,7 @@ iex "netsh interface portproxy add v4tov4 listenport=$port listenaddress=$addr c
 }
 ```
 
-- 설정 해제
+설정 해제
 
 ```sh
 netsh interface portproxy show v4tov4

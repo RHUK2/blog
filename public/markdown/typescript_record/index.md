@@ -1,12 +1,12 @@
 ---
-folderName: typescript
+folderName: typescript_record
 updatedAt: 2024-06-18
-title: Typescript
+title: Typescript 기록하기
 tag: typescript
 isPublished: true
 ---
 
-# Typescript
+# Typescript 기록하기
 
 - [타입은 집합이다](#타입은-집합이다)
   - [unknown](#unknown)
