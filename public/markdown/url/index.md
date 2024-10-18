@@ -1,8 +1,8 @@
 ---
 folderName: url
-updatedAt: 2024-09-20
+updatedAt: 2024-10-16
 title: URL
-tag: browser
+tag: web
 isPublished:
 ---
 

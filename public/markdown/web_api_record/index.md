@@ -2,7 +2,7 @@
 folderName: web_api_record
 updatedAt: 2024-10-14
 title: Web API 기록하기
-tag: web api
+tag: browser
 isPublished: true
 ---
 

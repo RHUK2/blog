@@ -2,7 +2,7 @@
 folderName: npm
 updatedAt: 2024-04-21
 title: NPM
-tag: npm
+tag: node
 isPublished:
 ---
 

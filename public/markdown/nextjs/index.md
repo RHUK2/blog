@@ -2,7 +2,7 @@
 folderName: nextjs
 updatedAt:
 title: nextjs
-tag:
+tag: nextjs
 isPublished:
 ---
 

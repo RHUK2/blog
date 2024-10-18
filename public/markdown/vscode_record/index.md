@@ -8,7 +8,6 @@ isPublished: true
 
 # VScode 기록하기
 
-- [IntelliSense](#intellisense)
 - [단축키](#단축키)
   - [창 제어](#창-제어)
   - [커서 제어](#커서-제어)
@@ -17,12 +16,7 @@ isPublished: true
   - [코드 블록 제어](#코드-블록-제어)
   - [코드 관련 유틸 제어](#코드-관련-유틸-제어)
   - [확장 프로그램 제어](#확장-프로그램-제어)
-
-## IntelliSense
-
-- VSCode는 `jsconfig.json`이 있는 디렉토리를 자바스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
-- VSCode는 `tsconfig.json`이 있는 디렉토리를 타입스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
-- VSCode는 npm 모듈들의 IntelliSense를 지원하기 위해 자동 유형 획득(ATA)이라는 기능을 사용한다. ATA는 `package.json`에서 참조하는 npm 모듈에 대한 npm 유형 선언 파일(`*.d.ts`)을 가져온다. 이 방식으로 VSCode는 여러 라이브러리들의 자동완성을 제공해준다.
+- [IntelliSense](#intellisense)
 
 ## 단축키
 
@@ -117,3 +111,9 @@ isPublished: true
 | Ctrl + Alt + L | 자동 console.log 생성 |
 | Alt + A        | 브라켓 영역 드래그    |
 | Ctrl + '       | 따옴표 종류 스위치    |
+
+## IntelliSense
+
+- VSCode는 `jsconfig.json`이 있는 디렉토리를 자바스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
+- VSCode는 `tsconfig.json`이 있는 디렉토리를 타입스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
+- VSCode는 npm 모듈들의 IntelliSense를 지원하기 위해 자동 유형 획득(ATA)이라는 기능을 사용한다. ATA는 `package.json`에서 참조하는 npm 모듈에 대한 npm 유형 선언 파일(`*.d.ts`)을 가져온다. 이 방식으로 VSCode는 여러 라이브러리들의 자동완성을 제공해준다.

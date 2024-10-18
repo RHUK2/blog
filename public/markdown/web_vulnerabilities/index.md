@@ -2,7 +2,7 @@
 folderName: web_vulnerabilities
 updatedAt: 2024-08-14
 title: 웹 취약점
-tag: security
+tag: web, security
 isPublished:
 ---
 

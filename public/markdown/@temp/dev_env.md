@@ -1,11 +1,3 @@
----
-folderName: _dev_env
-updatedAt:
-title: 개발환경 설정
-tag:
-isPublished:
----
-
 # 개발환경 설정
 
 - [ ] Windows Terminal 설치 및 설정

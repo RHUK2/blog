@@ -2,7 +2,7 @@
 folderName: try_catch
 updatedAt:
 title: try_catch
-tag:
+tag: javascript
 isPublished:
 ---
 

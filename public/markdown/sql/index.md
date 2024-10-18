@@ -2,7 +2,7 @@
 folderName: sql
 updatedAt: 2024-03-18
 title: SQL
-tag: sql
+tag: db
 isPublished: true
 ---
 

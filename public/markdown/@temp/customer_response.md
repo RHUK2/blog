@@ -1,11 +1,3 @@
----
-folderName: _customer_response
-updatedAt:
-title: 고객사 대응
-tag:
-isPublished:
----
-
 # 고객사 대응
 
 1. 고객사의 사내 보안에서 차단하는 경우

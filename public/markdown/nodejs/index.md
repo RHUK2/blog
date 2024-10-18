@@ -2,7 +2,7 @@
 folderName: nodejs
 updatedAt:
 title: nodejs
-tag:
+tag: node
 isPublished:
 ---
 
@@ -11,7 +11,7 @@ isPublished:
 # NodeJS
 
 - [탄생 배경](#탄생-배경)
-  - [브라우저 단에서 node_moduels](#브라우저-단에서-node_moduels)
+  - [브라우저 단에서 node\_moduels](#브라우저-단에서-node_moduels)
 - [PM2 무중단 배포](#pm2-무중단-배포)
 - [\_\_dirname, \_\_filename, process.cwd()](#__dirname-__filename-processcwd)
 - [createWriteStream, createReadStream, readFile, readFileSync, readdir](#createwritestream-createreadstream-readfile-readfilesync-readdir)

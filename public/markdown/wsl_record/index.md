@@ -1,12 +1,12 @@
 ---
-folderName: wsl
+folderName: wsl_record
 updatedAt: 2024-04-21
-title: WSL
+title: WSL 기록하기
 tag: wsl
 isPublished: true
 ---
 
-# WSL
+# WSL 기록하기
 
 - [명령어](#명령어)
 - [WSL 외부 호스트 연결하기](#wsl-외부-호스트-연결하기)
