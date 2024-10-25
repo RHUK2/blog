@@ -1,26 +1,24 @@
 ---
-folderName: scss_record
+folderName: scss_syntax
 updatedAt: 2024-08-03
-title: SCSS 기록하기
+title: SCSS 문법
 tag: css
 isPublished: true
 ---
 
-# SCSS 기록하기
+# SCSS 문법
 
-- [1. 변수 (Variables)](#1-변수-variables)
-  - [2. 중첩 (Nesting)](#2-중첩-nesting)
-  - [3. 믹스인 (Mixins)](#3-믹스인-mixins)
-  - [4. 상속 (Inheritance)](#4-상속-inheritance)
-  - [5. 연산 (Operations)](#5-연산-operations)
-  - [6. 파셜 (Partials) 및 임포트 (Import)](#6-파셜-partials-및-임포트-import)
-  - [7. 함수 (Functions)](#7-함수-functions)
+- [변수 (Variables)](#변수-variables)
+- [중첩 (Nesting)](#중첩-nesting)
+- [믹스인 (Mixins)](#믹스인-mixins)
+- [상속 (Inheritance)](#상속-inheritance)
+- [연산 (Operations)](#연산-operations)
+- [파셜 (Partials) 및 임포트 (Import)](#파셜-partials-및-임포트-import)
+- [함수 (Functions)](#함수-functions)
 
-SCSS (Sassy CSS)는 CSS의 기능을 확장한 전처리기 언어로, CSS 작성의 효율성을 크게 높여줍니다. SCSS는 CSS와 거의 동일한 문법을 사용하면서도, 변수, 중첩, 믹스인 등 다양한 기능을 제공합니다. SCSS의 주요 문법 요소를 예제와 함께 설명하겠습니다.
+SCSS (Sassy CSS)는 CSS의 기능을 확장한 전처리기 언어로, CSS 작성의 효율성을 크게 높여준다. SCSS는 CSS와 거의 동일한 문법을 사용하면서도, 변수, 중첩, 믹스인 등 다양한 기능을 제공한다.
 
-## 1. 변수 (Variables)
-
-변수를 사용하여 색상, 폰트 크기 등 반복되는 값을 저장하고 재사용할 수 있습니다.
+## 변수 (Variables)
 
 ```scss
 $primary-color: #333;
@@ -32,9 +30,9 @@ body {
 }
 ```
 
-### 2. 중첩 (Nesting)
+## 중첩 (Nesting)
 
-CSS에서는 중첩이 불가능하지만, SCSS에서는 스타일 규칙을 중첩하여 부모-자식 관계를 쉽게 표현할 수 있습니다.
+CSS에서는 중첩이 불가능하지만, SCSS에서는 스타일 규칙을 중첩하여 부모-자식 관계를 쉽게 표현할 수 있다.
 
 ```scss
 nav {
@@ -59,9 +57,9 @@ nav {
 }
 ```
 
-### 3. 믹스인 (Mixins)
+## 믹스인 (Mixins)
 
-Mixin을 사용하면 코드 블록을 재사용할 수 있습니다. Mixin에는 매개변수를 전달할 수도 있습니다.
+Mixin을 사용하면 코드 블록을 재사용할 수 있다. Mixin에는 매개변수를 전달할 수도 있다.
 
 ```scss
 @mixin border-radius($radius) {
@@ -75,9 +73,9 @@ Mixin을 사용하면 코드 블록을 재사용할 수 있습니다. Mixin에�
 }
 ```
 
-### 4. 상속 (Inheritance)
+## 상속 (Inheritance)
 
-기존의 CSS 선택자를 상속받아 스타일을 재사용할 수 있습니다.
+기존의 CSS 선택자를 상속받아 스타일을 재사용할 수 있다.
 
 ```scss
 .message {
@@ -100,9 +98,9 @@ Mixin을 사용하면 코드 블록을 재사용할 수 있습니다. Mixin에�
 }
 ```
 
-### 5. 연산 (Operations)
+## 연산 (Operations)
 
-SCSS에서는 산술 연산을 사용할 수 있습니다.
+SCSS에서는 산술 연산을 사용할 수 있다.
 
 ```scss
 .container {
@@ -111,9 +109,9 @@ SCSS에서는 산술 연산을 사용할 수 있습니다.
 }
 ```
 
-### 6. 파셜 (Partials) 및 임포트 (Import)
+## 파셜 (Partials) 및 임포트 (Import)
 
-코드를 여러 파일로 분리하여 유지보수를 쉽게 할 수 있습니다. 파일명을 `_`로 시작하면 SCSS는 이를 컴파일하지 않습니다.
+코드를 여러 파일로 분리하여 유지보수를 쉽게 할 수 있다. 파일명을 `_`로 시작하면 SCSS는 이를 컴파일하지 않는다.
 
 ```scss
 // _reset.scss
@@ -130,9 +128,9 @@ body {
 }
 ```
 
-### 7. 함수 (Functions)
+## 함수 (Functions)
 
-함수를 사용하여 복잡한 연산이나 변환을 수행할 수 있습니다.
+함수를 사용하여 복잡한 연산이나 변환을 수행할 수 있다.
 
 ```scss
 @function px-to-rem($px, $base-font-size: 16) {
@@ -143,5 +141,3 @@ body {
   font-size: px-to-rem(16px);
 }
 ```
-
-위의 예제들을 통해 SCSS의 다양한 기능을 활용하여 더욱 효율적이고 구조적인 스타일시트를 작성할 수 있습니다. SCSS는 CSS의 단순한 스타일링을 넘어서 보다 복잡한 웹 디자인 작업을 수월하게 만들어줍니다.

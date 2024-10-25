@@ -20,6 +20,7 @@ isPublished:
 - [sort](#sort)
 - [class](#class)
 - [시간 구하기](#시간-구하기)
+- [encodeURI encodeURIComponent](#encodeuri-encodeuricomponent)
 
 ## 논리 연산자 단락 평가
 
@@ -133,26 +134,6 @@ function increment() {
 `compareFunction(a, b) === 0`인 경우, `a`와 `b`를 서로에 대해 변경하지 않는다.
 `compareFunction(a, b) > 0`인 경우, `b`를 `a`보다 낮은 인덱스로 정렬한다. 즉, `b`가 먼저 온다.
 
-## class
-
-```js
-class MyClass {
-  prop = value; // 프로퍼티(instance 속성)
-  static prop = value; // (class 속성)
-
-  constructor(...) { // 생성자 메서드(prototype 속성)
-    // ...
-  }
-
-  method(...) {} // 메서드(prototype 속성)
-
-  get something(...) {} // getter 메서드(prototype 속성)
-  set something(...) {} // setter 메서드(prototype 속성)
-
-  [Symbol.iterator]() {} // 계산된 이름(computed name)을 사용해 만드는 메서드 (심볼)(prototype 속성)
-  // ...
-}
-```
 
 ## 시간 구하기
 
@@ -169,3 +150,7 @@ x = 40, 600을 40으로 나누면 15초 나옴
 75회 카운트 동안 100퍼센트를 채우려면 1.333...%씩
 
 보더 길이를 채우려면 보더 총 길이 / 75
+
+## encodeURI encodeURIComponent
+
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURI

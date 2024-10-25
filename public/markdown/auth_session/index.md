@@ -1,9 +1,9 @@
 ---
-folderName: session
+folderName: auth_session
 updatedAt: 2024-05-20
-title: Session
+title: Session 인증
 tag: auth
-isPublished: true
+isPublished:
 ---
 
 # 세션
