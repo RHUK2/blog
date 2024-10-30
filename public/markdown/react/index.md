@@ -8,7 +8,7 @@ isPublished:
 
 # React
 
-- [사용자 정의 훅 vs 일반 함수](#사용자-정의-훅-vs-일반-함수)
+- [커스텀 훅 vs 일반 함수](#커스텀-훅-vs-일반-함수)
 - [StrictMode](#strictmode)
 - [useState](#usestate)
 - [useReducer](#usereducer)
@@ -23,13 +23,15 @@ isPublished:
 - [memo](#memo)
 - [Context API](#context-api)
 
-## 사용자 정의 훅 vs 일반 함수
+## 커스텀 훅 vs 일반 함수
 
 사용자 정의 훅은 로직을 재사용하기 위해서 리액트의 훅들을 이용해 개발자가 직접 작성하는 훅이다. 일반 함수와 구분짓기 위해 함수명의 접두사로 `use`를 사용해야 한다.
 
 일반 함수와의 차이점은 리액트에서 제공하는 훅을 사용할 수 있냐 없냐의 차이다.
 
 사용자 정의 훅, 리액트 훅은 컴포넌트의 최상위 레벨에서만 호출할 수 있다. 루프나 조건 내부에서는 호출할 수 없다.
+
+커스텀 훅은 매번 독립적인 상태를 반환한다. 같은 인스턴스를 공유하려면 Context API 사용
 
 ## StrictMode
 
