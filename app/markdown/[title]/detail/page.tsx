@@ -1,13 +1,13 @@
 import { readPost } from '@/_util';
 
-interface ArchiveTitlePageProps {
+interface MarkdownTitleDetailPageProps {
   params: {
     title: string;
   };
   searchParams: {};
 }
 
-export default async function ArchiveTitlePage({ params, searchParams }: ArchiveTitlePageProps) {
+export default async function MarkdownTitleDetailPage({ params, searchParams }: MarkdownTitleDetailPageProps) {
   const post = await readPost(params.title);
 
   return (

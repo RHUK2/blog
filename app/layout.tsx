@@ -1,5 +1,4 @@
-import { Footer, Header } from '@/_component';
-import { ScrollTopFloatingButton } from '@/_component/client';
+import { Footer, Header } from '@/_serverComponent';
 import '@/_css/globals.css';
 import '@/_css/highlight.css';
 import dayjs from 'dayjs';
@@ -8,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
+import { ScrollTopFloatingButton } from './_clientComponent';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);

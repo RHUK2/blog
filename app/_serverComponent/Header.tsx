@@ -1,5 +1,5 @@
+import { DarkLightButton } from '@/_clientComponent';
 import Link from 'next/link';
-import { DarkLightButton } from './client';
 
 export function Header() {
   return (

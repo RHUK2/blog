@@ -1,8 +1,8 @@
-import { Divider, NavigationTag, PostCard } from '@/_component';
-import { Pagination } from '@/_component/client';
+import { Pagination } from '@/_clientComponent';
+import { Divider, NavigationTag, PostCard } from '@/_serverComponent';
 import { PAGE_SIZE, readPostList } from '@/_util';
 
-interface ArchivePageProps {
+interface MarkdownPageProps {
   params: {};
   searchParams: {
     tag?: string;
@@ -11,7 +11,7 @@ interface ArchivePageProps {
   };
 }
 
-export default async function ArchivePage({ params, searchParams }: ArchivePageProps) {
+export default async function MarkdownPage({ params, searchParams }: MarkdownPageProps) {
   const postList = await readPostList(searchParams.tag, searchParams.page, searchParams.size);
 
   return (
