@@ -1,6 +1,6 @@
 ---
 folderName: vscode_record
-updatedAt: 2024-09-09
+updatedAt: 2024-11-02
 title: VSCode 기록하기
 tag: vscode
 isPublished: true
@@ -16,7 +16,8 @@ isPublished: true
   - [코드 블록 제어](#코드-블록-제어)
   - [코드 관련 유틸 제어](#코드-관련-유틸-제어)
   - [확장 프로그램 제어](#확장-프로그램-제어)
-- [IntelliSense](#intellisense)
+- [VSCode는 어떻게 다양한 기능을 지원할까?](#vscode는-어떻게-다양한-기능을-지원할까)
+- [file.associations](#fileassociations)
 
 ## 단축키
 
@@ -112,8 +113,21 @@ isPublished: true
 | Alt + A        | 브라켓 영역 드래그    |
 | Ctrl + '       | 따옴표 종류 스위치    |
 
-## IntelliSense
+## VSCode는 어떻게 다양한 기능을 지원할까?
 
-- VSCode는 `jsconfig.json`이 있는 디렉토리를 자바스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
-- VSCode는 `tsconfig.json`이 있는 디렉토리를 타입스크립트 프로젝트로 간주하고 IntelliSense를 지원한다.
-- VSCode는 npm 모듈들의 IntelliSense를 지원하기 위해 자동 유형 획득(ATA)이라는 기능을 사용한다. ATA는 `package.json`에서 참조하는 npm 모듈에 대한 npm 유형 선언 파일(`*.d.ts`)을 가져온다. 이 방식으로 VSCode는 여러 라이브러리들의 자동완성을 제공해준다.
+VSCode와 같은 IDE는 Language Server Protocol(LSP)을 통해 언어에 대한 기능을 지원한다. LSP는 클라이언트(IDE)와 서버(언어 서버) 간의 통신을 표준화하여 코드 편집기와 다양한 프로그래밍 언어 간의 상호 운용성을 제공한다. 이를 통해 자동 완성, 구문 강조, 오류 검사 등의 기능을 구현할 수 있다.
+
+또한, VSCode와 같은 IDE는 자체 API를 제공하여 확장 프로그램 개발자들이 IDE의 기능을 확장하고, 사용자 정의 기능을 추가할 수 있게 한다. 개발자는 이 API를 사용하여 새로운 언어 지원, 테마, 도구 모음, 편집기 기능 등을 구현할 수 있다. 이를 통해 사용자는 자신에게 필요한 기능을 추가하거나 IDE를 개인의 작업 흐름에 맞게 조정할 수 있다.
+
+## file.associations
+
+이 속성은 특정 확장자에 대해 언어 모드를 지정할 수 있다. `.env.local` 파일이 `env` 언어 모드를 인식하지 않고 `*.mjs` 파일이 `javascript` 언어 모드를 인식하지 않아서 아래와 같이 설정해주었다.
+
+```json
+{
+  "files.associations": {
+    ".env* ": "env",
+    ".mjs": "javascript"
+  }
+}
+```

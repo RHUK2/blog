@@ -1,12 +1,12 @@
 ---
 folderName: sql
 updatedAt: 2024-03-18
-title: SQL
+title: SQL 기록하기
 tag: db
 isPublished: true
 ---
 
-# SQL
+# SQL 기록하기
 
 - [특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정](#특정-테이블에서-컬럼-데이터-확인하기-및-별칭-지정)
 - [조건문](#조건문)

@@ -9,13 +9,13 @@ isPublished: false
 # Typescript 기록하기
 
 - [타입은 집합이다](#타입은-집합이다)
-  - [unknown](#unknown)
-  - [never](#never)
-  - [any](#any)
-  - [유니온 타입과 인터섹션 타입](#유니온-타입과-인터섹션-타입)
+  - [`any`](#any)
+  - [`unknown`](#unknown)
+  - [`never`](#never)
+  - [유니온(`|`) 타입과 인터섹션(`&`) 타입](#유니온-타입과-인터섹션-타입)
 - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
-- [분배적 조건부 타입 (Distributive Conditional Types)](#분배적-조건부-타입-distributive-conditional-types)
-- [.d.ts](#dts)
+- [분배적 조건부 타입](#분배적-조건부-타입)
+- [`.ts`와 `.d.ts`](#ts와-dts)
 - [ReturnType](#returntype)
 
 ## 타입은 집합이다
@@ -25,7 +25,25 @@ isPublished: false
 - 위 계층도는 타입스크립트 컴파일러 옵션 중 `strictNullCheck` 옵션이 `true`인 경우에 해당한다.
 - 타입을 집합으로 생각하면 상위 집합에 하위 집합을 할당할 수 있지만, 하위 집합에 상위 집합은 할당 불가능하다.
 
-### unknown
+### `any`
+
+- `any`는 `unknown`을 제외하면 전체 집합이고, 다른 모든 타입의 상위 타입이기 때문에 다른 모든 타입은 `any`로 할당 가능하다.
+
+```ts
+  const a: any = 1; // number -> any
+  const b: any = 'hello'; // string -> any
+  const c: any = true; // boolean -> any
+  const d: any = null; // null -> any
+  const e: any = undefined; // undefined -> any
+  const f: any = []; // Array -> any
+  const g: any = {}; // Object -> any
+  const h: any = () => {}; // Function -> any
+  ...
+```
+
+- `any`는 타입 시스템의 제약을 제거하므로, 타입 안정성을 포기해야 한다. 가능한 사용을 피해야한다.
+
+### `unknown`
 
 - `unknown`은 전체 집합이고, 다른 모든 타입의 상위 타입이기 때문에 다른 모든 타입은 `unknown`으로 할당 가능하다.
 
@@ -43,43 +61,30 @@ isPublished: false
 
 - 예외적으로 `any` 타입으로 다운캐스팅이 가능하다.
 
-  ```TS
-  let A: any;
-  const B: unknown;
+  ```ts
+  let ANY: any;
+  let UNKNOWN: unknown;
 
-  A = B // unknown -> any
+  ANY = UNKNOWN; // unknown -> any
   ```
 
-### never
-
-- `never` 타입은 절대 발생하지 않는 값을 나타내기 위해 사용된다.
+- `unknown` 타입의 경우 타입 가드를 통해 타입을 좁혀주어야 하기 때문에 타입 안정성이 존재한다.
 
   ```ts
-  // 함수가 오류를 발생시키거나 무한 루프를 돌 때:
-  function throwError(message: string): never {
-    throw new Error(message);
-  }
-  ```
-
-  ```ts
-  // 타입에 따라 절대 발생하지 않을 케이스를 처리할 때:
-  type SomeType = 'A' | 'B';
-
-  function handleType(x: SomeType): string {
-    switch (x) {
-      case 'A':
-        return 'Type A';
-      case 'B':
-        return 'Type B';
-      default:
-        const check: never = x;
-        return check; // This will cause a compile-time error if not all cases are handled
+  try {
+    // ...
+  } catch (error) {
+    if (error instanceof TypeError) {
+      // ...
+    } else if (error instanceof ReferenceError) {
+      // ...
+    } else {
+      // ...
     }
   }
   ```
 
-- `never` 타입은 `void` 타입과는 다르게, 실제로 아무 값도 반환하지 않음을 명시적으로 나타낸다.
-- `never` 타입을 이용하여 코드를 작성할 때, 모든 가능한 케이스를 처리하고 있음을 보장할 수 있다. 이로 인해 코드의 안전성과 예측 가능성이 향상된다.
+### `never`
 
 - `never`는 공집합이고, 다른 모든 타입의 하위 타입이기 때문에 다른 모든 타입으로 할당 가능하다.
 
@@ -101,11 +106,42 @@ isPublished: false
   ...
   ```
 
-### any
+- `never` 타입은 결코 발생할 수 없는 값을 나타내며, 주로 예외를 던지거나 무한 루프를 표현할 때 사용된다.
 
-<!-- todo -->
+  ```ts
+  // 함수가 오류를 발생시킬 때:
+  function throwError(message: string): never {
+    throw new Error(message);
+  }
+  ```
 
-### 유니온 타입과 인터섹션 타입
+  ```ts
+  // 함수가 무한 루프를 돌 때:
+  function infiniteLoop(): never {
+    while (true) {}
+  }
+  ```
+
+  ```ts
+  // 타입에 따라 절대 발생하지 않을 케이스를 처리할 때:
+  type SomeType = 'A' | 'B';
+
+  function handleType(x: SomeType): string {
+    switch (x) {
+      case 'A':
+        return 'Type A';
+      case 'B':
+        return 'Type B';
+      default:
+        const check: never = x;
+        return check;
+    }
+  }
+  ```
+
+- `never` 타입을 이용하여 코드를 작성할 때, 모든 가능한 케이스를 처리하고 있음을 보장할 수 있다. 이로 인해 코드의 안전성과 예측 가능성이 향상된다.
+
+### 유니온(`|`) 타입과 인터섹션(`&`) 타입
 
 ```ts
 type Type1 = number | string; // 서로소 합집합
@@ -219,36 +255,37 @@ interface Person {
 옵셔널 프로퍼티가 정의된 매개변수에는 초기값을 부여할 수 없다. 초기값을 부여하려면 옵셔널 프로퍼티를 제거하고 정의해야 한다.
 
 ```ts
-function init(a: number, b?: number = 0) {
+function init(a: number , b?: number = 0) {
   ...
 } // ❌
 
-function init(a: number, b?: number) {
+function init(a: number, b: number = 0) {
   ...
 } // ⭕
 ```
 
-## 분배적 조건부 타입 (Distributive Conditional Types)
+## 분배적 조건부 타입
 
 조건부 타입은 분배적으로 동작한다. 분배적 조건부 타입은 유니온 타입에서 각 구성 요소에 대해 개별적으로 조건부 타입을 적용한다.
 
 ```ts
 // Exclude null and undefined from T
 type NonNullable<T> = T extends null | undefined ? never : T;
-// T ===
 
-type Example = NonNullable<string | undefined | null>; // string
+type Example = NonNullable<string | undefined | null>;
+// typeof Example === 'string'
 ```
 
-## .d.ts
+## `.ts`와 `.d.ts`
 
-<!-- todo -->
+`.ts` 파일:
 
-TypeScript는 정적 타입 시스템을 도입하여 JavaScript 코드의 타입 안정성을 높이고 개발자가 실수를 미연에 방지하는 데 초점을 맞추었다. 그러나 이미 존재하는 JavaScript 라이브러리와의 호환성 문제가 발생했다. 이 문제를 해결하기 위해 `.d.ts` 파일이 등장하게 되었다.
+- 실제 구현과 타입 정보를 모두 포함한다.
 
-`.d.ts` 파일은 TypeScript 컴파일러에 의해 인식되어 타입 검사를 수행할 때 사용된다. 이 파일들은 JavaScript 라이브러리의 API를 설명하는 TypeScript 타입 선언을 포함하고 있다. 이러한 타입 선언 파일을 사용하면 외부 라이브러리와의 상호작용 시에도 정적 타입 검사를 수행할 수 있다. 또한, 코드 자동 완성과 IDE의 IntelliSense 기능을 향상시키는 데에도 도움이 된다.
+`d.ts` 파일:
 
-`.ts` 파일은 표준 타입스크립트 파일로 타입스크립트 컴파일러에 의해 일반 자바스크립트 문법으로 변환되지만 `.d.ts` 파일은 타입스크립트 컴파일러에서 참조만 할 뿐 컴파일 결과물에 포함되지 않는다.
+- 실제 구현은 포함하지 않고, 오직 타입 정보만 포함한다.
+- 일반적으로 JavaScript 라이브러리와 함께 사용하여 TypeScript가 해당 라이브러리를 인식하도록 도와준다.
 
 ```ts
 // *.js
