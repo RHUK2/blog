@@ -1,4 +1,4 @@
-import { readMarkdownDataResponse, readTagResponse } from '@/_type';
+import { readFolderNameResponse, readMarkdownDataResponse, readTagResponse } from '@/_type';
 import { readdir, readFile } from 'fs/promises';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
@@ -29,6 +29,23 @@ export async function readMarkdownDataList() {
   }
 }
 
+export async function readFolderNameList() {
+  try {
+    const markdownDataList = await readMarkdownDataList();
+
+    const folderNameList = markdownDataList
+      .filter((metaData) => metaData.data.folderName != null)
+      .map((metaData) => metaData.data.folderName ?? '');
+
+    const result: readFolderNameResponse[] = folderNameList.map((folderName) => ({ folderName: folderName }));
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error('readFolderNameList error occurred.');
+  }
+}
+
 export async function readTagList() {
   try {
     const markdownDataList = await readMarkdownDataList();
@@ -37,7 +54,7 @@ export async function readTagList() {
       .filter((metaData) => metaData.data.tag != null)
       .map((metaData) => metaData.data.tag?.split(',') ?? '')
       .flat()
-      .map((metaData) => metaData.trim());
+      .map((tag) => tag.trim());
 
     const computedTagList = tagList.reduce<Record<string, number>>((obj, tag) => {
       obj[tag] = (obj[tag] || 0) + 1;
