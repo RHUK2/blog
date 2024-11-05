@@ -3,13 +3,11 @@
 import { useEffect, useState } from 'react';
 
 export function DarkLightButton() {
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState('dark');
 
   function handleMode() {
     setMode((mode) => {
       const updateValue = mode === 'dark' ? '' : 'dark';
-
-      localStorage.setItem('theme', updateValue);
 
       if (updateValue === 'dark') {
         document.documentElement.classList.add('dark');
@@ -22,7 +20,17 @@ export function DarkLightButton() {
   }
 
   useEffect(() => {
-    setMode(() => document.documentElement.getAttribute('class') ?? '');
+    setMode((mode) => {
+      const updateValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : '';
+
+      if (updateValue === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      return updateValue;
+    });
   }, []);
 
   return (

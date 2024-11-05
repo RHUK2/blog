@@ -46,29 +46,6 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang='en'>
-      <head>
-        <script
-          async
-          type='module'
-          dangerouslySetInnerHTML={{
-            __html: `
-            (() => { 
-              // FOUC(Flash of Unstyled Content) 방지를 위한 동기 스크립트 삽입
-              // Hydration 에러 발생할 수 밖에 없음
-              try {
-                if ( localStorage.theme === 'dark' || (!(localStorage.theme === '') && window.matchMedia('(prefers-color-scheme: dark)').matches)) 
-                {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (_) {}
-            })();
-            `,
-          }}
-        />
-      </head>
-
       <body
         className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} 
         font-pret

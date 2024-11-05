@@ -12,12 +12,14 @@ interface MarkdownPageProps {
 }
 
 export default async function MarkdownPage({ params, searchParams }: MarkdownPageProps) {
-  const postList = await readPostList(searchParams.tag, searchParams.page, searchParams.size);
+  const { tag, page, size } = await searchParams;
+
+  const postList = await readPostList(tag, page, size);
 
   return (
     <>
       <section className='m-auto flex min-w-[320px] max-w-[768px] flex-col gap-8 px-4 py-10'>
-        <NavigationTag currentTag={searchParams.tag} />
+        <NavigationTag currentTag={tag} />
 
         <Divider />
 
