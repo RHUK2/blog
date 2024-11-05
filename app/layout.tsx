@@ -70,9 +70,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       <body
         className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} font-pret
         dark:bg-gray-950 dark:text-white`}>
-        <Header />
-        <main
-          className='m-auto min-h-screen min-w-[320px] max-w-[1024px] 
+            className='m-auto h-full min-w-[320px] max-w-[1024px] 
           border-x border-x-gray-200 bg-white pt-12 
         dark:border-x-gray-800 dark:bg-gray-950 '>
           {children}

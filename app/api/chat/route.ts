@@ -5,18 +5,23 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  try {
+    const body = await request.json();
 
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      { role: 'system', content: 'You are a helpful assistant.' },
-      {
-        role: 'user',
-        content: body.message,
-      },
-    ],
-  });
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        {
+          role: 'user',
+          content: body.message,
+        },
+      ],
+    });
 
-  return Response.json({ message: completion.choices[0].message });
+    return Response.json({ message: completion.choices[0].message });
+  } catch (error) {
+    console.error(error);
+    throw new Error('/api/chat error occurred.');
+  }
 }
