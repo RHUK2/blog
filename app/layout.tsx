@@ -1,6 +1,6 @@
-import { Footer, Header } from '@/_serverComponent';
 import '@/_css/globals.css';
 import '@/_css/highlight.css';
+import { Footer, Header } from '@/_serverComponent';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -8,6 +8,7 @@ import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import { ScrollTopFloatingButton } from './_clientComponent';
+import { CustomQueryClientProvider } from './_provider';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
@@ -67,16 +68,22 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           }}
         />
       </head>
+
       <body
-        className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} font-pret
+        className={`${(inter.variable, roboto_mono.variable, pretendard.variable)} 
+        font-pret
         dark:bg-gray-950 dark:text-white`}>
+        <CustomQueryClientProvider>
+          <Header />
+          <main
             className='m-auto h-full min-w-[320px] max-w-[1024px] 
           border-x border-x-gray-200 bg-white pt-12 
         dark:border-x-gray-800 dark:bg-gray-950 '>
-          {children}
-        </main>
-        <Footer />
-        <ScrollTopFloatingButton />
+            {children}
+          </main>
+          <Footer />
+          <ScrollTopFloatingButton />
+        </CustomQueryClientProvider>
       </body>
     </html>
   );

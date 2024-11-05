@@ -12,7 +12,19 @@ export interface frontMatterData {
   isPublished?: string;
 }
 
+export interface readFolderNameResponse {
+  folderName: string;
+}
+
 export interface readTagResponse {
   name: string;
   postCount: number;
+}
+
+export interface useChatMutationResponse {
+  message: Message;
+}
+
+export interface Message {
+  content: string;
 }

@@ -22,6 +22,5 @@ export async function POST(request: Request) {
     return Response.json({ message: completion.choices[0].message });
   } catch (error) {
     console.error(error);
-    throw new Error('/api/chat error occurred.');
   }
 }
