@@ -10,16 +10,10 @@ export async function POST(request: Request) {
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: 'You are a helpful assistant.' },
-        {
-          role: 'user',
-          content: body.message,
-        },
-      ],
+      messages: body.chat,
     });
 
-    return Response.json({ message: completion.choices[0].message });
+    return Response.json({ chat: completion.choices[0].message });
   } catch (error) {
     console.error(error);
   }

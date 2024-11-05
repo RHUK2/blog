@@ -1,3 +1,5 @@
+import { ChatData } from './interface';
+
 export interface useChatMutationBody {
-  message: string;
+  chat: ChatData[];
 }

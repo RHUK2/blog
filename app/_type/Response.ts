@@ -1,15 +1,8 @@
 import { GrayMatterFile } from 'gray-matter';
+import { ChatData, frontMatterData } from './interface';
 
 export interface readMarkdownDataResponse extends GrayMatterFile<Buffer> {
   data: frontMatterData;
-}
-
-export interface frontMatterData {
-  folderName?: string;
-  updatedAt?: string;
-  title?: string;
-  tag?: string;
-  isPublished?: string;
 }
 
 export interface readFolderNameResponse {
@@ -22,9 +15,5 @@ export interface readTagResponse {
 }
 
 export interface useChatMutationResponse {
-  message: Message;
-}
-
-export interface Message {
-  content: string;
+  chat: ChatData;
 }
