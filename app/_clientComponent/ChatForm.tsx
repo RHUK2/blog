@@ -2,7 +2,7 @@
 
 import { useChatMutation } from '@/_mutation';
 import { ChatData } from '@/_type';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
@@ -90,7 +90,7 @@ export function ChatForm() {
                   return null;
                 case 'user':
                   return (
-                    <li key={message_index} className=' rounded-md border-2 p-2 text-lg'>
+                    <li key={message_index} className='rounded-md border-2 p-2 text-lg'>
                       {message.content}
                     </li>
                   );
@@ -112,6 +112,7 @@ export function ChatForm() {
       </ul>
 
       <TextInput
+        autoComplete='off'
         {...register('message', {
           required: true,
         })}

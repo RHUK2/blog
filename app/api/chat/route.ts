@@ -16,5 +16,6 @@ export async function POST(request: Request) {
     return Response.json({ chat: completion.choices[0].message });
   } catch (error) {
     console.error(error);
+    return Response.json({ code: 'SERVER_ERR' }, { status: 500 });
   }
 }
