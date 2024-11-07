@@ -1,10 +1,9 @@
 import { readPost, readFolderNameList } from '@/_util';
 
-interface MarkdownTitleDetailPageProps {
-  params: {
+interface MarkdownFolderNameDetailPageProps {
+  params: Promise<{
     folderName: string;
-  };
-  searchParams: {};
+  }>;
 }
 
 // 정적 페이지를 빌드해보려고 했으나
@@ -15,13 +14,13 @@ interface MarkdownTitleDetailPageProps {
 //   return folderNameList;
 // }
 
-export default async function MarkdownTitleDetailPage({ params, searchParams }: MarkdownTitleDetailPageProps) {
+export default async function MarkdownFolderNameDetailPage({ params }: MarkdownFolderNameDetailPageProps) {
   const { folderName } = await params;
 
   const post = await readPost(folderName);
 
   return (
-    <section className='m-auto min-h-full min-w-[320px] max-w-[768px] px-4 py-10 '>
+    <section className='m-auto min-h-full min-w-[320px] max-w-[768px] px-4 py-10'>
       <p
         className='prose max-w-none dark:prose-invert'
         dangerouslySetInnerHTML={{

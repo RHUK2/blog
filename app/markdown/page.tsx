@@ -3,15 +3,14 @@ import { Divider, NavigationTag, PostCard } from '@/_serverComponent';
 import { PAGE_SIZE, readPostList } from '@/_util';
 
 interface MarkdownPageProps {
-  params: {};
-  searchParams: {
+  searchParams: Promise<{
     tag?: string;
     page?: string;
     size?: string;
-  };
+  }>;
 }
 
-export default async function MarkdownPage({ params, searchParams }: MarkdownPageProps) {
+export default async function MarkdownPage({ searchParams }: MarkdownPageProps) {
   const { tag, page, size } = await searchParams;
 
   const postList = await readPostList(tag, page, size);

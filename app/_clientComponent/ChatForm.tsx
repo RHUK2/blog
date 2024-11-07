@@ -13,19 +13,19 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import TextInput from './TextInput';
 
+const InitChat: ChatData[] = [
+  {
+    role: 'system',
+    content: 'You are an expert in Nextjs (v14+) with Typescript (v5+).',
+  },
+];
+
 export function ChatForm() {
   const { register, resetField, handleSubmit } = useForm({
     defaultValues: {
       userMessage: '',
     },
   });
-
-  const InitChat: ChatData[] = [
-    {
-      role: 'system',
-      content: 'You are an expert in Nextjs (v14+) with Typescript (v5+).',
-    },
-  ];
 
   const [chat, setChat] = useState<ChatData[]>(InitChat);
 
