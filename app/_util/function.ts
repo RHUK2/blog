@@ -8,14 +8,17 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { MARKDOWN_PATH, PAGE_SIZE } from './enum';
+import { PAGE_SIZE } from './enum';
+import path from 'path';
+
+export const markdown_path = path.join(process.cwd(), 'public', 'markdown');
 
 export async function readMarkdownDataList() {
   try {
-    const markdownFolderNameList = (await readdir(MARKDOWN_PATH)).filter((content) => /^[^@.]*$/.test(content));
+    const markdownFolderNameList = (await readdir(markdown_path)).filter((content) => /^[^@.]*$/.test(content));
 
     const markdownContentList = await Promise.all(
-      markdownFolderNameList.map((folderName) => readFile(`${MARKDOWN_PATH}/${folderName}/index.md`)),
+      markdownFolderNameList.map((folderName) => readFile(`${markdown_path}/${folderName}/index.md`)),
     );
 
     const markdownDataList: readMarkdownDataResponse[] = markdownContentList
@@ -103,7 +106,7 @@ export async function readPostList(tag?: string, page?: string, size?: string) {
 
 export async function readPost(folderName: string) {
   try {
-    const post = await readFile(`${MARKDOWN_PATH}/${folderName}/index.md`, 'utf8');
+    const post = await readFile(`${markdown_path}/${folderName}/index.md`, 'utf8');
 
     const result = await unified()
       .use(remarkParse)
