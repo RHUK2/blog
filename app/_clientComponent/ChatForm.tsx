@@ -13,21 +13,26 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import TextInput from './TextInput';
 
-const InitChat: ChatData[] = [{ role: 'system', content: '너는 아주 똑똑한 개발자 역할이야.' }];
-
 export function ChatForm() {
   const { register, resetField, handleSubmit } = useForm({
     defaultValues: {
-      message: '',
+      userMessage: '',
     },
   });
+
+  const InitChat: ChatData[] = [
+    {
+      role: 'system',
+      content: 'You are an expert in Nextjs (v14+) with Typescript (v5+).',
+    },
+  ];
 
   const [chat, setChat] = useState<ChatData[]>(InitChat);
 
   const apiChat = useChatMutation();
 
   const onChat = handleSubmit(async (data) => {
-    const newRequest = chat.concat({ role: 'user', content: data.message });
+    const newRequest = chat.concat({ role: 'user', content: data.userMessage });
 
     apiChat.mutate(
       { chat: newRequest },
@@ -54,7 +59,7 @@ export function ChatForm() {
 
     setChat(newRequest);
 
-    resetField('message');
+    resetField('userMessage');
   });
 
   useEffect(() => {
@@ -113,7 +118,7 @@ export function ChatForm() {
 
       <TextInput
         autoComplete='off'
-        {...register('message', {
+        {...register('userMessage', {
           required: true,
         })}
       />
