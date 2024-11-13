@@ -86,6 +86,14 @@ export function ChatForm() {
 
   return (
     <form onSubmit={onChat} className='flex h-full flex-col gap-4'>
+      <TextInput
+        autoComplete='off'
+        placeholder='프롬프트 입력'
+        {...register('userMessage', {
+          required: true,
+        })}
+      />
+
       <ul className='flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
         {apiChat.isPending
           ? '로딩중...'
@@ -115,13 +123,6 @@ export function ChatForm() {
               }
             })}
       </ul>
-
-      <TextInput
-        autoComplete='off'
-        {...register('userMessage', {
-          required: true,
-        })}
-      />
     </form>
   );
 }

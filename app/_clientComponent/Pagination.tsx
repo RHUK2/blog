@@ -41,7 +41,6 @@ export function Pagination({ totalCount, size }: PaginationProps) {
   }
 
   function handlePageQuery(index: number) {
-    console.log('🚀 ~ handlePageQuery ~ index:', index);
     handleMenuClose();
 
     router.push(
@@ -76,7 +75,7 @@ export function Pagination({ totalCount, size }: PaginationProps) {
               <li
                 key={`page_${index}`}
                 onClick={() => handlePageQuery(index)}
-                className='m-auto min-w-12 cursor-pointer py-1 text-center '>
+                className='m-auto min-w-12 cursor-pointer py-1 text-center'>
                 {index + 1}
               </li>
             ))}
