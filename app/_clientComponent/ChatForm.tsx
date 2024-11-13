@@ -16,7 +16,7 @@ import TextInput from './TextInput';
 const InitChat: ChatData[] = [
   {
     role: 'system',
-    content: 'You are an expert in Nextjs (v14+) with Typescript (v5+).',
+    content: '너는 컴퓨터 과학과 웹 소프트웨어 개발의 전문가야.',
   },
 ];
 

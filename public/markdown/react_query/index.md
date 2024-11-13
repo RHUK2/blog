@@ -12,38 +12,44 @@ isPublished:
 - [status, fetchStatus](#status-fetchstatus)
 - [select, initialData, placeholderData](#select-initialdata-placeholderdata)
 - [useMutation](#usemutation)
+- [QueryClient](#queryclient)
 
 ## staleTime, gcTime
 
 1. `staleTime`
 
-   - 해당 값으로 쿼리의 상태가 `stale`인지 `fresh`인지 설정할 수 있다.
+   - 해당 값은 쿼리를 `fresh` 상태로 유지할 시간을 설정한다.
    - 기본값은 `0`이며, 패칭 후에 쿼리의 상태는 `stale`이 된다.
    - `0` 이상으로 설정 시, 해당 수의 ms만큼 동안 쿼리의 상태는 `fresh`가 된다.
    - `stale` 상태의 쿼리는 다음과 같은 경우에 자동으로 새로 데이터를 불러온다.
 
-     - 쿼리의 새 인스턴스가 마운트된 경우 (`refetchOnMount: true`)
+     - 쿼리를 포함한 컴포넌트가 마운트(리렌더링 x)된 경우 (`refetchOnMount: true`)
      - 창이 다시 포커싱된 경우 (`refetchOnWindowFocus: true`)
      - 네트워크가 다시 연결된 경우 (`refetchOnReconnect: true`)
      - `refetchInterval`이 설정된 경우, 해당 시간간격마다 매번 새로 데이터를 불러온다. (`refetchInterval: 30000`)
 
+   - `stale` 상태는 `refetch`가 발생 가능한 상태이다
+   - `fresh` 상태는 `refetch`가 발생하지 않는 상태이다.
+
 2. `gcTime`
 
-   - 초기에 한 번 데이터를 로드 후 캐싱되는 동안에는 재로드할 필요가 없어진다.
+   - 해당 값은 쿼리를 `inactive` 상태로 유지할 시간을 설정한다.
    - 기본값은 `30000`으로 5분동안 캐시된다.
    - 새로고침 시 캐시는 전부 삭제된다.
-   - `stale` 또는 `fresh`가 아닌 `inactive` 상태에서만 시간이 흘러간다.
-     - 쿼리를 사용하는 컴포넌트가 언마운트가 되면 `inactive` 상태가 전환된다.
-     - 쿼리 데이터를 사용하는 컴포넌트가 더 이상 없을 때 `inactive` 상태로 전환된다.
+   - 쿼리를 사용하는 컴포넌트가 언마운트가 되면 `inactive` 상태가 전환된다.
+   - 쿼리 데이터를 사용하는 컴포넌트가 더 이상 없을 때 `inactive` 상태로 전환된다.
+   - 다른 페이지로 이동했다가 다시 돌아와도
 
 ## status, fetchStatus
 
 1. `status`
 
+   - pending success error
    - 데이터에 대한 정보를 제공한다. (데이터가 있는지? 없는지?)
 
 2. `fetchStatus`
 
+   - idle fetching pause
    - 쿼리 패칭에 대한 정보를 제공한다. (실행 중인지? 아닌지?)
 
 ## select, initialData, placeholderData
@@ -136,3 +142,13 @@ todos.forEach((todo) => {
   });
 });
 ```
+
+## QueryClient
+
+- queryClient.invalidateQueries
+- queryClient.refetchQueries
+- queryClient.resetQueries
+
+- queryClient.cancelQueries
+
+- queryClient.removeQueries

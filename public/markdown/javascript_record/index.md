@@ -18,9 +18,9 @@ isPublished:
 - [parse](#parse)
 - [자바스크립트 값의 종류](#자바스크립트-값의-종류)
 - [sort](#sort)
-- [class](#class)
 - [시간 구하기](#시간-구하기)
 - [encodeURI encodeURIComponent](#encodeuri-encodeuricomponent)
+- [Number() vs parseInt()](#number-vs-parseint)
 
 ## 논리 연산자 단락 평가
 
@@ -134,7 +134,6 @@ function increment() {
 `compareFunction(a, b) === 0`인 경우, `a`와 `b`를 서로에 대해 변경하지 않는다.
 `compareFunction(a, b) > 0`인 경우, `b`를 `a`보다 낮은 인덱스로 정렬한다. 즉, `b`가 먼저 온다.
 
-
 ## 시간 구하기
 
 10분짜리 오디오 초로 변환: 600초
@@ -154,3 +153,5 @@ x = 40, 600을 40으로 나누면 15초 나옴
 ## encodeURI encodeURIComponent
 
 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
+
+## Number() vs parseInt()

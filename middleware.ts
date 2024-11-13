@@ -6,7 +6,6 @@ export const config = {
 
 export function middleware(req: NextRequest) {
   const isMaintenanceMode = process.env.MAINTENANCE === 'true';
-  console.log('🚀 ~ middleware ~ isMaintenanceMode:', isMaintenanceMode);
 
   if (isMaintenanceMode) {
     return NextResponse.redirect(new URL('/maintain', req.url));
