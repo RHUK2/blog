@@ -1,7 +1,5 @@
-function recul(num: number): number {
-  if (num <= 1) return 1;
-
-  return num + recul(num - 1);
+function exec(str: string) {
+  return str.match(/[/]/g)?.length;
 }
 
-console.log(recul(5));
+console.log(exec('chec/efwefc/'));
