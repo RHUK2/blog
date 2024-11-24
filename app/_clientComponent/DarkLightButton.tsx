@@ -2,12 +2,18 @@
 
 import { useEffect, useState } from 'react';
 
+let isInit = false;
+
 export function DarkLightButton() {
-  const [mode, setMode] = useState('dark');
+  const [mode, setMode] = useState({
+    theme: 'dark',
+    isInit: false,
+  });
 
   function handleMode() {
     setMode((mode) => {
-      const updateValue = mode === 'dark' ? '' : 'dark';
+      const updateValue = mode.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', updateValue);
 
       if (updateValue === 'dark') {
         document.documentElement.classList.add('dark');
@@ -15,13 +21,24 @@ export function DarkLightButton() {
         document.documentElement.classList.remove('dark');
       }
 
-      return updateValue;
+      return {
+        ...mode,
+        theme: updateValue,
+      };
     });
   }
 
   useEffect(() => {
-    setMode((mode) => {
-      const updateValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : '';
+    if (!isInit) {
+      isInit = true;
+
+      const item = localStorage.getItem('theme');
+
+      let updateValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+      if (item) {
+        updateValue = item;
+      }
 
       if (updateValue === 'dark') {
         document.documentElement.classList.add('dark');
@@ -29,8 +46,13 @@ export function DarkLightButton() {
         document.documentElement.classList.remove('dark');
       }
 
-      return updateValue;
-    });
+      localStorage.setItem('theme', updateValue);
+
+      setMode({
+        theme: updateValue,
+        isInit: true,
+      });
+    }
   }, []);
 
   return (
@@ -41,6 +63,8 @@ export function DarkLightButton() {
       <button onClick={handleMode} className='hidden min-w-10 dark:block'>
         DARK
       </button>
+      <div
+        className={`fixed left-0 top-0 z-50 w-full bg-gray-500 ${isInit ? 'h-0' : 'h-screen'} transition-all duration-300 ease-out`}></div>
     </>
   );
 }
