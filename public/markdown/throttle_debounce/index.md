@@ -63,3 +63,86 @@ function throttleWrapper(func, delay) {
   };
 }
 ```
+
+```ts
+import { useMemo } from 'react';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function debounce(handler: (...args: any[]) => any, debounceTime: number = 500) {
+  let debounceTimeId: ReturnType<typeof setTimeout>;
+
+  let canRetry = true;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (...args: any[]) => {
+    if (debounceTimeId) {
+      clearTimeout(debounceTimeId);
+    }
+
+    if (canRetry) {
+      handler(...args);
+    }
+
+    canRetry = false;
+
+    debounceTimeId = setTimeout(() => {
+      canRetry = true;
+    }, debounceTime);
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useDebounceCallback<T extends (...args: any[]) => any>(handler: T, dependency: DependencyList, debounceTime: number = 500) {
+  return useMemo(() => {
+    return debounce(handler, debounceTime);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dependency]);
+```
+
+```ts
+import { useMemo } from 'react';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function throttle(handler: (...args: any[]) => any, throttleTime: number = 500) {
+  let throttleTimeId: ReturnType<typeof setTimeout>;
+
+  let canRetry = true;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (...args: any[]) => {
+    if (canRetry) {
+      handler(...args);
+
+      canRetry = false;
+
+      clearTimeout(throttleTimeId);
+
+      throttleTimeId = setTimeout(() => {
+        canRetry = true;
+      }, throttleTime);
+    }
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useThrottleCallback<T extends (...args: any[]) => any>(handler: T, dependency: DependencyList, throttleTime: number = 500) {
+  return useMemo(() => {
+    return throttle(handler, throttleTime);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dependency]);
+```
+
+```json
+{
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useDebounceCallback|useThrottleCallback)"
+      }
+    ]
+  }
+}
+```
