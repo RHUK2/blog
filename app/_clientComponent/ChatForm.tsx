@@ -2,7 +2,7 @@
 
 import { useChatMutation } from '@/_mutation';
 import { ChatData } from '@/_type';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
@@ -28,6 +28,8 @@ export function ChatForm() {
   });
 
   const [chat, setChat] = useState<ChatData[]>(InitChat);
+
+  const ulRef = useRef<HTMLUListElement | null>(null);
 
   const apiChat = useChatMutation();
 
@@ -84,6 +86,16 @@ export function ChatForm() {
     };
   }, []);
 
+  useEffect(() => {
+    if (ulRef.current) {
+      const lastLi = ulRef.current?.children[ulRef.current?.children.length - 2];
+
+      if (lastLi) {
+        ulRef.current.scrollTop = (lastLi as HTMLLIElement).offsetTop;
+      }
+    }
+  }, [chat]);
+
   return (
     <form onSubmit={onChat} className='flex h-full flex-col gap-4'>
       <TextInput
@@ -94,34 +106,36 @@ export function ChatForm() {
         })}
       />
 
-      <ul className='flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
-        {apiChat.isPending
-          ? '로딩중...'
-          : chat.map((message, message_index) => {
-              switch (message.role) {
-                case 'system':
-                  return null;
-                case 'user':
-                  return (
-                    <li key={message_index} className='rounded-md border-2 p-2 text-lg'>
-                      {message.content}
-                    </li>
-                  );
-                case 'assistant':
-                  return (
-                    <li
-                      key={message_index}
-                      className='prose max-w-none dark:prose-invert'
-                      dangerouslySetInnerHTML={{
-                        __html: message.html ?? '',
-                      }}
-                    />
-                  );
-                default:
-                  const never = message.role;
-                  return never;
-              }
-            })}
+      <ul ref={ulRef} className='flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
+        {apiChat.isPending ? (
+          <div className='flex h-full items-center justify-center'>로딩중...</div>
+        ) : (
+          chat.map((message, message_index) => {
+            switch (message.role) {
+              case 'system':
+                return null;
+              case 'user':
+                return (
+                  <li key={message_index} className='prose max-w-none rounded-md border px-2 dark:prose-invert'>
+                    {message.content}
+                  </li>
+                );
+              case 'assistant':
+                return (
+                  <li
+                    key={message_index}
+                    className='prose max-w-none dark:prose-invert'
+                    dangerouslySetInnerHTML={{
+                      __html: message.html ?? '',
+                    }}
+                  />
+                );
+              default:
+                const never = message.role;
+                return never;
+            }
+          })
+        )}
       </ul>
     </form>
   );
