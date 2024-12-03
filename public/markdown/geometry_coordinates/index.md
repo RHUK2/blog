@@ -24,7 +24,7 @@ isPublished: true
 
 | 속성           | 설명                                                           |
 | -------------- | -------------------------------------------------------------- |
-| `offsetParent` | 해당 요소의 위치를 기준으로 하는 가장 가까운 상위 요소         |
+| `offsetParent` | 가장 가까운 `postion` 속성이 적용된 부모 요소                  |
 | `offsetTop`    | `offsetParent`를 기준으로 한 요소의 `borderY` 시작까지의 거리  |
 | `offsetLeft`   | `offsetParent`를 기준으로 한 요소의 `borderX` 시작까지의 거리  |
 | `offsetWidth`  | `paddingX` + `width` + `borderX` + y축 스크롤바 너비           |

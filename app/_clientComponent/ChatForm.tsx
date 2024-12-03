@@ -106,7 +106,7 @@ export function ChatForm() {
         })}
       />
 
-      <ul ref={ulRef} className='flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
+      <ul ref={ulRef} className='relative flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
         {apiChat.isPending ? (
           <div className='flex h-full items-center justify-center'>로딩중...</div>
         ) : (
