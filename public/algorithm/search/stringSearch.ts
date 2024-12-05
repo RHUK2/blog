@@ -13,5 +13,5 @@ function stringSearch(long: string, short: string) {
 }
 
 // Test Case
-console.log(stringSearch('hello, new world', 'wo'));
-console.log(stringSearch('i do not know who you are, who am I', 'who'));
+console.log(stringSearch('hello, new world', 'wo')); // 1
+console.log(stringSearch('i do not know who you are, who am I', 'who')); // 2
