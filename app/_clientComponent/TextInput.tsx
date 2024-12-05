@@ -2,7 +2,7 @@
 
 import { forwardRef, InputHTMLAttributes, useImperativeHandle, useRef } from 'react';
 
-const TextInput = forwardRef(function Button(
+const TextInput = forwardRef(function TextInput(
   { className, ...TextInputProps }: React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   ref,
 ) {

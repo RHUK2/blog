@@ -1,18 +1,14 @@
-import { readPost, readFolderNameList } from '@/_util';
+import { readPost } from '@/_util';
+import Markdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
 
 interface MarkdownFolderNameDetailPageProps {
   params: Promise<{
     folderName: string;
   }>;
 }
-
-// 정적 페이지를 빌드해보려고 했으나
-// NavigationTag에서 searchParams를 사용하고 있어서 불가능
-// export async function generateStaticParams() {
-//   const folderNameList = await readFolderNameList();
-
-//   return folderNameList;
-// }
 
 export default async function MarkdownFolderNameDetailPage({ params }: MarkdownFolderNameDetailPageProps) {
   const { folderName } = await params;
@@ -21,12 +17,12 @@ export default async function MarkdownFolderNameDetailPage({ params }: MarkdownF
 
   return (
     <section className='m-auto min-h-full min-w-[320px] max-w-[768px] px-4 py-10'>
-      <p
+      <Markdown
         className='prose max-w-none dark:prose-invert'
-        dangerouslySetInnerHTML={{
-          __html: post,
-        }}
-      />
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight, rehypeSlug]}>
+        {post}
+      </Markdown>
     </section>
   );
 }

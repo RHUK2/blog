@@ -1,15 +1,8 @@
 import { readFolderNameResponse, readMarkdownDataResponse, readTagResponse } from '@/_type';
 import { readdir, readFile } from 'fs/promises';
 import matter from 'gray-matter';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import rehypeStringify from 'rehype-stringify';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
-import { PAGE_SIZE } from './enum';
 import path from 'path';
+import { PAGE_SIZE } from './enum';
 
 export const markdown_path = path.join(process.cwd(), 'public', 'markdown');
 
@@ -32,26 +25,10 @@ export async function readMarkdownDataList() {
   }
 }
 
-export async function readFolderNameList() {
-  try {
-    const markdownDataList = await readMarkdownDataList();
-
-    const folderNameList = markdownDataList
-      .filter((metaData) => metaData.data.folderName != null)
-      .map((metaData) => metaData.data.folderName ?? '');
-
-    const result: readFolderNameResponse[] = folderNameList.map((folderName) => ({ folderName: folderName }));
-
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error('readFolderNameList error occurred.');
-  }
-}
-
 export async function readTagList() {
   try {
     const markdownDataList = await readMarkdownDataList();
+    console.log('🚀 ~ readTagList ~ markdownDataList:', markdownDataList);
 
     const tagList = markdownDataList
       .filter((metaData) => metaData.data.tag != null)
@@ -108,16 +85,7 @@ export async function readPost(folderName: string) {
   try {
     const post = await readFile(`${markdown_path}/${folderName}/index.md`, 'utf8');
 
-    const result = await unified()
-      .use(remarkParse)
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeSlug)
-      .use(rehypeStringify)
-      .process(matter(post).content);
-
-    return result.value;
+    return matter(post).content;
   } catch (error) {
     console.error(error);
     throw new Error('readPost error occurred.');

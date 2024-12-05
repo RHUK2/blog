@@ -9,5 +9,4 @@ export interface frontMatterData {
 export interface ChatData {
   role: 'system' | 'user' | 'assistant';
   content: string;
-  html?: string;
 }

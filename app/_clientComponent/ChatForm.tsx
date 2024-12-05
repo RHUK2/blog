@@ -4,13 +4,10 @@ import { useChatMutation } from '@/_mutation';
 import { ChatData } from '@/_type';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
-import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
 import TextInput from './TextInput';
 
 const InitChat: ChatData[] = [
@@ -40,16 +37,7 @@ export function ChatForm() {
       { chat: newRequest },
       {
         async onSuccess(response) {
-          const html = await unified()
-            .use(remarkParse)
-            .use(remarkGfm)
-            .use(remarkRehype)
-            .use(rehypeHighlight)
-            .use(rehypeSlug)
-            .use(rehypeStringify)
-            .process(response.chat.content);
-
-          setChat((prev) => [...prev, { ...response.chat, html: String(html) }]);
+          setChat((prev) => [...prev, { ...response.chat }]);
         },
         onError(error) {
           console.log(error);
@@ -116,19 +104,25 @@ export function ChatForm() {
                 return null;
               case 'user':
                 return (
-                  <li key={message_index} className='prose max-w-none rounded-md border px-2 dark:prose-invert'>
-                    {message.content}
+                  <li key={message_index}>
+                    <Markdown
+                      className='prose max-w-none rounded-md border px-2 dark:prose-invert'
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight, rehypeSlug]}>
+                      {message.content}
+                    </Markdown>
                   </li>
                 );
               case 'assistant':
                 return (
-                  <li
-                    key={message_index}
-                    className='prose max-w-none dark:prose-invert'
-                    dangerouslySetInnerHTML={{
-                      __html: message.html ?? '',
-                    }}
-                  />
+                  <li key={message_index}>
+                    <Markdown
+                      className='prose max-w-none dark:prose-invert'
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight, rehypeSlug]}>
+                      {message.content}
+                    </Markdown>
+                  </li>
                 );
               default:
                 const never = message.role;
