@@ -2,7 +2,7 @@
 
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-const Button = forwardRef(function Button(
+export const Button = forwardRef(function Button(
   {
     children,
     className,
@@ -24,5 +24,3 @@ const Button = forwardRef(function Button(
     </button>
   );
 });
-
-export default Button;

@@ -1,9 +1,12 @@
 'use client';
 
-import { forwardRef, InputHTMLAttributes, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 
-const TextInput = forwardRef(function TextInput(
-  { className, ...TextInputProps }: React.DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+export const TextInput = forwardRef(function TextInput(
+  {
+    className,
+    ...TextInputProps
+  }: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   ref,
 ) {
   const textInputRef = useRef(null);
@@ -19,5 +22,3 @@ const TextInput = forwardRef(function TextInput(
     />
   );
 });
-
-export default TextInput;

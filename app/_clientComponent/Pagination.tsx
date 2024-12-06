@@ -2,8 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, useCallback, useMemo, useState } from 'react';
-import { Menu } from '.';
-import Button from './Button';
+import { Button, Menu } from '.';
 
 interface PaginationProps {
   totalCount: number;
