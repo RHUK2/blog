@@ -8,7 +8,7 @@ import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
-import TextInput from './TextInput';
+import { Textarea } from './Textarea';
 
 const InitChat: ChatData[] = [
   {
@@ -18,13 +18,15 @@ const InitChat: ChatData[] = [
 ];
 
 export function ChatForm() {
-  const { register, resetField, handleSubmit } = useForm({
+  const { register, getValues, resetField, handleSubmit } = useForm({
     defaultValues: {
       userMessage: '',
     },
   });
 
   const [chat, setChat] = useState<ChatData[]>(InitChat);
+
+  const [rows, setRows] = useState(1);
 
   const ulRef = useRef<HTMLUListElement | null>(null);
 
@@ -85,13 +87,23 @@ export function ChatForm() {
   }, [chat]);
 
   return (
-    <form onSubmit={onChat} className='flex h-full flex-col gap-4'>
-      <TextInput
+    <form className='flex h-full flex-col gap-4'>
+      <Textarea
         autoComplete='off'
         placeholder='프롬프트 입력'
         {...register('userMessage', {
           required: true,
+          onChange(event: React.ChangeEvent) {
+            const len = (event.target as HTMLTextAreaElement).value.match(/\n/g)?.length;
+            setRows((len ?? 0) + 1 || 1);
+          },
         })}
+        rows={rows}
+        onKeyUp={(e) => {
+          if (e.ctrlKey && e.key === 'Enter') {
+            onChat();
+          }
+        }}
       />
 
       <ul ref={ulRef} className='relative flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
