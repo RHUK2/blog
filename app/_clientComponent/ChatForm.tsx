@@ -18,7 +18,7 @@ const InitChat: ChatData[] = [
 ];
 
 export function ChatForm() {
-  const { register, getValues, resetField, handleSubmit } = useForm({
+  const { register, resetField, handleSubmit } = useForm({
     defaultValues: {
       userMessage: '',
     },
@@ -32,14 +32,14 @@ export function ChatForm() {
 
   const apiChat = useChatMutation();
 
-  const onChat = handleSubmit(async (data) => {
+  const onChat = handleSubmit((data) => {
     const newRequest = chat.concat({ role: 'user', content: data.userMessage });
 
     apiChat.mutate(
       { chat: newRequest },
       {
-        async onSuccess(response) {
-          setChat((prev) => [...prev, { ...response.chat }]);
+        onSuccess(response) {
+          setChat([...newRequest, { ...response.chat }]);
         },
         onError(error) {
           console.log(error);
@@ -48,8 +48,6 @@ export function ChatForm() {
         },
       },
     );
-
-    setChat(newRequest);
 
     resetField('userMessage');
   });
@@ -106,7 +104,7 @@ export function ChatForm() {
         }}
       />
 
-      <ul ref={ulRef} className='relative flex flex-[1_0_0] flex-col gap-4 overflow-y-auto'>
+      <ul ref={ulRef} className='relative flex flex-[1_0_0] flex-col gap-4 overflow-y-auto pr-4'>
         {apiChat.isPending ? (
           <div className='flex h-full items-center justify-center'>로딩중...</div>
         ) : (
@@ -116,22 +114,26 @@ export function ChatForm() {
                 return null;
               case 'user':
                 return (
-                  <li key={message_index}>
+                  <li key={message_index} className='flex flex-col gap-1 self-end'>
+                    <div className='self-end'>User</div>
                     <Markdown
-                      className='prose max-w-none rounded-md border px-2 dark:prose-invert'
+                      className='prose rounded-md border border-gray-400 px-4 py-2 dark:prose-invert dark:border-gray-700'
                       remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeHighlight, rehypeSlug]}>
+                      rehypePlugins={[rehypeHighlight, rehypeSlug]}
+                    >
                       {message.content}
                     </Markdown>
                   </li>
                 );
               case 'assistant':
                 return (
-                  <li key={message_index}>
+                  <li key={message_index} className='flex flex-col gap-1'>
+                    <div>Assistant</div>
                     <Markdown
-                      className='prose max-w-none dark:prose-invert'
+                      className='prose rounded-md border border-gray-400 p-4 dark:prose-invert dark:border-gray-700'
                       remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeHighlight, rehypeSlug]}>
+                      rehypePlugins={[rehypeHighlight, rehypeSlug]}
+                    >
                       {message.content}
                     </Markdown>
                   </li>
