@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { CustomQueryClientProvider } from './_provider';
+import { writeMarkdownDataList } from './_util';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
@@ -27,7 +28,9 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
+  await writeMarkdownDataList();
+
   return (
     <html lang='en'>
       <body className={`${pretendard.variable} font-pret dark:bg-gray-950 dark:text-white`}>

@@ -1,9 +1,4 @@
-import { GrayMatterFile } from 'gray-matter';
-import { ChatData, frontMatterData } from './interface';
-
-export interface readMarkdownDataResponse extends GrayMatterFile<Buffer> {
-  data: frontMatterData;
-}
+import { ChatData } from './interface';
 
 export interface readFolderNameResponse {
   folderName: string;

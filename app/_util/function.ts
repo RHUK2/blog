@@ -1,12 +1,13 @@
-import { readFolderNameResponse, readMarkdownDataResponse, readTagResponse } from '@/_type';
-import { readdir, readFile } from 'fs/promises';
+import { frontMatterData, readTagResponse } from '@/_type';
+import { readdir, readFile, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';
 import { PAGE_SIZE } from './enum';
 
 export const markdown_path = path.join(process.cwd(), 'public', 'markdown');
+export const meta_markdown_path = path.join(process.cwd(), 'public', 'markdown', 'list.json');
 
-export async function readMarkdownDataList() {
+export async function writeMarkdownDataList() {
   try {
     const markdownFolderNameList = (await readdir(markdown_path)).filter((content) => /^[^@.]*$/.test(content));
 
@@ -14,25 +15,26 @@ export async function readMarkdownDataList() {
       markdownFolderNameList.map((folderName) => readFile(`${markdown_path}/${folderName}/index.md`)),
     );
 
-    const markdownDataList: readMarkdownDataResponse[] = markdownContentList
-      .map((content) => matter(content))
-      .filter((data) => !!data.data.isPublished);
+    const markdownDataList: frontMatterData[] = markdownContentList
+      .map((content) => matter(content).data)
+      .filter((data) => !!data.isPublished);
 
-    return markdownDataList;
+    await writeFile(meta_markdown_path, JSON.stringify(markdownDataList));
   } catch (error) {
     console.error(error);
-    throw new Error('readMarkdownMetaDataList error occurred.');
+    throw new Error('writeMarkdownDataList error occurred.');
   }
 }
 
 export async function readTagList() {
   try {
-    const markdownDataList = await readMarkdownDataList();
-    console.log('🚀 ~ readTagList ~ markdownDataList:', markdownDataList);
+    const markdownDataList: frontMatterData[] = await readFile(meta_markdown_path).then((value) =>
+      JSON.parse(value.toString()),
+    );
 
     const tagList = markdownDataList
-      .filter((metaData) => metaData.data.tag != null)
-      .map((metaData) => metaData.data.tag?.split(',') ?? '')
+      .filter((metaData) => metaData.tag != null)
+      .map((metaData) => metaData.tag?.split(',') ?? '')
       .flat()
       .map((tag) => tag.trim());
 
@@ -56,23 +58,23 @@ export async function readTagList() {
 
 export async function readPostList(tag?: string, page?: string, size?: string) {
   try {
-    let postList;
+    let markdownDataList: frontMatterData[] = await readFile(meta_markdown_path).then((value) =>
+      JSON.parse(value.toString()),
+    );
 
-    if (tag == null || tag === '') postList = await readMarkdownDataList();
-    else
-      postList = (await readMarkdownDataList()).filter(
-        (metaData) => metaData.data.tag != null && metaData.data.tag.includes(tag),
-      );
+    if (tag) {
+      markdownDataList = markdownDataList.filter((metaData) => metaData.tag != null && metaData.tag.includes(tag));
+    }
 
-    if (postList.length === 0) throw new Error('No data found.');
+    if (markdownDataList.length === 0) throw new Error('No data found.');
 
-    const result = postList.slice(
+    const result = markdownDataList.slice(
       parseInt(page ?? '0') * parseInt(size ?? PAGE_SIZE),
       (parseInt(page ?? '0') + 1) * parseInt(size ?? PAGE_SIZE),
     );
 
     return {
-      totalCount: postList.length,
+      totalCount: markdownDataList.length,
       list: result,
     };
   } catch (error) {
