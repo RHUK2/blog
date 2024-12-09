@@ -26,8 +26,6 @@ export function ChatForm() {
 
   const [chat, setChat] = useState<ChatData[]>(InitChat);
 
-  const [rows, setRows] = useState(1);
-
   const ulRef = useRef<HTMLUListElement | null>(null);
 
   const apiChat = useChatMutation();
@@ -86,24 +84,6 @@ export function ChatForm() {
 
   return (
     <form className='flex h-full flex-col gap-4'>
-      <Textarea
-        autoComplete='off'
-        placeholder='프롬프트 입력'
-        {...register('userMessage', {
-          required: true,
-          onChange(event: React.ChangeEvent) {
-            const len = (event.target as HTMLTextAreaElement).value.match(/\n/g)?.length;
-            setRows((len ?? 0) + 1 || 1);
-          },
-        })}
-        rows={rows}
-        onKeyUp={(e) => {
-          if (e.ctrlKey && e.key === 'Enter') {
-            onChat();
-          }
-        }}
-      />
-
       <ul ref={ulRef} className='relative flex flex-[1_0_0] flex-col gap-4 overflow-y-auto pr-4'>
         {apiChat.isPending ? (
           <div className='flex h-full items-center justify-center'>로딩중...</div>
@@ -145,6 +125,20 @@ export function ChatForm() {
           })
         )}
       </ul>
+
+      <Textarea
+        autoComplete='off'
+        placeholder='프롬프트 입력'
+        rows={3}
+        {...register('userMessage', {
+          required: true,
+        })}
+        onKeyUp={(e) => {
+          if (e.ctrlKey && e.key === 'Enter') {
+            onChat();
+          }
+        }}
+      />
     </form>
   );
 }
