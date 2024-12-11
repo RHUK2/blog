@@ -129,13 +129,13 @@ export function ChatForm() {
       <Textarea
         autoComplete='off'
         placeholder='프롬프트 입력'
-        rows={3}
         {...register('userMessage', {
           required: true,
         })}
         onKeyUp={(e) => {
           if (e.ctrlKey && e.key === 'Enter') {
             onChat();
+            e.currentTarget.rows = 1;
           }
         }}
       />
