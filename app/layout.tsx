@@ -1,12 +1,13 @@
-import '@/_css/globals.css';
-import '@/_css/highlight.css';
-import { Footer, Header } from '@/_serverComponent';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { Footer } from './_clientComponent';
+import './_css/globals.css';
+import './_css/highlight.css';
 import { CustomQueryClientProvider } from './_provider';
+import { Header } from './_serverComponent';
 import { writeMarkdownDataList } from './_util';
 
 dayjs.locale('ko');

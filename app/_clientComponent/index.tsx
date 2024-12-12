@@ -1,6 +1,7 @@
 export * from './Button';
 export * from './ChatForm';
 export * from './DarkLightButton';
+export * from './Footer';
 export * from './Menu';
 export * from './Pagination';
 export * from './ScrollTopFloatingButton';
