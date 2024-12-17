@@ -108,7 +108,13 @@ export function ChatForm() {
               case 'assistant':
                 return (
                   <li key={message_index} className='flex flex-col gap-1'>
-                    <div>Assistant</div>
+                    <div
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(message.content);
+                      }}
+                    >
+                      Assistant
+                    </div>
                     <Markdown
                       className='prose rounded-md border border-gray-400 p-4 dark:prose-invert dark:border-gray-700'
                       remarkPlugins={[remarkGfm]}
