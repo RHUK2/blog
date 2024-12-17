@@ -13,13 +13,13 @@ echo "---------- MAKE DEPLOY ----------"
 if [ -e .next ]; then
     rm -rf "./$folderName"
     mkdir ./"$folderName"
+    rsync -a ./.env* ./"$folderName"
     rsync -a ./.next ./"$folderName"
     rsync -a ./public ./"$folderName"
     rsync -a ./i18n.json ./"$folderName"
-    rsync -a ./.env.local ./"$folderName"
     rsync -a ./service.txt ./"$folderName"
     rsync -a ./package.json ./"$folderName"
-    rsync -a ./next.config.js ./"$folderName"
+    rsync -a ./next.config* ./"$folderName"
 fi
 echo -e "${GREEN}[INFO]${NOCOLOR} Complete Deploy"
 

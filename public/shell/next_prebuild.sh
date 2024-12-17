@@ -99,7 +99,7 @@ if [ -e backup ]; then
 
         for folder in $excluded_folders; do
             rm -r "$folder"
-            echo -e "${GREEN}[INFO]${NOCOLOR} Delete old backup($folder) 🔥"
+            echo -e "${GREEN}[INFO]${NOCOLOR} Delete old backup($folder)"
         done
     else
         echo -e "${GREEN}[INFO]${NOCOLOR} There are no old backup to delete."
