@@ -1,57 +1,96 @@
 #!/bin/bash
 
-echo "⚠️  WARNING ⚠️"
-echo "You want to try to build and deploy."
+# color
+NOCOLOR="\033[0m"
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+YELLOW="\033[1;33m"
+BLUE="\033[0;34m"
 
-# check 1
-echo -n "Is everything ready? [y/n] "
+# variable
+rootPath=../../
+appPath=./apps/feedback
+
+echo "---------- START BUILD PROCESS ----------"
+echo -en "${YELLOW}[INPUT]${NOCOLOR} Want to get started? [y/n]: "
 read -r answer
 if [ "$answer" != "y" ] && [ "$answer" != "Y" ]; then
     exit 1
 fi
 
-# check 2
-echo -n "Are you sure? [y/n] "
-read -r answer
-if [ "$answer" != "y" ] && [ "$answer" != "Y" ]; then
-    exit 1
-fi
-
-# find environment file
-env=$(find . -maxdepth 1 -type f -name "*.env.*")
+echo "---------- FIND ENV FILE ----------"
+env=$(find . -maxdepth 1 -type f -name "*.env*")
 if [ -z "$env" ]; then
     echo ""
-    echo "⚠️  Don't find env file ⚠️"
+    echo -e "${RED}[ERROR]${NOCOLOR} Don't find env file"
     exit 1
 else
-    echo "🔥  Detect env file 🔥"
+    echo -e "${GREEN}[INFO]${NOCOLOR} Detect env file"
 fi
 
-# input branch name
-echo -n "Enter the branch name to import from origin: "
+echo "---------- INPUT BRANCH ----------"
+echo -en "${YELLOW}[INPUT]${NOCOLOR} Enter the branch name to import from origin: "
 read -r branch
 if [ -z "$branch" ]; then
     echo ""
-    echo "⚠️  Please input branch name ⚠️"
+    echo -e "${RED}[ERROR]${NOCOLOR} Please input branch name"
     exit 1
 fi
 
-# create backup folder
+echo "---------- PULL PROCESS ----------"
+echo -e "${GREEN}[INFO]${NOCOLOR}remote repository"
+if ! git fetch origin; then
+    echo -e "${RED}[ERROR]${NOCOLOR} Fetch remote repository"
+    exit 1
+fi
+
+echo -e "${GREEN}[INFO]${NOCOLOR} Clean up remote branch"
+if ! git remote prune origin; then
+    echo -e "${RED}[ERROR]${NOCOLOR} Clean up remote branch"
+    exit 1
+fi
+
+echo -e "${GREEN}[INFO]${NOCOLOR} Switch ${branch:-master}"
+if ! git switch "${branch:-master}"; then
+    echo -e "${RED}[ERROR]${NOCOLOR} Switch ${branch:-master}"
+    exit 1
+fi
+
+echo -e "${GREEN}[INFO]${NOCOLOR} Merge origin/${branch:-master}"
+if ! git merge "origin/${branch:-master}"; then
+    echo -e "${RED}[ERROR]${NOCOLOR} Merge origin/${branch:-master}"
+    exit 1
+fi
+
+echo "---------- PACKAGE INSTALL ----------"
+# because monorepo
+cd $rootPath || exit 1
+echo -e "${BLUE}[PATH]${NOCOLOR} $PWD"
+
+echo -e "${GREEN}[INFO]${NOCOLOR} npm install"
+if ! npm install; then
+    echo -e "${RED}[ERROR]${NOCOLOR} npm install"
+    exit 1
+fi
+
+cd $appPath || exit 1
+echo -e "${BLUE}[PATH]${NOCOLOR} $PWD"
+
+echo "---------- BACKUP PROCESS ----------"
 if [ ! -e backup ]; then
     mkdir backup
-    echo "🔥  Make backup directory 🔥"
 fi
 
-# .next folder(build file) backup
 if [ -e .next ]; then
     datetime=$(date +%Y%m%d_%H%M%S)
-    cp -r .next backup/"$datetime"
-    echo "🔥  Complete backup 🔥"
+    mkdir "./backup/$datetime"
+    cp -r .next "backup/$datetime/.next"
+    echo -e "${GREEN}[INFO]${NOCOLOR} Complete backup"
 fi
 
-# delete old backup
 if [ -e backup ]; then
     cd backup || exit 1
+    echo -e "${BLUE}[PATH]${NOCOLOR} $PWD"
 
     fileCount=$(find . -mindepth 1 -maxdepth 1 -type d | wc -l)
 
@@ -60,38 +99,14 @@ if [ -e backup ]; then
 
         for folder in $excluded_folders; do
             rm -r "$folder"
-            echo "🔥  Delete $folder 🔥"
+            echo -e "${GREEN}[INFO]${NOCOLOR} Delete old backup($folder) 🔥"
         done
     else
-        echo "🔥  There are no folders to delete. 🔥"
+        echo -e "${GREEN}[INFO]${NOCOLOR} There are no old backup to delete."
     fi
 
-    cd ..
+    cd .. || exit 1
+    echo -e "${BLUE}[PATH]${NOCOLOR} $PWD"
 fi
 
-echo "🔥  Fetch remote repository 🔥"
-if ! git fetch origin; then
-    exit 1
-fi
-
-echo "🔥  Clean up remote branch 🔥"
-if ! git remote prune origin; then
-    exit 1
-fi
-
-echo "🔥  Switch ${branch:-master} 🔥"
-if ! git switch "${branch:-master}"; then
-    exit 1
-fi
-
-echo "🔥  Merge origin/${branch:-master} 🔥"
-if ! git merge "origin/${branch:-master}"; then
-    exit 1
-fi
-
-echo "🔥  npm Install 🔥"
-
-# because monorepo case
-cd ../../ && npm install && cd ./apps/feedback || exit 1
-
-echo "🔥  npm run build 🔥"
+echo "---------- MAKE BUILD ----------"

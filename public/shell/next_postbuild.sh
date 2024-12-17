@@ -1,31 +1,39 @@
 #!/bin/bash
 
+# color
+NOCOLOR="\033[0m"
+GREEN="\033[0;32m"
+BLUE="\033[0;34m"
+
+# variable
 folderName=$(pwd | rev | cut -d'/' -f1 | rev)-deploy
 pm2Name=feedback-web
-notice="true,
-서비스 점검 중 입니다.
-0000년 00월 00일 00:00 - 00:00"
 
+echo "---------- MAKE DEPLOY ----------"
 if [ -e .next ]; then
     rm -rf "./$folderName"
     mkdir ./"$folderName"
     rsync -a ./.next ./"$folderName"
     rsync -a ./public ./"$folderName"
     rsync -a ./i18n.json ./"$folderName"
+    rsync -a ./.env.local ./"$folderName"
+    rsync -a ./service.txt ./"$folderName"
     rsync -a ./package.json ./"$folderName"
-    touch ./"$folderName"/service.txt
-    echo "$notice" >./"$folderName"/service.txt
-    echo "🔥  Complete copy 🔥"
+    rsync -a ./next.config.js ./"$folderName"
 fi
+echo -e "${GREEN}[INFO]${NOCOLOR} Complete Deploy"
 
 isActive=$(pm2 list | grep "$pm2Name")
 
-# update or host
 if [ -n "$isActive" ]; then
+    echo -e "${GREEN}[INFO]${NOCOLOR} Update "
     pm2 reload $pm2Name
 else
+    echo -e "${GREEN}[INFO]${NOCOLOR} Host "
     pm2 delete $pm2Name
-    cd ./"$folderName" && pm2 start "npm run start" --name $pm2Name
+    cd ./"$folderName" || exit 1
+    echo -e "${BLUE}[PATH]${NOCOLOR} $PWD"
+    pm2 start "npm run start" --name $pm2Name
 fi
 
-echo "🔥  END 🔥"
+echo "---------- END BUILD PROCESS ----------"
