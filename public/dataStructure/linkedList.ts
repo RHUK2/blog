@@ -83,14 +83,83 @@ class SinglyLinkedList {
     this.length++;
     return this;
   }
+
+  get(index: number) {
+    if (index < 0 || index >= this.length) return;
+
+    let current = this.head;
+    let counter = 0;
+
+    while (index !== counter) {
+      current = current.next;
+      counter++;
+    }
+
+    return current;
+  }
+
+  set(index: number, val: any) {
+    const foundNode = this.get(index);
+
+    if (foundNode) {
+      foundNode.val = val;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  insert(index: number, val: any) {
+    if (index < 0 || index > this.length) return false;
+
+    if (index === 0) {
+      this.unshift(val);
+      return true;
+    }
+
+    if (index === this.length) {
+      this.push(val);
+      return true;
+    }
+
+    const newNode = new _Node(val);
+    const prevNode = this.get(index - 1);
+
+    newNode.next = prevNode.next;
+    prevNode.next = newNode;
+
+    this.length++;
+    return true;
+  }
+
+  remove(index: number) {
+    if (index < 0 || index >= this.length) return false;
+
+    if (index === 0) {
+      this.shift();
+      return true;
+    }
+
+    if (index === this.length - 1) {
+      this.pop();
+      return true;
+    }
+
+    const prevNode = this.get(index - 1);
+
+    prevNode.next = prevNode.next.next;
+
+    this.length--;
+    return true;
+  }
 }
 
 const link = new SinglyLinkedList();
 
-// link.push('hello');
-// link.push('how');
-// link.push('are');
-// link.push('you');
+link.push('hello');
+link.push('how');
+link.push('are');
+link.push('you');
 
 // console.dir(link.pop(), { depth: null });
 // console.dir(link.pop(), { depth: null });
@@ -106,5 +175,15 @@ const link = new SinglyLinkedList();
 // console.dir(link.shift(), { depth: null });
 // console.dir(link.shift(), { depth: null });
 // console.dir(link.shift(), { depth: null });
+
+// console.dir(link.get(-1), { depth: null });
+// console.dir(link.get(2), { depth: null });
+// console.dir(link.get(100), { depth: null });
+
+// link.set(0, 'hi');
+
+// link.insert(1, 'hi');
+
+// link.remove(1);
 
 console.dir(link, { depth: null });
