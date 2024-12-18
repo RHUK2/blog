@@ -34,7 +34,7 @@ if [ -z "$branch" ]; then
 fi
 
 echo "---------- PULL PROCESS ----------"
-echo -e "${GREEN}[INFO]${NOCOLOR}remote repository"
+echo -e "${GREEN}[INFO]${NOCOLOR} Fetch remote repository"
 if ! git fetch origin; then
     echo -e "${RED}[ERROR]${NOCOLOR} Fetch remote repository"
     exit 1
