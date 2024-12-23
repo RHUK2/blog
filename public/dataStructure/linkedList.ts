@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class _Node {
+class SNode {
   val: any;
   next: any;
 
@@ -21,10 +21,10 @@ class SinglyLinkedList {
   }
 
   push(val: any) {
-    const newNode = new _Node(val);
-    if (this.head == null) {
+    const newNode = new SNode(val);
+    if (this.length === 0) {
       this.head = newNode;
-      this.tail = this.head;
+      this.tail = newNode;
     } else {
       this.tail.next = newNode;
       this.tail = newNode;
@@ -70,7 +70,7 @@ class SinglyLinkedList {
   }
 
   unshift(val: any) {
-    const newNode = new _Node(val);
+    const newNode = new SNode(val);
 
     if (!this.head) {
       this.head = newNode;
@@ -122,7 +122,7 @@ class SinglyLinkedList {
       return true;
     }
 
-    const newNode = new _Node(val);
+    const newNode = new SNode(val);
     const prevNode = this.get(index - 1);
 
     newNode.next = prevNode.next;
@@ -152,38 +152,58 @@ class SinglyLinkedList {
     this.length--;
     return true;
   }
+
+  reverse() {
+    let node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+
+    let next = null;
+    let prev = null;
+
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+
+    return this;
+  }
 }
 
-const link = new SinglyLinkedList();
+const sLink = new SinglyLinkedList();
 
-link.push('hello');
-link.push('how');
-link.push('are');
-link.push('you');
+sLink.push('hello');
+sLink.push('how');
+sLink.push('are');
+sLink.push('you');
 
-// console.dir(link.pop(), { depth: null });
-// console.dir(link.pop(), { depth: null });
-// console.dir(link.pop(), { depth: null });
-// console.dir(link.pop(), { depth: null });
+// console.dir(sLink.pop(), { depth: null });
+// console.dir(sLink.pop(), { depth: null });
+// console.dir(sLink.pop(), { depth: null });
+// console.dir(sLink.pop(), { depth: null });
 
-// link.unshift('hello');
-// link.unshift('how');
-// link.unshift('are');
-// link.unshift('you');
+// sLink.unshift('hello');
+// sLink.unshift('how');
+// sLink.unshift('are');
+// sLink.unshift('you');
 
-// console.dir(link.shift(), { depth: null });
-// console.dir(link.shift(), { depth: null });
-// console.dir(link.shift(), { depth: null });
-// console.dir(link.shift(), { depth: null });
+// console.dir(sLink.shift(), { depth: null });
+// console.dir(sLink.shift(), { depth: null });
+// console.dir(sLink.shift(), { depth: null });
+// console.dir(sLink.shift(), { depth: null });
 
-// console.dir(link.get(-1), { depth: null });
-// console.dir(link.get(2), { depth: null });
-// console.dir(link.get(100), { depth: null });
+// console.dir(sLink.get(-1), { depth: null });
+// console.dir(sLink.get(2), { depth: null });
+// console.dir(sLink.get(100), { depth: null });
 
-// link.set(0, 'hi');
+// sLink.set(0, 'hi');
 
-// link.insert(1, 'hi');
+// sLink.insert(1, 'hi');
 
-// link.remove(1);
+// sLink.remove(1);
 
-console.dir(link, { depth: null });
+// sLink.reverse();
+
+console.dir(sLink, { depth: null });
