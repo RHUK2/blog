@@ -29,9 +29,9 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
-  await writeMarkdownDataList();
+await writeMarkdownDataList();
 
+export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang='en'>
       <body className={`${pretendard.variable} font-pret dark:bg-gray-950 dark:text-white`}>
