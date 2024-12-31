@@ -1,6 +1,6 @@
 $remoteport = wsl hostname -I
 
-$ports=@(3000,3003);
+$ports=@(3000,3001,3002,3003);
 $ports_a = $ports -join ",";
 
 $addr='0.0.0.0';
