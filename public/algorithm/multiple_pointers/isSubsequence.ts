@@ -38,7 +38,6 @@ console.log(isSubsequence('abc', 'abracadabra')); // true
 console.log(isSubsequence('abc', 'acb')); // false (order matters)
 
 // Solution Code
-
 function isSubsequenceSolution(str1: string, str2: string) {
   let i = 0;
   let j = 0;
