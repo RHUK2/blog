@@ -8,7 +8,6 @@ import './_css/globals.css';
 import './_css/highlight.css';
 import { CustomQueryClientProvider } from './_provider';
 import { Header } from './_serverComponent';
-import { writeMarkdownDataList } from './_util';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
