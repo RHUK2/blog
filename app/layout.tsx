@@ -29,7 +29,8 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-await writeMarkdownDataList();
+// list.json 업데이트
+// await writeMarkdownDataList();
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
