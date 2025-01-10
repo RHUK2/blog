@@ -1,8 +1,9 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { MouseEvent, useCallback, useMemo, useState } from 'react';
+import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { Button, Menu } from '.';
+import { MenuItem } from './MenuItem';
 
 interface PaginationProps {
   totalCount: number;
@@ -18,7 +19,9 @@ export function Pagination({ totalCount, size }: PaginationProps) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const pageCount = useMemo(() => Math.ceil(totalCount / size), [totalCount, size]);
+  const controlRef = useRef<HTMLElement>(null);
+
+  const pageCount = Math.ceil(totalCount / size);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -67,19 +70,16 @@ export function Pagination({ totalCount, size }: PaginationProps) {
     <>
       <div className='flex justify-center gap-3'>
         <Button onClick={() => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0'))}>{'<'}</Button>
-        <Button onClick={handleMenuToggle}>
+        <Button ref={controlRef} onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
-          <Menu open={isMenuOpen} onClose={handleMenuClose}>
-            {new Array(pageCount).fill('0').map((item, index) => (
-              <li
-                key={`page_${index}`}
-                onClick={() => handlePageQuery(index)}
-                className='m-auto min-w-12 cursor-pointer py-1 text-center'>
-                {index + 1}
-              </li>
-            ))}
-          </Menu>
         </Button>
+        <Menu control={controlRef} open={isMenuOpen} onClose={handleMenuClose}>
+          {new Array(pageCount).fill('0').map((item, index) => (
+            <MenuItem key={`page_${index}`} onClick={() => handlePageQuery(index)}>
+              {index + 1}
+            </MenuItem>
+          ))}
+        </Menu>
         <Button onClick={() => handleNextPageQuery(parseInt(searchParams.get('page') || '0'))}>{'>'}</Button>
       </div>
     </>
