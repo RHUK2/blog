@@ -84,9 +84,9 @@ export function ChatForm() {
 
   return (
     <form className='flex h-full flex-col gap-4'>
-      <ul ref={ulRef} className='relative flex flex-[1_0_0] flex-col gap-4 overflow-y-auto pr-4'>
+      <ul ref={ulRef} className='flex flex-[1_0_0px] flex-col gap-4 overflow-y-auto pr-4'>
         {apiChat.isPending ? (
-          <div className='flex h-full items-center justify-center'>로딩중...</div>
+          <div className='flex flex-[1_0_0px] items-center justify-center'>로딩중...</div>
         ) : (
           chat.map((message, message_index) => {
             switch (message.role) {
