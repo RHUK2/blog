@@ -22,6 +22,7 @@ isPublished:
   - [`flex-basis`](#flex-basis)
   - [응용](#응용)
 - [`grid`](#grid)
+  - [flex 와 overflow: 'hidden', minWidth, maxWidth](#flex-와-overflow-hidden-minwidth-maxwidth)
   - [반응형](#반응형)
 - [position](#position)
   - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
@@ -40,6 +41,7 @@ isPublished:
 - [초기 CSS 설정](#초기-css-설정)
 - [모달 창 스크롤 바 제어](#모달-창-스크롤-바-제어)
 - [overflow 적용 안되는 이슈](#overflow-적용-안되는-이슈)
+- [:before, :after content 안에 attr() 속성으로 태그 속성값 쉽게 추가 가능](#before-after-content-안에-attr-속성으로-태그-속성값-쉽게-추가-가능)
 
 ## css를 연동시키는 법
 
@@ -264,6 +266,12 @@ div.flex-item-2 {
 ## `grid`
 
 `grid`는 해당 속성이 적힌 요소를 그리드 컨테이너로 만들고, 자식 요소들을 그리드 아이템으로 만들어 `grid` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
+
+### flex 와 overflow: 'hidden', minWidth, maxWidth
+
+flexBasis가 차지하는 여백을 제외하고 계산됨
+
+<!-- todo -->
 
 ### 반응형
 
@@ -541,3 +549,7 @@ if (userInterface.isAsideOpen === true) {
 
 5. Grid 사용 시:
    - Grid 레이아웃을 사용할 때도 비슷한 문제가 발생할 수 있다. 부모 요소와 자식 요소의 크기와 배치를 명확하게 설정하여 `overflow` 속성이 적용되도록 한다.
+
+## :before, :after content 안에 attr() 속성으로 태그 속성값 쉽게 추가 가능
+
+input을 감싸서 input에서 오는 onChange를 버블링 가능함
