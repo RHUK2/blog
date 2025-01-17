@@ -25,12 +25,12 @@ export const Textarea = forwardRef(function Textarea(
       onChange={(e) => {
         const renderedLines = Math.floor(e.target.scrollHeight / parseFloat(getComputedStyle(e.target).lineHeight));
 
-        setLines(e.target.value ? renderedLines : 1);
+        setLines(e.target.value ? Math.min(e.target.value.split('\n').length, renderedLines) : 1);
 
         if (onChange) onChange(e);
       }}
       className={twMerge(
-        '`resize-none rounded-md border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 p-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        'resize-none rounded-md border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 p-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
         `${className ?? ''}`,
       )}
       {...TextareaProps}
