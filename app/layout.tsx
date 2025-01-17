@@ -6,6 +6,7 @@ import localFont from 'next/font/local';
 import { Footer } from './_clientComponent';
 import './_css/globals.css';
 import './_css/highlight.css';
+import 'katex/dist/katex.min.css';
 import { CustomQueryClientProvider } from './_provider';
 import { Header } from './_serverComponent';
 

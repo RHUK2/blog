@@ -6,8 +6,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import { Textarea } from './Textarea';
 
 const InitChat: ChatData[] = [
@@ -98,8 +100,8 @@ export function ChatForm() {
                     <div className='self-end'>User</div>
                     <Markdown
                       className='prose rounded-md border border-gray-400 px-4 py-2 dark:prose-invert dark:border-gray-700'
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeHighlight, rehypeSlug]}
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
                     >
                       {message.content}
                     </Markdown>
