@@ -10,6 +10,14 @@ interface PaginationProps {
   size: number;
 }
 
+function circularQueue(min: number, max: number, index: number) {
+  const rangeSize = max - min;
+
+  const relativeIndex = index - min;
+
+  return (((relativeIndex % rangeSize) + rangeSize) % rangeSize) + min;
+}
+
 export function Pagination({ totalCount, size }: PaginationProps) {
   const pathname = usePathname();
 
@@ -37,25 +45,25 @@ export function Pagination({ totalCount, size }: PaginationProps) {
   function handlePreviousPageQuery(index: number) {
     handleMenuClose();
 
-    router.push(
-      `${pathname}${index > 0 ? `?${createQueryString('page', String(index - 1))}` : `?${searchParams.toString()}`}`,
-    );
+    const query = createQueryString('page', String(circularQueue(0, pageCount, index - 1)));
+
+    router.push(`${pathname}?${query}`);
   }
 
   function handlePageQuery(index: number) {
     handleMenuClose();
 
-    router.push(
-      `${pathname}${index >= 0 ? `?${createQueryString('page', String(index))}` : `?${searchParams.toString()}`}`,
-    );
+    const query = createQueryString('page', String(index));
+
+    router.push(`${pathname}?${query}`);
   }
 
   function handleNextPageQuery(index: number) {
     handleMenuClose();
 
-    router.push(
-      `${pathname}${index < pageCount - 1 ? `?${createQueryString('page', String(index + 1))}` : `?${createQueryString('page', String(index))}`}`,
-    );
+    const query = createQueryString('page', String(circularQueue(0, pageCount, index + 1)));
+
+    router.push(`${pathname}?${query}`);
   }
 
   function handleMenuToggle(event: MouseEvent<HTMLButtonElement>) {
@@ -68,7 +76,7 @@ export function Pagination({ totalCount, size }: PaginationProps) {
 
   return (
     <>
-      <div className='flex justify-center gap-3'>
+      <div className='flex justify-between gap-3'>
         <Button onClick={() => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0'))}>{'<'}</Button>
         <Button ref={controlRef} onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
