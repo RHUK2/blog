@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-let isInit = false;
+import { motion } from 'motion/react';
 
 export function DarkLightButton() {
   const [mode, setMode] = useState({
@@ -29,9 +28,7 @@ export function DarkLightButton() {
   }
 
   useEffect(() => {
-    if (!isInit) {
-      isInit = true;
-
+    if (!mode.isInit) {
       const item = localStorage.getItem('theme');
 
       let updateValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -56,13 +53,14 @@ export function DarkLightButton() {
   }, []);
 
   return (
-    <>
-      <button onClick={handleMode} className='min-w-10 dark:hidden'>
-        LIGHT
-      </button>
-      <button onClick={handleMode} className='hidden min-w-10 dark:block'>
-        DARK
-      </button>
-    </>
+    <motion.button
+      onClick={handleMode}
+      className={`flex h-6 w-12 items-center rounded-2xl border border-gray-700 bg-slate-50 bg-gradient-to-br from-gray-900 to-gray-800 px-1 dark:border-gray-400 dark:from-gray-50 dark:to-gray-100 ${mode.theme === 'dark' ? 'justify-start' : 'justify-end'}`}
+    >
+      <motion.div
+        layout
+        className='h-4 w-4 rounded-[50%] border-gray-400 bg-slate-50 bg-gradient-to-br from-gray-50 to-gray-100 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
+      ></motion.div>
+    </motion.button>
   );
 }
