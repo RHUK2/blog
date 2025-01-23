@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'katex/dist/katex.min.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { ReactNode } from 'react';
 import { Footer } from './_clientComponent';
 import './_css/globals.css';
 import './_css/highlight.css';
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 // list.json 업데이트

@@ -1,8 +1,9 @@
 import { frontMatterData } from '@/_type';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { DetailedHTMLProps, LiHTMLAttributes } from 'react';
 
-interface PostCardProps extends React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
+interface PostCardProps extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
   post: frontMatterData;
 }
 

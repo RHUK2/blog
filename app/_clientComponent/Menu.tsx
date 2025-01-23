@@ -1,10 +1,18 @@
 'use client';
 
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import {
+  DetailedHTMLProps,
+  forwardRef,
+  HTMLAttributes,
+  RefObject,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface MenuProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLUListElement>, HTMLUListElement> {
-  control: React.RefObject<HTMLElement> | null;
+interface MenuProps extends DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> {
+  control: RefObject<HTMLElement> | null;
   open: boolean;
   onClose: () => void;
 }
@@ -15,7 +23,7 @@ export const Menu = forwardRef(function Menu(
 ) {
   const rafId = useRef<number | null>(null);
 
-  const ulRef = useRef<HTMLUListElement>(null);
+  const ulRef = useRef<HTMLUListElement | null>(null);
 
   useImperativeHandle(ref, () => ulRef.current);
 

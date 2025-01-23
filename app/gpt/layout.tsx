@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 interface GptLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function GptLayout({ children }: Readonly<GptLayoutProps>) {

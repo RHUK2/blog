@@ -27,7 +27,7 @@ export function Pagination({ totalCount, size }: PaginationProps) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const controlRef = useRef<HTMLElement>(null);
+  const controlRef = useRef<HTMLButtonElement | null>(null);
 
   const pageCount = Math.ceil(totalCount / size);
 

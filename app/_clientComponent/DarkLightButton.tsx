@@ -55,7 +55,7 @@ export function DarkLightButton() {
   return (
     <motion.button
       onClick={handleMode}
-      className={`flex h-6 w-12 items-center rounded-2xl border border-gray-700 bg-slate-50 bg-gradient-to-br from-gray-900 to-gray-800 px-1 dark:border-gray-400 dark:from-gray-50 dark:to-gray-100 ${mode.theme === 'dark' ? 'justify-start' : 'justify-end'}`}
+      className={`flex h-6 w-12 cursor-pointer items-center rounded-2xl border border-gray-700 bg-slate-50 bg-gradient-to-br from-gray-900 to-gray-800 px-1 dark:border-gray-400 dark:from-gray-50 dark:to-gray-100 ${mode.theme === 'dark' ? 'justify-start' : 'justify-end'}`}
     >
       <motion.div
         layout

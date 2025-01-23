@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef, useImperativeHandle, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const MenuItem = forwardRef(function MenuItem(
@@ -8,10 +8,10 @@ export const MenuItem = forwardRef(function MenuItem(
     children,
     className,
     ...buttonProps
-  }: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
+  }: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
   ref,
 ) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useImperativeHandle(ref, () => buttonRef.current);
 

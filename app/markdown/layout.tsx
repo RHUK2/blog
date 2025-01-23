@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 interface MarkdownLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function MarkdownLayout({ children }: Readonly<MarkdownLayoutProps>) {

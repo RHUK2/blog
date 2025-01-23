@@ -1,16 +1,13 @@
 'use client';
 
-import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { DetailedHTMLProps, forwardRef, InputHTMLAttributes, useImperativeHandle, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const TextInput = forwardRef(function TextInput(
-  {
-    className,
-    ...TextInputProps
-  }: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+  { className, ...TextInputProps }: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   ref,
 ) {
-  const textInputRef = useRef(null);
+  const textInputRef = useRef<HTMLInputElement | null>(null);
 
   useImperativeHandle(ref, () => textInputRef.current);
 
