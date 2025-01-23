@@ -357,6 +357,8 @@ opacity는 전체 적용
 
 ## Image
 
+<!-- 인라인 태그에서 text-align과 vertical-align으로 텍스트를 정렬하듯, 이미지 태그도 object-fit을 통해 이미지를 정렬하는거로 생각해도돼? -->
+
 이미지 태그에 이미지 파일을 연결하면 해당 이미지 파일의 크기로 세팅된다.
 
 width와 height을 설정해서 이미지 태그의 컨테이너 크기를 지정하고 object-fit, object-position 속성으로

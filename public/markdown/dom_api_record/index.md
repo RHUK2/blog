@@ -9,6 +9,7 @@ isPublished:
 # DOM API 관련 기록
 
 - [script](#script)
+- [event bubble](#event-bubble)
 - [target vs currentTarget](#target-vs-currenttarget)
 - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)
 - [window vs document](#window-vs-document)
@@ -22,6 +23,10 @@ isPublished:
 // <script defer>
 // <script async>
 ```
+
+## event bubble
+
+부모 태그에도 이벤트가 붙어있고, 자식 태그에도 이벤트가 붙어있는데 같은 이벤트라면 버블링에 유의하자!
 
 ## target vs currentTarget
 
