@@ -1,70 +1,133 @@
 'use client';
 
-import { useFieldArray, useForm } from 'react-hook-form';
+import { motion, MotionConfig } from 'motion/react';
+import { createContext, useContext, useState } from 'react';
 import { ChatForm } from './ChatForm';
-import { useEffect, useState } from 'react';
-import { Button } from './Button';
-import { useMount } from '@/_hooks';
+
+interface Tab {
+  id: string;
+  title: string;
+}
+
+interface State {
+  currId: string;
+  tabs: Tab[];
+}
+
+const tabsSetStateContext = createContext<React.Dispatch<React.SetStateAction<State>>>(() => {});
 
 export function TabsForm() {
-  const [current, setCurrent] = useState('');
+  const [state, setState] = useState<State>(() => {
+    const id = String(Date.now());
 
-  const isMounted = useMount();
-
-  const { control } = useForm<{ tabs: { title: string }[] }>({
-    mode: 'onChange',
-    defaultValues: {
-      tabs: [{ title: '탭' }],
-    },
+    return {
+      currId: id,
+      tabs: [{ id: id, title: 'New Tab' }],
+    };
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'tabs',
-  });
+  function moveTab(tabId: string) {
+    setState((prev) => ({
+      ...prev,
+      currId: tabId,
+    }));
+  }
 
-  useEffect(() => {
-    if (isMounted && fields.length > 0) {
-      setCurrent(fields[0].id);
-    }
-  }, [isMounted, fields]);
+  function DeleteTab(tabId: string) {
+    setState((prev) => {
+      if (prev.tabs.length <= 1) return prev;
+
+      if (prev.currId === tabId) {
+        return {
+          currId: prev.tabs[prev.tabs.length - 2].id,
+          tabs: prev.tabs.filter((prevTab) => prevTab.id !== tabId),
+        };
+      } else {
+        return {
+          ...prev,
+          tabs: prev.tabs.filter((prevTab) => prevTab.id !== tabId),
+        };
+      }
+    });
+  }
+
+  function AddTab() {
+    setState((prev) => {
+      const newId = String(Date.now());
+
+      return {
+        currId: newId,
+        tabs: [...prev.tabs, { id: newId, title: 'New Tab' }],
+      };
+    });
+  }
 
   return (
-    <div className='flex h-full flex-col gap-3'>
-      <div className='flex items-end gap-2 overflow-x-auto border-b border-gray-400 dark:border-gray-700'>
-        {fields.map((tab, tab_index) => (
-          <div
-            key={tab.id}
-            className={`flex min-h-10 min-w-12 flex-[0_0_90px] cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800`}
-            onClick={() => {
-              setCurrent(tab.id);
-            }}
-          >
-            <p>{tab.title}</p>
-            <p
+    <MotionConfig
+      transition={{
+        duration: 0.1,
+      }}
+    >
+      <div className='flex h-full flex-col gap-3'>
+        <ul className='flex h-16 items-end gap-2 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'>
+          {state.tabs.map((tab, tab_index) => (
+            <motion.li
+              key={tab.id}
+              tabIndex={0}
+              initial={false}
+              animate={{
+                paddingTop: tab.id === state.currId ? '10px' : '8px',
+                paddingBottom: tab.id === state.currId ? '10px' : '8px',
+              }}
+              whileHover={{
+                paddingTop: '10px',
+                paddingBottom: '10px',
+              }}
+              whileFocus={{
+                paddingTop: '10px',
+                paddingBottom: '10px',
+              }}
+              className={
+                'flex w-36 cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-3 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
+              }
               onClick={() => {
-                remove(tab_index);
+                moveTab(tab.id);
               }}
             >
-              x
-            </p>
-          </div>
-        ))}
-        <Button
-          className='h-6 rounded-none rounded-t-md border-b-0'
-          onClick={() => {
-            append({ title: '탭' });
-          }}
-        >
-          +
-        </Button>
-      </div>
+              <span className='overflow-hidden text-ellipsis whitespace-nowrap'>{tab.title}</span>
+              <motion.button
+                className='block cursor-pointer p-2 leading-none'
+                onClick={(event) => {
+                  event.stopPropagation();
 
-      {fields.map((tab) => (
-        <div key={tab.id} className={`flex-[1_0_0px] ${tab.id === current ? 'block' : 'hidden'}`}>
-          <ChatForm />
-        </div>
-      ))}
-    </div>
+                  DeleteTab(tab.id);
+                }}
+              >
+                ⨉
+              </motion.button>
+            </motion.li>
+          ))}
+          <motion.li className='rounded-none rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
+            <motion.button className='cursor-pointer px-4 py-2 text-2xl leading-none' onClick={AddTab}>
+              +
+            </motion.button>
+          </motion.li>
+        </ul>
+
+        <tabsSetStateContext.Provider value={setState}>
+          {state.tabs.map((tab) => (
+            <ChatForm
+              key={tab.id}
+              id={tab.id}
+              className={`flex-[1_0_0px] ${tab.id === state.currId ? 'flex' : 'hidden'}`}
+            />
+          ))}
+        </tabsSetStateContext.Provider>
+      </div>
+    </MotionConfig>
   );
+}
+
+export function useTabsSetStateContext() {
+  return useContext(tabsSetStateContext);
 }
