@@ -36,8 +36,8 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang='en'>
-      <body className={`${pretendard.variable} font-pret dark:bg-gray-950 dark:text-white`}>
+    <html lang='en' className='h-full'>
+      <body className={`h-full ${pretendard.className} dark:bg-gray-950 dark:text-white`}>
         <CustomQueryClientProvider>
           <Header />
           {children}
