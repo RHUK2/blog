@@ -42,6 +42,7 @@ isPublished:
 - [모달 창 스크롤 바 제어](#모달-창-스크롤-바-제어)
 - [overflow 적용 안되는 이슈](#overflow-적용-안되는-이슈)
 - [:before, :after content 안에 attr() 속성으로 태그 속성값 쉽게 추가 가능](#before-after-content-안에-attr-속성으로-태그-속성값-쉽게-추가-가능)
+- [텍스트를 로고 형태로 쓰고싶다면 line-height: 0으로 하자](#텍스트를-로고-형태로-쓰고싶다면-line-height-0으로-하자)
 
 ## css를 연동시키는 법
 
@@ -555,3 +556,5 @@ if (userInterface.isAsideOpen === true) {
 ## :before, :after content 안에 attr() 속성으로 태그 속성값 쉽게 추가 가능
 
 input을 감싸서 input에서 오는 onChange를 버블링 가능함
+
+## 텍스트를 로고 형태로 쓰고싶다면 line-height: 0으로 하자

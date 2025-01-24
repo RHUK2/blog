@@ -96,7 +96,7 @@ export function TabsForm() {
             >
               <span className='overflow-hidden text-ellipsis whitespace-nowrap'>{tab.title}</span>
               <motion.button
-                className='block cursor-pointer p-2 leading-none'
+                className='block h-5 w-5 cursor-pointer rounded-[50%] leading-none hover:bg-black/20 hover:dark:bg-white/20'
                 onClick={(event) => {
                   event.stopPropagation();
 
@@ -108,7 +108,10 @@ export function TabsForm() {
             </motion.li>
           ))}
           <motion.li className='rounded-none rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
-            <motion.button className='cursor-pointer px-4 py-2 text-2xl leading-none' onClick={AddTab}>
+            <motion.button
+              className='cursor-pointer rounded-none rounded-t-md px-4 py-2 text-2xl leading-none hover:bg-black/20 hover:dark:bg-white/20'
+              onClick={AddTab}
+            >
               +
             </motion.button>
           </motion.li>
