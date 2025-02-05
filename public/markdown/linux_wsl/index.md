@@ -8,11 +8,14 @@ isPublished: true
 
 # WSL 기록하기
 
+- [네트워크](#네트워크)
 - [명령어](#명령어)
 
-## 명령어
+## 네트워크
 
 ![img](images/wsl_network.png)
+
+## 명령어
 
 ```sh
 # To list installed distributions

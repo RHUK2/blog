@@ -1,5 +1,5 @@
 ---
-folderName: sql_record
+folderName: db_sql
 updatedAt: 2024-03-18
 title: SQL 기록하기
 tag: db

@@ -2,7 +2,7 @@
 folderName: auth_jwt
 updatedAt: 2024-09-15
 title: JWT 인증
-tag: auth
+tag: security
 isPublished: true
 ---
 
@@ -17,7 +17,7 @@ isPublished: true
 
 ## JWT(JSON Web Token)
 
-JWT는 JSON 객체를 안전하게 전송하기 위한 웹 표준이다. 주로 인증 및 정보 교환에 사용된다.
+JWT는 JSON 객체를 안전하게 전송하기 위한 웹 표준이다. 주로 사용자 인증과 권한 부여, 정보 교환에 사용된다.
 
 JWT는 그 자체로 정보를 안전하게 전송할 수 있는 방법이지만, 항상 HTTPS를 사용하여 전송하는 것이 중요하다. JWT를 사용함으로써 인증 메커니즘이 간소화되고, 확장성이 높아지는 장점을 가질 수 있다.
 
