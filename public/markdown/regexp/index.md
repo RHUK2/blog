@@ -1,10 +1,12 @@
 ---
-folderName: regexp
-updatedAt: 2024-04-21
-title: 정규표현식 기록하기
-tag: javascript
-isPublished:
+folderName: regexp_note
+updatedAt: 2025-02-06
+title: Regexp Note
+tag: regexp
+isPublished: true
 ---
+
+# Regexp Note
 
 - [positive lookahed, negative lookahed](#positive-lookahed-negative-lookahed)
 - [줄바꿈도 검색하기](#줄바꿈도-검색하기)
@@ -12,6 +14,26 @@ isPublished:
 ## positive lookahed, negative lookahed
 
 조건문에 따라 찾은 위치 기준으로 앞에서 찾냐 뒤에서 찾냐
+
+```regexp
+/.(?=t)/
+  ←▼
+positive lookahed
+
+/(?=t)./
+    ▼→
+positive lookahed
+```
+
+```regexp
+/.(?!t)/
+   ←▼
+positive lookahed
+
+/(?!t)./
+    ▼→
+positive lookahed
+```
 
 ## 줄바꿈도 검색하기
 

@@ -87,3 +87,133 @@ JavaScript로 애니메이션을 제어할 때 렌더링의 어느 단계가 실
 3. 최적화된 애니메이션 성능을 위해 `transform`과 `opacity`를 사용하고, `requestAnimationFrame`을 활용하세요.
 
 이로써 JS 애니메이션이 브라우저 렌더링에 어떻게 영향을 미치는지 이해할 수 있습니다! 궁금한 점이 있으면 추가로 질문해주세요. 😊
+
+다음은 React의 `onClick` 및 `onResize` 이벤트에서 `requestAnimationFrame`을 활용하는 예제입니다.
+
+---
+
+### 1. onClick에서 애니메이션 적용 예제
+
+```tsx
+import { useState, useRef, useEffect } from 'react';
+
+function AnimatedBox() {
+  const [width, setWidth] = useState(0);
+  const animationRef = useRef<number | null>(null);
+
+  const startAnimation = () => {
+    let startTime: number | null = null;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const duration = 2000; // 2초 동안 애니메이션
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1); // 0~1 범위로 정규화
+
+      setWidth(progress * 100); // 너비 0% → 100%
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    // 초기 애니메이션 프레임 요청
+    animationRef.current = requestAnimationFrame(animate);
+  };
+
+  // 컴포넌트 언마운트 시 애니메이션 정리
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div>
+      <button onClick={startAnimation}>Start Animation</button>
+      <div
+        style={{
+          width: `${width}%`,
+          height: 50,
+          backgroundColor: 'blue',
+          transition: 'none', // CSS 트랜지션 무시
+        }}
+      />
+    </div>
+  );
+}
+```
+
+---
+
+### 2. onResize에서 성능 최적화 예제
+
+```tsx
+import { useState, useRef, useEffect } from 'react';
+
+function ResizeTracker() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const animationRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // 이전 프레임 요청 취소 (성능 최적화)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+
+      // 새 프레임 요청 (초당 60프레임으로 제한)
+      animationRef.current = requestAnimationFrame(() => {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div>
+      <h2>Window Size</h2>
+      <p>Width: {windowSize.width}px</p>
+      <p>Height: {windowSize.height}px</p>
+    </div>
+  );
+}
+```
+
+---
+
+### 주요 특징 설명
+
+1. **onClick 애니메이션**
+
+   - `requestAnimationFrame`을 사용해 부드러운 너비 변화 구현
+   - 2초 동안 선형 애니메이션 진행
+   - 컴포넌트 언마운트 시 자동 정리
+
+2. **onResize 최적화**
+
+   - 리사이즈 이벤트를 프레임 단위로 스로틀링
+   - 불필요한 렌더링 방지 (초당 최대 60회 업데이트)
+   - 이전 프레임 요청 취소를 통한 성능 개선
+
+3. **공통 사항**
+   - `useRef`로 애니메이션 ID 추적
+   - `useEffect` 클린업 함수로 자원 정리
+   - TypeScript 타입 안전성 추가
+
+이 예제들은 복잡한 UI 인터랙션과 반응형 디자인을 구현할 때 유용하며, 특히 고성능이 요구되는 애플리케이션에서 효과적으로 사용될 수 있습니다.
