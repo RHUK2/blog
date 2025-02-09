@@ -1,3 +1,4 @@
+import { useChatMutationBody } from '@/_type';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -6,12 +7,11 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body: useChatMutationBody = await request.json();
 
     const completion = await openai.chat.completions.create({
-      model: 'chatgpt-4o-latest',
-      // model: 'gpt-4o-mini',
       messages: body.chat,
+      model: body.model,
     });
 
     return Response.json({ chat: completion.choices[0].message });

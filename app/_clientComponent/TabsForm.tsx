@@ -18,7 +18,7 @@ const tabsSetStateContext = createContext<React.Dispatch<React.SetStateAction<St
 
 export function TabsForm() {
   const [state, setState] = useState<State>(() => {
-    const id = String(Date.now());
+    const id = '0';
 
     return {
       currId: id,
@@ -88,13 +88,13 @@ export function TabsForm() {
                 paddingBottom: '10px',
               }}
               className={
-                'flex w-36 cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-3 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
+                'flex cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-3 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
               }
               onClick={() => {
                 moveTab(tab.id);
               }}
             >
-              <span className='overflow-hidden text-ellipsis whitespace-nowrap'>{tab.title}</span>
+              <span className='w-28 overflow-hidden text-ellipsis whitespace-nowrap'>{tab.title}</span>
               <motion.button
                 className='block h-5 w-5 cursor-pointer rounded-[50%] leading-none hover:bg-black/20 hover:dark:bg-white/20'
                 onClick={(event) => {

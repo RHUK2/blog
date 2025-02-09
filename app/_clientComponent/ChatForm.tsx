@@ -21,6 +21,7 @@ import remarkMath from 'remark-math';
 import { twMerge } from 'tailwind-merge';
 import { useTabsSetStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
+import { Radio } from './Radio';
 
 const InitChat: ChatData[] = [
   {
@@ -37,13 +38,17 @@ export const ChatForm = forwardRef(function ChatForm(
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
-  useImperativeHandle(ref, () => formRef.current);
-
   const ulRef = useRef<HTMLUListElement | null>(null);
 
-  const { register, resetField, handleSubmit } = useForm({
+  useImperativeHandle(ref, () => formRef.current);
+
+  const { register, resetField, handleSubmit } = useForm<{
+    userMessage: string;
+    model: 'gpt-4o-mini' | 'chatgpt-4o-latest';
+  }>({
     defaultValues: {
       userMessage: '',
+      model: 'gpt-4o-mini',
     },
   });
 
@@ -55,28 +60,19 @@ export const ChatForm = forwardRef(function ChatForm(
     const newRequest = chat.concat({ role: 'user', content: data.userMessage });
     setTabsState((prev) => ({
       ...prev,
-      tabs: prev.tabs.map((prevTab) => {
-        if (prevTab.id === id) {
-          return {
-            ...prevTab,
-            title: data.userMessage,
-          };
-        } else {
-          return prevTab;
-        }
-      }),
+      tabs: prev.tabs.map((prevTab) => (prevTab.id === id ? { ...prevTab, title: data.userMessage } : prevTab)),
     }));
 
     apiChat.mutate(
-      { chat: newRequest },
+      { chat: newRequest, model: data.model },
       {
         onSuccess(response) {
           setChat([...newRequest, { ...response.chat }]);
         },
         onError(error) {
-          console.log(error);
+          console.error(error);
 
-          alert('오류가 발생했습니다.');
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
         },
       },
     );
@@ -158,6 +154,29 @@ export const ChatForm = forwardRef(function ChatForm(
           })
         )}
       </ul>
+
+      <fieldset className='flex items-center gap-4'>
+        <label className='flex cursor-pointer items-center gap-2' htmlFor={`gpt-4o-mini-${id}`}>
+          <Radio
+            className='cursor-pointer'
+            id={`gpt-4o-mini-${id}`}
+            type='radio'
+            {...register('model')}
+            value='gpt-4o-mini'
+          />
+          4o-mini
+        </label>
+        <label className='flex cursor-pointer items-center gap-2' htmlFor={`chatgpt-4o-latest-${id}`}>
+          <Radio
+            className='cursor-pointer'
+            id={`chatgpt-4o-latest-${id}`}
+            type='radio'
+            {...register('model')}
+            value='chatgpt-4o-latest'
+          />
+          4o-latest
+        </label>
+      </fieldset>
 
       <Textarea
         autoComplete='off'
