@@ -8,33 +8,24 @@ isPublished: true
 
 # Regexp Note
 
-- [positive lookahed, negative lookahed](#positive-lookahed-negative-lookahed)
-- [줄바꿈도 검색하기](#줄바꿈도-검색하기)
+- [positive lookahed](#positive-lookahed)
+- [newline](#newline)
 
-## positive lookahed, negative lookahed
+## positive lookahed
 
-조건문에 따라 찾은 위치 기준으로 앞에서 찾냐 뒤에서 찾냐
+```text
+/..(?=t)/
+  ←←▼
+positive lookahead // si
 
-```regexp
-/.(?=t)/
-  ←▼
-positive lookahed
-
-/(?=t)./
-    ▼→
-positive lookahed
+/(?=t).../
+   ▼→→→
+positive lookahead // tiv
 ```
 
-```regexp
-/.(?!t)/
-   ←▼
-positive lookahed
+## newline
 
-/(?!t)./
-    ▼→
-positive lookahed
-```
-
-## 줄바꿈도 검색하기
-
-[\w\W]
+- `\n`을 사용해서 검색
+- `.`은 `\n`을 포함하지 않는 모든 문자를 의미
+- `\W`, `\D`, `\s`는 `\n`을 포함
+- `\w`, `\d`, `\S`는 `\n`을 포함하지 않음

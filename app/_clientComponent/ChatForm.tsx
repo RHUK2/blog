@@ -57,7 +57,10 @@ export const ChatForm = forwardRef(function ChatForm(
   const apiChat = useChatMutation();
 
   const onChat = handleSubmit((data) => {
-    const newRequest = chat.concat({ role: 'user', content: data.userMessage });
+    const newRequest = chat.concat({
+      role: 'user',
+      content: `${data.userMessage}\n\n- 위 물음에 대한 대답은 "건조체" 형식의 말투로 대답한다.\n- 위 사항을 명심한다.`,
+    });
     setTabsState((prev) => ({
       ...prev,
       tabs: prev.tabs.map((prevTab) => (prevTab.id === id ? { ...prevTab, title: data.userMessage } : prevTab)),
