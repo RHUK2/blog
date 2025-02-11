@@ -6,7 +6,7 @@ export const navList: Nav[] = [
     text: 'NOTE',
   },
   {
-    href: '/gpt',
-    text: 'GPT',
+    href: '/llm',
+    text: 'LLM',
   },
 ];

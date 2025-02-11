@@ -5,10 +5,10 @@ import { motion, MotionConfig } from 'motion/react';
 import { createContext, useContext, useState } from 'react';
 import { ChatForm } from './ChatForm';
 
-const tabsSetStateContext = createContext<React.Dispatch<React.SetStateAction<ITabListState>>>(() => {});
+const tabListSetStateContext = createContext<React.Dispatch<React.SetStateAction<ITabListState>>>(() => {});
 
 export function TabsForm() {
-  const [state, setState] = useState<ITabListState>(() => {
+  const [tabListState, setTabListState] = useState<ITabListState>(() => {
     const id = '0';
 
     return {
@@ -17,15 +17,17 @@ export function TabsForm() {
     };
   });
 
+  const isOnlyTab = tabListState.tabList.length === 1;
+
   function moveTab(tabId: string) {
-    setState((prev) => ({
+    setTabListState((prev) => ({
       ...prev,
-      currId: tabId,
+      currentId: tabId,
     }));
   }
 
   function DeleteTab(tabId: string) {
-    setState((prev) => {
+    setTabListState((prev) => {
       if (prev.tabList.length <= 1) return prev;
 
       if (prev.currentId === tabId) {
@@ -43,7 +45,7 @@ export function TabsForm() {
   }
 
   function AddTab() {
-    setState((prev) => {
+    setTabListState((prev) => {
       const newId = String(Date.now());
 
       return {
@@ -61,22 +63,22 @@ export function TabsForm() {
     >
       <div className='flex h-full flex-col gap-3'>
         <ul className='flex h-16 items-end gap-2 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'>
-          {state.tabList.map((tab) => (
+          {tabListState.tabList.map((tab) => (
             <motion.li
               key={tab.id}
               tabIndex={0}
               initial={false}
               animate={{
-                paddingTop: tab.id === state.currentId ? '10px' : '8px',
-                paddingBottom: tab.id === state.currentId ? '10px' : '8px',
+                paddingTop: tab.id === tabListState.currentId ? '10px' : '8px',
+                paddingBottom: tab.id === tabListState.currentId ? '10px' : '8px',
               }}
               whileHover={{
-                paddingTop: '10px',
-                paddingBottom: '10px',
+                paddingTop: '12px',
+                paddingBottom: '12px',
               }}
               whileFocus={{
-                paddingTop: '10px',
-                paddingBottom: '10px',
+                paddingTop: '12px',
+                paddingBottom: '12px',
               }}
               className={
                 'flex cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-3 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
@@ -86,16 +88,18 @@ export function TabsForm() {
               }}
             >
               <span className='w-28 overflow-hidden text-ellipsis whitespace-nowrap'>{tab.title}</span>
-              <motion.button
-                className='block h-5 w-5 cursor-pointer rounded-[50%] leading-none hover:bg-black/20 hover:dark:bg-white/20'
-                onClick={(event) => {
-                  event.stopPropagation();
+              {tab.id !== '0' && (
+                <motion.button
+                  className='block h-6 w-6 cursor-pointer rounded-[50%] leading-none hover:bg-black/20 hover:dark:bg-white/20'
+                  onClick={(event) => {
+                    event.stopPropagation();
 
-                  DeleteTab(tab.id);
-                }}
-              >
-                ⨉
-              </motion.button>
+                    DeleteTab(tab.id);
+                  }}
+                >
+                  🗙
+                </motion.button>
+              )}
             </motion.li>
           ))}
           <motion.li className='rounded-none rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
@@ -108,20 +112,20 @@ export function TabsForm() {
           </motion.li>
         </ul>
 
-        <tabsSetStateContext.Provider value={setState}>
-          {state.tabList.map((tab) => (
+        <tabListSetStateContext.Provider value={setTabListState}>
+          {tabListState.tabList.map((tab) => (
             <ChatForm
               key={tab.id}
               id={tab.id}
-              className={`flex-[1_0_0px] ${tab.id === state.currentId ? 'flex' : 'hidden'}`}
+              className={`flex-[1_0_0px] ${tab.id === tabListState.currentId ? 'flex' : 'hidden'}`}
             />
           ))}
-        </tabsSetStateContext.Provider>
+        </tabListSetStateContext.Provider>
       </div>
     </MotionConfig>
   );
 }
 
-export function useTabsSetStateContext() {
-  return useContext(tabsSetStateContext);
+export function useTabListSetStateContext() {
+  return useContext(tabListSetStateContext);
 }

@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { DetailedHTMLProps, LiHTMLAttributes } from 'react';
 
-interface MarkdownMetaCardProps extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
+interface Props extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
   data: IMarkdownMeta;
 }
 
-export function MarkdownMetaCard({ data, ...liProps }: MarkdownMetaCardProps) {
+export function MarkdownMetaCard({ data, ...liProps }: Props) {
   return (
     <li className='list-none' {...liProps}>
       <Link

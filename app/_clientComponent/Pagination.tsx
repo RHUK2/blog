@@ -5,7 +5,7 @@ import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { Button, Menu } from '.';
 import { MenuItem } from './MenuItem';
 
-interface PaginationProps {
+interface Props {
   totalCount: number;
   size: number;
 }
@@ -18,7 +18,7 @@ function circularQueue(min: number, max: number, index: number) {
   return (((relativeIndex % rangeSize) + rangeSize) % rangeSize) + min;
 }
 
-export function Pagination({ totalCount, size }: PaginationProps) {
+export function Pagination({ totalCount, size }: Props) {
   const pathname = usePathname();
 
   const searchParams = useSearchParams();

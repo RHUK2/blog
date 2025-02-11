@@ -27,14 +27,14 @@ export const metadata: Metadata = {
   description: 'blog',
 };
 
-interface RootLayoutProps {
+interface Props {
   children: ReactNode;
 }
 
 // list.json 업데이트
 // await writeMarkdownMetaList();
 
-export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
+export default async function Layout({ children }: Readonly<Props>) {
   return (
     <html lang='en' className='h-full'>
       <body className={`h-full ${pretendard.className} dark:bg-gray-950 dark:text-white`}>

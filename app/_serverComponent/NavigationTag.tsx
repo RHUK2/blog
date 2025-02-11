@@ -2,11 +2,11 @@ import { readTagList } from '@/_data';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
-interface NavigationTagProps {
+interface Props {
   currentTag?: string;
 }
 
-export async function NavigationTag({ currentTag }: NavigationTagProps) {
+export async function NavigationTag({ currentTag }: Props) {
   const tagList = await readTagList();
 
   return (

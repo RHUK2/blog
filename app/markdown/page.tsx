@@ -3,7 +3,7 @@ import { PAGE_SIZE, readMarkdownMetaList } from '@/_data';
 import { Divider, MarkdownMetaCard, NavigationTag } from '@/_serverComponent';
 import { Suspense } from 'react';
 
-interface MarkdownPageProps {
+interface Props {
   searchParams: Promise<{
     tag?: string;
     page?: string;
@@ -11,7 +11,7 @@ interface MarkdownPageProps {
   }>;
 }
 
-export default async function MarkdownPage({ searchParams }: MarkdownPageProps) {
+export default async function Page({ searchParams }: Props) {
   const { tag, page, size } = await searchParams;
 
   const markdownMetaList = await readMarkdownMetaList(tag, page, size);

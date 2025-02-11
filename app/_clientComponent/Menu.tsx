@@ -11,14 +11,14 @@ import {
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface MenuProps extends DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> {
+interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> {
   control: RefObject<HTMLElement> | null;
   open: boolean;
   onClose: () => void;
 }
 
 export const Menu = forwardRef(function Menu(
-  { control, open, onClose, children, onClick, className, ...ulProps }: MenuProps,
+  { control, open, onClose, children, onClick, className, ...ulProps }: Props,
   ref,
 ) {
   const rafId = useRef<number | null>(null);
@@ -83,7 +83,7 @@ export const Menu = forwardRef(function Menu(
         }
       }}
       className={twMerge(
-        'absolute left-0 top-0 z-40 max-h-44 overflow-y-auto overflow-x-hidden rounded-md border border-gray-300 bg-gradient-to-br from-gray-50 to-gray-100 py-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        'absolute top-0 left-0 z-40 max-h-44 overflow-x-hidden overflow-y-auto rounded-md border border-gray-300 bg-gradient-to-br from-gray-50 to-gray-100 py-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
         `${open ? 'block' : 'hidden'} ${className ?? ''}`,
       )}
       {...ulProps}

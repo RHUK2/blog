@@ -20,7 +20,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from './Radio';
-import { useTabsSetStateContext } from './TabsForm';
+import { useTabListSetStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
 
 const InitChat: IChat[] = [
@@ -49,7 +49,7 @@ export const ChatForm = forwardRef(function ChatForm(
     },
   });
 
-  const setTabsState = useTabsSetStateContext();
+  const setTabListState = useTabListSetStateContext();
 
   const apiChat = useChatMutation();
 
@@ -58,9 +58,9 @@ export const ChatForm = forwardRef(function ChatForm(
       role: 'user',
       content: `${data.userMessage}\n\n- 위 물음에 대한 대답은 "건조체" 형식의 말투로 대답한다.\n- 위 사항을 명심한다.`,
     });
-    setTabsState((prev) => ({
+    setTabListState((prev) => ({
       ...prev,
-      tabs: prev.tabs.map((prevTab) => (prevTab.id === id ? { ...prevTab, title: data.userMessage } : prevTab)),
+      tabList: prev.tabList.map((prevTab) => (prevTab.id === id ? { ...prevTab, title: data.userMessage } : prevTab)),
     }));
 
     apiChat.mutate(

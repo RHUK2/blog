@@ -5,13 +5,13 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-interface MarkdownFolderNameDetailPageProps {
+interface Props {
   params: Promise<{
     folderName: string;
   }>;
 }
 
-export default async function MarkdownFolderNameDetailPage({ params }: MarkdownFolderNameDetailPageProps) {
+export default async function Page({ params }: Props) {
   const { folderName } = await params;
 
   const markdownContent = await readMarkdownContent(folderName);
