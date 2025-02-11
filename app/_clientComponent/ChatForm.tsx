@@ -1,7 +1,7 @@
 'use client';
 
 import { useChatMutation } from '@/_mutation';
-import { ChatData } from '@/_type';
+import { IChat, IChatForm } from '@/_type';
 import {
   DetailedHTMLProps,
   FormHTMLAttributes,
@@ -19,11 +19,11 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { twMerge } from 'tailwind-merge';
+import { Radio } from './Radio';
 import { useTabsSetStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
-import { Radio } from './Radio';
 
-const InitChat: ChatData[] = [
+const InitChat: IChat[] = [
   {
     role: 'system',
     content: '너는 컴퓨터 과학과 웹 소프트웨어 개발의 전문가야.',
@@ -34,7 +34,7 @@ export const ChatForm = forwardRef(function ChatForm(
   { id, className, ...formProps }: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>,
   ref,
 ) {
-  const [chat, setChat] = useState<ChatData[]>(InitChat);
+  const [chatList, setChatList] = useState<IChat[]>(InitChat);
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -42,10 +42,7 @@ export const ChatForm = forwardRef(function ChatForm(
 
   useImperativeHandle(ref, () => formRef.current);
 
-  const { register, resetField, handleSubmit } = useForm<{
-    userMessage: string;
-    model: 'gpt-4o-mini' | 'chatgpt-4o-latest';
-  }>({
+  const { register, resetField, handleSubmit } = useForm<IChatForm>({
     defaultValues: {
       userMessage: '',
       model: 'gpt-4o-mini',
@@ -57,7 +54,7 @@ export const ChatForm = forwardRef(function ChatForm(
   const apiChat = useChatMutation();
 
   const onChat = handleSubmit((data) => {
-    const newRequest = chat.concat({
+    const newRequest = chatList.concat({
       role: 'user',
       content: `${data.userMessage}\n\n- 위 물음에 대한 대답은 "건조체" 형식의 말투로 대답한다.\n- 위 사항을 명심한다.`,
     });
@@ -67,10 +64,10 @@ export const ChatForm = forwardRef(function ChatForm(
     }));
 
     apiChat.mutate(
-      { chat: newRequest, model: data.model },
+      { chatList: newRequest, model: data.model },
       {
         onSuccess(response) {
-          setChat([...newRequest, { ...response.chat }]);
+          setChatList([...newRequest, { ...response.chat }]);
         },
         onError(error) {
           console.error(error);
@@ -88,7 +85,7 @@ export const ChatForm = forwardRef(function ChatForm(
       if (event.key !== 'Delete' || event.ctrlKey !== true || event.shiftKey !== true) return;
 
       event.preventDefault();
-      setChat(InitChat);
+      setChatList(InitChat);
     }
 
     window.addEventListener('keydown', resetChat);
@@ -106,7 +103,7 @@ export const ChatForm = forwardRef(function ChatForm(
         ulRef.current.scrollTop = (lastLi as HTMLLIElement).offsetTop;
       }
     }
-  }, [chat]);
+  }, [chatList]);
 
   return (
     <form ref={formRef} className={twMerge('flex flex-col gap-4', `${className ?? ''}`)} {...formProps}>
@@ -114,7 +111,7 @@ export const ChatForm = forwardRef(function ChatForm(
         {apiChat.isPending ? (
           <div className='flex flex-[1_0_0px] items-center justify-center'>로딩중...</div>
         ) : (
-          chat.map((message, message_index) => {
+          chatList.map((message, message_index) => {
             switch (message.role) {
               case 'system':
                 return null;

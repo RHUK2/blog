@@ -1,4 +1,4 @@
-import { useChatMutationBody } from '@/_type';
+import { IChatListRequest } from '@/_type';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -7,14 +7,16 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
   try {
-    const body: useChatMutationBody = await request.json();
+    const body: IChatListRequest = await request.json();
 
     const completion = await openai.chat.completions.create({
-      messages: body.chat,
+      messages: body.chatList,
       model: body.model,
     });
 
-    return Response.json({ chat: completion.choices[0].message });
+    const response = Response.json({ chat: completion.choices[0].message });
+
+    return response;
   } catch (error) {
     console.error(error);
     // 클라이언트 요청이 잘못된 경우

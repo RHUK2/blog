@@ -1,4 +1,4 @@
-import { readPost } from '@/_util';
+import { readMarkdownContent } from '@/_data';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -14,12 +14,12 @@ interface MarkdownFolderNameDetailPageProps {
 export default async function MarkdownFolderNameDetailPage({ params }: MarkdownFolderNameDetailPageProps) {
   const { folderName } = await params;
 
-  const post = await readPost(folderName);
+  const markdownContent = await readMarkdownContent(folderName);
 
   return (
-    <section className='m-auto min-h-full min-w-[320px] max-w-[768px] px-4 py-10'>
+    <section className='m-auto min-h-full max-w-[768px] min-w-[320px] px-4 py-10'>
       <Markdown
-        className='prose max-w-none dark:prose-invert'
+        className='prose dark:prose-invert max-w-none'
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight, rehypeSlug]}
         components={{
@@ -40,7 +40,7 @@ export default async function MarkdownFolderNameDetailPage({ params }: MarkdownF
           },
         }}
       >
-        {post}
+        {markdownContent}
       </Markdown>
     </section>
   );

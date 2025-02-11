@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 import { Footer } from './_clientComponent';
 import './_css/globals.css';
 import './_css/highlight.css';
-import 'katex/dist/katex.min.css';
+import { writeMarkdownMetaList } from './_data';
 import { CustomQueryClientProvider } from './_provider';
 import { Header } from './_serverComponent';
 
@@ -32,7 +32,7 @@ interface RootLayoutProps {
 }
 
 // list.json 업데이트
-// await writeMarkdownDataList();
+// await writeMarkdownMetaList();
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (

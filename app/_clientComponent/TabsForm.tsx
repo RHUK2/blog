@@ -1,28 +1,19 @@
 'use client';
 
+import { ITabListState } from '@/_type';
 import { motion, MotionConfig } from 'motion/react';
 import { createContext, useContext, useState } from 'react';
 import { ChatForm } from './ChatForm';
 
-interface Tab {
-  id: string;
-  title: string;
-}
-
-interface State {
-  currId: string;
-  tabs: Tab[];
-}
-
-const tabsSetStateContext = createContext<React.Dispatch<React.SetStateAction<State>>>(() => {});
+const tabsSetStateContext = createContext<React.Dispatch<React.SetStateAction<ITabListState>>>(() => {});
 
 export function TabsForm() {
-  const [state, setState] = useState<State>(() => {
+  const [state, setState] = useState<ITabListState>(() => {
     const id = '0';
 
     return {
-      currId: id,
-      tabs: [{ id: id, title: 'New Tab' }],
+      currentId: id,
+      tabList: [{ id: id, title: 'New Tab' }],
     };
   });
 
@@ -35,17 +26,17 @@ export function TabsForm() {
 
   function DeleteTab(tabId: string) {
     setState((prev) => {
-      if (prev.tabs.length <= 1) return prev;
+      if (prev.tabList.length <= 1) return prev;
 
-      if (prev.currId === tabId) {
+      if (prev.currentId === tabId) {
         return {
-          currId: prev.tabs[prev.tabs.length - 2].id,
-          tabs: prev.tabs.filter((prevTab) => prevTab.id !== tabId),
+          currentId: prev.tabList[prev.tabList.length - 2].id,
+          tabList: prev.tabList.filter((prevTab) => prevTab.id !== tabId),
         };
       } else {
         return {
           ...prev,
-          tabs: prev.tabs.filter((prevTab) => prevTab.id !== tabId),
+          tabList: prev.tabList.filter((prevTab) => prevTab.id !== tabId),
         };
       }
     });
@@ -56,8 +47,8 @@ export function TabsForm() {
       const newId = String(Date.now());
 
       return {
-        currId: newId,
-        tabs: [...prev.tabs, { id: newId, title: 'New Tab' }],
+        currentId: newId,
+        tabList: [...prev.tabList, { id: newId, title: 'New Tab' }],
       };
     });
   }
@@ -70,14 +61,14 @@ export function TabsForm() {
     >
       <div className='flex h-full flex-col gap-3'>
         <ul className='flex h-16 items-end gap-2 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'>
-          {state.tabs.map((tab, tab_index) => (
+          {state.tabList.map((tab) => (
             <motion.li
               key={tab.id}
               tabIndex={0}
               initial={false}
               animate={{
-                paddingTop: tab.id === state.currId ? '10px' : '8px',
-                paddingBottom: tab.id === state.currId ? '10px' : '8px',
+                paddingTop: tab.id === state.currentId ? '10px' : '8px',
+                paddingBottom: tab.id === state.currentId ? '10px' : '8px',
               }}
               whileHover={{
                 paddingTop: '10px',
@@ -118,11 +109,11 @@ export function TabsForm() {
         </ul>
 
         <tabsSetStateContext.Provider value={setState}>
-          {state.tabs.map((tab) => (
+          {state.tabList.map((tab) => (
             <ChatForm
               key={tab.id}
               id={tab.id}
-              className={`flex-[1_0_0px] ${tab.id === state.currId ? 'flex' : 'hidden'}`}
+              className={`flex-[1_0_0px] ${tab.id === state.currentId ? 'flex' : 'hidden'}`}
             />
           ))}
         </tabsSetStateContext.Provider>

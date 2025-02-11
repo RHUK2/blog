@@ -1,6 +1,6 @@
-import { NavItem } from '@/_type';
+import { Nav } from '@/_type';
 
-export const navList: NavItem[] = [
+export const navList: Nav[] = [
   {
     href: '/markdown',
     text: 'NOTE',

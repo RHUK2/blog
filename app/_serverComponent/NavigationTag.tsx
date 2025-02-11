@@ -1,4 +1,4 @@
-import { readTagList } from '@/_util';
+import { readTagList } from '@/_data';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
@@ -11,7 +11,7 @@ export async function NavigationTag({ currentTag }: NavigationTagProps) {
 
   return (
     <nav className='flex flex-wrap items-center gap-2'>
-      {tagList.map((tag, index) => (
+      {tagList.markdownTagList.map((tag, index) => (
         <Link
           href={tag.name ? `/markdown?tag=${tag.name}` : '/markdown'}
           key={`tag_${index}`}
