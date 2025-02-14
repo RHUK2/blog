@@ -28,6 +28,60 @@ export async function writeMarkdownMetaList() {
   }
 }
 
+// const meta_markdown_path2 = path.join(process.cwd(), 'public', 'markdown', 'list2.json');
+
+// export async function writeSearchIndexing() {
+//   try {
+//     const markdownFolderNameList = (await readdir(markdown_path)).filter((content) => /^[^@.]*$/.test(content));
+
+//     const markdownContentList = await Promise.all(
+//       markdownFolderNameList.map((folderName) => readFile(`${markdown_path}/${folderName}/index.md`)),
+//     );
+
+//     const markdownDataList = markdownContentList
+//       .filter((content) => !!matter(content).data.isPublished)
+//       .map((content) => matter(content).content);
+
+//     const index = {};
+
+//     function buildIndex(articles: string[]) {
+//       articles.forEach((article, id) => {
+//         const words = article.toLowerCase().split(/\s+/);
+//         words.forEach((word) => {
+//           if (!index[word]) {
+//             index[word] = [];
+//           }
+//           if (!index[word].includes(id)) {
+//             index[word].push(id);
+//           }
+//         });
+//       });
+//     }
+
+//     buildIndex(markdownDataList);
+
+//     function search(query) {
+//       const words = query.toLowerCase().split(/\s+/);
+//       const results = new Set();
+
+//       words.forEach((word) => {
+//         if (index[word]) {
+//           index[word].forEach((id) => results.add(id));
+//         }
+//       });
+
+//       return Array.from(results).map((id) => markdownDataList[id]);
+//     }
+
+//     console.log(search('정규화란?'));
+
+//     await writeFile(meta_markdown_path2, JSON.stringify(index));
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error('writeMarkdownMetaList error occurred.');
+//   }
+// }
+
 export async function readTagList() {
   try {
     const markdownMetaList: IMarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>

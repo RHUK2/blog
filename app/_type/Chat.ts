@@ -1,4 +1,4 @@
-export type TChatModel = 'gpt-4o-mini' | 'chatgpt-4o-latest';
+export type TChatModel = 'deepseek-chat' | 'deepseek-reasoner' | 'gpt-4o-mini' | 'chatgpt-4o-latest';
 
 export type TChatRole = 'system' | 'user' | 'assistant';
 
@@ -25,8 +25,4 @@ export interface IChatForm {
 export interface IChatListRequest {
   chatList: IChat[];
   model: TChatModel;
-}
-
-export interface IChatResponse {
-  chat: IChat;
 }

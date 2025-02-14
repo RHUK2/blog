@@ -1,8 +1,8 @@
-import { IChatListRequest, IChatResponse } from '@/_type';
+import { IChatListRequest } from '@/_type';
 import { useMutation } from '@tanstack/react-query';
 
 export function useChatMutation() {
-  return useMutation<IChatResponse, unknown, IChatListRequest>({
+  return useMutation<Response, unknown, IChatListRequest>({
     mutationFn: async (body) => {
       try {
         const response = await fetch('/api/chat', {
@@ -17,9 +17,7 @@ export function useChatMutation() {
           throw new Error(`Response status: ${response.status}`);
         }
 
-        const json = await response.json();
-
-        return json;
+        return response;
       } catch (error) {
         throw error;
       }
