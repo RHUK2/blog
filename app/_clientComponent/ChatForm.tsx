@@ -56,7 +56,7 @@ export const ChatForm = forwardRef(function ChatForm(
 
   function moveScroll() {
     if (ulRef.current) {
-      const lastLi = ulRef.current?.children[ulRef.current?.children.length - 2];
+      const lastLi = ulRef.current?.children[ulRef.current?.children.length - 1];
 
       if (lastLi) {
         ulRef.current.scrollTop = (lastLi as HTMLLIElement).offsetTop;
@@ -130,6 +130,10 @@ export const ChatForm = forwardRef(function ChatForm(
       window.removeEventListener('keydown', resetChat);
     };
   }, []);
+
+  useEffect(() => {
+    moveScroll();
+  }, [chatList.length]);
 
   return (
     <form ref={formRef} className={twMerge('flex flex-col gap-4', `${className ?? ''}`)} {...formProps}>
