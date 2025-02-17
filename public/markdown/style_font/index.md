@@ -163,12 +163,70 @@ A → U+0041 → "65" : 4
 
 ### 아이콘 폰트 파일 동작 원리
 
-일반 텍스트 폰트의 경우 유니코드 표준에 존재하는 유니코드에 대응하는 글리프를 생성하지만, 아이콘 폰트는 유니코드 표준에서 벗어나 사용자가 자체적으로 정의할 수 있는 PUA(Private Use Area)에 존재하는 유니코드에 대응하는 글리프를 생성한다.
+일반 텍스트 폰트의 경우 유니코드 표준에 존재하는 유니코드에 대응하는 글리프를 생성하지만, 아이콘 폰트는 유니코드 표준에서 벗어나 사용자가 자체적으로 정의할 수 있는 PUA(Private Use Area, E000–F8FF)에 존재하는 유니코드에 대응하는 글리프를 생성한다.
 
 그래서 아이콘 폰트 파일의 제공자들은 사용자의 접근성을 고려하여 PUA에 존재하는 유니코드에 접근할 수 있게 다양한 방법을 제공한다.
 
-▾ HTML 코드로 접근하기:
+▾ FontAwesome 폰트 파일의 접근 방식:
+
+```css
+.fas {
+  font-family: 'FontAwesome';
+}
+.fa-home::before {
+  content: '\f015'; /* 집 아이콘의 유니코드(U+F015) */
+}
+```
 
 ```html
-<i>&#</i>
+<i class="fas fa-home"></i>
 ```
+
+▾ Material Icons 폰트 파일의 접근 방식:
+
+```css
+.material-icons {
+    font-family: 'Material Icons';
+    ...
+}
+```
+
+```html
+<span class="material-icons">error</span>
+```
+
+error의 glyphIndex 2
+
+PostScript 테이블의 `glyphNameIndex` 배열과 `names` 배열의 관계는 **간접적**이며, `names` 배열의 인덱스가 **직접 글리프 인덱스와 일치하지 않습니다**. 구체적인 동작 방식은 다음과 같습니다:
+
+delete glyphIndex 1 unicode E
+error glyphIndex 262 unicode E000
+
+glyphNameIndex[1] = 258 - 258 = 0
+glyphNameIndex[262] = 518 - 258 = 260
+
+names[0] = "delete"
+names[260] = "error"
+
+1. **`glyphNameIndex` 배열**
+
+   - 글리프 인덱스(`0`, `1`, `2`, ...)에 대응하는 배열입니다.
+   - 각 값은 다음을 의미합니다:
+     - **0–32767**: 사전 정의된 표준 글리프 이름(예: `.notdef`, `A`, `B`)을 가리킵니다.
+     - **258 이상**: `names` 배열의 인덱스를 계산하기 위해 `258`을 뺀 값(`glyphNameIndex[i] - 258`)을 사용합니다.
+
+2. **`names` 배열**
+
+   - 표준 이름에 포함되지 않은 **사용자 정의 글리프 이름**을 저장합니다.
+   - 예: `glyphNameIndex[i]`가 `300`이라면, `names[300 - 258 = 42]`에서 이름을 가져옵니다.
+
+3. **핵심 요약**
+   - **글리프 인덱스**는 `glyphNameIndex` 배열의 위치로 결정됩니다.
+   - `names` 배열의 인덱스는 `glyphNameIndex` 값을 통해 **간접적으로 참조**되며, 직접적인 글리프 인덱스와 연결되지 않습니다.
+   - 표준 이름은 `names` 배열을 사용하지 않고 즉시 참조됩니다.
+
+예시:
+
+- 글리프 인덱스 `5`의 `glyphNameIndex[5]` 값이 `300`이라면,  
+  실제 이름은 `names[42]`에서 조회됩니다.
+- `glyphNameIndex[3]`이 `10`이라면, 표준 이름 목록에서 인덱스 `10`에 해당하는 이름을 사용합니다.

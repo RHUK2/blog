@@ -8,6 +8,10 @@ isPublished: true
 
 # CSS
 
+- [css 명시도](#css-명시도)
+  - [명시도 계산 방법:](#명시도-계산-방법)
+  - [예시:](#예시)
+  - [주의사항:](#주의사항)
 - [css 연동](#css-연동)
 - [variable](#variable)
 - [pseudo class](#pseudo-class)
@@ -17,6 +21,41 @@ isPublished: true
 - [`outline`, `box-shadow`](#outline-box-shadow)
 - [`color`](#color)
 - [transition \& animation](#transition--animation)
+- [](#)
+
+## css 명시도
+
+CSS 명시도(Specificity)는 브라우저가 어떤 CSS 규칙을 적용할지 결정하는 데 사용되는 점수 시스템입니다. 명시도는 선택자의 유형과 조합에 따라 계산되며, 더 높은 명시도를 가진 규칙이 우선적으로 적용됩니다.
+
+### 명시도 계산 방법:
+
+1. **인라인 스타일**: `style` 속성으로 직접 지정된 스타일은 가장 높은 명시도를 가집니다. (점수: 1000)
+2. **ID 선택자**: `#id`와 같은 ID 선택자는 높은 명시도를 가집니다. (점수: 100)
+3. **클래스, 속성, 가상 클래스 선택자**: `.class`, `[type="text"]`, `:hover` 등은 중간 명시도를 가집니다. (점수: 10)
+4. **요소, 가상 요소 선택자**: `div`, `p`, `::before` 등은 가장 낮은 명시도를 가집니다. (점수: 1)
+
+### 예시:
+
+```css
+#header .nav a {
+  color: blue;
+} /* 명시도: 100 + 10 + 1 = 111 */
+.nav a {
+  color: red;
+} /* 명시도: 10 + 1 = 11 */
+a {
+  color: green;
+} /* 명시도: 1 */
+```
+
+- 위 예시에서 `#header .nav a`가 가장 높은 명시도를 가지므로, 해당 요소의 색상은 `blue`로 적용됩니다.
+
+### 주의사항:
+
+- 명시도가 동일한 경우, 나중에 선언된 스타일이 우선 적용됩니다.
+- `!important`는 명시도를 무시하고 가장 높은 우선순위를 가집니다. (사용 시 주의 필요)
+
+명시도를 이해하면 CSS 충돌을 효과적으로 관리할 수 있습니다.
 
 ## css 연동
 
@@ -157,4 +196,29 @@ animation: duration | easing-function | delay | iteration-count | direction | fi
 animation:
   duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name,
   duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
+```
+
+##
+
+```css
+/* markdown.module.css */
+
+/* markdown_markdown-body__7I_LX */
+.markdown-body {
+  ...
+}
+
+/* markdown_markdown-body__7I_LX pre code.markdown_hljs__5I_E3.markdown_language-text__D3_ZM */
+.markdown-body pre code.hljs.language-text {
+  ...
+}
+```
+
+```ts
+<div className={styles["markdown-body"]}>
+  <pre>
+    <code className={`${styles.hljs} ${styles.language-text}`}> // 해당 됨
+    <code className='hljs language-text'> // 해당 안됨
+  </pre>
+</div>
 ```
