@@ -10,7 +10,7 @@ isPublished: true
 
 - [`font-family`](#font-family)
 - [`font-face`](#font-face)
-- [`rem`, `em`](#rem-em)
+- [`rem` • `em`](#rem--em)
 - [`white-space`](#white-space)
 - [`word-break`](#word-break)
 - [`text-overflow`](#text-overflow)
@@ -64,7 +64,7 @@ body {
 }
 ```
 
-## `rem`, `em`
+## `rem` • `em`
 
 `rem`과 `em`은 CSS 글꼴 크기와 요소의 크기를 정의하는 데 사용되는 상대 단위이다.
 

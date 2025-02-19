@@ -1,23 +1,21 @@
 ---
 folderName: asynchronous
-updatedAt: 2024-04-29
-title: 비동기 작업 제어하기
+updatedAt: 2025-02-18
+title: 비동기 작업 처리 방식
 tag: javascript
 isPublished: true
 ---
 
-# Asynchronous
+# 비동기 작업 처리 방식
 
-- [Callback](#callback)
-- [Promise](#promise)
-  - [Promise.resolve](#promiseresolve)
-  - [Promise.reject](#promisereject)
-  - [다중 프로미스 처리](#다중-프로미스-처리)
-- [async/await](#asyncawait)
+- [Callback 처리 방식](#callback-처리-방식)
+- [`Promise` 처리 방식](#promise-처리-방식)
+  - [`Promise.resolve`](#promiseresolve)
+  - [`Promise.reject`](#promisereject)
+  - [`Promise.all` • `Promise.allSettled` • `Promise.race`](#promiseall--promiseallsettled--promiserace)
+- [`async` • `await` 처리 방식](#async--await-처리-방식)
 
-브라우저는
-
-## Callback
+## Callback 처리 방식
 
 ```ts
 function loadScript(src) {
@@ -31,37 +29,36 @@ function loadScript(src) {
 loadScript('/my/script.js');
 ```
 
-## Promise
+## `Promise` 처리 방식
 
 ![img](images/promise_1.gif)
 ![img](images/promise_2.gif)
 ![img](images/promise_3.gif)
+![img](images/promise_4.gif)
 
-아래 그림 설명:
+▾ 위 그림 설명:
 
-1. 실행흐름 중 비동기 동작을 만나 Web API로 넘겨서 처리한다.
-2. 비동기 동작이 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
+1. 실행흐름 중 비동기 작업을 수행하는 함수을 만나 Web API로 넘겨서 처리한다.
+2. 비동기 작업을 수행하는 함수이 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
 
-a](images/promise_4.gif)
+![img](images/promise_5.gif)
+![img](images/promise_6.gif)
 
-아래 그림 설명:
+▾ 위 그림 설명:
 
 1. 실행흐름 중 `Promise`를 만나 `executor` 함수를 즉시 실행한다.
 2. `resolve` 함수가 호출되면 `then` 함수에 인수로 넘겨진 콜백을 마이크로태스크 큐로 넘긴다.
 3. `reject` 함수가 호출되면 `catch` 함수에 인수로 넘겨진 콜백을 마이크로태스크 큐로 넘긴다.
 
-![img](images/promise_5.gif)
-![img](images/promise_6.gif)
+![img](images/promise_7.gif)
+![img](images/promise_8.gif)
 
-아래 그림 설명:
+▾ 위 그림 설명:
 
 1. 콜 스택이 비워지면 이벤트 루프는 마이크로태스크 큐의 작업을 우선으로 콜 스택으로 보낸다.
 2. 이후 매크로태스크 큐의 작업을 콜 스택으로 보낸다.
 
-![img](images/promise_7.gif)
-![img](images/promise_8.gif)
-
-### Promise.resolve
+### `Promise.resolve`
 
 - `Promise.resolve(value)`는 결괏값이 `value`인 이행 상태 프로미스를 생성한다.
 - `Promise.resolve(value)`는 `new Promise((res, rej) => res(value))`와 같다.
@@ -88,7 +85,7 @@ function loadCached(url) {
 
 `loadCached`를 호출하면 이행 상태 프로미스가 반환된다는 것이 보장된다. `(*)`로 표시한 줄에서 `Promise.resolve`를 사용한 이유가 바로 여기에 있다.
 
-### Promise.reject
+### `Promise.reject`
 
 - `Promise.reject(error)`는 결괏값이 `error`인 거부 상태 프로미스를 생성한다.
 - `Promise.reject(error)`는 `new Promise((res, rej) => rej(error))`와 같다.
@@ -111,7 +108,7 @@ axios.interceptors.response.use(
 
 `axios`는 오류가 나고 인터셉터로 에러에 대한 추가 처리가 되어도 거절 상태 프로미스가 반환된다는 것이 보장된다. `(*)`로 표시한 줄에서 `Promise.reject`를 사용한 이유가 바로 여기에 있다.
 
-### 다중 프로미스 처리
+### `Promise.all` • `Promise.allSettled` • `Promise.race`
 
 다중 프로미스는 `Promise.all`, `Promise.allSettled`, `Promise.race` 함수로 처리가 가능하다.
 
@@ -161,7 +158,7 @@ Promise.race(promiseList)
   .catch((error) => console.error(error));
 ```
 
-## async/await
+## `async` • `await` 처리 방식
 
 ![img](images/async_await_1.gif)
 ![img](images/async_await_2.gif)

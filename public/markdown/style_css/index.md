@@ -8,22 +8,22 @@ isPublished: true
 
 # CSS
 
-- [css 명시도](#css-명시도)
+- [CSS 명시도](#css-명시도)
   - [명시도 계산 방법:](#명시도-계산-방법)
   - [예시:](#예시)
   - [주의사항:](#주의사항)
-- [css 연동](#css-연동)
-- [variable](#variable)
-- [pseudo class](#pseudo-class)
-- [pesudo element](#pesudo-element)
+- [CSS 연동](#css-연동)
+- [Variable](#variable)
+- [Pseudo class](#pseudo-class)
+- [Pesudo element](#pesudo-element)
   - [`attr()`](#attr)
-- [`pointer-events`, `user-select`](#pointer-events-user-select)
-- [`outline`, `box-shadow`](#outline-box-shadow)
+- [Module CSS](#module-css)
 - [`color`](#color)
-- [transition \& animation](#transition--animation)
-- [](#)
+- [`outline` • `box-shadow`](#outline--box-shadow)
+- [`transition` • `animation`](#transition--animation)
+- [`pointer-events` • `user-select`](#pointer-events--user-select)
 
-## css 명시도
+## CSS 명시도
 
 CSS 명시도(Specificity)는 브라우저가 어떤 CSS 규칙을 적용할지 결정하는 데 사용되는 점수 시스템입니다. 명시도는 선택자의 유형과 조합에 따라 계산되며, 더 높은 명시도를 가진 규칙이 우선적으로 적용됩니다.
 
@@ -57,7 +57,7 @@ a {
 
 명시도를 이해하면 CSS 충돌을 효과적으로 관리할 수 있습니다.
 
-## css 연동
+## CSS 연동
 
 ▾ `<link>`:
 
@@ -83,7 +83,7 @@ css 파일 내부에서 다른 css 파일을 불러오는 방법으로, `@import
 import './styles.css';
 ```
 
-## variable
+## Variable
 
 ```css
 /* 변수 선언 */
@@ -99,7 +99,7 @@ body {
 }
 ```
 
-## pseudo class
+## Pseudo class
 
 의사 클래스는 요소의 상태나 특성에 따라 스타일을 다르게 적용하는 데 사용된다.
 
@@ -124,7 +124,7 @@ body {
 | `:nth-last-of-type(n)` | 동일한 형제 중 뒤에서 n번째 특정 타입 요소에 스타일 적용 |
 | `:only-of-type`        | 동일한 형제 중 유일한 특정 타입 요소에 스타일 적용       |
 
-## pesudo element
+## Pesudo element
 
 의사 요소는 특정 요소의 특정 부분을 선택하여 스타일을 적용하는 데 사용된다.
 
@@ -141,64 +141,7 @@ body {
 
 `attr()` 함수는 요소의 속성 값을 참조하여 스타일을 적용할 수 있도록 해주는 기능이다. 예를 들어, `content: attr(data-custom)`와 같이 사용하면 해당 요소의 `data-custom` 속성 값을 가져와서 콘텐츠로 표시할 수 있다. 하지만 `attr()`은 현재 CSS에서 제한적으로 사용되며, 주로 `content` 속성에서만 지원되는 점에 유의해야 한다.
 
-## `pointer-events`, `user-select`
-
-- `pointer-events: none`으로 설정하면 해당 속성이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
-- `user-select: none`이면 텍스트가 클릭이나 드래그로 선택되는 것을 막는다.
-- `user-select: all`이면 클릭 한 번으로 텍스트가 선택된다.
-
-## `outline`, `box-shadow`
-
-- `border` 값을 동적으로 조작하게 되면 주변 레이아웃들의 영향을 주기 때문에 영향을 주지 않고 스타일링을 하기 위해서는 `outline` 또는 `box-shadow` 속성으로 스타일링을 한다.
-- `outline` 또는 `box-shadow` 속성은 동적으로 제어해도 주변 레이아웃에 영향을 주지 않는다.
-- 일부 픽셀이 잘리는 경우 `margin` 값을 적용해서 방지할 수 있다.
-- 입력 자동완성의 스타일링은 `!important`로 브라우저 정의가 되어있어 `box-shadow`로 배경색을 제거해주는 트릭을 사용한다.
-
-  ```css
-  '& input:autofill': {
-      boxShadow: `0 0 0px 1000px ${theme.palette.grey[100]} inset`, /* x y blur spread color inset */
-    },
-  ```
-
-## `color`
-
-```css
-color: ##1ae61a; /* 16진수 */
-color: ##1ae61a80; /* 16진수 + 투명도 */
-color: rgb(26, 230, 26); /* 레드, 그린, 블루 */
-color: rgba(26, 230, 26, 0.5); /* 레드, 그린, 블루 + 투명도 */
-color: hsl(120, 80%, 50%); /* 색상, 채도, 명도 */
-color: hsla(120, 80%, 50%, 0.5); /* 색상, 채도, 명도 + 투명도 */
-color: transparent; /* rgba(0, 0, 0, 0) */
-background: currentColor; /* 현재 요소의 color 속성값 */
-border: 1px solid currentColor; /* 현재 요소의 color 속성값 */
-```
-
-- 알파 채널은 특정 색상에 대한 투명도를 정의하며, 이는 픽셀 단위로 적용된다.
-- `opacity` 속성은 요소 전체의 투명도를 조절하여, 그 안의 모든 색상과 내용에 동일하게 영향을 미친다.
-
-## transition & animation
-
-```css
-/* Apply 1 property */
-transition: property-name | duration | easing-function | delay;
-/* Apply multiple property */
-transition:
-  property-name | duration | easing-function | delay,
-  property-name | duration | easing-function | delay,
-  ...;
-/* Apply All property */
-transition: all | duration | easing-function | delay;
-
-/* Apply 1 animation */
-animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
-/* Apply multiple animation */
-animation:
-  duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name,
-  duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
-```
-
-##
+## Module CSS
 
 ```css
 /* markdown.module.css */
@@ -222,3 +165,60 @@ animation:
   </pre>
 </div>
 ```
+
+## `color`
+
+```css
+color: ##1ae61a; /* 16진수 */
+color: ##1ae61a80; /* 16진수 + 투명도 */
+color: rgb(26, 230, 26); /* 레드, 그린, 블루 */
+color: rgba(26, 230, 26, 0.5); /* 레드, 그린, 블루 + 투명도 */
+color: hsl(120, 80%, 50%); /* 색상, 채도, 명도 */
+color: hsla(120, 80%, 50%, 0.5); /* 색상, 채도, 명도 + 투명도 */
+color: transparent; /* rgba(0, 0, 0, 0) */
+background: currentColor; /* 현재 요소의 color 속성값 */
+border: 1px solid currentColor; /* 현재 요소의 color 속성값 */
+```
+
+- 알파 채널은 특정 색상에 대한 투명도를 정의하며, 이는 픽셀 단위로 적용된다.
+- `opacity` 속성은 요소 전체의 투명도를 조절하여, 그 안의 모든 색상과 내용에 동일하게 영향을 미친다.
+
+## `outline` • `box-shadow`
+
+- `border` 값을 동적으로 조작하게 되면 주변 레이아웃들의 영향을 주기 때문에 영향을 주지 않고 스타일링을 하기 위해서는 `outline` 또는 `box-shadow` 속성으로 스타일링을 한다.
+- `outline` 또는 `box-shadow` 속성은 동적으로 제어해도 주변 레이아웃에 영향을 주지 않는다.
+- 일부 픽셀이 잘리는 경우 `margin` 값을 적용해서 방지할 수 있다.
+- 입력 자동완성의 스타일링은 `!important`로 브라우저 정의가 되어있어 `box-shadow`로 배경색을 제거해주는 트릭을 사용한다.
+
+  ```css
+  '& input:autofill': {
+      boxShadow: `0 0 0px 1000px ${theme.palette.grey[100]} inset`, /* x y blur spread color inset */
+    },
+  ```
+
+## `transition` • `animation`
+
+```css
+/* Apply 1 property */
+transition: property-name | duration | easing-function | delay;
+/* Apply multiple property */
+transition:
+  property-name | duration | easing-function | delay,
+  property-name | duration | easing-function | delay,
+  ...;
+/* Apply All property */
+transition: all | duration | easing-function | delay;
+
+/* Apply 1 animation */
+animation: duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
+/* Apply multiple animation */
+animation:
+  duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name,
+  duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name;
+```
+
+## `pointer-events` • `user-select`
+
+- `pointer-events: none`으로 설정하면 해당 속성이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
+- `user-select: none`이면 텍스트가 클릭이나 드래그로 선택되는 것을 막는다.
+- `user-select: all`이면 클릭 한 번으로 텍스트가 선택된다.

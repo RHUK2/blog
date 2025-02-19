@@ -1,6 +1,6 @@
 ---
-folderName: context
-updatedAt: 2024-04-29
+folderName: js_context
+updatedAt: 2025-02-18
 title: Context
 tag: javascript
 isPublished:

@@ -12,13 +12,10 @@ isPublished: true
   - [`any`](#any)
   - [`unknown`](#unknown)
   - [`never`](#never)
-  - [유니온(`|`) 타입과 인터섹션(`&`) 타입](#유니온-타입과-인터섹션-타입)
+  - [유니온(`|`) 타입 • 인터섹션(`&`) 타입](#유니온-타입--인터섹션-타입)
 - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
 - [분배적 조건부 타입](#분배적-조건부-타입)
-- [`.ts`와 `.d.ts`](#ts와-dts)
-  - [3. 외부 모듈 선언](#3-외부-모듈-선언)
-  - [5. 인터페이스 확장 (전역으로 타입 추가)](#5-인터페이스-확장-전역으로-타입-추가)
-  - [6. 타입 정의 파일 (`.d.ts` 파일)](#6-타입-정의-파일-dts-파일)
+- [`.ts` • `.d.ts`](#ts--dts)
   - [정리](#정리)
 - [ReturnType](#returntype)
 
@@ -145,7 +142,7 @@ isPublished: true
 
 - `never` 타입을 이용하여 코드를 작성할 때, 모든 가능한 케이스를 처리하고 있음을 보장할 수 있다. 이로 인해 코드의 안전성과 예측 가능성이 향상된다.
 
-### 유니온(`|`) 타입과 인터섹션(`&`) 타입
+### 유니온(`|`) 타입 • 인터섹션(`&`) 타입
 
 ```ts
 type Type1 = number | string; // 서로소 합집합
@@ -280,7 +277,7 @@ type Example = NonNullable<string | undefined | null>;
 // typeof Example === 'string'
 ```
 
-## `.ts`와 `.d.ts`
+## `.ts` • `.d.ts`
 
 ▾ `.ts` 파일:
 
@@ -293,7 +290,7 @@ type Example = NonNullable<string | undefined | null>;
 
 ▾ 실무 사용 사례:
 
-- 외부 스크립트나 라이브러리에서 제공하는 전역 변수의 타입을 정의할 때 사용합니다.
+- 외부 스크립트나 라이브러리에서 제공하는 전역 변수의 타입을 정의할 때 사용한다.
 
   ```typescript
   declare const Kakao: Kakao;
@@ -301,9 +298,7 @@ type Example = NonNullable<string | undefined | null>;
   declare const turnstile: Turnstile.Turnstile;
   ```
 
-### 3. 외부 모듈 선언
-
-타입 정보가 없는 외부 라이브러리를 사용할 때, TypeScript에게 해당 모듈이 존재함을 알리기 위해 사용됩니다.
+- 타입 정보가 없는 외부 라이브러리를 사용할 때, TypeScript에게 해당 모듈이 존재함을 알리기 위해 사용됩니다.
 
 ```typescript
 declare module 'external-library' {
@@ -311,11 +306,7 @@ declare module 'external-library' {
 }
 ```
 
-이런 식으로 `declare module`을 사용하면 `import` 할 때 TypeScript가 오류를 발생시키지 않습니다.
-
-### 5. 인터페이스 확장 (전역으로 타입 추가)
-
-기존 라이브러리의 타입을 확장할 때도 `declare`를 활용할 수 있습니다.
+- 기존 라이브러리의 타입을 확장할 때도 `declare`를 활용할 수 있습니다.
 
 ```typescript
 declare global {
@@ -327,13 +318,7 @@ declare global {
 window.myCustomProperty = 'Hello';
 ```
 
-위 코드처럼 `declare global`을 사용하면 `Window` 인터페이스에 새로운 속성을 추가할 수 있습니다.
-
----
-
-### 6. 타입 정의 파일 (`.d.ts` 파일)
-
-`declare`는 주로 타입 정의 파일(`.d.ts`)에서 사용됩니다. 예를 들어, `lodash` 라이브러리를 위한 타입을 정의하는 경우:
+- `declare`는 주로 타입 정의 파일(`.d.ts`)에서 사용됩니다. 예를 들어, `lodash` 라이브러리를 위한 타입을 정의하는 경우:
 
 ```typescript
 declare module 'lodash' {
@@ -342,8 +327,6 @@ declare module 'lodash' {
 ```
 
 TypeScript가 자동으로 타입을 추론하게 하려면 DefinitelyTyped 패키지 (`@types/lodash` 등)를 설치하는 것이 일반적이지만, 직접 정의할 수도 있습니다.
-
----
 
 ### 정리
 

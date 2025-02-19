@@ -1,4 +1,4 @@
 @import 'tailwindcss';
 @variant dark (&:where(.dark, .dark *));
-/* 임시 plugin 방식(공식 x) */
+/* 임시 plugin 방식(official 방식 아님) */
 @plugin "@tailwindcss/typography";

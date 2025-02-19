@@ -23,8 +23,8 @@ isPublished: true
 - [`position`](#position)
   - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
 - [`box-sizing`](#box-sizing)
-- [`object-fit`, `object-position`](#object-fit-object-position)
-- [media query](#media-query)
+- [`object-fit` • `object-position`](#object-fit--object-position)
+- [`@media`](#media)
 - [Layout Tip](#layout-tip)
 
 ## `display`
@@ -215,7 +215,7 @@ div.flex-item-2 {
 | `content-box` | `width`와 `height` 값과 `padding`, `border` 값이 따로 계산되며, 기본값이다. |
 | `border-box`  | `padding`, `border` 값이 `width`와 `height` 값에 포함되어 계산된다.         |
 
-## `object-fit`, `object-position`
+## `object-fit` • `object-position`
 
 ▾ `object-fit`:
 
@@ -244,7 +244,7 @@ object-position: 100px 50px;
 
 대체 요소는 CSS 서식 모델과는 분리된 외부 객체인 요소이다. 즉, 대체 요소는 자신의 콘텐츠가 현재 문서 스타일의 영향을 받지 않는 요소라고 할 수 있다. CSS는 대체 요소의 위치에 영향을 줄 수 있지만 콘텐츠에는 미치지 못한다.
 
-## media query
+## `@media`
 
 ```css
 /*
