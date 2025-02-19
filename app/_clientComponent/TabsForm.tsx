@@ -5,19 +5,13 @@ import { motion, MotionConfig } from 'motion/react';
 import { createContext, useContext, useState } from 'react';
 import { ChatForm } from './ChatForm';
 
-const tabListSetStateContext = createContext<React.Dispatch<React.SetStateAction<ITabListState>>>(() => {});
+const setTabListStateContext = createContext<React.Dispatch<React.SetStateAction<ITabListState>>>(() => {});
 
 export function TabsForm() {
-  const [tabListState, setTabListState] = useState<ITabListState>(() => {
-    const id = '0';
-
-    return {
-      currentId: id,
-      tabList: [{ id: id, title: 'New Tab' }],
-    };
+  const [tabListState, setTabListState] = useState<ITabListState>({
+    currentId: '0',
+    tabList: [{ id: '0', title: 'New Tab' }],
   });
-
-  const isOnlyTab = tabListState.tabList.length === 1;
 
   function moveTab(tabId: string) {
     setTabListState((prev) => ({
@@ -62,7 +56,7 @@ export function TabsForm() {
       }}
     >
       <div className='flex h-full flex-col gap-3'>
-        <ul className='flex h-16 items-end gap-2 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'>
+        <ul className='flex h-18 items-end gap-2 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'>
           {tabListState.tabList.map((tab) => (
             <motion.li
               key={tab.id}
@@ -112,7 +106,7 @@ export function TabsForm() {
           </motion.li>
         </ul>
 
-        <tabListSetStateContext.Provider value={setTabListState}>
+        <setTabListStateContext.Provider value={setTabListState}>
           {tabListState.tabList.map((tab) => (
             <ChatForm
               key={tab.id}
@@ -120,12 +114,12 @@ export function TabsForm() {
               className={`flex-[1_0_0px] ${tab.id === tabListState.currentId ? 'flex' : 'hidden'}`}
             />
           ))}
-        </tabListSetStateContext.Provider>
+        </setTabListStateContext.Provider>
       </div>
     </MotionConfig>
   );
 }
 
-export function useTabListSetStateContext() {
-  return useContext(tabListSetStateContext);
+export function useSetTabListStateContext() {
+  return useContext(setTabListStateContext);
 }

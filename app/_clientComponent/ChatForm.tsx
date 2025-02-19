@@ -20,7 +20,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { twMerge } from 'tailwind-merge';
 import { Radio } from './Radio';
-import { useTabListSetStateContext } from './TabsForm';
+import { useSetTabListStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
 
 const InitChat: IChat[] = [
@@ -50,7 +50,7 @@ export const ChatForm = forwardRef(function ChatForm(
     },
   });
 
-  const setTabListState = useTabListSetStateContext();
+  const setTabListState = useSetTabListStateContext();
 
   const apiChat = useChatMutation();
 
@@ -117,18 +117,16 @@ export const ChatForm = forwardRef(function ChatForm(
   });
 
   useEffect(() => {
-    function resetChat(this: Window, event: KeyboardEvent) {
+    if (!formRef.current) return;
+
+    function resetChat(this: HTMLFormElement, event: KeyboardEvent) {
       if (event.key !== 'Delete' || event.ctrlKey !== true || event.shiftKey !== true) return;
 
       event.preventDefault();
       setChatList(InitChat);
     }
 
-    window.addEventListener('keydown', resetChat);
-
-    return () => {
-      window.removeEventListener('keydown', resetChat);
-    };
+    formRef.current.addEventListener('keydown', resetChat);
   }, []);
 
   useEffect(() => {
@@ -181,7 +179,7 @@ export const ChatForm = forwardRef(function ChatForm(
         })}
       </ul>
 
-      <fieldset className='flex items-center gap-4'>
+      <fieldset className='flex flex-wrap items-center gap-4'>
         <label className='flex cursor-pointer items-center gap-2' htmlFor={`deepseek-chat-${id}`}>
           <Radio
             className='cursor-pointer'
