@@ -143,7 +143,7 @@ div {
 
 ## 폰트 파일 동작 원리
 
-폰트는 유니코드를 입력하면 그 유니코드에 해당하는 글리프 인덱스를 매핑 테이블에서 찾아서 해당 유니코드를 글리프로 변환하는 방식으로 동작한다.
+폰트는 유니코드를 입력받으면, 해당 유니코드에 대응하는 글리프 인덱스를 cmap 테이블에서 조회한다. 이후, 조회된 글리프 인덱스를 기반으로 해당 글리프를 렌더링하는 방식으로 동작한다.
 
 ```text
 A → U+0041 → "65" : 4
@@ -153,19 +153,15 @@ A → U+0041 → "65" : 4
 
 ▾ 글리프:
 
-벡터 기반의 그래픽으로 아래 그림과 같다.
+![img](images/glyph_1.png)
 
-![img](images/glyph.png)
-
-▾ cmap 테이블(Character To Glyph Index Mapping Table):
+▾ cmap(Character To Glyph Index Mapping Table):
 
 ![img](images/cmap.png)
 
 ### 아이콘 폰트 파일 동작 원리
 
-일반 텍스트 폰트의 경우 유니코드 표준에 존재하는 유니코드에 대응하는 글리프를 생성하지만, 아이콘 폰트는 유니코드 표준에서 벗어나 사용자가 자체적으로 정의할 수 있는 PUA(Private Use Area, E000–F8FF)에 존재하는 유니코드에 대응하는 글리프를 생성한다.
-
-그래서 아이콘 폰트 파일의 제공자들은 사용자의 접근성을 고려하여 PUA에 존재하는 유니코드에 접근할 수 있게 다양한 방법을 제공한다.
+아이콘 폰트는 일반적으로 PUA(Private Use Area, E000–F8FF)에 위치한 유니코드와 해당 글리프를 매핑하여 저장한다. 따라서 아이콘 폰트 제공자는 사용자의 접근성을 고려하여 PUA 내 유니코드에 접근할 수 있는 다양한 방법을 제공한다.
 
 ▾ FontAwesome 폰트 파일의 접근 방식:
 
@@ -195,38 +191,27 @@ A → U+0041 → "65" : 4
 <span class="material-icons">error</span>
 ```
 
-error의 glyphIndex 2
+`"error"`가 `glyphNameIndexs`와 `names`를 이용해 `glyphIndex`와 매핑되는 과정은 PostScript 테이블의 구조를 기반으로 설명할 수 있다.
 
-PostScript 테이블의 `glyphNameIndex` 배열과 `names` 배열의 관계는 **간접적**이며, `names` 배열의 인덱스가 **직접 글리프 인덱스와 일치하지 않습니다**. 구체적인 동작 방식은 다음과 같습니다:
+▾ PostScript 테이블 구조:
 
-delete glyphIndex 1 unicode E
-error glyphIndex 262 unicode E000
+- `glyphNameIndexs` 배열: 각 글리프 인덱스에 대응하는 글리프 이름의 참조값을 저장한다.
+  - 값이 0–257인 경우: 표준 글리프 이름(예: `.notdef`, `A`, `B` 등)을 참조한다.
+  - 값이 258 이상인 경우: `names` 배열의 인덱스를 참조한다 (`glyphNameIndex[i] - 258`).
+- `names` 배열: 사용자 정의 글리프 이름을 저장한다.
 
-glyphNameIndex[1] = 258 - 258 = 0
-glyphNameIndex[262] = 518 - 258 = 260
+▾ 매핑 과정:
 
-names[0] = "delete"
-names[260] = "error"
+- `names` 배열에서 값이 `"error"`인 위치를 찾는다. (`names[260]`)
+- `glyphNameIndexs` 배열에서 값이 `258 + 260 = 518`인 위치를 찾는다. (`glyphNameIndexs[262]`).
+- 해당 위치의 인덱스가 `"error"`의 글리프 인덱스다. (`262`)
+- 글리프 인덱스를 사용하여 GLYF 테이블에서 글리프 데이터를 조회한다.
+- 글리프 데이터를 기반으로 아이콘을 화면에 렌더링한다.
 
-1. **`glyphNameIndex` 배열**
+▾ 글리프:
 
-   - 글리프 인덱스(`0`, `1`, `2`, ...)에 대응하는 배열입니다.
-   - 각 값은 다음을 의미합니다:
-     - **0–32767**: 사전 정의된 표준 글리프 이름(예: `.notdef`, `A`, `B`)을 가리킵니다.
-     - **258 이상**: `names` 배열의 인덱스를 계산하기 위해 `258`을 뺀 값(`glyphNameIndex[i] - 258`)을 사용합니다.
+![img](images/glyph_2.png)
 
-2. **`names` 배열**
+▾ post(PostScript Table):
 
-   - 표준 이름에 포함되지 않은 **사용자 정의 글리프 이름**을 저장합니다.
-   - 예: `glyphNameIndex[i]`가 `300`이라면, `names[300 - 258 = 42]`에서 이름을 가져옵니다.
-
-3. **핵심 요약**
-   - **글리프 인덱스**는 `glyphNameIndex` 배열의 위치로 결정됩니다.
-   - `names` 배열의 인덱스는 `glyphNameIndex` 값을 통해 **간접적으로 참조**되며, 직접적인 글리프 인덱스와 연결되지 않습니다.
-   - 표준 이름은 `names` 배열을 사용하지 않고 즉시 참조됩니다.
-
-예시:
-
-- 글리프 인덱스 `5`의 `glyphNameIndex[5]` 값이 `300`이라면,  
-  실제 이름은 `names[42]`에서 조회됩니다.
-- `glyphNameIndex[3]`이 `10`이라면, 표준 이름 목록에서 인덱스 `10`에 해당하는 이름을 사용합니다.
+![img](images/post.png)

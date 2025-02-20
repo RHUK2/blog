@@ -15,8 +15,7 @@ isPublished: true
   - [유니온(`|`) 타입 • 인터섹션(`&`) 타입](#유니온-타입--인터섹션-타입)
 - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
 - [분배적 조건부 타입](#분배적-조건부-타입)
-- [`.ts` • `.d.ts`](#ts--dts)
-  - [정리](#정리)
+- [`declare`](#declare)
 - [ReturnType](#returntype)
 
 ## 타입은 집합이다
@@ -277,122 +276,35 @@ type Example = NonNullable<string | undefined | null>;
 // typeof Example === 'string'
 ```
 
-## `.ts` • `.d.ts`
+## `declare`
 
-▾ `.ts` 파일:
+- `declare`는 타입 정보만 제공하며, 실제 구현은 포함하지 않는다.
+- `declare` 없이 타입을 정의하면, TypeScript는 해당 코드가 구현되어 있다고 가정한다.
 
-- 실제 구현과 타입 정보를 모두 포함한다.
+▾ 사용 예시:
 
-▾ `d.ts` 파일:
-
-- 실제 구현은 포함하지 않고, 오직 타입 정보만 포함한다.
-- 일반적으로 JavaScript 라이브러리와 함께 사용하여 TypeScript가 해당 라이브러리를 인식하도록 도와준다.
-
-▾ 실무 사용 사례:
-
-- 외부 스크립트나 라이브러리에서 제공하는 전역 변수의 타입을 정의할 때 사용한다.
+- 외부 자바스크립트 라이브러리의 타입 선언
 
   ```typescript
+  declare module 'my-library' {
+    export function doSomething(): void;
+  }
+  ```
+
+- 전역 스코프에 존재하는 변수나 함수의 타입을 선언
+
+  ```ts
   declare const Kakao: Kakao;
 
   declare const turnstile: Turnstile.Turnstile;
   ```
 
-- 타입 정보가 없는 외부 라이브러리를 사용할 때, TypeScript에게 해당 모듈이 존재함을 알리기 위해 사용됩니다.
+- 타입 정의 파일(`.d.ts`)에서 사용
 
-```typescript
-declare module 'external-library' {
-  export function someMethod(): void;
-}
-```
-
-- 기존 라이브러리의 타입을 확장할 때도 `declare`를 활용할 수 있습니다.
-
-```typescript
-declare global {
-  interface Window {
-    myCustomProperty: string;
-  }
-}
-
-window.myCustomProperty = 'Hello';
-```
-
-- `declare`는 주로 타입 정의 파일(`.d.ts`)에서 사용됩니다. 예를 들어, `lodash` 라이브러리를 위한 타입을 정의하는 경우:
-
-```typescript
-declare module 'lodash' {
-  export function cloneDeep<T>(value: T): T;
-}
-```
-
-TypeScript가 자동으로 타입을 추론하게 하려면 DefinitelyTyped 패키지 (`@types/lodash` 등)를 설치하는 것이 일반적이지만, 직접 정의할 수도 있습니다.
-
-### 정리
-
-`declare`는 TypeScript 프로그램에서 실제 구현이 없는 전역 변수, 전역 함수, 모듈, 인터페이스 등을 정의할 때 사용됩니다. 주로:
-
-- 전역 변수/함수를 정의할 때
-- 외부 라이브러리를 사용할 때 (`jQuery`, `Lodash` 등)
-- 타입 정의 파일(`.d.ts`)을 만들 때
-- 기존 인터페이스를 확장할 때 (`declare global`)
-
-이런 경우에 `declare`를 사용하면 TypeScript가 타입 검사를 수행하면서도 실제 구현 없이 컴파일을 통과할 수 있습니다. 🚀
-
-```ts
-// *.js
-
-// 변수 선언
-var num = 10;
-
-// 함수 선언
-function double(x) {
-  return x * 2;
-}
-
-// 객체 속성
-var person = {
-  name: 'Alice',
-  age: 25,
-  isAdmin: false,
-};
-
-// 배열
-var numbers = [1, 2, 3, 4, 5];
-
-// 콜백 함수
-function processArray(arr, callback) {
-  for (var i = 0; i < arr.length; i++) {
-    callback(arr[i]);
-  }
-}
-```
-
->
-
-```ts
-// *.d.ts
-
-// 변수 선언
-declare var num: number;
-
-// 함수 선언
-declare function double(x: number): number;
-
-// 객체 속성
-interface Person {
-  name: string;
-  age: number;
-  isAdmin: boolean;
-}
-declare var person: Person;
-
-// 배열
-declare var numbers: number[];
-
-// 콜백 함수
-declare function processArray(arr: any[], callback: (item: any) => void): void;
-```
+|             | `.ts`                             | `.d.ts`                          |
+| ----------- | --------------------------------- | -------------------------------- |
+| 내용        | 실제 구현 코드와 타입 정보를 포함 | 타입 정보만 포함                 |
+| 컴파일 대상 | JavaScript로 컴파일됨             | 컴파일되지 않음 타입 정보만 제공 |
 
 ## ReturnType
 

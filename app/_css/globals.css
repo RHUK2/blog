@@ -2,3 +2,35 @@
 @variant dark (&:where(.dark, .dark *));
 /* 임시 plugin 방식(official 방식 아님) */
 @plugin "@tailwindcss/typography";
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 2px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #b8b8b8;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #b8b8b8;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #b8b8b8;
+}
