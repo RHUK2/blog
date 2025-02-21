@@ -76,7 +76,7 @@ isPublished: true
 
 ## Docker Architecture
 
-![img](images/docker_architecture.jpg)
+![img](images/docker_architecture.webp)
 
 ## Dockerfile
 

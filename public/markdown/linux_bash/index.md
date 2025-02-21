@@ -923,7 +923,8 @@ curl ifconfig.me
 
 ```bash
 whoami # 현재 유저 확인
-sudo su # root 권한 쉘 열기
+sudo su # root 사용자로 로그인(root 환경변수)
+sudo -s # root 사용자로 로그인(사용자 환경변수)
 sudo cat foo.txt # root 권한으로 명령어 실행
 sudo adduser foo # 유저 생성
 sudo userdel -r foo # 유저 삭제
