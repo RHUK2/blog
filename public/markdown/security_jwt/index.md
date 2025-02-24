@@ -8,12 +8,13 @@ isPublished: true
 
 # JWT 인증
 
-- [JWT 특징](#jwt-특징)
-- [JWT 구조](#jwt-구조)
-- [공통키(대칭키) 방식의 JWT 생성 및 검증](#공통키대칭키-방식의-jwt-생성-및-검증)
-- [공개키 • 개인키(비대칭키) 방식의 JWT 생성 및 검증](#공개키--개인키비대칭키-방식의-jwt-생성-및-검증)
-- [Access Token • Refresh Token](#access-token--refresh-token)
-- [JWT 인증 흐름](#jwt-인증-흐름)
+- [JWT 인증](#jwt-인증)
+  - [JWT 특징](#jwt-특징)
+  - [JWT 구조](#jwt-구조)
+  - [공통키(대칭키) 방식의 JWT 생성 및 검증](#공통키대칭키-방식의-jwt-생성-및-검증)
+  - [공개키 • 개인키(비대칭키) 방식의 JWT 생성 및 검증](#공개키--개인키비대칭키-방식의-jwt-생성-및-검증)
+  - [Access Token • Refresh Token](#access-token--refresh-token)
+  - [JWT 인증 흐름](#jwt-인증-흐름)
 
 ## JWT 특징
 

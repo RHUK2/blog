@@ -12,6 +12,7 @@ isPublished: false
 - [교차 출처 네트워크 접근](#교차-출처-네트워크-접근)
 - [교차 출처 스크립트 API 접근](#교차-출처-스크립트-api-접근)
 - [교차 출처 데이터 저장소 접근](#교차-출처-데이터-저장소-접근)
+- [CORS](#cors)
 
 동일 출처 정책(Same-Origin Policy, SOP)은 웹 보안 모델의 핵심 개념 중 하나로, 웹 브라우저에서 실행되는 스크립트가 서로 다른 출처(origin)에서 가져온 리소스에 접근하는 것을 제한하는 규칙이다.
 
@@ -39,3 +40,21 @@ isPublished: false
 ## 교차 출처 스크립트 API 접근
 
 ## 교차 출처 데이터 저장소 접근
+
+---
+
+folderName: cors
+updatedAt: 2024-05-20
+title: CORS
+tag: network
+isPublished:
+
+---
+
+## CORS
+
+curl로 다뚫린다
+
+의미없다..?
+
+프록시쓰면 끝인데..

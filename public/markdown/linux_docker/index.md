@@ -9,14 +9,17 @@ isPublished: true
 # Docker
 
 - [Docker Architecture](#docker-architecture)
+- [QnA](#qna)
 - [Dockerfile](#dockerfile)
 - [Docker Registry](#docker-registry)
   - [Login to a Docker registry](#login-to-a-docker-registry)
   - [Logout from a Docker registry](#logout-from-a-docker-registry)
   - [Build an image from a Dockerfile](#build-an-image-from-a-dockerfile)
   - [Push an image to a Docker registry](#push-an-image-to-a-docker-registry)
+  - [List images](#list-images)
+  - [Remove image](#remove-image)
 - [Docker Containers](#docker-containers)
-  - [List Containers](#list-containers)
+  - [List containers](#list-containers)
   - [Run a container interactively](#run-a-container-interactively)
   - [Run a detached container](#run-a-detached-container)
   - [Run a container with a custom name](#run-a-container-with-a-custom-name)
@@ -77,6 +80,14 @@ isPublished: true
 ## Docker Architecture
 
 ![img](images/docker_architecture.webp)
+
+## QnA
+
+Q: Dockerfile에서 `FROM scratch`가 의미하는 바는?
+
+- 이는 어떠한 파일 시스템도 포함하지 않은 완전히 비어 있는 이미지를 의미한다.
+- 대부분의 OS 이미지의 Dockerfile은 `FROM scratch`로 작성된다.
+
 
 ## Dockerfile
 
@@ -151,9 +162,25 @@ Pushes a Docker image to a Docker registry.
 docker push image_name
 ```
 
+### List images
+
+List images
+
+```bash
+docker image ls
+```
+
+### Remove image
+
+Remove one or more images
+
+```bash
+docker image rm image_name
+```
+
 ## Docker Containers
 
-### List Containers
+### List containers
 
 Shows containers in all states.
 
