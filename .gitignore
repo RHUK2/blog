@@ -5,6 +5,9 @@ node_modules
 .next
 out
 
+# testing
+/coverage
+
 # local env files
 .env*
 
