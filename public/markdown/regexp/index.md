@@ -9,18 +9,47 @@ isPublished: true
 # Regexp Note
 
 - [positive lookahed](#positive-lookahed)
+- [negative lookahed](#negative-lookahed)
 - [newline](#newline)
 
 ## positive lookahed
 
 ```text
-/..(?=t)/
-  ←←▼
-positive lookahead // si
+/....(?=t)/g
+←←←←▼
+positive lookahead // 'posi'
 
-/(?=t).../
-   ▼→→→
-positive lookahead // tiv
+/(?=t)..../g
+   ▼→→→→
+positive lookahead // 'tive'
+```
+
+## negative lookahed
+
+```text
+/....(?!t)/g
+→→→→▼(t를 포함)
+negative lookahead // []
+ →→→→▼
+negative lookahead // ['egat']
+     →→→→▼
+negative lookahead // ['egat', 'ive ']
+         →→→→▼
+negative lookahead // ['egat', 'ive ', 'look']
+             →→→→▼
+negative lookahead // ['egat', 'ive ', 'look', 'ahea']
+
+/(?=t)..../g
+▼→→→
+negative lookahead // ['nega']
+    ▼→→→(t를 포함)
+negative lookahead // ['nega']
+     ▼→→→
+negative lookahead // ['nega', 'ive ']
+         ▼→→→
+negative lookahead // ['nega', 'ive ', 'look']
+             ▼→→→
+negative lookahead // ['nega', 'ive ', 'look', 'ahea']
 ```
 
 ## newline
