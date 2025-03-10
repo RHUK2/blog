@@ -77,6 +77,7 @@ isPublished: true
   - [그룹](#그룹)
   - [파일/폴더 유저/그룹 변경](#파일폴더-유저그룹-변경)
   - [유저/그룹 정보 경로](#유저그룹-정보-경로)
+- [echo "$PATH" | tr ':' '\\n'](#echo-path--tr--n)
 
 ## Command History
 
@@ -971,3 +972,5 @@ cat /etc/group # 유저 그룹 정보
 cat /etc/shadow # 비밀번호 정보
 cd /etc/skel # /home 디렉토리 안에 유저 폴더에 추가될 파일 및 폴더
 ```
+
+## echo "$PATH" | tr ':' '\n'

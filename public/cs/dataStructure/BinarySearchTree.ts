@@ -67,22 +67,63 @@ class BinarySearchTree {
     return;
   }
 
-  bfs(val: any) {
-    const visited = [];
-    const queue = [];
+  BFS() {
+    let node = this.root;
+    const queue: any[] = [];
+    const data: any[] = [];
 
-    let current = this.root;
+    queue.push(node);
 
-    while (true) {
-      if (val !== current.val) {
-        visited.push(current);
-
-        queue.unshift(current.left);
-        queue.unshift(current.right);
-
-        current = current.left;
-      }
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
     }
+
+    return data;
+  }
+
+  DFSPreOrder() {
+    const data: any[] = [];
+
+    function traverse(node: any) {
+      data.push(node);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+
+    traverse(this.root);
+
+    return data;
+  }
+
+  DFSPostOrder() {
+    const data: any[] = [];
+
+    function traverse(node: any) {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      data.push(node);
+    }
+
+    traverse(this.root);
+
+    return data;
+  }
+
+  DFSInOrder() {
+    const data: any[] = [];
+
+    function traverse(node: any) {
+      if (node.left) traverse(node.left);
+      data.push(node);
+      if (node.right) traverse(node.right);
+    }
+
+    traverse(this.root);
+
+    return data;
   }
 }
 
@@ -96,6 +137,14 @@ tree.insert(7);
 tree.insert(11);
 tree.insert(16);
 
-console.dir(tree.find(16), { depth: null });
+// console.dir(tree.find(16), { depth: null });
+
+// console.dir(tree.BFS(), { depth: null });
+
+// console.dir(tree.DFSPreOrder(), { depth: null });
+
+// console.dir(tree.DFSPostOrder(), { depth: null });
+
+// console.dir(tree.DFSInOrder(), { depth: null });
 
 console.dir(tree, { depth: null });
