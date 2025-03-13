@@ -1,7 +1,7 @@
 'use client';
 
 import { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef, useImperativeHandle, useRef } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twJoin, twMerge } from 'tailwind-merge';
 
 export const Button = forwardRef(function Button(
   {
@@ -20,7 +20,10 @@ export const Button = forwardRef(function Button(
       ref={buttonRef}
       type='button'
       className={twMerge(
-        'min-h-8 min-w-12 rounded-md border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        twJoin(
+          'min-h-8 min-w-12 cursor-pointer rounded-md border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2',
+          'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        ),
         `${className ?? ''}`,
       )}
       {...buttonProps}
