@@ -17,7 +17,9 @@ export default function Error({ error, reset }: Props) {
       <section className='m-auto max-w-[768px] min-w-[320px] px-4 py-10'>
         <div className='flex flex-col items-center gap-4 pt-12 text-xl tracking-tighter'>
           <p>서버에서 에러가 발생하였습니다.</p>
-          <button onClick={() => reset()}>🔃RETRY</button>
+          <button className='cursor-pointer' onClick={() => reset()}>
+            🔃RETRY
+          </button>
         </div>
       </section>
     </main>

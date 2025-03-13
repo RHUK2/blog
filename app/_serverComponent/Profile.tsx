@@ -10,13 +10,13 @@ export function Profile() {
           width={354}
           height={472}
           className='aspect-square self-start rounded-[1rem_50%_50%_50%] object-cover'
+          placeholder='blur'
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO88h8AAq0B1REmZuEAAAAASUVORK5CYII='
         />
       </div>
 
       <div className='min-w-2xs flex-[4_0_0]'>
         <p>류현욱</p>
-        <p>기술스택</p>
-        <p>Next.js • Typescript</p>
         <p>깃허브</p>
         <p>블로그</p>
         <p></p>
