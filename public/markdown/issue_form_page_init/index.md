@@ -2,8 +2,8 @@
 folderName: issue_form_page_init
 updatedAt: 2024-10-02
 title: 폼 수정 페이지의 초기화 이슈
-tag: react, error
-isPublished: false
+tag: issue
+isPublished: true
 ---
 
 ```ts

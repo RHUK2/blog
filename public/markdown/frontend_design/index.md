@@ -1,9 +1,9 @@
 ---
-folderName: frontend
-updatedAt:
-title: frontend
-tag:
-isPublished:
+folderName: frontend_design
+updatedAt: 2025-03-13
+title: frontend 설계
+tag: design
+isPublished: true
 ---
 
 # Frontend Design

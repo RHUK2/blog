@@ -1,3 +1,11 @@
+---
+folderName: network_streaming
+updatedAt: 2025-03-13
+title: 스트리밍
+tag: network
+isPublished: true
+---
+
 네, 질문하신 내용이 스트리밍의 기본 작동 원리와 상당히 맞닿아 있습니다. 브라우저가 스트리밍 데이터를 처리하는 방식에 대해 조금 더 구체적으로 설명드릴게요.
 
 ### **스트리밍과 버퍼링의 개념**

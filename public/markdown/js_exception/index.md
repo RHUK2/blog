@@ -1,9 +1,9 @@
 ---
-folderName: try_catch
-updatedAt:
+folderName: js_exception
+updatedAt: 2025-03-13
 title: try_catch
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 ## try/catch

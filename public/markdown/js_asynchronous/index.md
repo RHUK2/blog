@@ -1,5 +1,5 @@
 ---
-folderName: asynchronous
+folderName: js_asynchronous
 updatedAt: 2025-02-18
 title: 비동기 작업 처리 방식
 tag: javascript

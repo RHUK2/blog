@@ -1,9 +1,9 @@
 ---
-folderName: module
+folderName: js_module
 updatedAt: 2024-04-21
 title: 모듈
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 ## 모듈 다운

@@ -3,7 +3,7 @@ folderName: react_rendering
 updatedAt: 2024-09-12
 title: React Rendering
 tag: react
-isPublished:
+isPublished: true
 ---
 
 # Example1

@@ -1,8 +1,8 @@
 ---
-folderName: bash
+folderName: linux_bash
 updatedAt: 2024-10-10
 title: Bash
-tag: bash
+tag: linux
 isPublished: true
 ---
 

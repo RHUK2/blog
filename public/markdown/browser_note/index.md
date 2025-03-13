@@ -1,9 +1,9 @@
 ---
-updatedAt: 2024-04-29
-directory: Browser
-folderName: Browser
-title: Browser 기록하기
-description:
+folderName: browser_note
+updatedAt: 2025-03-13
+title: 브라우저 기록하기
+tag: browser
+isPublished: true
 ---
 
 # Web

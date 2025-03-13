@@ -1,8 +1,8 @@
 ---
-folderName: wsl_record
+folderName: linux_wsl
 updatedAt: 2024-04-21
 title: WSL 기록하기
-tag: wsl
+tag: linux
 isPublished: true
 ---
 

@@ -3,7 +3,7 @@ folderName: js_context
 updatedAt: 2025-02-18
 title: Context
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 # Context

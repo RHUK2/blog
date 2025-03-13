@@ -3,7 +3,7 @@ folderName: security_sop
 updatedAt: 2025-02-06
 title: Same Origin Policy
 tag: security
-isPublished: false
+isPublished: true
 ---
 
 # Same Origin Policy

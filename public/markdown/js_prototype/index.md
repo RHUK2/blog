@@ -1,5 +1,5 @@
 ---
-folderName: prototype
+folderName: js_prototype
 updatedAt: 2024-04-29
 title: Prototype
 tag: javascript

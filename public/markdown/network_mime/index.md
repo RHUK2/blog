@@ -1,3 +1,11 @@
+---
+folderName: network_mime
+updatedAt: 2025-02-06
+title: MIME 타입
+tag: network
+isPublished: true
+---
+
 ## MIME 타입
 
 MIME(Multipurpose Internet Mail Extensions) 타입은 파일의 형식이나 유형을 식별하기 위한 표준화된 문자열이다. MIME 타입은 주로 웹에서 사용되며, 웹 브라우저와 서버가 파일의 내용을 올바르게 처리하도록 도와준다. MIME 타입은 파일의 확장자나 내용의 특성에 따라 결정되며, 파일의 실제 형식을 정확하게 식별할 수 있도록 도와준다.

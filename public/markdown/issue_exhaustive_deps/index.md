@@ -2,7 +2,7 @@
 folderName: issue_exhaustive_deps
 updatedAt: 2024-05-20
 title: exhaustive-deps 벗어나기
-tag: react, issue
+tag: issue
 isPublished: true
 ---
 

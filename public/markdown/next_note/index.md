@@ -1,9 +1,9 @@
 ---
-folderName: nextjs
-updatedAt:
+folderName: next_note
+updatedAt: 2025-03-13
 title: nextjs
 tag: nextjs
-isPublished:
+isPublished: true
 ---
 
 # NextJS

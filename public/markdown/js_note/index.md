@@ -1,9 +1,9 @@
 ---
-folderName: javascript_record
+folderName: js_note
 updatedAt: 2024-10-08
 title: 자바스크립트 관련 기록
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 # 자바스크립트 관련 기록

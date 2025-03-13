@@ -1,9 +1,9 @@
 ---
-folderName: i18n
-updatedAt:
+folderName: i18n_note
+updatedAt: 2025-03-13
 title: i18n 적용기
-tag:
-isPublished:
+tag: i18n
+isPublished: true
 ---
 
 24시간으로 나타내는데 시는 hh, 분은 mm, 초는 ss이고 hhmmss 또는 hh:mm:ss로 나타낸다. 날짜와 시간을 함께 표기할 때는 사이에 T를 넣고, 맨 뒤에는 표준 시간대를 +hh, +hhmm 또는 +hh:mm 형식으로 붙이며, UTC일 경우 Z를 붙인다. 예를 들어 2001-01-01T00:00:00+09:00 와 같이 나타낸다.

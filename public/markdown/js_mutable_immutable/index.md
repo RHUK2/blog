@@ -1,9 +1,9 @@
 ---
-folderName: mutable_immutable
+folderName: js_mutable_immutable
 updatedAt:
 title: mutable immutable
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 ## Pass By Value vs Pass By Reference

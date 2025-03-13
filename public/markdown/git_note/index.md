@@ -1,5 +1,5 @@
 ---
-folderName: git
+folderName: git_note
 updatedAt: 2023-02-18
 title: Git
 tag: git

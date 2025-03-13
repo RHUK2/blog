@@ -1,9 +1,9 @@
 ---
 folderName: nodejs
-updatedAt:
+updatedAt: 2025-03-13
 title: nodejs
 tag: node
-isPublished:
+isPublished: true
 ---
 
 <!-- todo: 내용 보완 필요 -->

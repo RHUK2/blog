@@ -1,5 +1,5 @@
 ---
-folderName: hoisting
+folderName: js_hoisting
 updatedAt: 2024-04-29
 title: Hoisting
 tag: javascript

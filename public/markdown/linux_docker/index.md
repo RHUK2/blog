@@ -1,8 +1,8 @@
 ---
-folderName: docker
+folderName: linux_docker
 updatedAt: 2024-04-21
 title: Docker
-tag: docker
+tag: linux
 isPublished: true
 ---
 
@@ -87,7 +87,6 @@ Q: Dockerfile에서 `FROM scratch`가 의미하는 바는?
 
 - 이는 어떠한 파일 시스템도 포함하지 않은 완전히 비어 있는 이미지를 의미한다.
 - 대부분의 OS 이미지의 Dockerfile은 `FROM scratch`로 작성된다.
-
 
 ## Dockerfile
 

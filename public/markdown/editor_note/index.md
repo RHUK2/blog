@@ -1,5 +1,5 @@
 ---
-folderName: editor_record
+folderName: editor_note
 updatedAt: 2025-02-05
 title: 에디터 관련 기록
 tag: editor

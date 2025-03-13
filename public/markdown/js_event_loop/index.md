@@ -1,9 +1,9 @@
 ---
-folderName: event_loop
+folderName: js_event_loop
 updatedAt: 2024-04-29
 title: Event Loop
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 # Event Loop

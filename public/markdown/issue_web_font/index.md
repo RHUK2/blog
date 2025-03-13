@@ -1,3 +1,11 @@
+---
+folderName: issue_web_font
+updatedAt: 2024-10-02
+title: 새로고침 시 웹 폰트가 로드되기 전까지 깨지는 이슈
+tag: issue
+isPublished: true
+---
+
 ## FOUC(flash of unstyled content)
 
 ## 새로고침 시 웹 폰트가 로드되기 전까지 깨지는 이슈

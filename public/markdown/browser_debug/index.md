@@ -2,7 +2,7 @@
 folderName: browser_debug
 updatedAt: 2024-10-11
 title: 브라우저 디버깅
-tag: debug
+tag: browser
 isPublished: true
 ---
 

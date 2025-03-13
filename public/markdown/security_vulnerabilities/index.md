@@ -3,7 +3,7 @@ folderName: security_vulnerabilities
 updatedAt: 2025-02-06
 title: 웹 취약점
 tag: security
-isPublished: false
+isPublished: true
 ---
 
 # 웹 취약점

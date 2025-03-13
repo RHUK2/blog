@@ -1,9 +1,9 @@
 ---
-folderName: http_request
-updatedAt:
+folderName: network_http
+updatedAt: 2025-03-13
 title: 다양한 HTTP 요청 방법
 tag: network
-isPublished:
+isPublished: true
 ---
 
 ## HTTP 헤더

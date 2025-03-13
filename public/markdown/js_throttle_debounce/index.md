@@ -1,9 +1,9 @@
 ---
-folderName: throttle_debounce
+folderName: js_throttle_debounce
 updatedAt: 2024-10-14
 title: throttle과 debounce
 tag: javascript
-isPublished:
+isPublished: true
 ---
 
 ## throttle과 debounce
