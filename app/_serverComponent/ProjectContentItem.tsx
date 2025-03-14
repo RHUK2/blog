@@ -6,18 +6,19 @@ interface Props {
 
 export function ProjectContentItem({ data }: Props) {
   return (
-    <div className='flex flex-col gap-4'>
+    <li className='flex flex-col gap-4'>
       <div className='flex flex-col gap-1'>
-        <p>{data.title}</p>
-        <p>{data.company}</p>
-        <p>{`${data.startDate} - ${data.endDate}`}</p>
+        <p className='text-xl'>{data.title}</p>
+        <p className='text-gray-500 dark:text-gray-400'>{`${data.startDate} - ${data.endDate}`}</p>
         <p>{data.description}</p>
       </div>
+
+      <p>경험</p>
       <ul>
         {data.experienceList.map((experience) => (
           <li key={experience}>{experience}</li>
         ))}
       </ul>
-    </div>
+    </li>
   );
 }

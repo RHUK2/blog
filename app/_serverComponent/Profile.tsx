@@ -1,4 +1,6 @@
+import Github from '@public/assets/github.svg';
 import Image from 'next/image';
+import { IcondBadge } from './IconBadge';
 
 export function Profile() {
   return (
@@ -16,10 +18,14 @@ export function Profile() {
       </div>
 
       <div className='min-w-2xs flex-[4_0_0]'>
-        <p>류현욱</p>
-        <p>깃허브</p>
-        <p>블로그</p>
-        <p></p>
+        <div className='mb-4 flex items-center gap-2'>
+          <p className='text-xl'>류현욱</p>
+          <IcondBadge
+            href='https://github.com/RHUK2'
+            icon={<Github className='h-4 w-4 fill-black dark:fill-white' />}
+          />
+        </div>
+
         <p>
           3년차 웹 프론트엔드 개발자로, 사용자 경험을 최우선으로 고려한 반응형 웹 애플리케이션 개발에 강점을 가지고
           있습니다. React와 TypeScript를 활용한 프로젝트 경험을 통해 성능 최적화와 유지보수성을 높이는 데
