@@ -53,7 +53,7 @@ isPublished: true
 
 아래 방식은 정확한 문서 전체 너비/높이를 얻기 위해 오래 전부터 사용하던 방식이므로 이해할 필요가 없다.
 
-```js
+```ts
 console.log(
   Math.max(
     document.body.scrollWidth,
@@ -90,11 +90,11 @@ console.log(
 
 ### 스크롤바 막기
 
-```js
+```ts
 // 스크롤바 고정
 document.body.style.overflow = 'hidden';
 // 스크롤바 고정 시 스크롤바 너비만큼 보정
-document.body.style.paddingleft = window.innerWidth - document.documentElement.clientWidth;
+document.body.style.paddingLeft = `${window.innerWidth - document.documentElement.clientWidth}`;
 // 스크롤바 고정 해제
 document.body.style.overflow = '';
 // 스크롤바 고정 해제 시 스크롤바 너비만큼 보정 해제
@@ -109,7 +109,7 @@ document.body.style.paddingRight = '';
 
 창 기준 좌표는 `position: fixed`와 사용하고 문서 기준 좌표는 `position: absolute`와 사용한다.
 
-```js
+```ts
 // 브라우저창 기준 좌표(position: fixed)
 const { x, y, width, height, top, left, bottom, right } = element.getBoundingClientRect();
 
@@ -128,7 +128,7 @@ function getCoords(elem) {
 
 아래 메서드로 css 선택자와 일치하는 요소를 부모로 올라가면서 찾을 수 있다.
 
-```js
+```ts
 element.closest('#droppable');
 ```
 
@@ -138,7 +138,7 @@ element.closest('#droppable');
 
 아래는 기준에 따라 달라지는 마우스 좌표 값이다.
 
-```js
+```ts
 element.onmousemove = function (e) {
   // 모니터 기준
   console.log(e.screenX);
