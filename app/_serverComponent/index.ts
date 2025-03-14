@@ -2,6 +2,7 @@ export * from './CareerContentItem';
 export * from './CategoryBox';
 export * from './Divider';
 export * from './Header';
+export * from './IconBadge';
 export * from './MarkdownMetaCard';
 export * from './NavigationTag';
 export * from './Profile';
