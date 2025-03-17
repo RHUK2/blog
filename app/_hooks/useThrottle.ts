@@ -1,7 +1,7 @@
 'use client';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type Callback = (...args: any[]) => void;
 
@@ -21,9 +21,19 @@ export function useThrottle<T extends Callback>(
   // settimeout으로 실행될 때 받는 args
   const lastArgs = useRef<Parameters<T>>();
 
+  useEffect(() => {
+    return () => {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+    };
+  }, []);
+
   // 외부에서 호출될 때 받아지는 args
   return (...args: Parameters<T>) => {
-    lastArgs.current = args;
+    if (trailing) {
+      lastArgs.current = args;
+    }
 
     if (isReady.current) {
       if (leading) {
@@ -40,7 +50,9 @@ export function useThrottle<T extends Callback>(
         }
 
         isReady.current = true;
-        lastArgs.current = undefined;
+        if (trailing) {
+          lastArgs.current = undefined;
+        }
       }, delay);
     }
   };
