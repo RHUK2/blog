@@ -24,6 +24,7 @@ export interface IProject {
   startDate: string;
   endDate: string;
   description: string;
+  skillList: TSkillList;
   experienceList: string[];
 }
 
