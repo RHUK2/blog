@@ -1,3 +1,3 @@
-export * from './useDebounceCallback';
-export * from './useMount';
-export * from './useThrottleCallback';
+export * from './useDebounce';
+export * from './useRequestAnimationFrame';
+export * from './useThrottle';
