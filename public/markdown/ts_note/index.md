@@ -16,7 +16,8 @@ isPublished: true
 - [옵셔널 프로퍼티](#옵셔널-프로퍼티)
 - [분배적 조건부 타입](#분배적-조건부-타입)
 - [`declare`](#declare)
-- [ReturnType](#returntype)
+- [`ReturnType`](#returntype)
+- [`null` • `undefined` 한번에 체크하기](#null--undefined-한번에-체크하기)
 
 ## 타입은 집합이다
 
@@ -306,7 +307,7 @@ type Example = NonNullable<string | undefined | null>;
 | 내용        | 실제 구현 코드와 타입 정보를 포함 | 타입 정보만 포함                 |
 | 컴파일 대상 | JavaScript로 컴파일됨             | 컴파일되지 않음 타입 정보만 제공 |
 
-## ReturnType
+## `ReturnType`
 
 `ReturnType`은 함수 타입으로부터 반환 타입을 추론하는 데 사용된다. 즉, 특정 함수가 반환하는 값의 타입을 추출한다.
 
@@ -331,4 +332,22 @@ let timer: TimerType;
 timer = setTimeout(() => console.log('Hello'), 1000);
 
 clearTimeout(timer);
+```
+
+## `null` • `undefined` 한번에 체크하기
+
+```ts
+const temp = null;
+
+if (temp == null) {
+  console.log(temp); // null
+}
+```
+
+```ts
+const temp = undefined;
+
+if (temp == null) {
+  console.log(temp); // undefined
+}
 ```

@@ -21,6 +21,7 @@ isPublished: true
 - [시간 구하기](#시간-구하기)
 - [encodeURI encodeURIComponent](#encodeuri-encodeuricomponent)
 - [Number() vs parseInt()](#number-vs-parseint)
+- [구조 분해 할당](#구조-분해-할당)
 
 ## 논리 연산자 단락 평가
 
@@ -155,3 +156,23 @@ x = 40, 600을 40으로 나누면 15초 나옴
 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
 
 ## Number() vs parseInt()
+
+## 구조 분해 할당
+
+구조 분해 할당 후 기본값을 설정하는 경우, 해당 값이 `undefined`인 경우에만 기본값이 적용된다.
+
+```js
+const {
+  a = 1,
+  b = 2,
+  c = 3,
+  d = 4,
+} = {
+  a: null,
+  b: undefined,
+  c: 3,
+  d: 4,
+};
+
+console.log(a, b, c, d); // null 2 3 4
+```

@@ -6,8 +6,6 @@ tag: linux
 isPublished: true
 ---
 
-# WSL 기록하기
-
 - [네트워크](#네트워크)
 - [명령어](#명령어)
 
