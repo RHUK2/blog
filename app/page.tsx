@@ -1,3 +1,4 @@
+import { TreeBox } from './_clientComponent';
 import { careerList, projectList, skillList } from './_data';
 import { CareerContentItem, CategoryBox, IcondBadge, Profile, ProjectContentItem } from './_serverComponent';
 
@@ -17,12 +18,11 @@ export default function RootPage() {
 
         <CategoryBox category='경력 • 프로젝트'>
           {careerList.map((career) => (
-            <ul key={career.company} className='flex flex-col gap-8'>
-              <CareerContentItem data={career} />
+            <TreeBox key={career.company} parent={<CareerContentItem data={career} />}>
               {career.projectList.map((project) => (
                 <ProjectContentItem key={project.title} data={project} />
               ))}
-            </ul>
+            </TreeBox>
           ))}
         </CategoryBox>
 
@@ -31,8 +31,6 @@ export default function RootPage() {
             <ProjectContentItem key={project.title} data={project} />
           ))}
         </CategoryBox>
-
-        <CategoryBox category='학력'></CategoryBox>
       </section>
     </main>
   );
