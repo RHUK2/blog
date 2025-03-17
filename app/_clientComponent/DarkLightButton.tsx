@@ -51,7 +51,7 @@ export function DarkLightButton() {
         isInit: true,
       });
     }
-  }, []);
+  }, [mode.isInit]);
 
   return (
     <motion.button
