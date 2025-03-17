@@ -121,7 +121,7 @@ VSCode와 같은 IDE는 Language Server Protocol(LSP)을 통해 언어에 대한
 
 ## file.associations
 
-이 속성은 특정 확장자에 대해 언어 모드를 지정할 수 있다. `.env.local` 파일이 `env` 언어 모드를 인식하지 않고 `*.mjs` 파일이 `javascript` 언어 모드를 인식하지 않아서 아래와 같이 설정해주었다.
+이 속성은 특정 확장자에 대해 언어 모드를 지정할 수 있다. `.env.local` 파일이 `env` 언어 모드를 인식하지 않고 `*.mjs` 파일이 javascript 언어 모드를 인식하지 않아서 아래와 같이 설정해주었다.
 
 ```json
 {

@@ -22,6 +22,7 @@ isPublished: true
 - [encodeURI encodeURIComponent](#encodeuri-encodeuricomponent)
 - [Number() vs parseInt()](#number-vs-parseint)
 - [구조 분해 할당](#구조-분해-할당)
+- [일급 객체](#일급-객체)
 
 ## 논리 연산자 단락 평가
 
@@ -176,3 +177,44 @@ const {
 
 console.log(a, b, c, d); // null 2 3 4
 ```
+
+## 일급 객체
+
+일급 객체(First-class Object)는 프로그래밍 언어에서 특정 조건을 만족하는 객체를 지칭하는 용어입니다.
+
+주요 조건은 다음과 같습니다:
+
+1. 변수에 할당 가능
+2. 함수의 인자로 전달 가능
+3. 함수의 반환값으로 사용 가능
+4. 자료구조(배열, 객체 등)에 저장 가능
+
+JavaScript에서 함수는 일급 객체의 조건을 모두 만족합니다. 예를 들어:
+
+```javascript
+// 1. 변수에 할당
+const foo = function () {
+  console.log('Hello');
+};
+
+// 2. 함수의 인자로 전달
+function bar(func) {
+  func();
+}
+bar(foo);
+
+// 3. 함수의 반환값으로 사용
+function baz() {
+  return function () {
+    console.log('World');
+  };
+}
+const qux = baz();
+qux();
+
+// 4. 자료구조에 저장
+const arr = [foo, qux];
+arr.forEach((func) => func());
+```
+
+이처럼 JavaScript에서 함수는 일급 객체로서 다양한 방식으로 활용될 수 있습니다. 이러한 특성은 고차 함수, 클로저, 콜백 패턴 등 함수형 프로그래밍 기법을 가능하게 하는 기반이 됩니다.
