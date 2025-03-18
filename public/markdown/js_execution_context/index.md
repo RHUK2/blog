@@ -1,10 +1,14 @@
 ---
 folderName: js_execution_context
 updatedAt: 2025-02-18
-title: Context
+title: Execution Context
 tag: javascript
 isPublished: true
 ---
+
+# Execution Context
+
+## Concept
 
 ![img](images/scope_1.png)
 
@@ -180,3 +184,50 @@ function wrapperFunc4(callback, localVar1) {
   };
 }
 ```
+
+### 요약: 자바스크립트 실행 컨텍스트(Execution Context)와 콜스택(Call Stack)
+
+1. **실행 컨텍스트(Execution Context)**
+
+   - 실행 컨텍스트는 코드 실행에 필요한 환경 정보를 모아놓은 객체.
+   - 전역 컨텍스트와 함수 컨텍스트로 구분.
+   - 콜스택에 쌓여 순서와 환경을 보장.
+
+2. **콜스택(Call Stack)**
+
+   - FILO(First In, Last Out) 구조.
+   - 전역 컨텍스트가 먼저 쌓이고, 함수 호출 시 해당 함수의 실행 컨텍스트가 쌓임.
+   - 함수 실행이 끝나면 실행 컨텍스트가 제거됨.
+
+3. **실행 컨텍스트 구성 요소**
+
+   - **VariableEnvironment**: 현재 컨텍스트의 식별자 정보와 외부 환경 정보 저장.
+   - **LexicalEnvironment**: VariableEnvironment의 초기 상태를 복사하고, 변경 사항 실시간 반영.
+     - **environmentRecord**: 현재 컨텍스트의 식별자와 값 기록.
+     - **outerEnvironmentReference**: 외부 환경의 LexicalEnvironment 참조 (스코프 체인).
+   - **ThisBinding**: 실행 컨텍스트의 `this` 값.
+
+4. **호이스팅(Hoisting)**
+
+   - 변수와 함수 선언이 코드 최상단으로 끌어올려지는 것처럼 동작.
+   - 실제로는 실행 컨텍스트 생성 시 `environmentRecord`에 식별자 정보를 미리 수집.
+
+5. **스코프 체인(Scope Chain)**
+
+   - `outerEnvironmentReference`를 통해 상위 스코프의 변수에 접근.
+   - 현재 스코프에서 변수를 찾지 못하면 상위 스코프로 이동하여 탐색.
+
+6. **ThisBinding**
+   - 함수 실행 시 `this`가 가리키는 객체.
+   - 메서드 내부에서는 해당 객체, 함수 표현식에서는 전역 객체를 가리킴.
+   - 화살표 함수는 상위 스코프의 `this`를 그대로 사용.
+
+### 결론
+
+실행 컨텍스트는 자바스크립트 코드 실행의 핵심 메커니즘.  
+콜스택, 호이스팅, 스코프 체인, `this` 바인딩 등을 이해하면 코드 동작 원리를 명확히 파악 가능.  
+이를 통해 디버깅과 코드 최적화에 큰 도움.
+
+---
+
+이해하기 쉽게 요약했으니 참고 바람.

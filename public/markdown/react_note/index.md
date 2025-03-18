@@ -8,6 +8,7 @@ isPublished: true
 
 - [커스텀 훅 vs 일반 함수](#커스텀-훅-vs-일반-함수)
 - [StrictMode](#strictmode)
+- [React.createElement](#reactcreateelement)
 - [useState](#usestate)
 - [useReducer](#usereducer)
 - [useRef](#useref)
@@ -52,6 +53,10 @@ isPublished: true
 - 더 이상 사용되지 않는 리액트 API를 찾아준다.
 
 `<StrictMode>`로 래핑된 트리 내부에서는 `<StrictMode>`를 해제할 수 있는 방법이 없다. 이러면 모든 컴포넌트가 검사된다는 확신을 가질 수 있다. 앱을 작업하는 개발자 사이에 검사의 가치에 대해 의견이 달라 검사 범위를 축소해야할 경우, 트리에서 `<StrictMode>`를 아래로 이동시켜야 한다.
+
+## React.createElement
+
+<!-- todo -->
 
 ## useState
 
