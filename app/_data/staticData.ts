@@ -1,13 +1,4 @@
 import { TCareerList, TNavList, TProjectList, TSkillList } from '@/_type';
-import Aws from '@public/assets/aws.svg';
-import Javascript from '@public/assets/javascript.svg';
-import Mui from '@public/assets/mui.svg';
-import Nextjs from '@public/assets/nextjs.svg';
-import React from '@public/assets/react.svg';
-import Reacthookform from '@public/assets/reacthookform.svg';
-import Reactquery from '@public/assets/reactquery.svg';
-import Tailwindcss from '@public/assets/tailwindcss.svg';
-import Typescript from '@public/assets/typescript.svg';
 
 export const navList: TNavList = [
   {
@@ -22,31 +13,31 @@ export const navList: TNavList = [
 
 export const skillList: TSkillList = [
   {
-    icon: <Nextjs className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'NextjsIcon',
     text: 'Next.js',
   },
   {
-    icon: <Typescript className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'TypescriptIcon',
     text: 'Typescript',
   },
   {
-    icon: <Reactquery className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'ReactqueryIcon',
     text: 'React Query',
   },
   {
-    icon: <Reacthookform className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'ReacthookformIcon',
     text: 'React Hook Form',
   },
   {
-    icon: <Mui className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'MuiIcon',
     text: 'MUI',
   },
   {
-    icon: <Tailwindcss className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'TailwindcssIcon',
     text: 'Tailwind CSS',
   },
   {
-    icon: <Aws className='h-4 w-4 fill-black dark:fill-white' />,
+    icon: 'AwsIcon',
     text: 'AWS',
   },
 ];
@@ -67,16 +58,16 @@ export const careerList: TCareerList = [
         description: '회사 서비스 랜딩페이지',
         skillList: [
           {
-            icon: <Nextjs className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'NextjsIcon',
             text: 'Next.js',
           },
           {
-            icon: <Typescript className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'TypescriptIcon',
             text: 'Typescript',
           },
 
           {
-            icon: <Mui className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'MuiIcon',
             text: 'MUI',
           },
         ],
@@ -97,19 +88,19 @@ export const careerList: TCareerList = [
           '음성 파일에서 대화 내용을 추출하고, 사용자가 입력한 프롬프트와 함께 GPT에 전달해 응답을 받는 시스템',
         skillList: [
           {
-            icon: <React className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReactIcon',
             text: 'React',
           },
           {
-            icon: <Typescript className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'TypescriptIcon',
             text: 'Typescript',
           },
           {
-            icon: <Reacthookform className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReacthookformIcon',
             text: 'React Hook Form',
           },
           {
-            icon: <Tailwindcss className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'TailwindcssIcon',
             text: 'TailwindCSS',
           },
         ],
@@ -126,23 +117,23 @@ export const careerList: TCareerList = [
         description: '사내 다면진단 서비스',
         skillList: [
           {
-            icon: <Nextjs className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'NextjsIcon',
             text: 'Next.js',
           },
           {
-            icon: <Typescript className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'TypescriptIcon',
             text: 'Typescript',
           },
           {
-            icon: <Reactquery className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReactqueryIcon',
             text: 'React Query',
           },
           {
-            icon: <Reacthookform className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReacthookformIcon',
             text: 'React Hook Form',
           },
           {
-            icon: <Mui className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'MuiIcon',
             text: 'MUI',
           },
         ],
@@ -164,19 +155,19 @@ export const careerList: TCareerList = [
         description: '인사담당자와 헤드헌터 중개 서비스',
         skillList: [
           {
-            icon: <React className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReactIcon',
             text: 'React',
           },
           {
-            icon: <Javascript className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'JavascriptIcon',
             text: 'Javascript',
           },
           {
-            icon: <Reactquery className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReactqueryIcon',
             text: 'React Query',
           },
           {
-            icon: <Reacthookform className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReacthookformIcon',
             text: 'React Hook Form',
           },
         ],
@@ -190,23 +181,23 @@ export const careerList: TCareerList = [
         description: '인재 DB 서비스',
         skillList: [
           {
-            icon: <Nextjs className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'NextjsIcon',
             text: 'Next.js',
           },
           {
-            icon: <Typescript className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'TypescriptIcon',
             text: 'Typescript',
           },
           {
-            icon: <Reactquery className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReactqueryIcon',
             text: 'React Query',
           },
           {
-            icon: <Reacthookform className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'ReacthookformIcon',
             text: 'React Hook Form',
           },
           {
-            icon: <Mui className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'MuiIcon',
             text: 'MUI',
           },
         ],
@@ -224,15 +215,15 @@ export const careerList: TCareerList = [
         description: '레퍼런스체크 서비스',
         skillList: [
           {
-            icon: <Nextjs className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'NextjsIcon',
             text: 'Next.js',
           },
           {
-            icon: <Javascript className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'JavascriptIcon',
             text: 'Javascript',
           },
           {
-            icon: <Mui className='h-4 w-4 fill-black dark:fill-white' />,
+            icon: 'MuiIcon',
             text: 'MUI',
           },
         ],
@@ -255,23 +246,23 @@ export const projectList: TProjectList = [
     description: '개인 아카이브 목적',
     skillList: [
       {
-        icon: <Nextjs className='h-4 w-4 fill-black dark:fill-white' />,
+        icon: 'NextjsIcon',
         text: 'Next.js',
       },
       {
-        icon: <Typescript className='h-4 w-4 fill-black dark:fill-white' />,
+        icon: 'TypescriptIcon',
         text: 'Typescript',
       },
       {
-        icon: <Reactquery className='h-4 w-4 fill-black dark:fill-white' />,
+        icon: 'ReactqueryIcon',
         text: 'React Query',
       },
       {
-        icon: <Reacthookform className='h-4 w-4 fill-black dark:fill-white' />,
+        icon: 'ReacthookformIcon',
         text: 'React Hook Form',
       },
       {
-        icon: <Tailwindcss className='h-4 w-4 fill-black dark:fill-white' />,
+        icon: 'TailwindcssIcon',
         text: 'TailwindCSS',
       },
     ],

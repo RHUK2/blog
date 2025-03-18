@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface INav {
   href: string;
   text: string;
@@ -30,8 +28,20 @@ export interface IProject {
 
 export type TProjectList = IProject[];
 
+export type TIcon =
+  | 'AwsIcon'
+  | 'GithubIcon'
+  | 'JavascriptIcon'
+  | 'MuiIcon'
+  | 'NextjsIcon'
+  | 'ReactIcon'
+  | 'ReacthookformIcon'
+  | 'ReactqueryIcon'
+  | 'TailwindcssIcon'
+  | 'TypescriptIcon';
+
 export interface ISkill {
-  icon: React.ReactNode;
+  icon: TIcon;
   text: string;
 }
 

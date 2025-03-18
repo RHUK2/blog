@@ -1,4 +1,3 @@
-import Github from '@public/assets/github.svg';
 import Image from 'next/image';
 import { IcondBadge } from './IconBadge';
 
@@ -20,10 +19,7 @@ export function Profile() {
       <div className='min-w-2xs flex-[4_0_0]'>
         <div className='mb-4 flex items-center gap-2'>
           <p className='text-xl'>류현욱</p>
-          <IcondBadge
-            href='https://github.com/RHUK2'
-            icon={<Github className='h-4 w-4 fill-black dark:fill-white' />}
-          />
+          <IcondBadge href='https://github.com/RHUK2' icon='GithubIcon' />
         </div>
 
         <p>

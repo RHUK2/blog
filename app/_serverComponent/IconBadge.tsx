@@ -1,9 +1,35 @@
+'use client';
+
+import { TIcon } from '@/_type';
+import AwsIcon from '@public/assets/aws.svg';
+import GithubIcon from '@public/assets/github.svg';
+import JavascriptIcon from '@public/assets/javascript.svg';
+import MuiIcon from '@public/assets/mui.svg';
+import NextjsIcon from '@public/assets/nextjs.svg';
+import ReactIcon from '@public/assets/react.svg';
+import ReacthookformIcon from '@public/assets/reacthookform.svg';
+import ReactqueryIcon from '@public/assets/reactquery.svg';
+import TailwindcssIcon from '@public/assets/tailwindcss.svg';
+import TypescriptIcon from '@public/assets/typescript.svg';
 import Link from 'next/link';
 import { twJoin, twMerge } from 'tailwind-merge';
 
+const iconLookup = {
+  AwsIcon: AwsIcon,
+  GithubIcon: GithubIcon,
+  JavascriptIcon: JavascriptIcon,
+  MuiIcon: MuiIcon,
+  NextjsIcon: NextjsIcon,
+  ReactIcon: ReactIcon,
+  ReacthookformIcon: ReacthookformIcon,
+  ReactqueryIcon: ReactqueryIcon,
+  TailwindcssIcon: TailwindcssIcon,
+  TypescriptIcon: TypescriptIcon,
+};
+
 interface Props {
   href?: string;
-  icon: React.ReactNode;
+  icon: TIcon;
   text?: string;
 }
 
@@ -16,14 +42,16 @@ export function IcondBadge({ href, icon, text }: Props) {
     ]),
   );
 
+  const Icon = iconLookup[icon];
+
   return href ? (
     <Link className={className} href={href} target='_blank'>
-      {icon}
+      <Icon className='h-4 w-4 fill-black dark:fill-white' />
       {text && <p>{text}</p>}
     </Link>
   ) : (
     <div className={className}>
-      {icon}
+      <Icon className='h-4 w-4 fill-black dark:fill-white' />
       {text && <p>{text}</p>}
     </div>
   );
