@@ -8,17 +8,17 @@ isPublished: true
 
 # Scope
 
-- [Concept](#concept)
-- [Scope Type](#scope-type)
+- [Scope란?](#scope란)
+- [Scope 종류](#scope-종류)
 - [Scope Chain](#scope-chain)
 - [Lexical Scope](#lexical-scope)
 - [Closure](#closure)
 
-## Concept
+## Scope란?
 
 스코프는 변수와 함수가 접근 가능한 범위를 정의한다.
 
-## Scope Type
+## Scope 종류
 
 ![img](images/scope.png)
 

@@ -8,16 +8,16 @@ isPublished: true
 
 # Hoisting
 
-- [Concept](#concept)
-- [Hoisting Type](#hoisting-type)
-- [Phase](#phase)
+- [Hoisting이란?](#hoisting이란)
+- [Hoisting 종류](#hoisting-종류)
+- [과정](#과정)
 
-## Concept
+## Hoisting이란?
 
 - 호이스팅은 JavaScript에서 변수 및 함수 선언이 스코프의 최상단으로 끌어올려지는 현상을 의미한다.
-- 코드 실행 전에 JavaScript 엔진이 변수와 함수 선언을 메모리에 먼저 저장하기 때문이다.
+- 코드 실행 전에 JavaScript 엔진이 변수와 함수 선언을 메모리에 먼저 저장한다.
 
-## Hoisting Type
+## Hoisting 종류
 
 - 변수 호이스팅
 
@@ -26,6 +26,7 @@ isPublished: true
 
     ```ts
     console.log(x); // ReferenceError: Cannot access 'x' before initialization
+
     let x = 10;
     ```
 
@@ -35,7 +36,7 @@ isPublished: true
 
   - 함수 선언식(`function declaration`)은 전체가 호이스팅되어 선언 전에도 호출이 가능하다. 반면, 함수 표현식(`function expression`)은 변수 호이스팅과 동일하게 동작한다.
 
-## Phase
+## 과정
 
 ▾ 코드 실행 전 과정
 
