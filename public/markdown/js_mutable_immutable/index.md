@@ -15,6 +15,7 @@ isPublished: true
   - [깊은 복사](#깊은-복사)
     - [직렬화(`JSON.stringify()`)가 불가능한 객체](#직렬화jsonstringify가-불가능한-객체)
     - [`null` • `undefined` 직렬화 차이](#null--undefined-직렬화-차이)
+  - [2차원 배열 생성](#2차원-배열-생성)
 - [Immutable 데이터를 사용하는 이유](#immutable-데이터를-사용하는-이유)
 
 ## Immutable(Pass By Value)
@@ -97,6 +98,16 @@ console.log(
 ```
 
 `null`의 경우 값으로 인정되고, `undefined`의 경우 삭제해버린다.
+
+### 2차원 배열 생성
+
+```ts
+Array.from({ length: 5 }, () => Array.from({ length: 5 }, (_, index) => ({ id: index })));
+```
+
+- `Array.from`을 사용하여 외부 배열과 내부 배열을 각각 독립적으로 생성함.
+- 내부 배열의 요소는 새로운 객체로, 각 객체는 독립적인 메모리 공간을 가짐.
+- `arr[0][0].id = 1`과 같이 특정 요소를 수정해도 다른 요소에는 영향을 미치지 않음.
 
 ## Immutable 데이터를 사용하는 이유
 

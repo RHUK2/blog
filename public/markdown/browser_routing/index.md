@@ -108,3 +108,7 @@ history.pushState
 history.replaceState
 
 history.state 세션 유지됨
+
+## encodeURI encodeURIComponent
+
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
