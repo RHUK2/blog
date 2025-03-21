@@ -76,7 +76,7 @@ Access-Control-Allow-Headers: 허용되는 헤더를 지정합니다.
 
 ### Fetch 사용 시 네트워크 오류 처리
 
-```javascript
+```ts
 fetch('https://api.example.com/data')
   .then((response) => {
     if (!response.ok) {
@@ -97,7 +97,7 @@ fetch('https://api.example.com/data')
 
 ### Axios 사용 시 네트워크 오류 처리
 
-```javascript
+```ts
 axios
   .get('https://api.example.com/data')
   .then((response) => {
@@ -136,7 +136,7 @@ axios는 인터셉터 요청 및 응답에서 에러 시 Promise.reject(error)�
 
 - 서버가 다운되었거나, 인터넷 연결이 끊어진 경우, `fetch`는 네트워크 요청 자체가 실패했으므로 `Promise`가 `reject`됩니다.
 - 예시:
-  ```js
+  ```ts
   fetch('https://invalid-url.com')
     .then((response) => console.log('Success:', response))
     .catch((error) => console.log('Failed:', error)); // Network error
@@ -151,7 +151,7 @@ axios는 인터셉터 요청 및 응답에서 에러 시 Promise.reject(error)�
 - 요청이 `AbortController`를 통해 **중단(abort)**된 경우에도 `fetch`는 `reject`됩니다.
 - 예시:
 
-  ```js
+  ```ts
   const controller = new AbortController();
   const signal = controller.signal;
 
@@ -169,7 +169,7 @@ axios는 인터셉터 요청 및 응답에서 에러 시 Promise.reject(error)�
 
 #### 예시:
 
-```js
+```ts
 fetch('https://example.com')
   .then((response) => {
     if (!response.ok) {

@@ -1,4 +1,4 @@
-```js
+```ts
 useEffect(() => {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -26,7 +26,7 @@ useEffect(() => {
 }, []);
 ```
 
-```js
+```ts
 // worker.js
 self.onmessage = function (event) {
   console.log('🚀 ~ event:', event);

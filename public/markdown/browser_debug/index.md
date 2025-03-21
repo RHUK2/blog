@@ -10,7 +10,7 @@ isPublished: true
 
 ## 등록 이벤트 확인하기
 
-```js
+```ts
 getEventListeners($0);
 getEventListeners(window);
 getEventListeners(document);
@@ -56,7 +56,7 @@ Content-Disposition: attachment; filename="example.dat"
 
 ![img](images/preview_image.png)
 
-```js
+```ts
 async function getResource() {
   try {
     const response = await fetch('/images/images/test.png');

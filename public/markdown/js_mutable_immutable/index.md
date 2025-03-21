@@ -86,7 +86,7 @@ console.log(object === copyObject); // false
 
 #### `null` • `undefined` 직렬화 차이
 
-```js
+```ts
 console.log(
   JSON.stringfy({
     name: null,

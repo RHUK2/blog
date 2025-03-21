@@ -113,7 +113,7 @@ CNAME 레코드를 고정 IP 주소에 직접 매핑하는 것은 DNS(Domain Nam
 
 1. **DNS 설정:**
 
-   ```plaintext
+   ```text
    A  sub1.example.com → 123.45.67.89
    A  sub2.example.com → 123.45.67.89
    A  sub3.example.com → 123.45.67.89

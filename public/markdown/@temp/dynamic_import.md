@@ -28,7 +28,7 @@ Next.js는 동적 컴포넌트 로딩을 위한 `dynamic()` 함수를 제공합�
 
 #### 예시 코드:
 
-```jsx
+```tsx
 import dynamic from 'next/dynamic';
 
 const DynamicComponent = dynamic(() => import('./MyComponent'), {
@@ -56,7 +56,7 @@ React의 `useEffect`는 클라이언트에서만 실행되기 때문에, 클라�
 
 #### 예시 코드:
 
-```jsx
+```tsx
 import { useEffect, useState } from 'react';
 
 function MyLazyComponent() {
@@ -96,7 +96,7 @@ React의 `React.lazy()`와 `Suspense`를 결합하면 컴포넌트를 지연 로
 
 #### 예시 코드:
 
-```jsx
+```tsx
 import React, { lazy, Suspense } from 'react';
 
 const LazyComponent = lazy(() => import('./MyLazyComponent'));
@@ -126,7 +126,7 @@ export default App;
 
 #### 예시 코드:
 
-```jsx
+```tsx
 function MyComponent() {
   if (typeof window === 'undefined') {
     // 서버 환경에서는 아무것도 렌더링하지 않음

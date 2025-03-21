@@ -92,7 +92,7 @@ Q: Dockerfile에서 `FROM scratch`가 의미하는 바는?
 
 A Dockerfile is a script used to build Docker images. It consists of a series of commands:
 
-```bash
+```sh
 # Specifies the base image used to build the new image.
 FROM image_name:tag
 
@@ -133,7 +133,7 @@ USER username
 
 Logs in to a Docker registry interactively.
 
-```bash
+```sh
 docker login
 ```
 
@@ -141,7 +141,7 @@ docker login
 
 Logs out from a Docker registry.
 
-```bash
+```sh
 docker logout
 ```
 
@@ -149,7 +149,7 @@ docker logout
 
 Builds a Docker image from a Dockerfile in the current directory.
 
-```bash
+```sh
 docker build -t image_name .
 ```
 
@@ -157,7 +157,7 @@ docker build -t image_name .
 
 Pushes a Docker image to a Docker registry.
 
-```bash
+```sh
 docker push image_name
 ```
 
@@ -165,7 +165,7 @@ docker push image_name
 
 List images
 
-```bash
+```sh
 docker image ls
 ```
 
@@ -173,7 +173,7 @@ docker image ls
 
 Remove one or more images
 
-```bash
+```sh
 docker image rm image_name
 ```
 
@@ -183,7 +183,7 @@ docker image rm image_name
 
 Shows containers in all states.
 
-```bash
+```sh
 docker ps -a
 ```
 
@@ -191,7 +191,7 @@ docker ps -a
 
 Starts a new container interactively using the specified image.
 
-```bash
+```sh
 docker run -it image_name
 ```
 
@@ -199,7 +199,7 @@ docker run -it image_name
 
 Starts a new container in detached mode (background).
 
-```bash
+```sh
 docker run -d image_name
 ```
 
@@ -207,7 +207,7 @@ docker run -d image_name
 
 Starts a new container with a specific name.
 
-```bash
+```sh
 docker run --name custom_name image_name
 ```
 
@@ -215,7 +215,7 @@ docker run --name custom_name image_name
 
 Sets environment variables in the container.
 
-```bash
+```sh
 docker run -e "VAR=value" image_name
 ```
 
@@ -223,7 +223,7 @@ docker run -e "VAR=value" image_name
 
 Maps a container port to a host port.
 
-```bash
+```sh
 docker run -p host_port:container_port image_name
 ```
 
@@ -231,7 +231,7 @@ docker run -p host_port:container_port image_name
 
 Mounts a host directory into the container.
 
-```bash
+```sh
 docker run -v /host/path:/container/path image_name
 ```
 
@@ -239,7 +239,7 @@ docker run -v /host/path:/container/path image_name
 
 Stops a running container.
 
-```bash
+```sh
 docker stop container_id
 ```
 
@@ -247,7 +247,7 @@ docker stop container_id
 
 Starts a stopped container.
 
-```bash
+```sh
 docker start container_id
 ```
 
@@ -255,7 +255,7 @@ docker start container_id
 
 Pauses the execution of a container.
 
-```bash
+```sh
 docker pause container_id
 ```
 
@@ -263,7 +263,7 @@ docker pause container_id
 
 Resumes a paused container.
 
-```bash
+```sh
 docker unpause container_id
 ```
 
@@ -271,7 +271,7 @@ docker unpause container_id
 
 Restarts a running or stopped container.
 
-```bash
+```sh
 docker restart container_id
 ```
 
@@ -279,7 +279,7 @@ docker restart container_id
 
 Attaches to a running container and opens a shell.
 
-```bash
+```sh
 docker exec -it container_id /bin/bash
 ```
 
@@ -287,7 +287,7 @@ docker exec -it container_id /bin/bash
 
 Deletes a stopped container.
 
-```bash
+```sh
 docker rm container_id
 ```
 
@@ -295,7 +295,7 @@ docker rm container_id
 
 Deletes all stopped container.
 
-```bash
+```sh
 docker container prune
 ```
 
@@ -303,7 +303,7 @@ docker container prune
 
 Forces removal of a running container.
 
-```bash
+```sh
 docker rm -f container_id
 ```
 
@@ -311,7 +311,7 @@ docker rm -f container_id
 
 Displays live resource usage statistics of a container.
 
-```bash
+```sh
 docker stats container_id
 ```
 
@@ -319,7 +319,7 @@ docker stats container_id
 
 Displays logs from a container.
 
-```bash
+```sh
 docker logs container_id
 ```
 
@@ -327,7 +327,7 @@ docker logs container_id
 
 Copies files between a container and the local filesystem.
 
-```bash
+```sh
 docker cp /local/path container_id:/container/path
 ```
 
@@ -335,7 +335,7 @@ docker cp /local/path container_id:/container/path
 
 Shows detailed information about a container.
 
-```bash
+```sh
 docker inspect container_id
 ```
 
@@ -343,7 +343,7 @@ docker inspect container_id
 
 Creates a new container without starting it.
 
-```bash
+```sh
 docker create image_name
 ```
 
@@ -353,7 +353,7 @@ docker create image_name
 
 Lists all networks created on the Docker host.
 
-```bash
+```sh
 docker network ls
 ```
 
@@ -361,7 +361,7 @@ docker network ls
 
 Creates a user-defined bridge network named 'my_network'.
 
-```bash
+```sh
 docker network create my_network
 ```
 
@@ -369,7 +369,7 @@ docker network create my_network
 
 Displays detailed information about the 'my_network' network.
 
-```bash
+```sh
 docker network inspect my_network
 ```
 
@@ -377,7 +377,7 @@ docker network inspect my_network
 
 Removes the 'my_network' network.
 
-```bash
+```sh
 docker network rm my_network
 ```
 
@@ -385,7 +385,7 @@ docker network rm my_network
 
 Connects a container to the 'my_network' network.
 
-```bash
+```sh
 docker network connect my_network container_name
 ```
 
@@ -393,7 +393,7 @@ docker network connect my_network container_name
 
 Disconnects a container from the 'my_network' network.
 
-```bash
+```sh
 docker network disconnect my_network container_name
 ```
 
@@ -401,7 +401,7 @@ docker network disconnect my_network container_name
 
 Attaches the container to an additional network 'my_network_2'.
 
-```bash
+```sh
 docker network connect my_network_2 container_name
 ```
 
@@ -409,7 +409,7 @@ docker network connect my_network_2 container_name
 
 Creates a multi-host overlay network 'my_overlay_network'.
 
-```bash
+```sh
 docker network create --driver overlay my_overlay_network
 ```
 
@@ -417,13 +417,13 @@ docker network create --driver overlay my_overlay_network
 
 Removes all networks not used by at least one container.
 
-```bash
+```sh
 docker network prune
 ```
 
 ### Set up a custom bridge network
 
-```bash
+```sh
 docker network create --driver bridge --subnet=192.168.5.0/24 --gateway=192.168.5.1 my_custom_network
 ```
 
@@ -431,7 +431,7 @@ Creates a custom bridge network 'my_custom_network' with specified subnet and ga
 
 ### Limit container bandwidth on a network
 
-```bash
+```sh
 docker network create --driver bridge --subnet=192.168.5.0/24 --gateway=192.168.5.1 --opt "com.docker.network.bridge.enable_icc=false" my_secure_network
 ```
 
@@ -443,7 +443,7 @@ Creates a secure bridge network 'my_secure_network' disabling inter-container co
 
 Lists all volumes on the Docker host.
 
-```bash
+```sh
 docker volume ls
 ```
 
@@ -451,7 +451,7 @@ docker volume ls
 
 Creates a named volume named 'my_volume'.
 
-```bash
+```sh
 docker volume create my_volume
 ```
 
@@ -459,7 +459,7 @@ docker volume create my_volume
 
 Displays detailed information about the 'my_volume' volume.
 
-```bash
+```sh
 docker volume inspect my_volume
 ```
 
@@ -467,7 +467,7 @@ docker volume inspect my_volume
 
 Removes the 'my_volume' volume.
 
-```bash
+```sh
 docker volume rm my_volume
 ```
 
@@ -475,7 +475,7 @@ docker volume rm my_volume
 
 Removes all volumes not used by at least one container.
 
-```bash
+```sh
 docker volume prune
 ```
 
@@ -483,7 +483,7 @@ docker volume prune
 
 Mounts the 'my_volume' volume to a specific path inside the container.
 
-```bash
+```sh
 docker run -v my_volume:/path/in/container image_name
 ```
 
@@ -491,7 +491,7 @@ docker run -v my_volume:/path/in/container image_name
 
 Mounts a directory from the host system into the container.
 
-```bash
+```sh
 docker run -v /host/path:/container/path image_name
 ```
 
@@ -499,7 +499,7 @@ docker run -v /host/path:/container/path image_name
 
 Creates a volume using a specific volume driver 'my_driver'.
 
-```bash
+```sh
 docker volume create --driver my_driver my_volume
 ```
 
@@ -507,7 +507,7 @@ docker volume create --driver my_driver my_volume
 
 Copies files from a container volume to a directory on the local host.
 
-```bash
+```sh
 docker cp container_id:/path/in/container /local/host/path
 ```
 
@@ -515,7 +515,7 @@ docker cp container_id:/path/in/container /local/host/path
 
 Mounts the 'my_volume' volume as read-only inside the container.
 
-```bash
+```sh
 docker run -v my_volume:/path/in/container:ro image_name
 ```
 
@@ -523,7 +523,7 @@ docker run -v my_volume:/path/in/container:ro image_name
 
 Mounts the 'my_volume' volume with specific options (e.g., read-write permissions).
 
-```bash
+```sh
 docker run -v my_volume:/path/in/container:options image_name
 ```
 
@@ -531,7 +531,7 @@ docker run -v my_volume:/path/in/container:options image_name
 
 Creates a tar archive of the 'my_volume' volume in the /backup directory.
 
-```bash
+```sh
 docker run --rm -v my_volume:/data -v /backup:/backup ubuntu tar cvf /backup/my_volume_backup.tar /data
 ```
 
@@ -541,7 +541,7 @@ docker run --rm -v my_volume:/data -v /backup:/backup ubuntu tar cvf /backup/my_
 
 Builds, (re)creates, starts, and attaches to containers for a service.
 
-```bash
+```sh
 docker compose up
 ```
 
@@ -549,7 +549,7 @@ docker compose up
 
 Stops and removes containers, networks, volumes, and images created by 'up' command.
 
-```bash
+```sh
 docker compose down
 ```
 
@@ -557,7 +557,7 @@ docker compose down
 
 Builds or rebuilds services defined in the docker-compose.yml file.
 
-```bash
+```sh
 docker compose build
 ```
 
@@ -565,7 +565,7 @@ docker compose build
 
 Start services defined in the docker-compose.yml file.
 
-```bash
+```sh
 docker compose start
 ```
 
@@ -573,7 +573,7 @@ docker compose start
 
 Stops services defined in the docker-compose.yml file without removing containers.
 
-```bash
+```sh
 docker compose stop
 ```
 
@@ -581,7 +581,7 @@ docker compose stop
 
 Restarts services defined in the docker-compose.yml file.
 
-```bash
+```sh
 docker compose restart
 ```
 
@@ -589,7 +589,7 @@ docker compose restart
 
 Pauses all services in the docker-compose.yml file.
 
-```bash
+```sh
 docker compose pause
 ```
 
@@ -597,7 +597,7 @@ docker compose pause
 
 Unpauses all paused services in the docker-compose.yml file.
 
-```bash
+```sh
 docker compose unpause
 ```
 
@@ -605,7 +605,7 @@ docker compose unpause
 
 Displays log output from services.
 
-```bash
+```sh
 docker compose logs
 ```
 
@@ -613,6 +613,6 @@ docker compose logs
 
 Scale services to a specified number of instances.
 
-```bash
+```sh
 docker compose scale service_name=num_of_instances
 ```

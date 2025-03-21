@@ -1,24 +1,24 @@
 ---
 folderName: js_scope
 updatedAt: 2025-03-17
-title: Scope
+title: 스코프(Scope)
 tag: javascript
 isPublished: true
 ---
 
-# Scope
+# 스코프(Scope)
 
-- [Scope란?](#scope란)
-- [Scope 종류](#scope-종류)
-- [Scope Chain](#scope-chain)
-- [Lexical Scope](#lexical-scope)
-- [Closure](#closure)
+- [스코프(Scope)란?](#스코프scope란)
+- [스코프 종류](#스코프-종류)
+- [스코프 체인(Scope Chain)](#스코프-체인scope-chain)
+- [렉시컬 스코프(Lexical Scope)](#렉시컬-스코프lexical-scope)
+- [클로저(Closure)](#클로저closure)
 
-## Scope란?
+## 스코프(Scope)란?
 
-스코프는 변수와 함수가 접근 가능한 범위를 정의한다.
+스코프는 변수와 함수가 접근 가능한 범위를 의미한다.
 
-## Scope 종류
+## 스코프 종류
 
 ![img](images/scope.png)
 
@@ -26,6 +26,7 @@ isPublished: true
 
    - 코드의 가장 바깥쪽에서 선언된 변수 또는 함수.
    - 어디서든 접근 가능.
+   - `*.js`의 최상위 스코프
 
      ```ts
      let globalVar = "I'm global!";
@@ -41,9 +42,9 @@ isPublished: true
    - 전역 스코프와 분리되어, 모듈 간의 충돌을 방지.
    - 모듈 내부의 변수는 전역으로 노출되지 않으며, `export`를 통해 외부에 공개 가능.
    - 모듈 내에서 선언된 변수, 함수, 클래스는 해당 모듈 내에서만 접근 가능.
+   - `*.mjs`의 최상위 스코프
 
      ```ts
-     // module.js
      let moduleVar = "I'm in a module!";
 
      export function getModuleVar() {
@@ -52,7 +53,6 @@ isPublished: true
      ```
 
      ```ts
-     // main.js
      import { getModuleVar } from './module.js';
 
      console.log(getModuleVar()); // "I'm in a module!"
@@ -89,7 +89,7 @@ isPublished: true
      console.log(blockVar); // 접근 불가 (ReferenceError)
      ```
 
-## Scope Chain
+## 스코프 체인(Scope Chain)
 
 ![img](images/scope_chain_1.png)
 ![img](images/scope_chain_2.png)
@@ -114,7 +114,7 @@ function outerFunc() {
 outerFunc();
 ```
 
-## Lexical Scope
+## 렉시컬 스코프(Lexical Scope)
 
 - 스코프는 코드가 작성된 위치에 따라 정적으로 결정.
 - 함수가 선언된 위치에 따라 스코프가 결정되며, 호출 위치와 무관.
@@ -135,7 +135,7 @@ outerFunc();
   outer();
   ```
 
-## Closure
+## 클로저(Closure)
 
 - 클로저는 함수와 그 함수가 선언된 렉시컬 환경의 조합이다.
 - 함수가 자신이 생성될 때의 환경을 기억하고, 이후에도 그 환경에 접근할 수 있는 특성을 가진다.

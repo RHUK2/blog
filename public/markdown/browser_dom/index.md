@@ -65,6 +65,6 @@ document객체와 window객체에서 수용 가능한 eventList가 다르기 때
 
 어쩌피 우리가 관심있는 값은 `event.target.files`에 있는 `File` 객체이기 때문에 위 동작은 값에 영향을 주지 않는다.
 
-```js
+```ts
 <input type='file' onClick={(event) => event.target.value = ''} onChange={(event) => console.log(event.target.files)}>
 ```

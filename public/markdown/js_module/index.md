@@ -32,7 +32,7 @@ npm 다운
 <script type="module" src="script.js"></script>
 ```
 
-```js
+```ts
 // script.js
 import { a } from './module.js';
 

@@ -8,7 +8,7 @@ TypeScript의 `Index Signature`와 `Mapped Type`은 각각 TypeScript에서 객�
 
 #### 문법:
 
-```typescript
+```ts
 interface MyObject {
   [key: string]: number;
 }
@@ -20,7 +20,7 @@ interface MyObject {
 
 #### 예제:
 
-```typescript
+```ts
 interface Scores {
   [name: string]: number;
 }
@@ -52,7 +52,7 @@ scores['dave'] = 78;
 
 #### 문법:
 
-```typescript
+```ts
 type NewType = { [P in K]: T };
 ```
 
@@ -63,7 +63,7 @@ type NewType = { [P in K]: T };
 
 #### 예제:
 
-```typescript
+```ts
 type User = { id: string; name: string; age: number };
 
 // 모든 프로퍼티를 읽기 전용으로 변경:
@@ -83,7 +83,7 @@ TypeScript는 `keyof` 키워드를 사용하여 기존 객체 타입의 키만 �
 
 ##### Mapped Type 일반 예제:
 
-```typescript
+```ts
 type Optional<T> = {
   [K in keyof T]?: T[K]; // 모든 프로퍼티를 선택적으로 변환
 };
@@ -104,7 +104,7 @@ type PartialUser = {
 
    - 예: `Partial<T>`는 모든 필드를 선택적으로 만드는 타입:
 
-   ```typescript
+   ```ts
    type Partial<T> = {
      [P in keyof T]?: T[P];
    };
@@ -131,7 +131,7 @@ type PartialUser = {
 
 #### 예제:
 
-```typescript
+```ts
 interface MyObject {
   [key: string]: string;
 }

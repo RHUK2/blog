@@ -151,13 +151,13 @@ const MyComponent = ({ items }) => {
 
    예시:
 
-   ```javascript
+   ```ts
    const element = React.createElement('div', { className: 'container' }, 'Hello, World!');
    ```
 
    위 코드는 다음과 같은 객체를 생성합니다:
 
-   ```javascript
+   ```ts
    {
      type: 'div',
      props: {

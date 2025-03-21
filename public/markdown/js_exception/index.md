@@ -20,12 +20,12 @@ throw했는데 받아주는 곳 없으면 프로그램 종료되니 조심
 
 ### TypeError
 
-```js
+```ts
 let undefinedVariable;
 undefinedVariable.someMethod();
 ```
 
-```js
+```ts
 try {
   let undefinedVariable;
   undefinedVariable.someMethod();
@@ -36,11 +36,11 @@ try {
 
 ### ReferenceError
 
-```js
+```ts
 console.log(nonExistentVariable);
 ```
 
-```js
+```ts
 try {
   console.log(nonExistentVariable);
 } catch (error) {
@@ -50,11 +50,11 @@ try {
 
 ### SyntaxError
 
-```js
+```ts
 JSON.parse('string');
 ```
 
-```js
+```ts
 try {
   JSON.parse('string');
 } catch (error) {
@@ -64,11 +64,11 @@ try {
 
 ### RangeError
 
-```js
+```ts
 let arr = new Array(-1);
 ```
 
-```js
+```ts
 try {
   let arr = new Array(-1);
 } catch (error) {
@@ -102,7 +102,7 @@ https://ko.javascript.info/promise-error-handling
 
 Promise에서 에러가 발생하면, `catch` 블록에서 에러를 처리할 수 있습니다. 이때, 에러를 다시 던지면 호출한 곳에서 다시 처리할 수 있습니다.
 
-```javascript
+```ts
 function myPromiseFunction() {
   return new Promise((resolve, reject) => {
     // 에러 발생
@@ -129,7 +129,7 @@ myPromiseFunction()
 
 `try/catch` 구문에서 발생한 에러를 다시 던지면, 해당 블록 밖에서 처리할 수 있습니다. 이 경우, `try` 블록에서 예외가 발생하면 `catch` 블록이 실행되고, 그 안에서 `throw`를 사용하여 에러를 다시 던질 수 있습니다.
 
-```javascript
+```ts
 function myFunction() {
   try {
     // 에러 발생
@@ -161,7 +161,7 @@ try {
 
 Promise에서 다시 던진 에러는 해당 Promise 체인의 마지막에 있는 `catch`가 없는 경우, 해당 에러가 uncaught exception이 됩니다. 이렇게 되면, Node.js의 경우 프로세스가 종료되거나 브라우저에서는 오류 메시지가 표시됩니다.
 
-```javascript
+```ts
 function myPromiseFunction() {
   return new Promise((resolve, reject) => {
     // 에러 발생
@@ -192,7 +192,7 @@ Uncaught Error: Something went wrong
 
 `try/catch`에서 다시 던진 에러는 해당 `try/catch` 블록 외부에 처리할 `catch`가 없으면, uncaught exception이 발생하게 됩니다. 이 경우에도 프로그램의 흐름이 중단되고, 에러 메시지가 콘솔에 표시됩니다.
 
-```javascript
+```ts
 function myFunction() {
   try {
     // 에러 발생
@@ -234,7 +234,7 @@ Uncaught Error: Something went wrong
 - **용도**: 비동기 코드에서 발생한 오류를 감지하기 위해 사용됩니다. 이는 Promise가 reject될 때 예외 처리를 누락했음을 나타냅니다.
 - **사용 예**:
 
-  ```javascript
+  ```ts
   window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
   });
@@ -251,7 +251,7 @@ Uncaught Error: Something went wrong
 - **용도**: 전반적인 오류를 감지하는 데 사용되며, DOM과 관련된 에러에 유용합니다.
 - **사용 예**:
 
-  ```javascript
+  ```ts
   window.addEventListener('error', (event) => {
     console.error('Error occurred:', event.message);
   });

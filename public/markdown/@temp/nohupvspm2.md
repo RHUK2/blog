@@ -24,14 +24,14 @@ PM2와 `nohup`는 둘 다 백그라운드에서 애플리케이션(주로 서버
 
 간단한 Node.js 앱을 백그라운드로 실행한다고 가정.
 
-```bash
+```sh
 nohup node app.js &
 ```
 
 - `nohup`은 `node app.js`를 터미널 세션 종료(또는 로그아웃) 후에도 계속 실행합니다.
 - 출력은 `nohup.out` 파일에 기록됩니다.
 - 실행 중인 프로세스를 중지하려면 프로세스 ID(PID)를 찾아 수동으로 종료해야 합니다. 예를 들어:
-  ```bash
+  ```sh
   ps aux | grep node
   kill -9 <PID>
   ```
@@ -50,14 +50,14 @@ nohup node app.js &
 
 같은 Node.js 앱을 PM2를 사용해 실행.
 
-```bash
+```sh
 pm2 start app.js --name my-app
 ```
 
 - PM2는 백그라운드에서 `app.js`를 실행하며, 실행 상태를 추적합니다.
 - 동일한 이름(`my-app`)을 통해 프로세스를 관리, 제어할 수 있습니다.
 - 다양한 명령어를 사용해 앱을 쉽게 관리할 수 있습니다:
-  ```bash
+  ```sh
   pm2 list         # 실행 중인 앱 목록 확인
   pm2 restart my-app  # 앱 재시작
   pm2 stop my-app     # 앱 정지
@@ -65,7 +65,7 @@ pm2 start app.js --name my-app
   pm2 delete my-app   # 앱 종료 및 삭제
   ```
 - 시스템 부팅 시 자동 시작 설정:
-  ```bash
+  ```sh
   pm2 startup
   pm2 save
   ```

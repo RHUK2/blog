@@ -286,7 +286,7 @@ type Example = NonNullable<string | undefined | null>;
 
 - 외부 자바스크립트 라이브러리의 타입 선언
 
-  ```typescript
+  ```ts
   declare module 'my-library' {
     export function doSomething(): void;
   }

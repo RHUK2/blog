@@ -75,7 +75,7 @@ isPublished: true
 
 - 사용 예시
 
-```javascript
+```ts
 const { data } = useQuery(
   queryKey: ['user', userId],
   queryFn: fetchUserData,

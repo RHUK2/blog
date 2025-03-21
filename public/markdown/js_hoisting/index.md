@@ -1,23 +1,23 @@
 ---
 folderName: js_hoisting
 updatedAt: 2025-03-18
-title: Hoisting
+title: 호이스팅(Hoisting)
 tag: javascript
 isPublished: true
 ---
 
-# Hoisting
+# 호이스팅(Hoisting)
 
-- [Hoisting이란?](#hoisting이란)
-- [Hoisting 종류](#hoisting-종류)
+- [호이스팅(Hoisting)이란?](#호이스팅hoisting이란)
+- [호이스팅 종류](#호이스팅-종류)
 - [과정](#과정)
 
-## Hoisting이란?
+## 호이스팅(Hoisting)이란?
 
 - 호이스팅은 JavaScript에서 변수 및 함수 선언이 스코프의 최상단으로 끌어올려지는 현상을 의미한다.
 - 코드 실행 전에 JavaScript 엔진이 변수와 함수 선언을 메모리에 먼저 저장한다.
 
-## Hoisting 종류
+## 호이스팅 종류
 
 - 변수 호이스팅
 

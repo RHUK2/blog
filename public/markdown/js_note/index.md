@@ -1,12 +1,12 @@
 ---
 folderName: js_note
 updatedAt: 2024-10-08
-title: 자바스크립트 관련 기록
+title: 자바스크립트 노트
 tag: javascript
 isPublished: true
 ---
 
-# 자바스크립트 관련 기록
+# 자바스크립트 노트
 
 - [논리 연산자 단락 평가](#논리-연산자-단락-평가)
 - [배열 vs 이터러블 객체 vs 유사배열 객체](#배열-vs-이터러블-객체-vs-유사배열-객체)
@@ -26,7 +26,7 @@ isPublished: true
 
 ## 논리 연산자 단락 평가
 
-```js
+```ts
 const a = null || null || null || 'end'
 
 console.log(a) // 'end'
@@ -162,7 +162,7 @@ https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/en
 
 구조 분해 할당 후 기본값을 설정하는 경우, 해당 값이 `undefined`인 경우에만 기본값이 적용된다.
 
-```js
+```ts
 const {
   a = 1,
   b = 2,
@@ -191,7 +191,7 @@ console.log(a, b, c, d); // null 2 3 4
 
 JavaScript에서 함수는 일급 객체의 조건을 모두 만족합니다. 예를 들어:
 
-```javascript
+```ts
 // 1. 변수에 할당
 const foo = function () {
   console.log('Hello');

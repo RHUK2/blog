@@ -11,7 +11,7 @@ isPublished: true
 # NodeJS
 
 - [탄생 배경](#탄생-배경)
-  - [브라우저 단에서 node\_moduels](#브라우저-단에서-node_moduels)
+  - [브라우저 단에서 node_moduels](#브라우저-단에서-node_moduels)
 - [PM2 무중단 배포](#pm2-무중단-배포)
 - [\_\_dirname, \_\_filename, process.cwd()](#__dirname-__filename-processcwd)
 - [createWriteStream, createReadStream, readFile, readFileSync, readdir](#createwritestream-createreadstream-readfile-readfilesync-readdir)
@@ -114,7 +114,7 @@ res.setHeader(name, value):
 
 Translated with www.DeepL.com/Translator (free version)
 
-```js
+```ts
 // const data = fs.readFileSync(path.join(process.cwd(), '/pages/api/sub-project/[id]/report/TEST1.png'));
 const response = await fetch('https://via.placeholder.com/600/92c952');
 const data = await response.arrayBuffer();
@@ -126,7 +126,7 @@ res.setHeader('Content-Disposition', 'attachment; filename=sample.png');
 res.send(Buffer.from(data));
 ```
 
-```js
+```ts
 // const data = fs.readFileSync(path.join(process.cwd(), '/pages/api/sub-project/[id]/report/TEST1.png'));
 const response = await fetch('https://via.placeholder.com/600/92c952');
 const data = await response.arrayBuffer();

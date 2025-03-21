@@ -25,7 +25,7 @@
 
 `AnimatePresence`는 `key` 속성을 사용하여 컴포넌트의 상태를 추적하며 상태 변화가 발생할 때 이를 애니메이션 처리합니다. 이를 위해 `motion.nav` 및 관련 컴포넌트에 `key` 속성을 추가하여 변화를 명시적으로 트리거해보세요:
 
-```jsx
+```tsx
 <AnimatePresence initial={false}>
   {navToggle && (
     <MotionConfig transition={{ duration: 0.3, ease: 'easeOut' }}>
@@ -118,7 +118,7 @@
 
 종종 상태 간의 연계가 문제를 일으키기도 합니다. `isUpXl` 값이 변경됨에 따라 `navToggle` 상태가 변화하되, 해당 상태 변경이 애니메이션 처리에 악영향을 미치지 않도록 디바운싱 처리 또는 적절한 `setTimeout`을 추가할 수 있습니다:
 
-```jsx
+```tsx
 useEffect(() => {
   if (!isUpXl && navToggle) {
     // 모바일로 전환 시 `navToggle` 상태를 닫음
@@ -133,7 +133,7 @@ useEffect(() => {
 
 `AnimatePresence`에서 `exitBeforeEnter` 옵션을 추가하여, 이전 컴포넌트가 애니메이션을 완료한 후 새로운 상태가 렌더링되도록 설정하세요:
 
-```jsx
+```tsx
 <AnimatePresence exitBeforeEnter initial={false}>
   ...
 </AnimatePresence>
@@ -163,7 +163,7 @@ useEffect(() => {
 
 #### 예제 코드 - 문제 상황
 
-```jsx
+```tsx
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
@@ -218,7 +218,7 @@ function App() {
 
 #### 해결 방법 - 최적화된 코드
 
-```jsx
+```tsx
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {

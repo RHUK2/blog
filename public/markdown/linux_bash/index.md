@@ -81,7 +81,7 @@ isPublished: true
 
 ## Command History
 
-```bash
+```sh
 !!            # Run the last command
 
 touch foo.sh
@@ -90,7 +90,7 @@ chmod +x !$   # !$ is the last argument of the last command i.e. foo.sh
 
 ## Navigating Directories
 
-```bash
+```sh
 pwd                       # Print current directory path
 ls                        # List directories
 ls -a|--all               # List directories including hidden
@@ -112,7 +112,7 @@ popd                      # Go back to directory in stack saved by `pushd`
 
 ## Creating Directories
 
-```bash
+```sh
 mkdir foo                        # Create a directory
 mkdir foo bar                    # Create multiple directories
 mkdir -p|--parents foo/bar       # Create nested directory
@@ -123,7 +123,7 @@ mktemp -d|--directory            # Create a temporary directory
 
 ## Moving Directories
 
-```bash
+```sh
 cp -R|--recursive foo bar                               # Copy directory
 mv foo bar                                              # Move directory
 
@@ -135,7 +135,7 @@ rsync -avz username@hostname:/foo /bar                  # Copy remote directory 
 
 ## Deleting Directories
 
-```bash
+```sh
 rmdir foo                        # Delete empty directory
 rm -r|--recursive foo            # Delete directory including contents
 rm -r|--recursive -f|--force foo # Delete directory including contents, ignore nonexistent files and never prompt
@@ -143,7 +143,7 @@ rm -r|--recursive -f|--force foo # Delete directory including contents, ignore n
 
 ## Creating Files
 
-```bash
+```sh
 touch foo.txt          # Create file or update existing files modified timestamp
 touch foo.txt bar.txt  # Create multiple files
 touch {foo,bar}.txt    # Create multiple files
@@ -155,7 +155,7 @@ mktemp                 # Create a temporary file
 
 ## Standard Output, Standard Error and Standard Input
 
-```bash
+```sh
 echo "foo" > bar.txt       # Overwrite file with content
 echo "foo" >> bar.txt      # Append to file with content
 
@@ -169,7 +169,7 @@ read foo                   # Read from standard input and write to the variable 
 
 ## Moving Files
 
-```bash
+```sh
 cp foo.txt bar.txt                                # Copy file
 mv foo.txt bar.txt                                # Move file
 
@@ -179,14 +179,14 @@ rsync z|--compress -v|--verbose /foo.txt /bar.txt # Copy and rename file quickly
 
 ## Deleting Files
 
-```bash
+```sh
 rm foo.txt            # Delete file
 rm -f|--force foo.txt # Delete file, ignore nonexistent files and never prompt
 ```
 
 ## Reading Files
 
-```bash
+```sh
 cat foo.txt            # Print all contents
 less foo.txt           # Print some contents at a time (g - go to top of file, SHIFT+g, go to bottom of file, /foo to search for 'foo')
 head foo.txt           # Print top 10 lines of file
@@ -220,7 +220,7 @@ For a directory, execute means you can enter a directory.
 - o - Others
 - a - All of the above
 
-```bash
+```sh
 ls -l /foo.sh            # List file permissions
 chmod +100 foo.sh        # Add 1 to the user permission
 chmod -100 foo.sh        # Subtract 1 from the user permission
@@ -236,7 +236,7 @@ chmod +x foo.sh          # Give everybody execute permission
 
 Find binary files for a command.
 
-```bash
+```sh
 type wget                                  # Find the binary
 which wget                                 # Find the binary
 whereis wget                               # Find the binary, source, and manual page files
@@ -244,7 +244,7 @@ whereis wget                               # Find the binary, source, and manual
 
 `locate` uses an index and is fast.
 
-```bash
+```sh
 updatedb                                   # Update the index
 
 locate foo.txt                             # Find a file
@@ -254,7 +254,7 @@ locate f*.txt                              # Find a text file starting with 'f'
 
 `find` doesn't use an index and is slow.
 
-```bash
+```sh
 find /path -name foo.txt                   # Find a file
 find /path -iname foo.txt                  # Find a file with case insensitive search
 find /path -name "*.txt"                   # Find all text files
@@ -269,7 +269,7 @@ find /path -type f -mtime +30 -delete      # Delete files that haven't been modi
 
 ## Find in Files
 
-```bash
+```sh
 grep 'foo' /bar.txt                         # Search for 'foo' in file 'bar.txt'
 grep 'foo' /bar -r|--recursive              # Search for 'foo' in directory 'bar'
 grep 'foo' /bar -R|--dereference-recursive  # Search for 'foo' in directory 'bar' and follow symbolic links
@@ -289,7 +289,7 @@ egrep 'foo|bar' /baz -R                     # Use regular expressions
 
 ### Replace in Files
 
-```bash
+```sh
 sed 's/fox/bear/g' foo.txt               # Replace fox with bear in foo.txt and output to console
 sed 's/fox/bear/gi' foo.txt              # Replace fox (case insensitive) with bear in foo.txt and output to console
 sed 's/red fox/blue bear/g' foo.txt      # Replace red with blue and fox with bear in foo.txt and output to console
@@ -299,7 +299,7 @@ sed 's/fox/bear/g' foo.txt -i|--in-place # Replace fox with bear and overwrite f
 
 ## Symbolic Links
 
-```bash
+```sh
 ln -s|--symbolic foo bar            # Create a link 'bar' to the 'foo' folder
 ln -s|--symbolic -f|--force foo bar # Overwrite an existing symbolic link 'bar'
 ls -l                               # Show where symbolic links are pointing
@@ -311,7 +311,7 @@ ls -l                               # Show where symbolic links are pointing
 
 Compresses one or more files into \*.zip files.
 
-```bash
+```sh
 zip foo.zip /bar.txt                # Compress bar.txt into foo.zip
 zip foo.zip /bar.txt /baz.txt       # Compress bar.txt and baz.txt into foo.zip
 zip foo.zip /{bar,baz}.txt          # Compress bar.txt and baz.txt into foo.zip
@@ -322,7 +322,7 @@ zip -r|--recurse-paths foo.zip /bar # Compress directory bar into foo.zip
 
 Compresses a single file into \*.gz files.
 
-```bash
+```sh
 gzip /bar.txt foo.gz           # Compress bar.txt into foo.gz and then delete bar.txt
 gzip -k|--keep /bar.txt foo.gz # Compress bar.txt into foo.gz
 ```
@@ -331,7 +331,7 @@ gzip -k|--keep /bar.txt foo.gz # Compress bar.txt into foo.gz
 
 Compresses (optionally) and combines one or more files into a single _.tar, _.tar.gz, _.tpz or _.tgz file.
 
-```bash
+```sh
 tar -c|--create -z|--gzip -f|--file=foo.tgz /bar.txt /baz.txt # Compress bar.txt and baz.txt into foo.tgz
 tar -c|--create -z|--gzip -f|--file=foo.tgz /{bar,baz}.txt    # Compress bar.txt and baz.txt into foo.tgz
 tar -c|--create -z|--gzip -f|--file=foo.tgz /bar              # Compress directory bar into foo.tgz
@@ -341,27 +341,27 @@ tar -c|--create -z|--gzip -f|--file=foo.tgz /bar              # Compress directo
 
 ### unzip
 
-```bash
+```sh
 unzip foo.zip          # Unzip foo.zip into current directory
 ```
 
 ### gunzip
 
-```bash
+```sh
 gunzip foo.gz           # Unzip foo.gz into current directory and delete foo.gz
 gunzip -k|--keep foo.gz # Unzip foo.gz into current directory
 ```
 
 ### tar -x
 
-```bash
+```sh
 tar -x|--extract -z|--gzip -f|--file=foo.tar.gz # Un-compress foo.tar.gz into current directory
 tar -x|--extract -f|--file=foo.tar              # Un-combine foo.tar into current directory
 ```
 
 ## Disk Usage
 
-```bash
+```sh
 df                     # List disks, size, used and available space
 df -h|--human-readable # List disks, size, used and available space in a human readable format
 
@@ -374,7 +374,7 @@ du -d 0                # List current directory size
 
 ## Memory Usage
 
-```bash
+```sh
 free                   # Show memory usage
 free -h|--human        # Show human readable memory usage
 free -h|--human --si   # Show human readable memory usage in power of 1000 instead of 1024
@@ -383,7 +383,7 @@ free -s|--seconds 5    # Show memory usage and update continuously every five se
 
 ## Packages
 
-```bash
+```sh
 apt update                   # Refreshes repository index
 apt search wget              # Search for a package
 apt show wget                # List information about the wget package
@@ -396,7 +396,7 @@ apt upgrade                  # Upgrades all upgradable packages
 
 ## Shutdown and Reboot
 
-```bash
+```sh
 shutdown                     # Shutdown in 1 minute
 shutdown now "Cya later"     # Immediately shut down
 shutdown +5 "Cya later"      # Shutdown in 5 minutes
@@ -413,7 +413,7 @@ reboot -f                    # Force a reboot
 
 ## Identifying Processes
 
-```bash
+```sh
 top                    # List all processes interactively
 htop                   # List all processes interactively
 ps all                 # List all processes
@@ -436,7 +436,7 @@ lsof -itcp:4000        # Return the process listening on port 4000
 
 Process priorities go from -20 (highest) to 19 (lowest).
 
-```bash
+```sh
 nice -n -20 foo        # Change process priority by name
 renice 20 PID          # Change process priority by PID
 ps -o ni PID           # Return the process priority of PID
@@ -444,7 +444,7 @@ ps -o ni PID           # Return the process priority of PID
 
 ## Killing Processes
 
-```bash
+```sh
 CTRL+C                 # Kill a process running in the foreground
 kill PID               # Shut down process by PID gracefully. Sends TERM signal.
 kill -9 PID            # Force shut down of process by PID. Sends SIGKILL signal.
@@ -455,7 +455,7 @@ killall foo            # Kill all process with the specified name gracefully.
 
 ## Date & Time
 
-```bash
+```sh
 date                   # Print the date and time
 date --iso-8601        # Print the ISO8601 date
 date --iso-8601=ns     # Print the ISO8601 date and time
@@ -465,12 +465,12 @@ time tree              # Time how long the tree command takes to execute
 
 ## Scheduled Tasks
 
-```pre
+```text
    *      *         *         *           *
 Minute, Hour, Day of month, Month, Day of the week
 ```
 
-```bash
+```sh
 crontab -l                 # List cron tab
 crontab -e                 # Edit cron tab in Vim
 crontab /path/crontab      # Load cron tab from a file
@@ -494,7 +494,7 @@ at tomorrow                # Create a task in Vim to execute tomorrow
 
 ## HTTP Requests
 
-```bash
+```sh
 curl https://example.com                               # Return response body
 curl -i|--include https://example.com                  # Include status code and HTTP headers
 curl -L|--location https://example.com                 # Follow redirects
@@ -509,7 +509,7 @@ wget -O|--output-document foo.txt https://example.com/file.txt # Output to a fil
 
 ## Network Troubleshooting
 
-```bash
+```sh
 ping example.com            # Send multiple ping requests using the ICMP protocol
 ping -c 10 -i 5 example.com # Make 10 attempts, 5 seconds apart
 
@@ -532,7 +532,7 @@ nmap -sP 192.168.1.1/24     # Discover all machines on the network by ping'ing t
 
 ## DNS
 
-```bash
+```sh
 host example.com            # Show the IPv4 and IPv6 addresses
 
 dig example.com             # Show complete DNS information
@@ -542,7 +542,7 @@ cat /etc/resolv.conf        # resolv.conf lists nameservers
 
 ## Hardware
 
-```bash
+```sh
 lsusb                  # List USB devices
 lspci                  # List PCI hardware
 lshw                   # List all hardware
@@ -552,7 +552,7 @@ lshw                   # List all hardware
 
 Start multiple terminal sessions. Active sessions persist reboots. `tmux` is more modern than `screen`.
 
-```bash
+```sh
 tmux             # Start a new session (CTRL-b + d to detach)
 tmux ls          # List all sessions
 tmux attach -t 0 # Reattach to a session
@@ -566,7 +566,7 @@ exit             # Exit a session
 
 ## Secure Shell Protocol (SSH)
 
-```bash
+```sh
 ssh hostname                 # Connect to hostname using your current user name over the default SSH port 22
 ssh -i foo.pem hostname      # Connect to hostname using the identity file
 ssh user@hostname            # Connect to hostname using the user over the default SSH port 22
@@ -576,7 +576,7 @@ ssh ssh://user@hostname:8765 # Connect to hostname using the user over a custom 
 
 Set default user and port in `~/.ssh/config`, so you can just enter the name next time:
 
-```bash
+```sh
 $ cat ~/.ssh/config
 Host name
   User foo
@@ -587,7 +587,7 @@ $ ssh name
 
 ## Secure Copy
 
-```bash
+```sh
 scp foo.txt ubuntu@hostname:/home/ubuntu # Copy foo.txt into the specified remote directory
 ```
 
@@ -596,7 +596,7 @@ scp foo.txt ubuntu@hostname:/home/ubuntu # Copy foo.txt into the specified remot
 - bash - `.bashrc`
 - zsh - `.zshrc`
 
-```bash
+```sh
 # Always run ls after cd
 function cd {
   builtin cd "$@" && ls
@@ -616,7 +616,7 @@ alias du='du -h'
 
 ### Variables
 
-```bash
+```sh
 #!/bin/bash
 
 foo=123                # Initialize variable foo with 123
@@ -632,7 +632,7 @@ unset foo              # Make foo unavailable to child processes
 
 ### Environment Variables
 
-```bash
+```sh
 #!/bin/bash
 
 env            # List all environment variables
@@ -642,7 +642,7 @@ export FOO=Bar # Set an environment variable
 
 ### Functions
 
-```bash
+```sh
 #!/bin/bash
 
 greet() {
@@ -656,7 +656,7 @@ greeting=$(greet "Hello")
 
 ### Exit Codes
 
-```bash
+```sh
 #!/bin/bash
 
 exit 0   # Exit the script successfully
@@ -693,7 +693,7 @@ echo $?  # Print the last exit code
 
 #### If Statements
 
-```bash
+```sh
 #!/bin/bash
 
 if [[$foo = 'bar']]; then
@@ -709,7 +709,7 @@ fi
 
 #### Inline If Statements
 
-```bash
+```sh
 #!/bin/bash
 
 [[ $USER = 'rehan' ]] && echo 'yes' || echo 'no'
@@ -717,7 +717,7 @@ fi
 
 #### While Loops
 
-```bash
+```sh
 #!/bin/bash
 
 declare -i counter
@@ -730,7 +730,7 @@ done
 
 #### For Loops
 
-```bash
+```sh
 #!/bin/bash
 
 for i in {0..10..2}
@@ -751,7 +751,7 @@ for filename in *;
 
 #### Case Statements
 
-```bash
+```sh
 #!/bin/bash
 
 echo "What's the weather like tomorrow?"
@@ -811,7 +811,7 @@ ngrok은 개발자가 로컬 서버를 인터넷에 노출할 수 있도록 임�
 
 사용 전에 공식 홈페이지에 계정을 생성해서 로그인 후에 인증 과정을 거쳐야한다.
 
-```bash
+```sh
 ngrok http 3000
 ```
 
@@ -825,13 +825,13 @@ ngrok http 3000
 
 ### 1. **현재 세션에서 실행된 프로세스 확인**
 
-```bash
+```sh
 ps -u $(whoami)
 ```
 
 - 현재 터미널 세션의 TTY 이름 확인:
 
-  ```bash
+  ```sh
   tty
   ```
 
@@ -839,28 +839,28 @@ ps -u $(whoami)
 
 - 해당 TTY와 관련된 프로세스 확인:
 
-  ```bash
+  ```sh
   ps -t pts/2
   ```
 
-  ```bash
+  ```sh
   ps -ef | grep $(whoami)
   ```
 
 - 현재 세션의 부모 프로세스 ID(PPID)와 관련된 프로세스 확인:
 
-  ```bash
+  ```sh
   ps --forest
   ```
 
 - 현재 세션의 Bash PID 확인:
 
-  ```bash
+  ```sh
   echo $$
   ```
 
 - 해당 PID를 기준으로 자식 프로세스 확인:
-  ```bash
+  ```sh
   ps --ppid <PID>
   ```
 
@@ -869,7 +869,7 @@ ps -u $(whoami)
 - 터미널에서 `w` 명령을 사용하여 현재 활성 세션을 확인할 수 있습니다.
 - 세션이 남아 있다면, 기본 쉘 변경 확인을 위해 모든 로그인 세션이 종료되었는지 반드시 확인해야 합니다.
 
-```bash
+```sh
 w
 ```
 
@@ -889,7 +889,7 @@ user    pts/2   2023-10-11 14:10 (192.168.0.3)
 
 ## 공인 IP 확인
 
-```bash
+```sh
 curl ifconfig.me
 ```
 
@@ -922,7 +922,7 @@ curl ifconfig.me
 
 ### 유저
 
-```bash
+```sh
 whoami # 현재 유저 확인
 sudo su # root 사용자로 로그인(root 환경변수)
 sudo -s # root 사용자로 로그인(사용자 환경변수)
@@ -944,7 +944,7 @@ exit # 유저 변경 전 사용자로 돌아가거나 쉘 종료
 
 ### 그룹
 
-```bash
+```sh
 sudo groupadd bar # 그룹 생성
 sudo groupdel bar # 그룹 삭제
 sudo gpasswd bar # 그룹 암호 설정, 이 암호는 그룹에 포함되지 않는 사용자가 그룹으로 로그인하기 위해서 사용된다.
@@ -957,7 +957,7 @@ groups foo # 유저가 포함된 그룹을 나열, 한 사용자가 여러 그�
 
 ### 파일/폴더 유저/그룹 변경
 
-```bash
+```sh
 sudo chown foo foo.txt # foo.txt 파일의 유저를 foo로 변경
 sudo chown -R foo baz # baz 디렉토리와 하위 파일 모두 유저를 foo로 변경
 sudo chown foo:bar foo.txt # foo.txt 파일의 유저와 그룹을 foo와 bar로 변경
@@ -966,7 +966,7 @@ sudo chgrp bar foo.txt # foo.txt 파일의 그룹을 bar로 변경, 일반 사�
 
 ### 유저/그룹 정보 경로
 
-```bash
+```sh
 cat /etc/passwd # 유저 정보(사용자이름:암호:사용자ID:그룹ID:추가정보:홈디렉토리:쉘)
 cat /etc/group # 유저 그룹 정보
 cat /etc/shadow # 비밀번호 정보
