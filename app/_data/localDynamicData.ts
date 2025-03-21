@@ -127,8 +127,8 @@ export async function readMarkdownMetaList(tag?: string, page?: string, size?: s
     if (markdownMetaList.length === 0) throw new Error('No data found.');
 
     const computedMarkdownMetaList: IMarkdownMeta[] = markdownMetaList.slice(
-      parseInt(page ?? '0') * parseInt(size ?? PAGE_SIZE),
-      (parseInt(page ?? '0') + 1) * parseInt(size ?? PAGE_SIZE),
+      parseInt(page || '0') * parseInt(size ?? PAGE_SIZE),
+      (parseInt(page || '0') + 1) * parseInt(size ?? PAGE_SIZE),
     );
 
     const result: IMarkdownMetaListResponse = {

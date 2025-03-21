@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { Button, Menu } from '.';
 import { MenuItem } from './MenuItem';
+import { useDebounce } from '@/_hooks';
 
 interface Props {
   totalCount: number;
@@ -42,29 +43,23 @@ export function Pagination({ totalCount, size }: Props) {
     [searchParams],
   );
 
-  function handlePreviousPageQuery(index: number) {
-    handleMenuClose();
-
+  const handlePreviousPageQuery = useDebounce((index: number) => {
     const query = createQueryString('page', String(circularQueue(0, pageCount, index - 1)));
 
     router.push(`${pathname}?${query}`);
-  }
+  }, 300);
 
-  function handlePageQuery(index: number) {
-    handleMenuClose();
-
+  const handlePageQuery = useDebounce((index: number) => {
     const query = createQueryString('page', String(index));
 
     router.push(`${pathname}?${query}`);
-  }
+  }, 300);
 
-  function handleNextPageQuery(index: number) {
-    handleMenuClose();
-
+  const handleNextPageQuery = useDebounce((index: number) => {
     const query = createQueryString('page', String(circularQueue(0, pageCount, index + 1)));
 
     router.push(`${pathname}?${query}`);
-  }
+  }, 300);
 
   function handleMenuToggle(event: MouseEvent<HTMLButtonElement>) {
     setIsMenuOpen((prev) => !prev);
