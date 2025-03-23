@@ -15,9 +15,11 @@ export function TreeBox({ parent, children }: Props) {
   const ulRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
+    if (ulRef.current == null) return;
+
     function listener() {
       if (rafId.current == null) {
-        rafId.current = requestAnimationFrame((t) => {
+        rafId.current = requestAnimationFrame(() => {
           if (!ulRef.current) return;
 
           const arr = [];
@@ -33,12 +35,12 @@ export function TreeBox({ parent, children }: Props) {
       }
     }
 
-    listener();
+    const observer = new ResizeObserver(listener);
 
-    window.addEventListener('resize', listener);
+    observer.observe(ulRef.current);
 
     return () => {
-      window.removeEventListener('resize', listener);
+      observer.disconnect();
     };
   }, []);
 
