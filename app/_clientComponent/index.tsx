@@ -1,3 +1,4 @@
+export * from './Accordion';
 export * from './Button';
 export * from './ChatForm';
 export * from './DarkLightButton';

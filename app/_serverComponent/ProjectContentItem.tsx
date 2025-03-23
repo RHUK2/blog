@@ -1,5 +1,6 @@
 import { IProject } from '@/_type';
 import { IcondBadge } from './IconBadge';
+import { Accordion } from '@/_clientComponent';
 
 interface Props {
   data: IProject;
@@ -20,12 +21,7 @@ export function ProjectContentItem({ data }: Props) {
         ))}
       </div>
 
-      <p>경험</p>
-      <ul>
-        {data.experienceList.map((experience) => (
-          <li key={experience}>{experience}</li>
-        ))}
-      </ul>
+      <Accordion title='경험 살펴보기 ▾' list={data.experienceList} />
     </li>
   );
 }
