@@ -1,12 +1,17 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { useState } from 'react';
-
+import ArrowUp from '@public/assets/arrow-up.svg';
+import ArrowDown from '@public/assets/arrow-down.svg';
 interface Props {
   title: string;
   list: string[];
 }
+
+const variants = {
+  visible: { x: 0, opacity: 1, width: 26 },
+};
 
 export function Accordion({ title, list }: Props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,24 +21,48 @@ export function Accordion({ title, list }: Props) {
   }
 
   return (
-    <motion.div className='flex flex-col gap-2'>
-      <motion.button className='cursor-pointer text-start' onClick={toggleButton}>
-        {title}
-      </motion.button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.ul
-            initial={{ height: 0 }}
-            animate={{ height: isOpen ? 'auto' : 0 }}
-            exit={{ height: 0 }}
-            className='overflow-hidden'
+    <MotionConfig transition={{ duration: 0.2 }}>
+      <motion.div className='flex flex-col gap-2'>
+        <motion.button
+          whileHover='visible'
+          className='flex cursor-pointer self-start overflow-hidden'
+          onClick={toggleButton}
+        >
+          <motion.span
+            variants={variants}
+            initial={{
+              x: -10,
+              opacity: 0,
+              width: 0,
+            }}
+            animate={isOpen && 'visible'}
           >
-            {list.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </motion.ul>
-        )}
-      </AnimatePresence>
-    </motion.div>
+            🔎
+          </motion.span>
+          <p className='flex items-center gap-1'>
+            {title}
+            {isOpen ? (
+              <ArrowUp className='h-4 w-4 fill-black dark:fill-white' />
+            ) : (
+              <ArrowDown className='h-4 w-4 fill-black dark:fill-white' />
+            )}
+          </p>
+        </motion.button>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.ul
+              initial={{ height: 0 }}
+              animate={{ height: isOpen ? 'auto' : 0 }}
+              exit={{ height: 0 }}
+              className='overflow-hidden'
+            >
+              {list.map((item) => (
+                <li key={item}>{`• ${item}`}</li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </MotionConfig>
   );
 }

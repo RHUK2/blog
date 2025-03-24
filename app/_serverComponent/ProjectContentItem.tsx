@@ -12,7 +12,7 @@ export function ProjectContentItem({ data }: Props) {
       <div className='flex flex-col gap-1'>
         <p className='text-xl'>{data.title}</p>
         <p className='text-gray-500 dark:text-gray-400'>{`${data.startDate} - ${data.endDate}`}</p>
-        <p>{data.description}</p>
+        <p className='text-gray-700 dark:text-gray-300'>{data.description}</p>
       </div>
 
       <div className='flex flex-wrap gap-2'>
@@ -21,7 +21,7 @@ export function ProjectContentItem({ data }: Props) {
         ))}
       </div>
 
-      <Accordion title='경험 살펴보기 ▾' list={data.experienceList} />
+      <Accordion title='경험 살펴보기' list={data.experienceList} />
     </li>
   );
 }
