@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 export const config = {
-  matcher: ['/', '/markdown', '/markdown/:folderName/detail', '/gpt'],
+  matcher: ['/', '/markdown', '/markdown/:folderName/detail', '/llm'],
 };
 
 export function middleware(req: NextRequest) {
