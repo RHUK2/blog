@@ -19,9 +19,9 @@ export default async function Page({ searchParams }: Props) {
   return (
     <>
       <section className='m-auto flex max-w-[768px] min-w-[320px] flex-col gap-8 px-4 py-10'>
-        <Suspense fallback={<div>Loading...</div>}>
-          <NavigationTag currentTag={tag} />
-        </Suspense>
+        {/* <Suspense fallback={<div>Loading...</div>}> */}
+        <NavigationTag currentTag={tag} />
+        {/* </Suspense> */}
 
         <Divider />
 

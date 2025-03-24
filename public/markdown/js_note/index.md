@@ -13,10 +13,9 @@ isPublished: true
 - [브라우저 환경 감지하기](#브라우저-환경-감지하기)
 - [인수 • 인자](#인수--인자)
 - [순수 함수 • 비순수 함수](#순수-함수--비순수-함수)
-- [값, 리터럴, 표현식, 문](#값-리터럴-표현식-문)
-- [parse](#parse)
-- [sort](#sort)
-- [Number() vs parseInt()](#number-vs-parseint)
+- [값 • 리터럴 • 표현식 • 문](#값--리터럴--표현식--문)
+- [`sort`](#sort)
+- [`Number` • `parseInt` • `parseFloat`](#number--parseint--parsefloat)
 - [구조 분해 할당](#구조-분해-할당)
 - [일급 객체](#일급-객체)
 
@@ -93,7 +92,7 @@ function increment() {
 }
 ```
 
-## 값, 리터럴, 표현식, 문
+## 값 • 리터럴 • 표현식 • 문
 
 1. 값(Value)
 
@@ -117,19 +116,63 @@ function increment() {
    - 표현식이 포함될 수 있지만, 그 자체로는 값으로 평가되지 않음.
    - 예: `int x = 10;`, `if (x > 0) { ... }`, `return x;`
 
-## parse
+## `sort`
 
-보통 라이브러리는 여러가지 메서드를 가진 거대한 객체로 구성이 되고, 해당 객체에 변경할 데이터를 넣은 후 여러 메서드를 사용하여 원하는 형태의 데이터를 얻어낼 수 있다. 반대로 데이터를 기반으로 거대한 객체를 구성할 때 사용하는 것이 `parse()` 파싱 관련 메서드이다. 개발을 하다보면 데이터를 다시 조작해서 다른 데이터를 얻어내고 싶을 경우가 있을 것이다. 이런 경우 데이터를 파싱해서 거대한 객체를 다시 만들어내고 데이터를 바탕으로 만들어진 거대한 객체를 통해 다시 사용자가 원하는 형태의 데이터를 출력한다.
+`sort` 메서드는 원본 배열을 정렬하며, 별도의 비교 함수를 제공하지 않으면 문자열로 변환 후 사전순으로 정렬한다.
 
-## sort
+▾ 문자열 정렬
 
-배열은 각 문자의 유니 코드 코드 포인트 값에 따라 정렬되기 때문에 숫자 정렬이 생각한대로 정렬되지 않을 수 있다. 원 배열이 정렬되며, 복사본이 만들어지는 것이 아니다.
+```ts
+let fruits = ['banana', 'apple', 'cherry'];
+fruits.sort();
+console.log(fruits); // ["apple", "banana", "cherry"]
+```
+
+▾ 숫자열 정렬
+
+```ts
+let numbers = [10, 5, 100, 25];
+numbers.sort((a, b) => a - b);
+console.log(numbers); // [5, 10, 25, 100]
+numbers.sort((a, b) => b - a);
+console.log(numbers); // [100, 25, 10, 5]
+```
 
 `compareFunction(a, b) < 0`인 경우, `a`를 `b`보다 낮은 인덱스로 정렬한다. 즉, `a`가 먼저 온다.
 `compareFunction(a, b) === 0`인 경우, `a`와 `b`를 서로에 대해 변경하지 않는다.
 `compareFunction(a, b) > 0`인 경우, `b`를 `a`보다 낮은 인덱스로 정렬한다. 즉, `b`가 먼저 온다.
 
-## Number() vs parseInt()
+## `Number` • `parseInt` • `parseFloat`
+
+|             | `Number`     | `parseInt`     | `parseFloat`   |
+| ----------- | ------------ | -------------- | -------------- |
+| 반환 타입   | 정수/소수    | 정수           | 소수           |
+| 소수점 처리 | 포함         | 버림           | 포함           |
+| 문자 허용   | 불가 (`NaN`) | 숫자 이후 무시 | 숫자 이후 무시 |
+| 진법 지정   | 불가         | 가능           | 불가           |
+
+```ts
+console.log(Number('123')); // 123 (정수)
+console.log(Number('123.45')); // 123.45 (소수)
+console.log(Number('12.34.56')); // NaN (잘못된 형식)
+console.log(Number('123abc')); // NaN (숫자 뒤 문자 포함)
+console.log(Number('')); // 0 (빈 문자열)
+console.log(Number(' ')); // 0 (공백)
+
+console.log(parseInt('123')); // 123 (정수)
+console.log(parseInt('123.45')); // 123 (소수점 이하 버림)
+console.log(parseInt('123abc')); // 123 (숫자 이후 무시)
+console.log(parseInt('abc123')); // NaN (숫자로 시작 안 함)
+console.log(parseInt('12.34.56')); // 12 (첫 번째 숫자까지만)
+console.log(parseInt('0xFF')); // 255 (16진수 인식)
+console.log(parseInt('10', 2)); // 2 (2진수로 해석)
+
+console.log(parseFloat('123')); // 123 (정수도 가능)
+console.log(parseFloat('123.45')); // 123.45 (소수점 유지)
+console.log(parseFloat('123.45abc')); // 123.45 (숫자 이후 무시)
+console.log(parseFloat('abc123')); // NaN (숫자로 시작 안 함)
+console.log(parseFloat('12.34.56')); // 12.34 (첫 번째 소수점까지만)
+```
 
 ## 구조 분해 할당
 
@@ -191,3 +234,4 @@ arr.forEach((func) => func());
 ```
 
 이처럼 JavaScript에서 함수는 일급 객체로서 다양한 방식으로 활용될 수 있습니다. 이러한 특성은 고차 함수, 클로저, 콜백 패턴 등 함수형 프로그래밍 기법을 가능하게 하는 기반이 됩니다.
+자바스크립트에서 `Number`, `parseInt`, `parseFloat`는 문자열을 숫자로 변환하는 데 사용되는 주요 방법들입니다. 하지만 각각의 동작 방식과 사용 목적이 다릅니다. 아래에서 차이점을 설명하고 예시 코드를 제공하겠습니다.
