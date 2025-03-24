@@ -1,6 +1,6 @@
 ---
 folderName: browser_routing
-updatedAt:
+updatedAt: 2025-01-02
 title: 브라우저 라우팅
 tag: browser
 isPublished: true

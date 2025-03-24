@@ -1,5 +1,5 @@
 ---
-folderName: react-control_frequency
+folderName: react_control_frequency
 updatedAt: 2025-03-17
 title: 이벤트 호출 주기 제어
 tag: javascript
