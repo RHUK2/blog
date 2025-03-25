@@ -26,7 +26,6 @@ isPublished: true
 
    - 코드의 가장 바깥쪽에서 선언된 변수 또는 함수.
    - 어디서든 접근 가능.
-   - `*.js`의 최상위 스코프
 
      ```ts
      let globalVar = "I'm global!";
@@ -42,7 +41,6 @@ isPublished: true
    - 전역 스코프와 분리되어, 모듈 간의 충돌을 방지.
    - 모듈 내부의 변수는 전역으로 노출되지 않으며, `export`를 통해 외부에 공개 가능.
    - 모듈 내에서 선언된 변수, 함수, 클래스는 해당 모듈 내에서만 접근 가능.
-   - `*.mjs`의 최상위 스코프
 
      ```ts
      let moduleVar = "I'm in a module!";

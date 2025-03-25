@@ -1,20 +1,35 @@
 ---
-folderName: js_module
-updatedAt: 2024-04-21
-title: 모듈
-tag: javascript
+folderName: node_module_bundler
+updatedAt: 2025-03-25
+title: 모듈 번들러(Module Bundler)
+tag: bundler
 isPublished: true
 ---
 
-## 모듈 다운
+# 모듈 번들러(Module Bundler)
 
-cdn 다운
-npm 다운
-상대경로 절대경로를 통한 정적 자산ㄴ
+- [브라우저 환경에서 모듈 시스템](#브라우저-환경에서-모듈-시스템)
+- [Node.js 환경에서 모듈 시스템](#nodejs-환경에서-모듈-시스템)
+- [모듈 번들러(Module Bundler)가 필수가 된 이유](#모듈-번들러module-bundler가-필수가-된-이유)
+- [모듈 시스템의 종류](#모듈-시스템의-종류)
+  - [모듈 번들러](#모듈-번들러)
+  - [번들러 파일 구조](#번들러-파일-구조)
+  - [개발/프로덕션 모드에 따른 번들링 방식](#개발프로덕션-모드에-따른-번들링-방식)
+    - [개발 모드(dev 모드)](#개발-모드dev-모드)
+    - [프로덕션 모드(prod 모드)](#프로덕션-모드prod-모드)
+- [module script, nomodule script, defer, async](#module-script-nomodule-script-defer-async)
+- [`*.js` • `*.mjs`](#js--mjs)
 
-## 모듈
+## 브라우저 환경에서 모듈 시스템
 
-모듈은 단순히 파일 하나의 불과하다. 모듈 안에서 `import` 지시자를 이용해서 외부 모듈 내부의 변수나 함수를 가져오거나 `export` 지시자를 이용해 모듈 내부의 변수나 함수를 내보낼 수 있다.
+## Node.js 환경에서 모듈 시스템
+
+## 모듈 번들러(Module Bundler)가 필수가 된 이유
+
+- 현대 브라우저 환경에서 공식적인 모듈 시스템은 ES Modules(ESM)을 사용한다.
+- 현대 Node.js 환경에서 채택된 모듈 시스템은 CommonJS를 사용하며, 점진적으로 ESM 방식으로 변경되고 있다.
+
+## 모듈 시스템의 종류
 
 `export`와 `import` 지시자를 스크립트 내에서 사용하려면 아래와 같이 `type='module'` 속성을 추가해서 작성해야 한다.
 
@@ -33,19 +48,18 @@ npm 다운
 ```
 
 ```ts
-// script.js
-import { a } from './module.js';
-
 // module.js
-import { b } from './module2.js';
-
 export let a = 'a';
 
 // module2.js
 export let b = 'b';
+
+// script.js
+import { a } from './module.js';
+import { b } from './module2.js';
 ```
 
-![img](assets/import_network.png)
+![img](images/import_network.png)
 
 모듈 번들러 툴은 보통 아래와 같이 동작합니다.
 
@@ -93,22 +107,6 @@ flowchart LR
 
 ![img](images/script_difference.png)
 
-Scope(범위):
-모듈 스크립트: 파일 단위로 스코프가 지정되며, 모듈 내에서 정의된 변수와 함수는 기본적으로 해당 모듈 내에서만 접근 가능합니다. 모듈 간의 변수 충돌을 방지하기 위해 각 모듈은 자체적인 스코프를 가집니다.
-일반 스크립트: 전역 스코프를 사용하며, 모든 스크립트가 동일한 전역 스코프를 공유합니다. 이는 변수 충돌이 발생할 수 있으며, 코드 유지보수 및 디버깅을 어렵게 만들 수 있습니다.
-자동 strict mode(엄격 모드):
-모듈 스크립트: 기본적으로 모듈 스크립트는 엄격 모드(strict mode)로 실행됩니다. 엄격 모드는 예기치 않은 동작을 방지하고 보다 안전한 코드를 작성할 수 있도록 도와줍니다.
-일반 스크립트: 엄격 모드를 사용하려면 스크립트의 첫 부분에 "use strict";를 명시적으로 추가해야 합니다.
-지연 실행(Lazy Execution):
-모듈 스크립트: 모듈 스크립트는 브라우저에서 필요한 시점에만 다운로드되고 실행됩니다. 이는 성능을 향상시키고 초기 로딩 속도를 개선할 수 있습니다.
-일반 스크립트: 일반 스크립트는 선언된 위치에서 즉시 다운로드되고 실행됩니다.
-외부 스크립트 로딩 방법:
-모듈 스크립트: <script type="module" src="..."></script> 형태로 외부 스크립트를 로드합니다.
-일반 스크립트: <script src="..."></script> 형태로 외부 스크립트를 로드합니다.
+## `*.js` • `*.mjs`
 
-async 속성:
-일반 스크립트(<script>)와 모듈 스크립트(<script type="module">) 모두에 적용할 수 있습니다.
-스크립트가 비동기적으로 다운로드되고 실행됨을 나타내며, 페이지의 로딩을 차단하지 않고 병렬로 다운로드됩니다.
-defer 속성:(모듈 스크립트에서는 디폴트 값)
-일반 스크립트(<script>)에서만 사용할 수 있습니다.
-비동기적으로 다운로드되지만 페이지 파싱을 중단하지 않고, 페이지 파싱이 완료된 후에 실행됩니다.
+브라우저

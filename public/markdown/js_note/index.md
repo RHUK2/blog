@@ -16,8 +16,8 @@ isPublished: true
 - [값 • 리터럴 • 표현식 • 문](#값--리터럴--표현식--문)
 - [`sort`](#sort)
 - [`Number` • `parseInt` • `parseFloat`](#number--parseint--parsefloat)
-- [구조 분해 할당](#구조-분해-할당)
-- [일급 객체](#일급-객체)
+- [구조 분해 할당 기본값](#구조-분해-할당-기본값)
+- [일급 객체(First-class Object)](#일급-객체first-class-object)
 
 ## 논리 연산자 단락 평가
 
@@ -118,7 +118,7 @@ function increment() {
 
 ## `sort`
 
-`sort` 메서드는 원본 배열을 정렬하며, 별도의 비교 함수를 제공하지 않으면 문자열로 변환 후 사전순으로 정렬한다.
+`sort` 메서드는 원본 배열을 정렬하며, 별도의 비교 함수를 제공하지 않으면 문자열로 변환 후 유니코드 코드 포인트 순서로 정렬한다.
 
 ▾ 문자열 정렬
 
@@ -138,9 +138,38 @@ numbers.sort((a, b) => b - a);
 console.log(numbers); // [100, 25, 10, 5]
 ```
 
-`compareFunction(a, b) < 0`인 경우, `a`를 `b`보다 낮은 인덱스로 정렬한다. 즉, `a`가 먼저 온다.
-`compareFunction(a, b) === 0`인 경우, `a`와 `b`를 서로에 대해 변경하지 않는다.
-`compareFunction(a, b) > 0`인 경우, `b`를 `a`보다 낮은 인덱스로 정렬한다. 즉, `b`가 먼저 온다.
+▾ 다국어 정렬
+
+```ts
+let words = ['äpple', 'zebra', 'österreich'];
+// 기본 비교
+words.sort();
+console.log(words); // ["zebra", "äpple", "österreich"] (ä, ö가 z 뒤로)
+// localeCompare 사용 (스웨덴어 로케일)
+words.sort((a, b) => a.localeCompare(b, 'sv'));
+console.log(words); // ["äpple", "österreich", "zebra"] (스웨덴어 규칙 적용)
+
+let words = ['Zebra', 'apple', 'Banana'];
+// 기본 비교
+words.sort();
+console.log(words); // ["Banana", "Zebra", "apple"] (대문자 우선)
+// localeCompare로 대소문자 무시
+words.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+console.log(words); // ["apple", "Banana", "Zebra"]
+
+let files = ['file10.txt', 'file2.txt', 'file100.txt'];
+// 기본 비교
+files.sort();
+console.log(files); // ["file10.txt", "file100.txt", "file2.txt"] (문자열 순서)
+// localeCompare로 숫자 인식
+files.sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+console.log(files); // ["file2.txt", "file10.txt", "file100.txt"]
+```
+
+- `sensitivity: "base"`: 대소문자와 악센트 무시.
+- `sensitivity: "accent"`: 대소문자는 구분, 악센트는 무시.
+- `sensitivity: "case"`: 악센트는 구분, 대소문자는 무시.
+- `sensitivity: "variant"`: 대소문자와 악센트 모두 구분 (기본값).
 
 ## `Number` • `parseInt` • `parseFloat`
 
@@ -174,7 +203,7 @@ console.log(parseFloat('abc123')); // NaN (숫자로 시작 안 함)
 console.log(parseFloat('12.34.56')); // 12.34 (첫 번째 소수점까지만)
 ```
 
-## 구조 분해 할당
+## 구조 분해 할당 기본값
 
 구조 분해 할당 후 기본값을 설정하는 경우, 해당 값이 `undefined`인 경우에만 기본값이 적용된다.
 
@@ -194,18 +223,14 @@ const {
 console.log(a, b, c, d); // null 2 3 4
 ```
 
-## 일급 객체
+## 일급 객체(First-class Object)
 
-일급 객체(First-class Object)는 프로그래밍 언어에서 특정 조건을 만족하는 객체를 지칭하는 용어입니다.
-
-주요 조건은 다음과 같습니다:
+일급 객체는 프로그래밍 언어에서 아래 조건을 만족하는 객체를 지칭하는 용어다.
 
 1. 변수에 할당 가능
 2. 함수의 인자로 전달 가능
 3. 함수의 반환값으로 사용 가능
 4. 자료구조(배열, 객체 등)에 저장 가능
-
-JavaScript에서 함수는 일급 객체의 조건을 모두 만족합니다. 예를 들어:
 
 ```ts
 // 1. 변수에 할당
@@ -232,6 +257,3 @@ qux();
 const arr = [foo, qux];
 arr.forEach((func) => func());
 ```
-
-이처럼 JavaScript에서 함수는 일급 객체로서 다양한 방식으로 활용될 수 있습니다. 이러한 특성은 고차 함수, 클로저, 콜백 패턴 등 함수형 프로그래밍 기법을 가능하게 하는 기반이 됩니다.
-자바스크립트에서 `Number`, `parseInt`, `parseFloat`는 문자열을 숫자로 변환하는 데 사용되는 주요 방법들입니다. 하지만 각각의 동작 방식과 사용 목적이 다릅니다. 아래에서 차이점을 설명하고 예시 코드를 제공하겠습니다.

@@ -118,7 +118,7 @@ isPublished: true
 
 - 모듈 컨텍스트
 
-  - `undefined`.
+  - 기본값이 엄격 모드이므로, `undefined`.
 
 - 함수 컨텍스트
 
