@@ -9,39 +9,91 @@ isPublished: true
 # 모듈 번들러(Module Bundler)
 
 - [브라우저 환경에서 모듈 시스템](#브라우저-환경에서-모듈-시스템)
+  - [과거](#과거)
+  - [ESM 등장](#esm-등장)
+  - [ESM이 보편화됐어도 모듈 번들러(Module Bundler)를 사용하는 이유](#esm이-보편화됐어도-모듈-번들러module-bundler를-사용하는-이유)
 - [Node.js 환경에서 모듈 시스템](#nodejs-환경에서-모듈-시스템)
 - [모듈 번들러(Module Bundler)가 필수가 된 이유](#모듈-번들러module-bundler가-필수가-된-이유)
-- [모듈 시스템의 종류](#모듈-시스템의-종류)
   - [모듈 번들러](#모듈-번들러)
-  - [번들러 파일 구조](#번들러-파일-구조)
-  - [개발/프로덕션 모드에 따른 번들링 방식](#개발프로덕션-모드에-따른-번들링-방식)
-    - [개발 모드(dev 모드)](#개발-모드dev-모드)
-    - [프로덕션 모드(prod 모드)](#프로덕션-모드prod-모드)
-- [module script, nomodule script, defer, async](#module-script-nomodule-script-defer-async)
-- [`*.js` • `*.mjs`](#js--mjs)
 
 ## 브라우저 환경에서 모듈 시스템
 
-## Node.js 환경에서 모듈 시스템
+### 과거
 
-## 모듈 번들러(Module Bundler)가 필수가 된 이유
+- JavaScript는 공식적인 모듈 시스템이 존재하지 않았다.
+- JavaScript는 `<script>` 태그를 통해 로드되었고, 모든 스크립트는 전역 스코프에서 실행되었다.
+- 변수나 함수가 전역 객체(`window`)에 추가되어 이름 충돌이 빈번했다.
+- 스크립트 로드 순서를 수동으로 관리해서 의존성 관리가 어려웠다.
 
-- 현대 브라우저 환경에서 공식적인 모듈 시스템은 ES Modules(ESM)을 사용한다.
-- 현대 Node.js 환경에서 채택된 모듈 시스템은 CommonJS를 사용하며, 점진적으로 ESM 방식으로 변경되고 있다.
+  ```html
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <script src="https://unpkg.com/lodash@4.17.20"></script>
+    </head>
+    <body>
+      <!-- 이 스크립트는 lodash 라이브러리가 필요하다. -->
+      <script src="./src/index.js"></script>
+    </body>
+  </html>
+  ```
 
-## 모듈 시스템의 종류
+  - 해당 스크립트가 외부 라이브러리에 의존한다는 것이 명확하지 않다.
+  - 의존성을 잃어버렸거나 잘못된 순서로 포함되었으면 애플리케이션이 제대로 작동하지 않는다.
+  - 의존성이 포함되었지만 사용되지 않는 경우에도 브라우저는 필요 없는 코드를 강제로 다운로드한다.
 
-`export`와 `import` 지시자를 스크립트 내에서 사용하려면 아래와 같이 `type='module'` 속성을 추가해서 작성해야 한다.
+### ESM 등장
 
-```html
-<script type='module' src='./module.js' >
-```
+- 2015년 ECMAScript6(ES6)에서 공식적으로 모듈 시스템이 도입되어 `import`와 `export` 문법을 사용할 수 있게 되었다.
+- 브라우저 환경은 `<script>` 태그에 `type="module"` 속성 유무에 따라 일반 스크립트와 모듈 스크립트를 구분한다(`*.js`, `*.mjs` 등 확장자와 상관없음).
 
-자바스크립트 엔진은 `module.js` 파일 안에 `import`문을 만나면 해당 모듈을 가져오기 위해 네트워크 요청 또는 파일 경로를 통해 온다. 브라우저 환경에서는 일반적으로 네트워크 요청을 통해 해당 모듈을 가져오며, Node.js 환경에서는 파일 시스템을 통해 모듈을 가져온다.
+  ```html
+  <script type='module' src='./module.js' > // Error
+  ```
 
-### 모듈 번들러
+▾ 과거에 비해 보완된 점
 
-브라우저 환경에서는 모듈 번들러 없이 모듈을 사용한다면, 무수히 많은 네트워크 요청이 발생한다. 이를 방지하기 위해 웹팩(Webpack)과 같은 모듈 번들러 툴을 사용해 하나의 번들러를 생성하고 이를 `script`와 연결한다.
+- 모듈 스크립트는 독립적인 모듈 스코프에서 실행되어 전역 스코프의 변수 충돌 문제를 해결할 수 있다.
+- `import`로 필요한 모듈을 선언하여 의존성 관리가 쉬워졌다.
+
+▾ 특징
+
+- 모듈 스크립트는 항상 지연 실행된다.
+
+  ![img](images/script_difference.png)
+
+- 일반 스크립트에서 `async` 속성은 외부 스크립트를 불러올 때만 유효하다. 반면, 모듈 스크립트에선 `async` 속성을 인라인 스크립트에도 적용할 수 있다.
+- `src` 속성값이 동일한 외부 스크립트는 한 번만 실행된다.
+- 다른 오리진에서 모듈 스크립트를 불러오려면 CORS 헤더가 필요하다.
+- 경로 없는 모듈은 무효된다.
+
+  ```ts
+  import { sayHi } from 'sayHi'; // Error
+  // './sayHi.js'와 같이 경로 정보를 지정해 주어야 한다.
+  ```
+
+- 모듈은 로드 시 단 한 번만 평가되어 그 결과를 메모리에 저장한다. (싱글톤 패턴)
+
+  ```ts
+  // counter.js
+  console.log('counter 모듈 평가 시작');
+  export let count = 0;
+  export function increment() {
+    count++;
+    console.log(`count: ${count}`);
+  }
+
+  // main.js
+  import { count, increment } from './counter.js';
+  console.log(`초기 count: ${count}`); // 0
+  increment(); // count: 1
+
+  // another.js
+  import { count, increment } from './counter.js';
+  console.log(`another에서 count: ${count}`); // 1 (0이 아님!)
+  increment(); // count: 2
+  ```
 
 ```html
 <script type="module" src="script.js"></script>
@@ -61,6 +113,21 @@ import { b } from './module2.js';
 
 ![img](images/import_network.png)
 
+### ESM이 보편화됐어도 모듈 번들러(Module Bundler)를 사용하는 이유
+
+## Node.js 환경에서 모듈 시스템
+
+## 모듈 번들러(Module Bundler)가 필수가 된 이유
+
+- 현대 브라우저 환경에서 공식적인 모듈 시스템은 ES Modules(ESM)을 사용한다.
+- 현대 Node.js 환경에서 채택된 모듈 시스템은 CommonJS를 사용하며, 점진적으로 ESM 방식으로 변경되고 있다.
+
+자바스크립트 엔진은 `module.js` 파일 안에 `import`문을 만나면 해당 모듈을 가져오기 위해 네트워크 요청 또는 파일 경로를 통해 온다. 브라우저 환경에서는 일반적으로 네트워크 요청을 통해 해당 모듈을 가져오며, Node.js 환경에서는 파일 시스템을 통해 모듈을 가져온다.
+
+### 모듈 번들러
+
+브라우저 환경에서는 모듈 번들러 없이 모듈을 사용한다면, 무수히 많은 네트워크 요청이 발생한다. 이를 방지하기 위해 웹팩(Webpack)과 같은 모듈 번들러 툴을 사용해 하나의 번들러를 생성하고 이를 `script`와 연결한다.
+
 모듈 번들러 툴은 보통 아래와 같이 동작합니다.
 
 1. HTML의 `<script type="module">`에 진입점 역할을 하는 모듈을 넣는다.
@@ -77,36 +144,3 @@ import { b } from './module2.js';
 ```html
 <script defer src="bundle.js"></script>
 ```
-
-### 번들러 파일 구조
-
-```mermaid
-flowchart LR
-    subgraph bundle.js
-    A("번들러에 의해 변경된 사용자 코드들")
-    B("번들러에 의해 변경된 라이브러리 코드들")
-    A ---|번들러 내부 함수로 한 파일 내에서 라이브러리 참조| B
-    end
-```
-
-### 개발/프로덕션 모드에 따른 번들링 방식
-
-#### 개발 모드(dev 모드)
-
-- 개발용 소스맵: 웹팩은 개발 모드에서 소스맵을 생성하여 번들된 코드와 원본 코드 간의 매핑을 제공해서 개발자 도구에서 원본 코드를 볼 수 있도록 해준다. 이는 디버깅을 용이하게 하고 원본 코드의 오류를 추적하는 데 도움을 준다.
-- 빠른 빌드: 빠른 빌드와 빠른 리로딩을 위해 번들링 속도를 최적화한다. 파일을 변경할 때 필요한 부분만 다시 빌드하고 적용하는 등의 최적화 작업을 수행한다.
-- 개발용 플러그인 및 기능: HMR(Hot Module Replacement)과 같은 기능을 제공하는 플러그인이나 개발 도구와의 통합을 위한 기능들이 포함될 수 있다.
-
-#### 프로덕션 모드(prod 모드)
-
-- 코드 최적화: 코드를 압축하고 최적화하여 번들된 파일의 크기를 최소화한다. 이는 애플리케이션의 다운로드 속도를 향상시키고 사용자 경험을 개선하는 데 도움을 준다.
-- 난독화: 코드 난독화 기법을 적용하여 번들된 코드를 해석하기 어렵게 만든다. 이는 코드의 보안성을 높이고 외부에서의 접근을 어렵게 만드는 데 도움을 준다.
-- 환경 변수 설정: 환경 변수를 설정하여 개발 모드와 다른 설정을 사용할 수 있다. 이를 통해 프로덕션 환경에서 필요한 설정 및 동작을 조정할 수 있다.
-
-## module script, nomodule script, defer, async
-
-![img](images/script_difference.png)
-
-## `*.js` • `*.mjs`
-
-브라우저
