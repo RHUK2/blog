@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class PQNode {
+class Node {
   val: any;
   priority: number;
 
@@ -17,7 +17,7 @@ class PriorityQueue {
   }
 
   enqueue(val: any, priority: number) {
-    this.values.push(new PQNode(val, priority));
+    this.values.push(new Node(val, priority));
     this.bubbleUp();
   }
 

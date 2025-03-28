@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class DLNode {
+class Node {
   val: any;
   next: any;
   prev: any;
@@ -23,7 +23,7 @@ class DoublyLinkedList {
   }
 
   push(val: any) {
-    const newNode = new DLNode(val);
+    const newNode = new Node(val);
 
     if (this.length === 0) {
       this.head = newNode;
@@ -56,7 +56,7 @@ class DoublyLinkedList {
   }
 
   unshift(val: any) {
-    const newNode = new DLNode(val);
+    const newNode = new Node(val);
 
     if (this.length === 0) {
       this.head = newNode;
@@ -140,7 +140,7 @@ class DoublyLinkedList {
       return this.push(val);
     }
 
-    const newNode = new DLNode(val);
+    const newNode = new Node(val);
     const beforeNode = this.get(index - 1);
     const afterNode = beforeNode.next;
 

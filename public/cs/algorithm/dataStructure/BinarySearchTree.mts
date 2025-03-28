@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class BSNode {
+class Node {
   val: any;
   left: any;
   right: any;
@@ -19,7 +19,7 @@ class BinarySearchTree {
   }
 
   insert(val: any) {
-    const newNode = new BSNode(val);
+    const newNode = new Node(val);
 
     if (!this.root) {
       this.root = newNode;

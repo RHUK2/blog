@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class QNode {
+class Node {
   val: any;
   next: any;
 
@@ -21,7 +21,7 @@ class Queue {
   }
 
   enqueue(val: any) {
-    const newNode = new QNode(val);
+    const newNode = new Node(val);
 
     if (!this.first) {
       this.first = newNode;

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class SLNode {
+class Node {
   val: any;
   next: any;
 
@@ -21,7 +21,7 @@ class SinglyLinkedList {
   }
 
   push(val: any) {
-    const newNode = new SLNode(val);
+    const newNode = new Node(val);
 
     if (this.length === 0) {
       this.head = newNode;
@@ -58,7 +58,7 @@ class SinglyLinkedList {
   }
 
   unshift(val: any) {
-    const newNode = new SLNode(val);
+    const newNode = new Node(val);
 
     if (this.length === 0) {
       this.head = newNode;
@@ -125,7 +125,7 @@ class SinglyLinkedList {
       return this.push(val);
     }
 
-    const newNode = new SLNode(val);
+    const newNode = new Node(val);
     const prevNode = this.get(index - 1);
 
     newNode.next = prevNode.next;

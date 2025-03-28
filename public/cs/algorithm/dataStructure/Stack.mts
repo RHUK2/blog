@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-class SNode {
+class Node {
   val: any;
   next: any;
 
@@ -21,7 +21,7 @@ class Stack {
   }
 
   push(val: any) {
-    const newNode = new SNode(val);
+    const newNode = new Node(val);
 
     if (!this.first) {
       this.first = newNode;
