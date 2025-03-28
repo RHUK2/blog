@@ -8,11 +8,14 @@ isPublished: true
 
 # 모듈 번들러(Module Bundler)
 
+- [그림으로 보는 모듈 시스템 역사](#그림으로-보는-모듈-시스템-역사)
+- [Node.js 환경에서 모듈 시스템](#nodejs-환경에서-모듈-시스템)
+  - [CommonJS](#commonjs)
+  - [NPM(Node Package Manager)의 등장](#npmnode-package-manager의-등장)
+  - [ESM의 등장](#esm의-등장)
 - [브라우저 환경에서 모듈 시스템](#브라우저-환경에서-모듈-시스템)
   - [과거](#과거)
-  - [ESM 등장](#esm-등장)
-- [Node.js 환경에서 모듈 시스템](#nodejs-환경에서-모듈-시스템)
-  - [과거](#과거-1)
+  - [ESM의 등장](#esm의-등장-1)
 - [ESM이 보편화됐어도 모듈 번들러(Module Bundler)를 사용하는 이유](#esm이-보편화됐어도-모듈-번들러module-bundler를-사용하는-이유)
   - [브라우저: 네트워크 기반 웹 페이지 렌더링 도구](#브라우저-네트워크-기반-웹-페이지-렌더링-도구)
   - [Node.js: 파일 시스템 기반 런타임 환경](#nodejs-파일-시스템-기반-런타임-환경)
@@ -21,14 +24,36 @@ isPublished: true
     - [약간의 보완](#약간의-보완)
   - [결론](#결론)
 
+## 그림으로 보는 모듈 시스템 역사
+
+![img](images/module_history.png)
+
+## Node.js 환경에서 모듈 시스템
+
+### CommonJS
+
+- Node.js는 2009년에 등장하여 CommonJS 모듈 시스템을 채택했다.
+- `require()` 함수로 모듈을 불러오고 `module.exports`, `exports`로 모듈을 내보낼 수 있다.
+- 동기적으로 모듈을 로드한다.
+
+  - 브라우저 환경과 달리 파일 시스템을 이용하는 서버 환경에서는 적합하다.
+  - 모듈이 많아지면 성능에 영향을 줄 수 있다.
+
+- 브라우저 환
+
+### NPM(Node Package Manager)의 등장
+
+### ESM의 등장
+
 ## 브라우저 환경에서 모듈 시스템
 
 ### 과거
 
 - JavaScript는 공식적인 모듈 시스템이 존재하지 않았다.
-- JavaScript는 `<script>` 태그를 통해 로드되었고, 모든 스크립트는 전역 스코프에서 실행되었다.
-- 변수나 함수가 전역 객체(`window`)에 추가되어 이름 충돌이 빈번했다.
-- 스크립트 로드 순서를 수동으로 관리해서 의존성 관리가 어려웠다.
+- 일반 스크립트는 `<script>` 태그를 통해 로드되며, SOP 정책이 느슨하게 적용되어 CORS 제약이 없다.
+- 일반 스크립트는 브라우저에서 `file://`과 같이 파일 시스템을 이용해 직접 읽는 방식이 허용된다.
+- 일반 스크립트는 전역 스코프에서 실행되어 변수나 함수가 전역 객체(`window`)에 추가될 때 이름 충돌이 빈번했다.
+- 일반 스크립트는 로드 순서를 수동으로 관리해서 의존성 관리가 어려웠다.
 
   ```html
   <!DOCTYPE html>
@@ -48,7 +73,7 @@ isPublished: true
   - 의존성을 잃어버렸거나 잘못된 순서로 포함되었으면 애플리케이션이 제대로 작동하지 않는다.
   - 의존성이 포함되었지만 사용되지 않는 경우에도 브라우저는 필요 없는 코드를 강제로 다운로드한다.
 
-### ESM 등장
+### ESM의 등장
 
 - 2015년 ECMAScript6(ES6)에서 공식적으로 모듈 시스템이 도입되었다.
 - 하나의 모듈은 단순히 `import`와 `export` 문법을 사용할 수 있는 하나의 Javascript 파일이다.
@@ -68,34 +93,16 @@ isPublished: true
 
 - 일반 스크립트에서 `async` 속성은 외부 스크립트를 불러올 때만 유효하다. 반면, 모듈 스크립트에선 `async` 속성을 인라인 스크립트에도 적용할 수 있다.
 - `src` 속성값이 동일한 외부 스크립트는 한 번만 실행된다.
-- 다른 오리진에서 모듈 스크립트를 불러오려면 CORS 헤더가 필요하다.
-- 경로 없는 모듈은 무효된다.
+- 모듈 스크립트는 보안을 위해 CORS 정책을 강제한다.
+- ESM은 모듈 경로를 URL 기반으로 해석하여 `import { sayHi } from 'sayHi.js';`를 HTTP 요청으로 변환한다. 그러므로 `file://`에서 동작하지 않는다.
+
+  ![img](images/module_cors.png)
+
+- 경로 없는 모듈은 에러가 발생한다.
 
   ```ts
+  import { sayHi } from 'sayHi.js'; // Success
   import { sayHi } from 'sayHi'; // Error
-  // './sayHi.js'와 같이 경로 정보를 지정해 주어야 한다.
-  ```
-
-- 모듈은 로드 시 단 한 번만 평가되어 그 결과를 메모리에 저장한다. (싱글톤 패턴)
-
-  ```ts
-  // counter.js
-  console.log('counter 모듈 평가 시작');
-  export let count = 0;
-  export function increment() {
-    count++;
-    console.log(`count: ${count}`);
-  }
-
-  // main.js
-  import { count, increment } from './counter.js';
-  console.log(`초기 count: ${count}`); // 0
-  increment(); // count: 1
-
-  // another.js
-  import { count, increment } from './counter.js';
-  console.log(`another에서 count: ${count}`); // 1 (0이 아님!)
-  increment(); // count: 2
   ```
 
 - 각 모듈은 개별로 로드되어 파일이 많아질수록 네트워크 요청이 증가한다.
@@ -122,12 +129,27 @@ isPublished: true
 
   ![img](images/import_request.png)
 
-## Node.js 환경에서 모듈 시스템
+- 모듈은 로드 시 단 한 번만 평가되어 그 결과를 메모리에 저장한다. (싱글톤 패턴)
 
-### 과거
+  ```ts
+  // counter.js
+  console.log('counter 모듈 평가 시작');
+  export let count = 0;
+  export function increment() {
+    count++;
+    console.log(`count: ${count}`);
+  }
 
-- Node.js는 2009년에 등장하여 ESM이라는 표준 모듈 시스템이 없었다.
--
+  // main.js
+  import { count, increment } from './counter.js';
+  console.log(`초기 count: ${count}`); // 0
+  increment(); // count: 1
+
+  // another.js
+  import { count, increment } from './counter.js';
+  console.log(`another에서 count: ${count}`); // 1 (0이 아님!)
+  increment(); // count: 2
+  ```
 
 ## ESM이 보편화됐어도 모듈 번들러(Module Bundler)를 사용하는 이유
 
