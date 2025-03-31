@@ -17,7 +17,8 @@ class PriorityQueue {
   }
 
   enqueue(val: any, priority: number) {
-    this.values.push(new Node(val, priority));
+    const newNode = new Node(val, priority);
+    this.values.push(newNode);
     this.bubbleUp();
   }
 
@@ -25,6 +26,8 @@ class PriorityQueue {
     let index = this.values.length - 1;
     const node = this.values[index];
     while (index > 0) {
+      // 2(parentIndex) + 1 = childIndex
+      // parentIndex = (childIndex - 1) / 2
       const parentIndex = Math.floor((index - 1) / 2);
       const parent = this.values[parentIndex];
       if (node.priority <= parent.priority) break;
@@ -48,7 +51,7 @@ class PriorityQueue {
   sinkDown() {
     let index = 0;
     const length = this.values.length;
-    const element = this.values[0];
+    const node = this.values[0];
 
     while (true) {
       const leftChildIndex = 2 * index + 1;
@@ -58,21 +61,24 @@ class PriorityQueue {
 
       if (leftChildIndex < length) {
         leftChild = this.values[leftChildIndex];
-        if (leftChild > element) {
+        if (leftChild.priority > node.priority) {
           swap = leftChildIndex;
         }
       }
 
       if (rightChildIndex < length) {
         rightChild = this.values[rightChildIndex];
-        if ((swap === null && rightChild > element) || (swap !== null && rightChild > leftChild)) {
+        if (
+          (swap === null && rightChild.priority > node.priority) ||
+          (swap !== null && rightChild.priority > leftChild.priority)
+        ) {
           swap = rightChildIndex;
         }
       }
 
       if (swap === null) break;
       this.values[index] = this.values[swap];
-      this.values[swap] = element;
+      this.values[swap] = node;
       index = swap;
     }
   }
@@ -81,13 +87,13 @@ class PriorityQueue {
 const priorityQueue = new PriorityQueue();
 
 priorityQueue.enqueue('medium', 10);
-priorityQueue.enqueue('little high', 5);
-priorityQueue.enqueue('little low', 13);
-priorityQueue.enqueue('very high', 2);
-priorityQueue.enqueue('high', 7);
-priorityQueue.enqueue('low', 11);
-priorityQueue.enqueue('very low', 16);
+priorityQueue.enqueue('little low', 5);
+priorityQueue.enqueue('little high', 13);
+priorityQueue.enqueue('very low', 2);
+priorityQueue.enqueue('low', 7);
+priorityQueue.enqueue('high', 11);
+priorityQueue.enqueue('very high', 16);
 
-// priorityQueue.dequeue();
+priorityQueue.dequeue();
 
 console.dir(priorityQueue, { depth: null });
