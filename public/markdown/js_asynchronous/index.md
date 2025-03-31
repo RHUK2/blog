@@ -14,6 +14,7 @@ isPublished: true
   - [`Promise.reject`](#promisereject)
   - [`Promise.all` • `Promise.allSettled` • `Promise.race`](#promiseall--promiseallsettled--promiserace)
 - [`async` • `await` 처리 방식](#async--await-처리-방식)
+- [top level await](#top-level-await)
 
 ## Callback 처리 방식
 
@@ -181,3 +182,5 @@ Promise.race(promiseList)
 1. 콜 스택이 비워지면 마이크로태스크 큐에 작업을 콜 스택으로 보낸다.
 
 ![img](images/async_await_6.gif)
+
+## top level await
