@@ -1,3 +1,11 @@
+---
+folderName: cs_computer_structure
+updatedAt: 2025-03-13
+title: 컴퓨터 구조
+tag: cs
+isPublished: true
+---
+
 # 컴퓨터 구조
 
 - [cpu는 이진수로 이루어진 명령어에서 연산코드와 오퍼랜드를 어떻게 구분하지?](#cpu는-이진수로-이루어진-명령어에서-연산코드와-오퍼랜드를-어떻게-구분하지)
