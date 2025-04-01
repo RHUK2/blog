@@ -179,7 +179,7 @@ export const ChatForm = forwardRef(function ChatForm(
         })}
       </ul>
 
-      <fieldset className='flex flex-wrap items-center gap-4'>
+      {/* <fieldset className='flex flex-wrap items-center gap-4'>
         <label className='flex cursor-pointer items-center gap-2' htmlFor={`deepseek-chat-${id}`}>
           <Radio
             className='cursor-pointer'
@@ -220,7 +220,7 @@ export const ChatForm = forwardRef(function ChatForm(
           />
           4o-latest
         </label>
-      </fieldset>
+      </fieldset> */}
 
       <Textarea
         autoComplete='off'
