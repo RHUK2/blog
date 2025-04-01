@@ -91,7 +91,7 @@ export function TabsForm() {
                       DeleteTab(tab.id);
                     }}
                   >
-                    🗙
+                    -
                   </motion.button>
                 )}
               </motion.li>

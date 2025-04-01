@@ -25,9 +25,6 @@ export function Header() {
             whileFocus={{
               scale: 1.1,
             }}
-            whileTap={{
-              scale: 0.9,
-            }}
           >
             RHUK2
           </MotionLink>
@@ -44,9 +41,6 @@ export function Header() {
                 }}
                 whileFocus={{
                   scale: 1.1,
-                }}
-                whileTap={{
-                  scale: 0.9,
                 }}
               >
                 {navItem.text}
