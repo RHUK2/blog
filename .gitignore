@@ -6,6 +6,7 @@ node_modules
 out
 
 # testing
+.swc
 /coverage
 
 # local env files

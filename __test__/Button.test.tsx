@@ -1,6 +1,6 @@
+import { Button } from '@/_clientComponent/Button';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Button } from '../Button';
 
 describe('Button', () => {
   test('children을 제대로 출력하는지 확인', () => {
@@ -21,7 +21,7 @@ describe('Button', () => {
   });
 
   test('클릭 이벤트를 제대로 처리하는지 확인', async () => {
-    const handleClick = vi.fn();
+    const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Test Button</Button>);
 
     const button = screen.getByRole('button');

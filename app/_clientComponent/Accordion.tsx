@@ -1,9 +1,10 @@
 'use client';
 
+import ArrowDown from '@public/assets/arrow-down.svg';
+import ArrowUp from '@public/assets/arrow-up.svg';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { useState } from 'react';
-import ArrowUp from '@public/assets/arrow-up.svg';
-import ArrowDown from '@public/assets/arrow-down.svg';
+
 interface Props {
   title: string;
   list: string[];
