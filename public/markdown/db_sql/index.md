@@ -9,10 +9,11 @@ isPublished: true
 # SQL 기록하기
 
 - [특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정](#특정-테이블에서-컬럼-데이터-확인하기-및-별칭-지정)
+- [조인](#조인)
 - [조건문](#조건문)
 - [정렬](#정렬)
 - [출력 갯수 제한](#출력-갯수-제한)
-- [조인](#조인)
+- [중복 값을 가진 데이터 분석](#중복-값을-가진-데이터-분석)
 - [관계형 DB의 관계](#관계형-db의-관계)
   - [일대일 관계 (One-to-One Relationship)](#일대일-관계-one-to-one-relationship)
   - [일대다 관계 (One-to-Many Relationship)](#일대다-관계-one-to-many-relationship)
@@ -28,6 +29,17 @@ SELECT id, name FROM user
 SELECT post.id, user.name FROM user, post
 SELECT post.id, user.* FROM user, post
 SELECT post.id AS postId, user.* FROM user, post
+```
+
+## 조인
+
+![img](images/join_cheat_sheet.jpg)
+
+```sql
+SELECT * FROM user LEFT JOIN post ON user.id = post.user_id
+SELECT * FROM user RIGHT JOIN post ON user.id = post.user_id
+SELECT * FROM user INNER JOIN post ON user.id = post.user_id
+SELECT * FROM user INNER JOIN post ON user.id = post.user_id WHERE user.id = 20
 ```
 
 ## 조건문
@@ -59,16 +71,11 @@ SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC LIMIT 10
 SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC LIMIT 5,100
 ```
 
-## 조인
+## 중복 값을 가진 데이터 분석
 
 ```sql
-SELECT * FROM user LEFT JOIN post ON user.id = post.user_id
-SELECT * FROM user RIGHT JOIN post ON user.id = post.user_id
-SELECT * FROM user LEFT JOIN post ON user.id = post.user_id WHERE user.id = 20
-SELECT * FROM user INNER JOIN post ON user.id = post.user_id
+SELECT age , COUNT(*) FROM user GROUP BY age HAVING COUNT(*) > 1;
 ```
-
-![img](images/join_cheat_sheet.jpg)
 
 ## 관계형 DB의 관계
 
