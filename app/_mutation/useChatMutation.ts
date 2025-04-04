@@ -1,7 +1,7 @@
 import { IChatListRequest } from '@/_type';
 import { useMutation } from '@tanstack/react-query';
 
-export function useChatMutation() {
+export function useChatMutation(signal?: AbortSignal) {
   return useMutation<Response, unknown, IChatListRequest>({
     mutationFn: async (body) => {
       try {
@@ -11,6 +11,7 @@ export function useChatMutation() {
             'Content-Type': 'application/json;charset=utf-8',
           },
           body: JSON.stringify(body),
+          signal: signal,
         });
 
         if (!response.ok) {

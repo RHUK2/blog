@@ -25,6 +25,7 @@ export async function POST(request: Request) {
                 messages: body.chatList,
                 model: body.model,
                 stream: true,
+                max_tokens: 8192,
               });
               break;
             default:
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
                 messages: body.chatList,
                 model: body.model,
                 stream: true,
+                max_tokens: 8192,
               });
               break;
           }

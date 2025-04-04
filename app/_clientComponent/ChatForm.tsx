@@ -19,7 +19,7 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { twMerge } from 'tailwind-merge';
-import { Radio } from './Radio';
+import { Button } from './Button';
 import { useSetTabListStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
 
@@ -37,6 +37,8 @@ export const ChatForm = forwardRef(function ChatForm(
 ) {
   const [chatList, setChatList] = useState<IChat[]>(InitChat);
 
+  const [abortController, setAbortController] = useState<AbortController>(new AbortController());
+
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const ulRef = useRef<HTMLUListElement | null>(null);
@@ -52,7 +54,7 @@ export const ChatForm = forwardRef(function ChatForm(
 
   const setTabListState = useSetTabListStateContext();
 
-  const apiChat = useChatMutation();
+  const apiChat = useChatMutation(abortController.signal);
 
   function moveScroll() {
     if (ulRef.current) {
@@ -77,7 +79,6 @@ export const ChatForm = forwardRef(function ChatForm(
     );
 
     setChatList(newRequest);
-
     setTabListState((prev) => ({
       ...prev,
       tabList: prev.tabList.map((prevTab) => (prevTab.id === id ? { ...prevTab, title: data.userMessage } : prevTab)),
@@ -89,26 +90,32 @@ export const ChatForm = forwardRef(function ChatForm(
       { chatList: newRequest, model: data.model },
       {
         async onSuccess(response) {
-          const reader = response.body?.getReader();
-          const decoder = new TextDecoder();
-          let responseText = '';
+          try {
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            let responseText = '';
 
-          while (true) {
-            const { done, value } = await reader!.read();
+            while (true) {
+              const { done, value } = await reader!.read();
 
-            if (done) break;
+              if (done) break;
 
-            const chunk = decoder.decode(value);
+              const chunk = decoder.decode(value);
 
-            responseText += chunk;
+              responseText += chunk;
 
-            setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: responseText }]);
+              setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: responseText }]);
+            }
+          } catch (error) {
+            console.error(error);
+
+            setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: '😵 오류가 발생했습니다\\.' }]);
           }
         },
         onError(error) {
           console.error(error);
 
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
+          setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: '😵 오류가 발생했습니다\\.' }]);
         },
       },
     );
@@ -124,10 +131,15 @@ export const ChatForm = forwardRef(function ChatForm(
 
       event.preventDefault();
       setChatList(InitChat);
+
+      setTabListState((prev) => ({
+        ...prev,
+        tabList: prev.tabList.map((prevTab) => (prevTab.id === id ? { ...prevTab, title: 'New Tab' } : prevTab)),
+      }));
     }
 
     formRef.current.addEventListener('keydown', resetChat);
-  }, []);
+  }, [id, setTabListState]);
 
   useEffect(() => {
     moveScroll();
@@ -222,19 +234,31 @@ export const ChatForm = forwardRef(function ChatForm(
         </label>
       </fieldset> */}
 
-      <Textarea
-        autoComplete='off'
-        rows={1}
-        placeholder='프롬프트 입력'
-        {...register('userMessage', {
-          required: true,
-        })}
-        onKeyDown={(event) => {
-          if (event.ctrlKey && event.key === 'Enter') {
-            onChat();
-          }
-        }}
-      />
+      <fieldset className='flex gap-2'>
+        <Textarea
+          autoComplete='off'
+          rows={1}
+          className='flex-[1_0_0px]'
+          placeholder='프롬프트 입력'
+          {...register('userMessage', {
+            required: true,
+          })}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+              event.preventDefault();
+              onChat();
+            }
+          }}
+        />
+        <Button
+          onClick={() => {
+            abortController.abort('User manually canceled.');
+            setAbortController(new AbortController());
+          }}
+        >
+          취소
+        </Button>
+      </fieldset>
     </form>
   );
 });
