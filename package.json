@@ -2,7 +2,7 @@
   "name": "blog",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 3003",
+    "dev": "next dev -p 3003",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
