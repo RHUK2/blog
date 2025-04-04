@@ -19,4 +19,16 @@ const config: Config = {
   },
 };
 
-export default createJestConfig(config);
+const configForSvgr = async () => {
+  const jestConfig = await createJestConfig(config)();
+
+  return {
+    ...jestConfig,
+    moduleNameMapper: {
+      '\\.(svg)$': '<rootDir>/__mocks__/svg.js',
+      ...jestConfig.moduleNameMapper,
+    },
+  };
+};
+
+export default configForSvgr;
