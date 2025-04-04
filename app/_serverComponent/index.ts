@@ -1,5 +1,6 @@
 export * from './CareerContentItem';
 export * from './CategoryBox';
+export * from './ContributionsBadge';
 export * from './Divider';
 export * from './Header';
 export * from './IconBadge';
