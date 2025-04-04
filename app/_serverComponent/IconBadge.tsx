@@ -33,24 +33,34 @@ interface Props {
   text?: string;
 }
 
-export function IcondBadge({ href, icon, text }: Props) {
-  const className = twMerge(
-    twJoin([
-      'flex w-min items-center gap-1 rounded-xl border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2 py-1',
-      'text-xs font-medium whitespace-nowrap',
-      'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
-    ]),
-  );
-
+export function IconBadge({ href, icon, text }: Props) {
   const Icon = iconLookup[icon];
 
   return href ? (
-    <Link className={className} href={href} target='_blank'>
+    <Link
+      className={twMerge(
+        twJoin([
+          'flex w-min items-center gap-1 rounded-xl border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2 py-1',
+          'text-xs font-medium whitespace-nowrap',
+          'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        ]),
+      )}
+      href={href}
+      target='_blank'
+    >
       <Icon className='h-4 w-4 fill-black dark:fill-white' />
       {text && <p>{text}</p>}
     </Link>
   ) : (
-    <div className={className}>
+    <div
+      className={twMerge(
+        twJoin([
+          'flex w-min items-center gap-1 rounded-xl border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2 py-1',
+          'text-xs font-medium whitespace-nowrap',
+          'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        ]),
+      )}
+    >
       <Icon className='h-4 w-4 fill-black dark:fill-white' />
       {text && <p>{text}</p>}
     </div>

@@ -1,6 +1,6 @@
 import { TreeBox } from './_clientComponent';
 import { careerList, projectList, skillList } from './_data';
-import { CareerContentItem, CategoryBox, IcondBadge, Profile, ProjectContentItem } from './_serverComponent';
+import { CareerContentItem, CategoryBox, IconBadge, Profile, ProjectContentItem } from './_serverComponent';
 
 export default function RootPage() {
   return (
@@ -11,7 +11,7 @@ export default function RootPage() {
         <CategoryBox category='기술 스택'>
           <div className='flex flex-wrap gap-2'>
             {skillList.map((skill) => (
-              <IcondBadge key={skill.text} icon={skill.icon} text={skill.text} />
+              <IconBadge key={skill.text} icon={skill.icon} text={skill.text} />
             ))}
           </div>
         </CategoryBox>

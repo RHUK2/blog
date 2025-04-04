@@ -16,14 +16,21 @@ export interface ICareer {
 
 export type TCareerList = ICareer[];
 
+export interface IExperience {
+  behavior: string;
+  result: string;
+}
+
+export type TExperienceList = IExperience[];
+
 export interface IProject {
   title: string;
-  company: string;
+  contributions: number;
   startDate: string;
   endDate: string;
   description: string;
   skillList: TSkillList;
-  experienceList: string[];
+  experienceList: TExperienceList;
 }
 
 export type TProjectList = IProject[];

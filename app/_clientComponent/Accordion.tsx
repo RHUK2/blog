@@ -1,5 +1,6 @@
 'use client';
 
+import { TExperienceList } from '@/_type';
 import ArrowDown from '@public/assets/arrow-down.svg';
 import ArrowUp from '@public/assets/arrow-up.svg';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
@@ -7,7 +8,7 @@ import { useState } from 'react';
 
 interface Props {
   title: string;
-  list: string[];
+  list: TExperienceList;
 }
 
 const variants = {
@@ -58,7 +59,10 @@ export function Accordion({ title, list }: Props) {
               className='overflow-hidden'
             >
               {list.map((item) => (
-                <li key={item}>{`• ${item}`}</li>
+                <li key={item.behavior}>
+                  <p>{`• ${item.behavior}`}</p>
+                  {item.result && <p>{`→ ${item.result}`}</p>}
+                </li>
               ))}
             </motion.ul>
           )}
