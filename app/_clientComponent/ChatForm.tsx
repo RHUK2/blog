@@ -2,7 +2,7 @@
 
 import { useChatMutation } from '@/_mutation';
 import { IChat, IChatForm } from '@/_type';
-import {
+import React, {
   DetailedHTMLProps,
   FormHTMLAttributes,
   forwardRef,
@@ -39,6 +39,8 @@ export const ChatForm = forwardRef(function ChatForm(
 
   const [abortController, setAbortController] = useState<AbortController>(new AbortController());
 
+  const [isStreaming, setIsStreaming] = useState(false);
+
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const ulRef = useRef<HTMLUListElement | null>(null);
@@ -56,17 +58,9 @@ export const ChatForm = forwardRef(function ChatForm(
 
   const apiChat = useChatMutation(abortController.signal);
 
-  function moveScroll() {
-    if (ulRef.current) {
-      const lastLi = ulRef.current?.children[ulRef.current?.children.length - 1];
-
-      if (lastLi) {
-        ulRef.current.scrollTop = (lastLi as HTMLLIElement).offsetTop;
-      }
-    }
-  }
-
   const onChat = handleSubmit((data) => {
+    setIsStreaming(true);
+
     const newRequest = chatList.concat(
       {
         role: 'user',
@@ -106,15 +100,19 @@ export const ChatForm = forwardRef(function ChatForm(
 
               setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: responseText }]);
             }
+
+            setIsStreaming(false);
           } catch (error) {
             console.error(error);
 
+            setIsStreaming(false);
             setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: '😵 오류가 발생했습니다\\.' }]);
           }
         },
         onError(error) {
           console.error(error);
 
+          setIsStreaming(false);
           setChatList((prev) => [...prev.slice(0, -1), { role: 'assistant', content: '😵 오류가 발생했습니다\\.' }]);
         },
       },
@@ -123,7 +121,41 @@ export const ChatForm = forwardRef(function ChatForm(
     resetField('userMessage');
   });
 
+  function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (!isStreaming && event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      onChat();
+    }
+  }
+
+  function abortChat() {
+    abortController.abort('User manually canceled.');
+    setAbortController(new AbortController());
+    setIsStreaming(false);
+  }
+
+  function onClick(event: React.MouseEvent<HTMLButtonElement>) {
+    if (isStreaming) {
+      abortChat();
+      return;
+    }
+
+    onChat();
+  }
+
+  function moveScroll() {
+    if (ulRef.current) {
+      const lastLi = ulRef.current?.children[ulRef.current?.children.length - 1];
+
+      if (lastLi) {
+        ulRef.current.scrollTop = (lastLi as HTMLLIElement).offsetTop;
+      }
+    }
+  }
+
   useEffect(() => {
+    alert(1);
+
     if (!formRef.current) return;
 
     function resetChat(this: HTMLFormElement, event: KeyboardEvent) {
@@ -243,21 +275,9 @@ export const ChatForm = forwardRef(function ChatForm(
           {...register('userMessage', {
             required: true,
           })}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-              event.preventDefault();
-              onChat();
-            }
-          }}
+          onKeyDown={onKeyDown}
         />
-        <Button
-          onClick={() => {
-            abortController.abort('User manually canceled.');
-            setAbortController(new AbortController());
-          }}
-        >
-          취소
-        </Button>
+        <Button onClick={onClick}>{isStreaming ? '취소' : '입력'}</Button>
       </fieldset>
     </form>
   );
