@@ -154,8 +154,6 @@ export const ChatForm = forwardRef(function ChatForm(
   }
 
   useEffect(() => {
-    alert(1);
-
     if (!formRef.current) return;
 
     function resetChat(this: HTMLFormElement, event: KeyboardEvent) {
