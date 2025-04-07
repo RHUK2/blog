@@ -4,20 +4,24 @@ import userEvent from '@testing-library/user-event';
 
 describe('Accordion', () => {
   const title = 'Title';
-  const list = ['Item 1', 'Item 2', 'Item 3'];
+  const list = [
+    { behavior: 'Item 1', result: '' },
+    { behavior: 'Item 2', result: '' },
+    { behavior: 'Item 3', result: '' },
+  ];
 
   test('토글 시 리스트가 보여짐과 숨겨짐을 반복한다.', async () => {
     render(<Accordion title={title} list={list} />);
     const button = screen.getByRole('button');
 
     list.forEach((item) => {
-      expect(screen.queryByText(`• ${item}`)).not.toBeInTheDocument();
+      expect(screen.queryByText(`• ${item.behavior}`)).not.toBeInTheDocument();
     });
 
     await userEvent.click(button);
 
     list.forEach((item) => {
-      expect(screen.getByText(`• ${item}`)).toBeInTheDocument();
+      expect(screen.getByText(`• ${item.behavior}`)).toBeInTheDocument();
     });
 
     await userEvent.click(button);
@@ -25,7 +29,7 @@ describe('Accordion', () => {
     await waitFor(
       () => {
         list.forEach((item) => {
-          expect(screen.queryByText(`• ${item}`)).not.toBeInTheDocument();
+          expect(screen.queryByText(`• ${item.behavior}`)).not.toBeInTheDocument();
         });
       },
       { timeout: 1000 },
