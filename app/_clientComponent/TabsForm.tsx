@@ -56,10 +56,11 @@ export function TabsForm() {
       }}
     >
       <div className='flex h-full flex-col gap-3'>
-        <ul className='flex h-18 items-end overflow-x-auto border-gray-400 px-0.5 dark:border-gray-700'>
+        <ul role='tablist' className='flex h-18 items-end overflow-x-auto border-gray-400 px-0.5 dark:border-gray-700'>
           {tabListState.tabList.map((tab) => (
             <Fragment key={tab.id}>
               <motion.li
+                role='tab'
                 tabIndex={0}
                 initial={false}
                 animate={{
@@ -84,6 +85,7 @@ export function TabsForm() {
                 <span className='w-28 overflow-hidden text-ellipsis whitespace-nowrap'>{tab.title}</span>
                 {tab.id !== '0' && (
                   <motion.button
+                    aria-label='delete-tab'
                     className='block h-6 w-6 cursor-pointer rounded-[50%] leading-none hover:bg-black/20 hover:dark:bg-white/20'
                     onClick={(event) => {
                       event.stopPropagation();
@@ -100,6 +102,7 @@ export function TabsForm() {
           ))}
           <motion.li className='rounded-none rounded-t-md border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
             <motion.button
+              aria-label='add-tab'
               className='cursor-pointer rounded-none rounded-t-md px-4 py-2 text-2xl leading-none hover:bg-black/20 hover:dark:bg-white/20'
               onClick={AddTab}
             >

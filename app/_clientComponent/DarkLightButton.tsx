@@ -55,6 +55,7 @@ export function DarkLightButton() {
 
   return (
     <motion.button
+      aria-label='theme-mode'
       onClick={handleMode}
       className={twJoin(
         'flex h-6 w-12 cursor-pointer items-center rounded-2xl border border-gray-700 bg-slate-50 bg-gradient-to-br from-gray-900 to-gray-800 px-1',

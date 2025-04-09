@@ -176,7 +176,7 @@ export const ChatForm = forwardRef(function ChatForm(
   }, [chatList.length]);
 
   return (
-    <form ref={formRef} className={twMerge('flex flex-col gap-4', `${className ?? ''}`)} {...formProps}>
+    <form role='tabpanel' ref={formRef} className={twMerge('flex flex-col gap-4', `${className ?? ''}`)} {...formProps}>
       <ul ref={ulRef} className='flex flex-[1_0_0px] flex-col gap-4 overflow-y-auto pr-4'>
         {chatList.map((message, message_index) => {
           switch (message.role) {
