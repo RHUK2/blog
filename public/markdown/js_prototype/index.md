@@ -1,12 +1,14 @@
 ---
 folderName: js_prototype
-updatedAt: 2024-04-29
-title: Prototype
+updatedAt: 2025-04-10
+title: 프로토타입(Prototype)
 tag: javascript
 isPublished: true
 ---
 
-# Prototype
+# 프로토타입(Prototype)
+
+## 그림으로 보는 프로토타입
 
 ![img](images/prototype_1.gif)
 ![img](images/prototype_2.png)
@@ -19,126 +21,105 @@ isPublished: true
 ![img](images/prototype_9.gif)
 ![img](images/prototype_10.gif)
 
-## class
+## 프로토타입 다이어그램
+
+![img](images/prototype_diagram.png);
+
+## 프로토타입 방식 vs 클래스
 
 ```ts
-class MyClass {
-  // 1. public 인스턴스 속성
-  public prop: string = 'default';
-
-  // 2. private 필드
-  #privateField: number = 42;
-
-  // 3. static class 속성
-  static staticProp: string = 'I am static';
-
-  // 4. static class 메서드
-  static staticMethod(): string {
-    return 'This is a static method';
-  }
-
-  // 5. 생성자
-  constructor(public name: string) {
-    console.log('Instance created!');
-  }
-
-  // 6. 프로토타입 메서드
-  public method(): string {
-    return `Hello, my name is ${this.name}`;
-  }
-
-  // 7. getter
-  get privateFieldValue(): number {
-    return this.#privateField;
-  }
-
-  // 8. setter
-  set privateFieldValue(value: number) {
-    this.#privateField = value;
-  }
-
-  // 9. 계산된 이름 메서드 (Symbol 사용)
-  [Symbol.iterator](): Iterator<number> {
-    let count = 0;
-    return {
-      next: (): IteratorResult<number> => {
-        if (count < 3) {
-          return { value: count++, done: false };
-        }
-        return { done: true } as IteratorResult<number>;
-      },
-    };
-  }
+// 부모 생성자 함수
+function Animal(name: string, age: number) {
+  this.name = name;
+  this.age = age;
 }
 
-// 사용 예시
-const instance = new MyClass('John');
-console.log(instance.method()); // Hello, my name is John
-console.log(MyClass.staticMethod()); // This is a static method
-console.log(instance.privateFieldValue); // 42
-instance.privateFieldValue = 100;
-console.log(instance.privateFieldValue); // 100
+// 부모 프로토타입에 메서드 추가
+Animal.prototype.makeSound = function () {
+  return 'override sound';
+};
 
-for (const val of instance) {
-  console.log(val); // 0, 1, 2
+Animal.prototype.move = function (distance: number) {
+  return `${this.name} moved ${distance} meters`;
+};
+
+// 정적 메서드 정의
+Animal.isAdult = function (age: number) {
+  return age >= 18;
+};
+
+// 자식 생성자 함수
+function Person(name: string, age: number, gender: string) {
+  // 부모 생성자 호출(this 바인딩)
+  Animal.call(this, name, age);
+  this.gender = gender;
 }
+
+// Person의 프로토타입을 Animal의 프로토타입으로 연결(상속 설정)
+Person.prototype = Object.create(Animal.prototype);
+
+// Person의 constructor를 복구(Object.create로 덮어씌워졌기 때문)
+Person.prototype.constructor = Person;
+
+// 자식 프로토타입에 메서드 추가 및 오버라이딩
+Person.prototype.makeSound = function () {
+  return 'Hello, Nice to meet you!';
+};
+
+Person.prototype.jump = function () {
+  return `${this.name} jumped!`;
+};
+
+const dinosaur = new Animal('Dinosaur', 5);
+console.log(dinosaur);
+console.log(dinosaur.move(10));
+console.log(dinosaur.makeSound());
+console.log(Animal.isAdult(30));
+
+const tomas = new Person('Tomas', 30, 'male');
+console.log(tomas);
+console.log(tomas.move(5));
+console.log(tomas.makeSound());
+console.log(tomas.jump());
+console.log(tomas instanceof Person);
+console.log(tomas instanceof Animal);
 ```
 
 ```ts
-function MyClassProto(name) {
-  // 1. 인스턴스 속성
-  this.prop = 'default';
-  this.name = name;
+class Animal {
+  constructor(
+    public name: string,
+    public age: number,
+  ) {
+    this.name = name;
+    this.age = age;
+  }
+  makeSound() {
+    return 'Some generic animal sound';
+  }
+  move(distance: number) {
+    return `${this.name} moved ${distance} meters`;
+  }
 
-  // 2. 은닉된 필드 (클로저 사용; private 필드 대체)
-  let privateField = 42;
-
-  // 7. getter와 setter 대체
-  Object.defineProperty(this, 'privateFieldValue', {
-    get: function () {
-      return privateField;
-    },
-    set: function (value) {
-      privateField = value;
-    },
-  });
+  static isAdult(age: number) {
+    return age >= 18;
+  }
 }
 
-// 3. static 속성
-MyClassProto.staticProp = 'I am static';
-
-// 4. static 메서드
-MyClassProto.staticMethod = function () {
-  return 'This is a static method';
-};
-
-// 5. 프로토타입 메서드
-MyClassProto.prototype.method = function () {
-  return `Hello, my name is ${this.name}`;
-};
-
-// 9. 계산된 이름 메서드 (Symbol 사용)
-MyClassProto.prototype[Symbol.iterator] = function () {
-  let count = 0;
-  return {
-    next: function () {
-      if (count < 3) {
-        return { value: count++, done: false };
-      }
-      return { done: true };
-    },
-  };
-};
-
-// 사용 예시:
-const instanceProto = new MyClassProto('John');
-console.log(instanceProto.method()); // Hello, my name is John
-console.log(MyClassProto.staticMethod()); // This is a static method
-console.log(instanceProto.privateFieldValue); // 42
-instanceProto.privateFieldValue = 100;
-console.log(instanceProto.privateFieldValue); // 100
-
-for (const val of instanceProto) {
-  console.log(val); // 0, 1, 2
+class Person extends Animal {
+  constructor(
+    name: string,
+    age: number,
+    public gender: string,
+  ) {
+    super(name, age);
+    this.gender = gender;
+  }
+  makeSound() {
+    return 'Hello, Nice to meet you!';
+  }
+  jump() {
+    return `${this.name} jumped!`;
+  }
 }
 ```

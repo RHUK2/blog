@@ -8,7 +8,8 @@ isPublished: true
 
 # 비동기 작업 처리 방식
 
-- [Callback 처리 방식](#callback-처리-방식)
+- [이벤트 루프(Event Loop)](#이벤트-루프event-loop)
+- [콜백(Callback) 처리 방식](#콜백callback-처리-방식)
 - [`Promise` 처리 방식](#promise-처리-방식)
   - [`Promise.resolve`](#promiseresolve)
   - [`Promise.reject`](#promisereject)
@@ -16,7 +17,11 @@ isPublished: true
 - [`async` • `await` 처리 방식](#async--await-처리-방식)
 - [top level await](#top-level-await)
 
-## Callback 처리 방식
+## 이벤트 루프(Event Loop)
+
+![img](images/event_loop.gif)
+
+## 콜백(Callback) 처리 방식
 
 ```ts
 function loadScript(src) {
