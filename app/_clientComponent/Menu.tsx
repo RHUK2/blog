@@ -28,6 +28,8 @@ export const Menu = forwardRef(function Menu(
   useImperativeHandle(ref, () => ulRef.current);
 
   useEffect(() => {
+    if (control?.current == null) return;
+
     function listener() {
       if (rafId.current == null) {
         rafId.current = requestAnimationFrame((t) => {
@@ -46,12 +48,12 @@ export const Menu = forwardRef(function Menu(
       }
     }
 
-    listener();
+    const observer = new ResizeObserver(listener);
 
-    window.addEventListener('resize', listener);
+    observer.observe(document.documentElement);
 
     return () => {
-      window.removeEventListener('resize', listener);
+      observer.disconnect();
     };
   }, [control]);
 
