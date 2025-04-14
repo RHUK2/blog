@@ -111,4 +111,9 @@ history.state 세션 유지됨
 
 ## encodeURI encodeURIComponent
 
-https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
+| 함수                 | 인코딩 대상                                   | 사용 예시                      |
+| -------------------- | --------------------------------------------- | ------------------------------ |
+| `encodeURI`          | URL 전체, 구조 문자(`:/=?&`) 제외             | 전체 URL 인코딩                |
+| `encodeURIComponent` | 개별 구성 요소, 구조 문자까지 인코딩          | 쿼리 파라미터 값 인코딩        |
+| `decodeURI`          | `encodeURI`로 인코딩된 URL 디코딩             | 인코딩된 URL 복원              |
+| `decodeURIComponent` | `encodeURIComponent`로 인코딩된 문자열 디코딩 | 인코딩된 쿼리 파라미터 값 복원 |
