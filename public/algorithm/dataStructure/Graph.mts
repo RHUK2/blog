@@ -33,22 +33,25 @@ class Graph {
 
     delete this.adjacencyList[vertex];
   }
+
+  DFS() {}
 }
 
 const graph = new Graph();
 
-graph.addVertex('China');
-graph.addVertex('Italy');
-graph.addVertex('Seoul');
-graph.addVertex('Tokyo');
+graph.addVertex('A');
+graph.addVertex('B');
+graph.addVertex('C');
+graph.addVertex('D');
+graph.addVertex('E');
+graph.addVertex('F');
 
-graph.addEdge('Italy', 'Seoul');
-graph.addEdge('China', 'Seoul');
-
-// graph.removeEdge('Italy', 'Seoul');
-// graph.removeEdge('China', 'Seoul');
-
-// graph.removeVertex('Italy');
-// graph.removeVertex('Seoul');
+graph.addEdge('A', 'B');
+graph.addEdge('A', 'C');
+graph.addEdge('B', 'D');
+graph.addEdge('C', 'E');
+graph.addEdge('D', 'E');
+graph.addEdge('D', 'F');
+graph.addEdge('E', 'F');
 
 console.log(graph);
