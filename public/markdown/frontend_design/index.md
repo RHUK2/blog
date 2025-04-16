@@ -22,6 +22,7 @@ isPublished: true
 - [axios 요청 응답 타입 인터페이스 정의](#axios-요청-응답-타입-인터페이스-정의)
 - [로그인 설계](#로그인-설계)
 - [에러 핸들링](#에러-핸들링)
+- [최적화](#최적화)
 
 ## 프로젝트 환경 설정 체크리스트
 
@@ -217,3 +218,7 @@ react 클라이언트 렌더링 에러 -> react-errory-boundary
 next 서버 렌더링 에러 -> next 기능 사용
 
 uncaught 에러 -> sentry 사용
+
+## 최적화
+
+![img](images/frontend_optimization.jpg)

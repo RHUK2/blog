@@ -25,6 +25,7 @@ isPublished: true
   - [1. 서버 에러](#1-서버-에러)
   - [2. 클라이언트 에러](#2-클라이언트-에러)
   - [요약](#요약)
+- [router.isReady](#routerisready)
 
 ## 렌더링 전략 4가지
 
@@ -316,3 +317,5 @@ Next.js에서 에러 처리 우선순위는 일반적으로 에러의 발생 위
 - **클라이언트 에러**: `react-error-boundary` > `_error.tsx`
 
 이렇게 우선순위가 적용되어 각각의 에러 타입에 적합한 처리가 이루어집니다.
+
+## router.isReady

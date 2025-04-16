@@ -18,6 +18,7 @@ isPublished: true
 - [`Number` • `parseInt` • `parseFloat`](#number--parseint--parsefloat)
 - [구조 분해 할당 기본값](#구조-분해-할당-기본값)
 - [일급 객체(First-class Object)](#일급-객체first-class-object)
+- [`%`(모듈러)](#모듈러)
 
 ## 논리 연산자 단락 평가
 
@@ -256,4 +257,13 @@ qux();
 // 4. 자료구조에 저장
 const arr = [foo, qux];
 arr.forEach((func) => func());
+```
+
+## `%`(모듈러)
+
+```ts
+console.log(5 % 3); // 2
+console.log(-5 % 3); // -2
+console.log(5 % 0); // NaN
+console.log(-5 % 0); // NaN
 ```
