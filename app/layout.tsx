@@ -37,9 +37,6 @@ interface Props {
 export default async function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang='en' className='h-full'>
-      <head>
-        <script defer crossOrigin='anonymous' src='//unpkg.com/react-scan/dist/auto.global.js' />
-      </head>
       <body className={`h-full ${pretendard.className} dark:bg-gray-950 dark:text-white`}>
         <CustomQueryClientProvider>
           <Header />
