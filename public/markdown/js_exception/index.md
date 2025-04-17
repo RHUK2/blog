@@ -1,10 +1,31 @@
 ---
 folderName: js_exception
 updatedAt: 2025-03-13
-title: try_catch
+title: 예외 처리(Exception)
 tag: javascript
 isPublished: true
 ---
+
+# 예외 처리(Exception)
+
+- [try/catch](#trycatch)
+  - [실행 동작의 에러 여부와 상관없이 실행시키고 싶은 코드가 있을 때 finally](#실행-동작의-에러-여부와-상관없이-실행시키고-싶은-코드가-있을-때-finally)
+  - [사용자가 직접 에러 객체를 던지고 싶을 때 throw](#사용자가-직접-에러-객체를-던지고-싶을-때-throw)
+  - [TypeError](#typeerror)
+  - [ReferenceError](#referenceerror)
+  - [SyntaxError](#syntaxerror)
+  - [RangeError](#rangeerror)
+- [스크립트 종료 여부](#스크립트-종료-여부)
+- [프로미스의 에러 다시 던지기와 try/catch의 에러 다시기 방식은 다르다..](#프로미스의-에러-다시-던지기와-trycatch의-에러-다시기-방식은-다르다)
+  - [1. Promise의 에러 다시 던지기](#1-promise의-에러-다시-던지기)
+  - [2. try/catch의 에러 다시 던지기](#2-trycatch의-에러-다시-던지기)
+  - [요약](#요약)
+  - [1. Promise의 에러 다시 던지기](#1-promise의-에러-다시-던지기-1)
+  - [2. try/catch의 에러 다시 던지기](#2-trycatch의-에러-다시-던지기-1)
+  - [요약](#요약-1)
+  - [1. `unhandledrejection` 이벤트](#1-unhandledrejection-이벤트)
+  - [2. `error` 이벤트](#2-error-이벤트)
+  - [요약](#요약-2)
 
 ## try/catch
 
@@ -278,7 +299,7 @@ function init() {
       // throw 1;
       return new Promise((resolve, reject) => {
         resolve(1);
-        //   reject(1);
+        // reject(1);
       }).then(() => {
         return 'a';
       });

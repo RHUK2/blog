@@ -1,9 +1,9 @@
 ---
 folderName: issue_fouc
 updatedAt: 2024-10-02
-title: FOUC(flash of unstyled content)
+title: FOUC(Flash Of Unstyled Content)
 tag: issue
-isPublished: true
+isPublished: false
 ---
 
-## FOUC(flash of unstyled content)
+# FOUC(Flash Of Unstyled Content)
