@@ -17,7 +17,7 @@ export function TreeBox({ parent, children }: Props) {
   useEffect(() => {
     if (ulRef.current == null) return;
 
-    function listener() {
+    function updateOffsetTopList() {
       if (rafId.current == null) {
         rafId.current = requestAnimationFrame(() => {
           if (!ulRef.current) return;
@@ -35,7 +35,7 @@ export function TreeBox({ parent, children }: Props) {
       }
     }
 
-    const observer = new ResizeObserver(listener);
+    const observer = new ResizeObserver(updateOffsetTopList);
 
     observer.observe(ulRef.current);
 

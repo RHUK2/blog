@@ -72,16 +72,22 @@ export const careerList: TCareerList = [
           },
         ],
         experienceList: [
-          { behavior: 'ISR 방식으로 SEO 및 성능 최적화', result: 'result' },
-          { behavior: 'Framer-Motion을 이용한 애니메이션 구현', result: 'result' },
-          { behavior: '마크다운 업로드를 이용해 페이지를 구성할 수 있도록 구현', result: 'result' },
-          { behavior: 'Next.js의 Image 컴포넌트를 이용한 이미지 최적화', result: 'result' },
-          { behavior: '반응형 개발', result: 'result' },
+          { behavior: '시멘틱 HTML 준수, Meta Tag 관리, sitemap 생성', result: 'SEO 최적화' },
+          {
+            behavior: '마크다운을 s3에 업로드하여 소개 페이지를 구성하고 공지글을 올릴 수 있도록 구현',
+            result: '비개발자도 내용을 수정할 수 있어 업무 효율 개선',
+          },
+          { behavior: '카카오 공유하기 적용', result: '사용자가 손쉽게 콘텐츠를 공유할 수 있도록 지원' },
+          {
+            behavior: 'Framer-Motion을 이용한 애니메이션 구현',
+            result: '부드러운 페이지 이동을 통한 사용자 경험 향상',
+          },
+          { behavior: '반응형 개발', result: '모바일 화면 대응을 통한 사용자 경험 향상' },
         ],
       },
       {
         title: '사내 업무 보조툴 개발',
-        contributions: 100,
+        contributions: 70,
         startDate: '2024.09.',
         endDate: '2024.10.',
         description:
@@ -105,8 +111,16 @@ export const careerList: TCareerList = [
           },
         ],
         experienceList: [
-          { behavior: '음성 파일에서 추출한 대화 내용을 출력하고 편집할 수 있는 폼 구현', result: 'result' },
-          { behavior: '입력을 동적으로 추가/제거하고 드래그앤드롭으로 순서 변경이 가능한 폼 구현', result: 'result' },
+          {
+            behavior: '대화 내용을 타임 라인과 함께 출력하고 문장 단위로 수정 가능한 폼 구현',
+            result: '음성 파일에서 추출된 내용 중 오탈자를 수정 가능하도록 지원',
+          },
+          {
+            behavior: '다중 프롬프트 입력 폼 구현 ',
+            result:
+              '음성 파일 스크립트와 다중 프롬프트를 통해 요청 한 번으로 다중 응답을 받을 수 있도록 업무 효율 개선',
+          },
+          { behavior: '라이브러리 없이 Droppable, DraggableBox 구현', result: '' },
         ],
       },
       {

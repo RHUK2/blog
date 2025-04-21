@@ -59,9 +59,9 @@ export function Accordion({ title, list }: Props) {
               className='overflow-hidden'
             >
               {list.map((item) => (
-                <li key={item.behavior}>
+                <li className='pb-2' key={item.behavior}>
                   <p>{`• ${item.behavior}`}</p>
-                  {item.result && <p>{`→ ${item.result}`}</p>}
+                  {item.result && <p className='pl-2 text-gray-600 dark:text-gray-400'>{`→ ${item.result}`}</p>}
                 </li>
               ))}
             </motion.ul>

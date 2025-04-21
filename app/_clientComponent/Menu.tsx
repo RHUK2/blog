@@ -9,6 +9,7 @@ import {
   useImperativeHandle,
   useRef,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> {
@@ -28,9 +29,10 @@ export const Menu = forwardRef(function Menu(
   useImperativeHandle(ref, () => ulRef.current);
 
   useEffect(() => {
+    if (open === false) return;
     if (control?.current == null) return;
 
-    function listener() {
+    function updateMenuPosition() {
       if (rafId.current == null) {
         rafId.current = requestAnimationFrame((t) => {
           if (control?.current == null) return;
@@ -48,49 +50,52 @@ export const Menu = forwardRef(function Menu(
       }
     }
 
-    const observer = new ResizeObserver(listener);
+    updateMenuPosition();
+
+    const observer = new ResizeObserver(updateMenuPosition);
 
     observer.observe(document.documentElement);
 
     return () => {
       observer.disconnect();
     };
-  }, [control]);
+  }, [control, open]);
 
   useEffect(() => {
-    function listener(this: HTMLElement, event: globalThis.MouseEvent) {
-      if (
-        (control && control.current?.isEqualNode(event.target as Node)) ||
-        ulRef.current?.isEqualNode(event.target as Node)
-      )
-        return;
+    function menuCloseListener(this: HTMLElement, event: globalThis.MouseEvent) {
+      if (control?.current?.isEqualNode(event.target as Node)) return;
 
       onClose();
     }
 
-    document.documentElement.addEventListener('click', listener);
+    document.documentElement.addEventListener('click', menuCloseListener);
 
     return () => {
-      document.documentElement.removeEventListener('click', listener);
+      document.documentElement.removeEventListener('click', menuCloseListener);
     };
   }, [control, onClose]);
 
   return (
-    <ul
-      ref={ulRef}
-      onClick={(event) => {
-        event.stopPropagation();
-        if (onClick) {
-          onClick(event);
-        }
-      }}
-      className={twMerge(
-        'absolute top-0 left-0 z-40 max-h-44 overflow-x-hidden overflow-y-auto rounded-md border border-gray-300 bg-gradient-to-br from-gray-50 to-gray-100 py-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
-        `${open ? 'block' : 'hidden'} ${className ?? ''}`,
-      )}
-      {...ulProps}
-    >
-      {children}
-    </ul>
+    <>
+      {open &&
+        createPortal(
+          <ul
+            ref={ulRef}
+            onClick={(event) => {
+              if (onClick) {
+                onClick(event);
+              }
+            }}
+            className={twMerge(
+              'absolute top-0 left-0 z-40 max-h-44 overflow-x-hidden overflow-y-auto rounded-md border border-gray-300 bg-gradient-to-br from-gray-50 to-gray-100 py-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+              `${className ?? ''}`,
+            )}
+            {...ulProps}
+          >
+            {children}
+          </ul>,
+          document.body,
+        )}
+    </>
   );
 });

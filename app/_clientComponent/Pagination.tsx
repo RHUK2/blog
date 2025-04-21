@@ -76,15 +76,16 @@ export function Pagination({ totalCount, size }: Props) {
         <Button ref={controlRef} onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
         </Button>
-        <Menu control={controlRef} open={isMenuOpen} onClose={handleMenuClose}>
-          {new Array(pageCount).fill('0').map((item, index) => (
-            <MenuItem key={`page_${index}`} onClick={() => handlePageQuery(index)}>
-              {index + 1}
-            </MenuItem>
-          ))}
-        </Menu>
         <Button onClick={() => handleNextPageQuery(parseInt(searchParams.get('page') || '0'))}>{'>'}</Button>
       </div>
+
+      <Menu control={controlRef} open={isMenuOpen} onClose={handleMenuClose}>
+        {new Array(pageCount).fill('0').map((item, index) => (
+          <MenuItem key={`page_${index}`} onClick={() => handlePageQuery(index)}>
+            {index + 1}
+          </MenuItem>
+        ))}
+      </Menu>
     </>
   );
 }
