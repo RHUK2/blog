@@ -1,4 +1,4 @@
-import { Accordion } from '@/_clientComponent/Accordion';
+import { Accordion } from '@/_clientComponent';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

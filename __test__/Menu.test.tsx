@@ -1,4 +1,4 @@
-import { Menu } from '@/_clientComponent/Menu';
+import { Menu } from '@/_clientComponent';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useRef, useState } from 'react';

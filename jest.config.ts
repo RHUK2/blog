@@ -19,4 +19,13 @@ const config: Config = {
   },
 };
 
-export default createJestConfig(config);
+const nextConfig = async () => {
+  const getConfig = await createJestConfig(config)();
+
+  if (getConfig.transformIgnorePatterns?.[0])
+    getConfig.transformIgnorePatterns[0] = '/node_modules/(?!react-markdown)/';
+
+  return getConfig;
+};
+
+export default nextConfig;

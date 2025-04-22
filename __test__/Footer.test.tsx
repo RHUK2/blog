@@ -1,5 +1,5 @@
 jest.mock('next/navigation');
-import { Footer } from '@/_clientComponent/Footer';
+import { Footer } from '@/_clientComponent';
 import { render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 

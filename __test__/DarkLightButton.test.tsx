@@ -1,4 +1,4 @@
-import { DarkLightButton } from '@/_clientComponent/DarkLightButton';
+import { DarkLightButton } from '@/_clientComponent';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
