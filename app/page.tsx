@@ -11,16 +11,16 @@ export default function RootPage() {
         <CategoryBox category='기술 스택'>
           <div className='flex flex-wrap gap-2'>
             {skillList.map((skill) => (
-              <IconBadge key={skill.text} icon={skill.icon} text={skill.text} />
+              <IconBadge key={skill.id} icon={skill.icon} text={skill.text} />
             ))}
           </div>
         </CategoryBox>
 
         <CategoryBox category='경력 • 프로젝트'>
           {careerList.map((career) => (
-            <TreeBox key={career.company} parent={<CareerContentItem data={career} />}>
+            <TreeBox key={career.id} parent={<CareerContentItem data={career} />}>
               {career.projectList.map((project) => (
-                <ProjectContentItem key={project.title} data={project} />
+                <ProjectContentItem key={project.id} data={project} />
               ))}
             </TreeBox>
           ))}
@@ -28,7 +28,7 @@ export default function RootPage() {
 
         <CategoryBox category='개인 프로젝트'>
           {projectList.map((project) => (
-            <ProjectContentItem key={project.title} data={project} />
+            <ProjectContentItem key={project.id} data={project} />
           ))}
         </CategoryBox>
       </section>

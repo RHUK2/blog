@@ -4,6 +4,7 @@ import { IMarkdownMeta, IMarkdownMetaListResponse, IMarkdownTagListResponse } fr
 import { readdir, readFile, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';
+import { v4 } from 'uuid';
 import { PAGE_SIZE } from './enum';
 
 const markdown_path = path.join(process.cwd(), 'public', 'markdown');
@@ -17,8 +18,8 @@ export async function writeMarkdownMetaList() {
       markdownFolderNameList.map((folderName) => readFile(`${markdown_path}/${folderName}/index.md`)),
     );
 
-    const markdownDataList: IMarkdownMeta[] = markdownContentList
-      .map((content) => matter(content).data)
+    const markdownDataList = markdownContentList
+      .map((content) => ({ id: v4(), ...matter(content).data }) as IMarkdownMeta)
       .filter((data) => !!data.isPublished);
 
     await writeFile(meta_markdown_path, JSON.stringify(markdownDataList));
@@ -27,60 +28,6 @@ export async function writeMarkdownMetaList() {
     throw new Error('writeMarkdownMetaList error occurred.');
   }
 }
-
-// const meta_markdown_path2 = path.join(process.cwd(), 'public', 'markdown', 'list2.json');
-
-// export async function writeSearchIndexing() {
-//   try {
-//     const markdownFolderNameList = (await readdir(markdown_path)).filter((content) => /^[^@.]*$/.test(content));
-
-//     const markdownContentList = await Promise.all(
-//       markdownFolderNameList.map((folderName) => readFile(`${markdown_path}/${folderName}/index.md`)),
-//     );
-
-//     const markdownDataList = markdownContentList
-//       .filter((content) => !!matter(content).data.isPublished)
-//       .map((content) => matter(content).content);
-
-//     const index = {};
-
-//     function buildIndex(articles: string[]) {
-//       articles.forEach((article, id) => {
-//         const words = article.toLowerCase().split(/\s+/);
-//         words.forEach((word) => {
-//           if (!index[word]) {
-//             index[word] = [];
-//           }
-//           if (!index[word].includes(id)) {
-//             index[word].push(id);
-//           }
-//         });
-//       });
-//     }
-
-//     buildIndex(markdownDataList);
-
-//     function search(query) {
-//       const words = query.toLowerCase().split(/\s+/);
-//       const results = new Set();
-
-//       words.forEach((word) => {
-//         if (index[word]) {
-//           index[word].forEach((id) => results.add(id));
-//         }
-//       });
-
-//       return Array.from(results).map((id) => markdownDataList[id]);
-//     }
-
-//     console.log(search('정규화란?'));
-
-//     await writeFile(meta_markdown_path2, JSON.stringify(index));
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error('writeMarkdownMetaList error occurred.');
-//   }
-// }
 
 export async function readTagList() {
   try {
@@ -100,11 +47,12 @@ export async function readTagList() {
     }, {});
 
     const sortTagList = Object.entries(computedTagList)
-      .map((tagArr) => ({ name: tagArr[0], postCount: tagArr[1] }))
+      .map((tagArr) => ({ id: v4(), name: tagArr[0], postCount: tagArr[1] }))
       .sort((a, b) => a.name.localeCompare(b.name));
 
     const result: IMarkdownTagListResponse = {
-      markdownTagList: [{ name: '', postCount: markdownMetaList.length }, ...sortTagList],
+      id: v4(),
+      markdownTagList: [{ id: v4(), name: '', postCount: markdownMetaList.length }, ...sortTagList],
     };
 
     return result;
@@ -134,6 +82,7 @@ export async function readMarkdownMetaList(tag?: string, page?: string, size?: s
     );
 
     const result: IMarkdownMetaListResponse = {
+      id: v4(),
       totalCount: markdownMetaList.length,
       markdownMetaList: computedMarkdownMetaList,
     };

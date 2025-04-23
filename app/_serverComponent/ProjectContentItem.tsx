@@ -21,7 +21,7 @@ export function ProjectContentItem({ data }: Props) {
 
       <div className='flex flex-wrap gap-2'>
         {data.skillList.map((skill) => (
-          <IconBadge key={skill.text} icon={skill.icon} text={skill.text} />
+          <IconBadge key={skill.id} icon={skill.icon} text={skill.text} />
         ))}
       </div>
 

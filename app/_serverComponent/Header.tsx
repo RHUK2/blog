@@ -33,7 +33,7 @@ export function Header() {
             <DarkLightButton />
             {navList.map((navItem) => (
               <MotionLink
-                key={navItem.href}
+                key={navItem.id}
                 href={navItem.href}
                 className='origin-bottom-left leading-none'
                 whileHover={{

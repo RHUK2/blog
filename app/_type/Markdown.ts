@@ -1,21 +1,29 @@
 export interface IMarkdownMeta {
-  folderName?: string;
-  updatedAt?: string;
-  title?: string;
-  tag?: string;
-  isPublished?: string;
+  id: string;
+  folderName: string;
+  updatedAt: string;
+  title: string;
+  tag: string;
+  isPublished: string;
 }
 
+export type TMarkdownMetaList = IMarkdownMeta[];
+
 export interface IMarkdownMetaListResponse {
+  id: string;
   totalCount: number;
-  markdownMetaList: IMarkdownMeta[];
+  markdownMetaList: TMarkdownMetaList;
 }
 
 export interface IMarkdownTag {
+  id: string;
   name: string;
   postCount: number;
 }
 
+export type TMarkdownTagList = IMarkdownTag[];
+
 export interface IMarkdownTagListResponse {
-  markdownTagList: IMarkdownTag[];
+  id: string;
+  markdownTagList: TMarkdownTagList;
 }

@@ -29,8 +29,8 @@ export default async function Page({ searchParams }: Props) {
 
         {markdownMetaList.markdownMetaList
           .sort((a, b) => new Date(b.updatedAt ?? '').getTime() - new Date(a.updatedAt ?? '').getTime())
-          .map((markdownMeta, index) => (
-            <MarkdownMetaCard key={`markdownMeta_${index}`} data={markdownMeta} />
+          .map((markdownMeta) => (
+            <MarkdownMetaCard key={markdownMeta.id} data={markdownMeta} />
           ))}
       </section>
     </>

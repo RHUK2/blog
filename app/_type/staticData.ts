@@ -1,4 +1,5 @@
 export interface INav {
+  id: string;
   href: string;
   text: string;
 }
@@ -6,6 +7,7 @@ export interface INav {
 export type TNavList = INav[];
 
 export interface ICareer {
+  id: string;
   company: string;
   role: string;
   startDate: string;
@@ -17,6 +19,7 @@ export interface ICareer {
 export type TCareerList = ICareer[];
 
 export interface IExperience {
+  id: string;
   behavior: string;
   result: string;
 }
@@ -24,6 +27,7 @@ export interface IExperience {
 export type TExperienceList = IExperience[];
 
 export interface IProject {
+  id: string;
   title: string;
   contributions: number;
   startDate: string;
@@ -48,6 +52,7 @@ export type TIcon =
   | 'TypescriptIcon';
 
 export interface ISkill {
+  id: string;
   icon: TIcon;
   text: string;
 }

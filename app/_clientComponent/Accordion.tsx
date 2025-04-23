@@ -29,6 +29,7 @@ export function Accordion({ title, list }: Props) {
           whileHover='visible'
           className='flex cursor-pointer self-start overflow-hidden'
           onClick={toggleButton}
+          aria-expanded={isOpen}
         >
           <motion.span
             variants={variants}
