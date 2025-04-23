@@ -29,3 +29,13 @@ function storePrevValue(initValue: number) {
     console.log(`prevValue: ${prevValue}, currValue: ${currValue}`);
   }
 }
+
+function checkFrequency<T extends string | number | symbol>(arr: T[]) {
+  return arr.reduce<Record<T, number>>(
+    (obj, curr) => {
+      obj[curr] = (obj[curr] || 0) + 1;
+      return obj;
+    },
+    {} as Record<T, number>,
+  );
+}

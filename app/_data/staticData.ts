@@ -402,10 +402,14 @@ export const projectList: TProjectList = [
       },
     ],
     experienceList: [
-      { id: v4(), behavior: '다크모드 적용', result: '' },
-      { id: v4(), behavior: 'App Router 사용', result: '' },
+      {
+        id: v4(),
+        behavior: 'resize 시 스타일 변경이 일어나는 컴포넌트에 resizeObserver, requestAnimationFrame 적용',
+        result: '렌더링 최적화',
+      },
       { id: v4(), behavior: 'LLM 프롬프트 구현', result: '' },
-      { id: v4(), behavior: 'ResizeObserver, RequestAnimationFrame을 이용한 성능 최적화', result: '' },
+      { id: v4(), behavior: 'App Router 사용', result: '' },
+      { id: v4(), behavior: '다크모드 적용', result: '' },
     ],
   },
 ];
