@@ -15,7 +15,9 @@ isPublished: true
 - [방정식이란?](#방정식이란)
 - [지수 • 로그 • 루트 차이?](#지수--로그--루트-차이)
 - [정적(Static) • 동적(Dynamic)이란?](#정적static--동적dynamic이란)
-- [배포(Deployment) • 배포(distribution)란?](#배포deployment--배포distribution란)
+- [배포(Deployment) • 배포(Distribution)란?](#배포deployment--배포distribution란)
+- [정의역(Domain) • 공역(Codomain) • 치역(Range)](#정의역domain--공역codomain--치역range)
+- [로그 스케일(Log Scale)](#로그-스케일log-scale)
 
 ## 마크업 언어란?
 
@@ -90,4 +92,8 @@ $X{\text{norm}} = \frac{X - \mu}{\sigma}$
 - 정적이란 것은 프로그램이 실행되기 전, 즉 컴파일 단계나 파싱 단계에서 결정되는 것.
 - 동적이란 것은 프로그램이 실행된 후, 즉 런타임 단계에서 결정되는 것.
 
-## 배포(Deployment) • 배포(distribution)란?
+## 배포(Deployment) • 배포(Distribution)란?
+
+## 정의역(Domain) • 공역(Codomain) • 치역(Range)
+
+## 로그 스케일(Log Scale)
