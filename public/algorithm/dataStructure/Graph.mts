@@ -1,5 +1,5 @@
 class Graph {
-  public adjacencyList: { [key: string]: string[] };
+  public adjacencyList: Record<string, string[]>;
 
   constructor() {
     this.adjacencyList = {};
@@ -34,7 +34,26 @@ class Graph {
     delete this.adjacencyList[vertex];
   }
 
-  DFS() {}
+  depthFirstRecursive(start: string) {
+    const result: string[] = [];
+    const visited = {};
+    const adjacencyList = this.adjacencyList;
+
+    function dfs(vertex: string) {
+      if (!vertex) return null;
+      visited[vertex] = true;
+      result.push(vertex);
+      adjacencyList[vertex].forEach((neighbor: string) => {
+        if (!visited[neighbor]) {
+          return dfs(neighbor);
+        }
+      });
+    }
+
+    dfs(start);
+
+    return result;
+  }
 }
 
 const graph = new Graph();
@@ -53,5 +72,7 @@ graph.addEdge('C', 'E');
 graph.addEdge('D', 'E');
 graph.addEdge('D', 'F');
 graph.addEdge('E', 'F');
+
+console.log(graph.depthFirstRecursive('A'));
 
 console.log(graph);
