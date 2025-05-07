@@ -133,83 +133,129 @@ isPublished: true
 ▾ `this` 바인딩 예제
 
 ```ts
-const noObjThis = this; // window
+console.log(this); // window or undefined
 
-function Func() {
-  return this; // window
+function funcThis() {
+  console.log(this); // window or undefined
 }
-const ArrowFunc = () => {
-  return this; // window
+funcThis();
+
+const arrowFuncThis = () => {
+  console.log(this); // window or undefined
 };
+arrowFuncThis();
 
 const obj = {
   name: 'Tomas',
   age: 30,
-  objThis: this, // obj
+  objThis: this, // window or undefined
   objFunc() {
-    return this; // obj
+    console.log(this); // obj
   },
   objArrowFunc: () => {
-    return this; // window
+    console.log(this); // window or undefined
   },
-  nestedObjFunc1() {
+  objNestedFunc1() {
     console.log(this); // obj
     return function () {
-      return this; // window
+      console.log(this); // window or undefined
     };
   },
-  nestedObjFunc2() {
+  objNestedFunc2() {
     console.log(this); // obj
     return () => {
-      return this; // obj
+      console.log(this); // obj
     };
   },
-  nestedObjFunc3: () => {
-    console.log(this); // window
+  objNestedFunc3: () => {
+    console.log(this); // window or undefined
     return function () {
-      return this; // window
+      console.log(this); // window or undefined
     };
   },
-  nestedObjFunc4: () => {
-    console.log(this); // window
+  objNestedFunc4: () => {
+    console.log(this); // window or undefined
     return () => {
-      return this; // window
+      console.log(this); // window or undefined
     };
   },
 };
 
-function wrapperFunc1(callback) {
-  return function (...arguments) {
-    return callback(...arguments); // window
+console.log(obj.objThis);
+obj.objFunc();
+obj.objArrowFunc();
+obj.objNestedFunc1()();
+obj.objNestedFunc2()();
+obj.objNestedFunc3()();
+obj.objNestedFunc4()();
+
+const copyObjMethod = obj.objFunc;
+const copyObjMethodBind = obj.objFunc.bind(obj);
+copyObjMethod(); // window or undefined
+copyObjMethodBind(); // obj
+setTimeout(obj.objFunc, 0); // window or undefined
+setTimeout(obj.objFunc.bind(obj), 0); // obj
+
+class Person {
+  name = 'Tomas';
+  age = 30;
+  classThis = this;
+
+  classArrowFunc = () => {
+    console.log(this); // instance
   };
-}
 
-function wrapperFunc2(callback) {
-  return (...arguments) => {
-    return callback(...arguments); // window
+  classNestedFunc3 = () => {
+    console.log(this); // instance
+    return function () {
+      console.log(this); // window or undefined
+    };
   };
-}
 
-function wrapperFunc3(callback) {
-  return function (...arguments) {
-    return callback.call(this, ...arguments); // obj
+  classNestedFunc4 = () => {
+    console.log(this); // instance
+    return () => {
+      console.log(this); // instance
+    };
   };
+
+  constructor() {}
+
+  classFunc() {
+    console.log(this); // instance
+  }
+
+  classNestedFunc1() {
+    console.log(this); // instance
+    return function () {
+      console.log(this); // window or undefined
+    };
+  }
+
+  classNestedFunc2() {
+    console.log(this); // instance
+    return () => {
+      console.log(this); // instance
+    };
+  }
 }
 
-function wrapperFunc4(callback) {
-  return (...arguments) => {
-    return callback.call(this, ...arguments); // window
-  };
-}
+const cls = new Person();
 
-function temp() {
-  return this;
-}
+console.log(cls.classThis);
+cls.classFunc();
+cls.classArrowFunc();
+cls.classNestedFunc1()();
+cls.classNestedFunc2()();
+cls.classNestedFunc3()();
+cls.classNestedFunc4()();
 
-obj.wrapperFunc1 = wrapperFunc1(temp);
-obj.wrapperFunc2 = wrapperFunc2(temp);
-obj.wrapperFunc3 = wrapperFunc3(temp);
-obj.wrapperFunc4 = wrapperFunc4(temp);
+const copyClassMethod = cls.classFunc;
+const copyClassMethodBind = cls.classFunc.bind(cls);
+copyClassMethod(); // window or undefined
+copyClassMethodBind(); // instance
+setTimeout(cls.classFunc, 0); // window or undefined
+setTimeout(cls.classFunc.bind(cls), 0); // instance
 ```
 
 ## 실행 컨텍스트의 생명주기

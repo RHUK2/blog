@@ -23,7 +23,7 @@ isPublished: true
 
 ## 프로토타입 다이어그램
 
-![img](images/prototype_diagram.png);
+![img](images/prototype_diagram.png)
 
 ## 프로토타입 방식 vs 클래스
 
