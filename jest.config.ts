@@ -7,6 +7,7 @@ const createJestConfig = nextJest({
 
 const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testPathIgnorePatterns: ['<rootDir>/__e2e__/', '<rootDir>/node_modules/'],
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
