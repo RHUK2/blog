@@ -30,23 +30,41 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    locale: 'ko',
+    timezoneId: 'Asia/Seoul',
   },
 
   /* Configure projects for major browsers */
   projects: [
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: './__auth__/auth.json',
+        viewport: { width: 1920, height: 1080 },
+      },
+      dependencies: ['setup'],
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: './__auth__/auth.json',
+        viewport: { width: 1280, height: 720 },
+      },
+      dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: './__auth__/auth.json',
+        viewport: { width: 1920, height: 1080 },
+      },
+      dependencies: ['setup'],
     },
 
     /* Test against mobile viewports. */
