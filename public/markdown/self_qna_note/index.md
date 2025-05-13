@@ -18,6 +18,7 @@ isPublished: true
 - [배포(Deployment) • 배포(Distribution)란?](#배포deployment--배포distribution란)
 - [정의역(Domain) • 공역(Codomain) • 치역(Range)](#정의역domain--공역codomain--치역range)
 - [로그 스케일(Log Scale)](#로그-스케일log-scale)
+- [벡터(Vector)란?](#벡터vector란)
 
 ## 마크업 언어란?
 
@@ -97,3 +98,5 @@ $X{\text{norm}} = \frac{X - \mu}{\sigma}$
 ## 정의역(Domain) • 공역(Codomain) • 치역(Range)
 
 ## 로그 스케일(Log Scale)
+
+## 벡터(Vector)란?
