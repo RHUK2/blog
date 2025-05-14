@@ -10,9 +10,9 @@ setup('authenticate', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   await page.getByRole('textbox', { name: '아이디' }).click();
-  await page.getByRole('textbox', { name: '아이디' }).fill('huryu@wecruitcorp.com');
+  await page.getByRole('textbox', { name: '아이디' }).fill(process.env.EMAIL ?? '');
   await page.getByRole('textbox', { name: '아이디' }).press('Tab');
-  await page.getByRole('textbox', { name: '비밀번호' }).fill('test1004!');
+  await page.getByRole('textbox', { name: '비밀번호' }).fill(process.env.PASSWORD ?? '');
   await page.getByRole('button', { name: '로그인' }).click();
   // Wait until the page receives the cookies.
   //
