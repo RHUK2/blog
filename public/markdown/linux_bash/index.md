@@ -79,6 +79,8 @@ isPublished: true
   - [유저/그룹 정보 경로](#유저그룹-정보-경로)
 - [echo "$PATH" | tr ':' '\\n'](#echo-path--tr--n)
 - [source 명령어는 스크립트 파일을 수정한 후에 수정된 값을 바로 적용하기 위해 사용하는 명령어](#source-명령어는-스크립트-파일을-수정한-후에-수정된-값을-바로-적용하기-위해-사용하는-명령어)
+- [linux 한영 fcitx hangul 설치](#linux-한영-fcitx-hangul-설치)
+- [locale로 시스템 언어 설정 가능](#locale로-시스템-언어-설정-가능)
 
 ## Command History
 
@@ -977,3 +979,7 @@ cd /etc/skel # /home 디렉토리 안에 유저 폴더에 추가될 파일 및 �
 ## echo "$PATH" | tr ':' '\n'
 
 ## source 명령어는 스크립트 파일을 수정한 후에 수정된 값을 바로 적용하기 위해 사용하는 명령어
+
+## linux 한영 fcitx hangul 설치
+
+## locale로 시스템 언어 설정 가능
