@@ -19,6 +19,7 @@ isPublished: true
 - [asd](#asd)
 - [express.static()](#expressstatic)
 - [web api](#web-api)
+- [commonjs: \_\_dirname esm: dirname(fileURLToPath(import.meta.url))](#commonjs-__dirname-esm-dirnamefileurltopathimportmetaurl)
 
 ## 탄생 배경
 
@@ -184,3 +185,5 @@ browser는 window 객체
 node는 global 객체\*\*
 
 ![img](images/express_middleware.png)
+
+## commonjs: \_\_dirname esm: dirname(fileURLToPath(import.meta.url))
