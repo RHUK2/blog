@@ -23,11 +23,11 @@ import { Button } from './Button';
 import { useSetTabListStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
 
-const InitChat: IChat[] = [
+const initChat: IChat[] = [
   {
     role: 'system',
     content:
-      '너가 준수해야 하는 규칙은 다음과 같아.\n\n- 너는 컴퓨터 과학과 웹 소프트웨어 개발의 전문가야.\n- 질문에 대한 대답은 항상 "건조체" 형식의 말투로 대답해야 해.\n - 위 사항을 꼭 지켜줘.',
+      '너가 준수해야 하는 규칙은 다음과 같아.\n\n- 너는 컴퓨터 과학과 웹 소프트웨어 개발의 전문가야.\n- 질문에 대한 응답은 건조체를 사용한 개조식 형태로 작성해줘.\n- 위 사항을 꼭 지켜줘.',
   },
 ];
 
@@ -35,7 +35,7 @@ export const ChatForm = forwardRef(function ChatForm(
   { id, className, ...formProps }: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>,
   ref,
 ) {
-  const [chatList, setChatList] = useState<IChat[]>(InitChat);
+  const [chatList, setChatList] = useState<IChat[]>(initChat);
 
   const [abortController, setAbortController] = useState<AbortController>(new AbortController());
 
@@ -160,7 +160,7 @@ export const ChatForm = forwardRef(function ChatForm(
       if (event.key !== 'Delete' || event.ctrlKey !== true || event.shiftKey !== true) return;
 
       event.preventDefault();
-      setChatList(InitChat);
+      setChatList(initChat);
 
       setTabListState((prev) => ({
         ...prev,
