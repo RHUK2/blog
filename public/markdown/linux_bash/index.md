@@ -81,6 +81,7 @@ isPublished: true
 - [source 명령어는 스크립트 파일을 수정한 후에 수정된 값을 바로 적용하기 위해 사용하는 명령어](#source-명령어는-스크립트-파일을-수정한-후에-수정된-값을-바로-적용하기-위해-사용하는-명령어)
 - [linux 한영 fcitx hangul 설치](#linux-한영-fcitx-hangul-설치)
 - [locale로 시스템 언어 설정 가능](#locale로-시스템-언어-설정-가능)
+- [--](#--)
 
 ## Command History
 
@@ -983,3 +984,11 @@ cd /etc/skel # /home 디렉토리 안에 유저 폴더에 추가될 파일 및 �
 ## linux 한영 fcitx hangul 설치
 
 ## locale로 시스템 언어 설정 가능
+
+## --
+
+--는 명령어 옵션의 끝을 표시하는 특수 기호
+
+```bash
+touch -- -myfile.txt  # "-myfile.txt" 파일 생성
+```

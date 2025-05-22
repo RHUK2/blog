@@ -187,3 +187,13 @@ node는 global 객체\*\*
 ![img](images/express_middleware.png)
 
 ## commonjs: \_\_dirname esm: dirname(fileURLToPath(import.meta.url))
+
+```ts
+__dirname; // commonjs
+__filename; // commonjs
+const __filename = fileURLToPath(import.meta.url) // esm
+cosnt __dirname =  dirname(__filename); // esm
+
+path.join(__dirname, "/a", "/b", "/c"); // dir/a/b/c
+path.resolve(__dirname, "/a", "/b", "/c"); // dir/c
+```

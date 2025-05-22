@@ -1,0 +1,86 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+  "elements": [
+    {
+      "id": "FMhVvbEeEbyOzUWJ-agkc",
+      "type": "rectangle",
+      "x": 281,
+      "y": 295,
+      "width": 199,
+      "height": 58.99999999999999,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a1",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 981207604,
+      "version": 122,
+      "versionNonce": 966208268,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "UVQEnSCipxNdgwy1fLhq4"
+        }
+      ],
+      "updated": 1747789536566,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "UVQEnSCipxNdgwy1fLhq4",
+      "type": "text",
+      "x": 328.46004486083984,
+      "y": 312,
+      "width": 104.07991027832031,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a2",
+      "roundness": null,
+      "seed": 384851636,
+      "version": 99,
+      "versionNonce": 1981147532,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1747789536567,
+      "link": null,
+      "locked": false,
+      "text": "Typescript",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "FMhVvbEeEbyOzUWJ-agkc",
+      "originalText": "Typescript",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": 20,
+    "gridStep": 5,
+    "gridModeEnabled": false,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
