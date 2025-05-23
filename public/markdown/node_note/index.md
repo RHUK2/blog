@@ -6,28 +6,15 @@ tag: node
 isPublished: true
 ---
 
-<!-- todo: 내용 보완 필요 -->
-
 # NodeJS
 
-- [탄생 배경](#탄생-배경)
-  - [브라우저 단에서 node\_moduels](#브라우저-단에서-node_moduels)
 - [PM2 무중단 배포](#pm2-무중단-배포)
-- [\_\_dirname, \_\_filename, process.cwd()](#__dirname-__filename-processcwd)
+- [모듈에 따라 다른 경로 구하기 방법](#모듈에-따라-다른-경로-구하기-방법)
 - [createWriteStream, createReadStream, readFile, readFileSync, readdir](#createwritestream-createreadstream-readfile-readfilesync-readdir)
 - [HTTP Response에 스트림 연결 개념](#http-response에-스트림-연결-개념)
 - [asd](#asd)
 - [express.static()](#expressstatic)
 - [web api](#web-api)
-- [commonjs: \_\_dirname esm: dirname(fileURLToPath(import.meta.url))](#commonjs-__dirname-esm-dirnamefileurltopathimportmetaurl)
-
-## 탄생 배경
-
-자바스크립트는 본래 브라우저 환경에서만 동작하는 스크립팅 언어였으나 운영체제 환경에서도 동작 가능하도록 발전했다. 그 결과물이 Node.js이고, Node.js는 자바스크립트 엔진을 기반으로 한 자바스크립트 런타임 환경이며 단일 스레드, 비동기식 이벤트 주도 방식을 기반으로 하는 Non-blocking I/O 모델을 채택하고 있다.
-
-### 브라우저 단에서 node_moduels
-
-node_modules 안에 라이브러리는 절대/상대 경로없이 참조 가능하다
 
 ## PM2 무중단 배포
 
@@ -35,22 +22,30 @@ node_modules 안에 라이브러리는 절대/상대 경로없이 참조 가능�
 
 서버 어플리케이션은 내용이 바뀌면 pm2로 무중단 서비스 배포가 필요
 
-## \_\_dirname, \_\_filename, process.cwd()
+## 모듈에 따라 다른 경로 구하기 방법
 
-// file 명을 포함한 절대경로
-console.log(\_\_filename); // C:/Users/ano/temp/directory.js
+- `__dirname`은 코드가 실행되고 있는 모듈 파일이 위치한 폴더 경로를 반환.
+- `__filename`은 코드가 실행되고 있는 모듈 파일이 위치한 파일 경로를 반환.
+- `process.cwd()`는 node가 실행된 터미널 위치 경로를 반환.
 
-// file 명을 제외한 절대 경로
-console.log(\_\_dirname); // C:/Users/ano/temp
+```ts
+// CommonJS
 
-process.cwd(): node명령을 호출한 작업디렉터리의 절대경로
+__filename;
+__dirname;
+```
 
-~/home/huryu/personal/blog > node ~
-javascript// \_\_dirname은 현재 실행하는 파일의 절대경로이다
-console.log(\_\_dirname); // /home/huryu/personal/blog/.next/server/app/posts/[id]
+```ts
+// ESM
 
-// process.cwd()는 node명령을 호출한 작업디렉터리의 절대경로이다
-console.log(process.cwd()); // /home/huryu/personal/blog
+const __filename = fileURLToPath(import.meta.url)
+cosnt __dirname =  dirname(__filename);
+```
+
+```ts
+path.join(__dirname, '/a', '/b', '/c'); // dir/a/b/c
+path.resolve(__dirname, '/a', '/b', '/c'); // dir/c
+```
 
 ## createWriteStream, createReadStream, readFile, readFileSync, readdir
 
@@ -185,15 +180,3 @@ browser는 window 객체
 node는 global 객체\*\*
 
 ![img](images/express_middleware.png)
-
-## commonjs: \_\_dirname esm: dirname(fileURLToPath(import.meta.url))
-
-```ts
-__dirname; // commonjs
-__filename; // commonjs
-const __filename = fileURLToPath(import.meta.url) // esm
-cosnt __dirname =  dirname(__filename); // esm
-
-path.join(__dirname, "/a", "/b", "/c"); // dir/a/b/c
-path.resolve(__dirname, "/a", "/b", "/c"); // dir/c
-```
