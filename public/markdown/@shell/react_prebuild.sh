@@ -59,9 +59,9 @@ if ! git merge "origin/${branch:-master}"; then
 fi
 
 echo "---------- PACKAGE INSTALL ----------"
-echo -e "${GREEN}[INFO]${NOCOLOR} npm install"
-if ! npm install; then
-    echo -e "${RED}[ERROR]${NOCOLOR} npm install"
+echo -e "${GREEN}[INFO]${NOCOLOR} npm ci"
+if ! npm ci; then
+    echo -e "${RED}[ERROR]${NOCOLOR} npm ci"
     exit 1
 fi
 

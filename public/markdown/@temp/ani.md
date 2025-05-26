@@ -203,15 +203,15 @@ function App() {
 
 ### 중첩된 조건 처리 방법
 
-1. **`key` 값 관리**:
+1. `key` 값 관리:
 
    - React는 `key` 속성을 사용해 DOM 변화를 추적합니다. `AnimatePresence` 내부의 각 자식 요소에 고유한 `key`를 설정해 React가 서로 다른 컴포넌트로 인지하도록 해야 합니다.
 
-2. **애니메이션 중복 방지**:
+2. 애니메이션 중복 방지:
 
    - 서로 다른 상태 전환이 겹치지 않도록 `layout` 속성을 활용하거나, 상태 전환을 debounce 처리하여 상태 변화가 너무 빠르게 일어나지 않게 합니다.
 
-3. **wrap 함수 사용**:
+3. wrap 함수 사용:
    - 조건문 분기를 단순화하기 위해 최상단에 래핑 컴포넌트를 하나 더 두고 내부에서 중첩 조건을 처리합니다.
 
 ---
@@ -230,7 +230,6 @@ function App() {
       <button onClick={() => setState('B')}>Show B</button>
       <button onClick={() => setState('C')}>Show C</button>
 
-      {/* AnimatePresence로 감싸서 상태별 애니메이션 적용 */}
       <AnimatePresence mode='wait'>
         {(() => {
           switch (state) {
@@ -266,15 +265,15 @@ function App() {
 
 ### 해결 전략
 
-1. **`mode="wait"`** 사용:
+1. `mode="wait"` 사용:
 
    - `AnimatePresence`는 기본적으로 새로운 컴포넌트가 마운트될 때 기존 컴포넌트의 `exit` 애니메이션을 기다리지 않습니다. 하지만 `mode="wait"` 속성을 추가하면 `exit` 애니메이션 완료까지 기다린 후 새로운 컴포넌트를 렌더링합니다.
 
-2. **React DevTools로 상태 확인**:
+2. React DevTools로 상태 확인:
 
    - React DevTools를 사용해 상태 변화와 컴포넌트 렌더링을 추적하여 `key` 값이 올바르게 적용되는지 확인하세요.
 
-3. **빠른 상태 전환 방지**:
+3. 빠른 상태 전환 방지:
    - 상태 관리가 너무 빠르게 이뤄지지 않도록 `setTimeout`이나 `debounce`를 사용하는 것도 한 가지 방법입니다.
 
 ---

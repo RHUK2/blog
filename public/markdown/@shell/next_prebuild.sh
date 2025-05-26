@@ -67,9 +67,9 @@ echo "---------- PACKAGE INSTALL ----------"
 cd $rootPath || exit 1
 echo -e "${BLUE}[PATH]${NOCOLOR} $PWD"
 
-echo -e "${GREEN}[INFO]${NOCOLOR} npm install"
-if ! npm install; then
-    echo -e "${RED}[ERROR]${NOCOLOR} npm install"
+echo -e "${GREEN}[INFO]${NOCOLOR} npm ci"
+if ! npm ci; then
+    echo -e "${RED}[ERROR]${NOCOLOR} npm ci"
     exit 1
 fi
 

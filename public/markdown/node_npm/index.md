@@ -175,3 +175,12 @@ Node.js 런타임 자체는 npm이 설치한 `node_modules`를 그대로 쓰지�
 - 2025년 기준: npm v8은 꽤 효율적이지만, 완전 자동 중복 제거는 불가능하고, 프로젝트 요구사항(버전 호환성)에 따라 달라져.
 
 궁금한 거 더 있으면 물어봐! 중복 관리에서 특정 케이스가 궁금한가?
+
+## npm install vs npm ci
+
+npm install:
+package.json과 package-lock.json을 비교해 최신 버전 설치 가능.
+node_modules가 없으면 생성, 있으면 업데이트.
+npm ci:
+package-lock.json만 참조해 정확한 버전 설치.
+기존 node_modules 삭제 후 완전 새로 설치.
