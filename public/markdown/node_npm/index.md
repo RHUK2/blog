@@ -184,3 +184,52 @@ node_modules가 없으면 생성, 있으면 업데이트.
 npm ci:
 package-lock.json만 참조해 정확한 버전 설치.
 기존 node_modules 삭제 후 완전 새로 설치.
+
+## Nestjs 폴더구조
+
+### NestJS 폴더 구조 아키텍처 설명
+
+#### 1. 기본 구조
+
+- `src/`: 핵심 소스 코드 디렉토리
+  - `main.ts`: 애플리케이션 진입점
+  - `app.module.ts`: 루트 모듈
+
+#### 2. 주요 디렉토리
+
+- `modules/`: 기능별 모듈 분리 (DDD 방식 권장)
+  - 예: `users/`, `products/`
+- `common/`: 공유 유틸리티
+  - `interceptors/`, `filters/`, `decorators/`
+
+#### 3. 모듈 내부 구조 (예: users/)
+
+- `users.controller.ts`: 라우팅 처리
+- `users.service.ts`: 비즈니스 로직
+- `users.module.ts`: 의존성 관리
+- `dto/`: 데이터 전송 객체
+- `entities/`: DB 엔티티
+- `interfaces/`: 타입 정의
+
+#### 4. 환경 설정
+
+- `config/`: 환경변수 관리
+- `env/`: 환경별 설정 파일
+
+#### 5. 테스트
+
+- `test/`: E2E/유닛 테스트
+  - `e2e/`: 엔드투엔드 테스트
+  - `*.spec.ts`: 유닛 테스트
+
+#### 6. 빌드/배포
+
+- `dist/`: 컴파일된 출력물 (자동 생성)
+- `public/`: 정적 파일
+- `views/`: 템플릿 (사용시)
+
+> 💡 권장 사항
+>
+> - 기능 단위로 모듈화
+> - 계층형 아키텍처 적용 (Controller-Service-Repository)
+> - 공통 기능은 공유 모듈로 추출

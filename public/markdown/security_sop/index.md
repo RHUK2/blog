@@ -10,6 +10,7 @@ isPublished: true
 
 - [동일 출처 정책(Same Origin Policy)이란?](#동일-출처-정책same-origin-policy이란)
 - [교차 출처로 삽입할 수 있는 리소스](#교차-출처로-삽입할-수-있는-리소스)
+  - [컨텐츠 보안 정책(Content Security Policy)으로 교차 출처 삽입 접근 제어](#컨텐츠-보안-정책content-security-policy으로-교차-출처-삽입-접근-제어)
 - [교차 출처 리소스 공유](#교차-출처-리소스-공유)
   - [1. HttpOnly 쿠키에 저장](#1-httponly-쿠키에-저장)
   - [2. 로컬 스토리지(Local Storage)에 저장](#2-로컬-스토리지local-storage에-저장)
@@ -22,6 +23,7 @@ isPublished: true
 
 - 동일 출처 정책은 어떤 출처에서 불러온 문서나 스크립트가 다른 출처에서 가져온 리소스와 상호 작용할 수 있는 방법을 제한하는 중요한 보안 메커니즘이다.
 - 출처는 프로토콜, 호스트, 포트로 구성된다. 이 세 가지가 동일한 경우에만 두 URL은 동일한 출처로 간주된다.
+- 브라우저에서만 적용되는 정책이기에 서버 간의 통신에선 적용되징
 
 ![img](images/origin.gif)
 
@@ -42,11 +44,10 @@ isPublished: true
 - `@font-face`로 적용하는 글꼴
 - `<iframe>`으로 삽입하는 모든 것
 
-▾ 접근 제한 방법:
+### 컨텐츠 보안 정책(Content Security Policy)으로 교차 출처 삽입 접근 제어
 
 - 컨텐츠 보안 정책(Content Security Policy)을 헤더에 삽입하여 접근을 제한할 수 있다.
-- 브라우저에게 파일을 서빙하는 서버에서 응답 헤더(`Content-Security-Policy: ...)`로 설정 가능하다.
-- HTML의 메타 태그(`<meta http-equiv="Content-Security-Policy" content="...">`)로 설정 가능하다.
+- 브라우저에게 파일을 서빙하는 서버에서 응답 헤더(`Content-Security-Policy: ...)` 또는 HTML의 메타 태그(`<meta http-equiv="Content-Security-Policy" content="...">`)로 설정 가능하다.
 
 ```ts
 const cspHeader = `
