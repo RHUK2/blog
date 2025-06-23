@@ -233,3 +233,16 @@ package-lock.json만 참조해 정확한 버전 설치.
 > - 기능 단위로 모듈화
 > - 계층형 아키텍처 적용 (Controller-Service-Repository)
 > - 공통 기능은 공유 모듈로 추출
+
+## pnpm workspace
+
+```bash
+pnpm --filter @repo/ui add
+pnpm add --workspace @repo/ui
+pnpm
+```
+
+## local package
+
+패키지가 react-hook-form을 사용할 경우, 해당 패키지를 다운받았다고해서 메인앱에서 사용할 수 있는 개념이 아님
+import를 통해 넘어온 기능만 사용가능함

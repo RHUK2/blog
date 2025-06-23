@@ -23,6 +23,7 @@ isPublished: true
   - [git pull](#git-pull)
   - [git fetch](#git-fetch)
   - [git merge](#git-merge)
+  - [git rebase](#git-rebase)
   - [git revert](#git-revert)
   - [git reset](#git-reset)
   - [git restore](#git-restore)
@@ -226,6 +227,12 @@ fast-forward 방식은 추가적인 커밋 없이 병합을 진행한다.
 git merge <로컬 레포 브랜치명 | 원격 레포 브랜치명>
 git merge --no-ff # fast-forward 방식을 사용하지 않는다.
 git merge --abort # 현재 진행 중인 병합을 중단하고 이전 상태로 돌아갑니다.
+```
+
+### git rebase
+
+```sh
+git rebase main
 ```
 
 ### git revert
