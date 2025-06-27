@@ -168,7 +168,8 @@ navigator.geolocation.getCurrentPosition(
 
 - `Promise.resolve(value)`는 결괏값이 `value`인 이행 상태 프로미스를 생성한다.
 - `Promise.resolve(value)`는 `new Promise((res, rej) => res(value))`와 같다.
-- `Promise.resolve`는 호환성을 위해 함수가 거부 상태 프로미스를 반환하도록 해야 할 때 사용할 수 있다.
+- `Promise.resolve`는 호환성을 위해 함수가 이행 상태 프로미스를 반환하도록 해야 할 때 사용할 수 있다.
+-
 
 아래 함수 `loadCached`는 인수로 받은 URL을 대상으로 fetch를 호출하고, 그 결과를 기억한다.
 
@@ -195,7 +196,7 @@ function loadCached(url) {
 
 - `Promise.reject(error)`는 결괏값이 `error`인 거부 상태 프로미스를 생성한다.
 - `Promise.reject(error)`는 `new Promise((res, rej) => rej(error))`와 같다.
-- `Promise.reject`는 호환성을 위해 함수가 이행 상태 프로미스를 반환하도록 해야 할 때 사용할 수 있다.
+- `Promise.reject`는 호환성을 위해 함수가 거부 상태 프로미스를 반환하도록 해야 할 때 사용할 수 있다.
 
 아래는 `axios` 라이브러리의 응답에 대한 인터셉터 기능을 사용할 때이다.
 
