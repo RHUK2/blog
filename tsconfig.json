@@ -19,9 +19,9 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@public/*": ["./public/*"],
-      "@/*": ["./app/*"]
+      "@/*": ["*"]
     },
     "target": "ES2017"
   }
