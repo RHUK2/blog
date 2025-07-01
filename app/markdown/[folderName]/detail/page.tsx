@@ -1,4 +1,4 @@
-import { readMarkdownContent } from '@/_data';
+import { readMarkdownContent, readMarkdownMetaListAll } from '@/data/dynamic/local.data';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -9,6 +9,18 @@ interface Props {
   params: Promise<{
     folderName: string;
   }>;
+}
+
+export const revalidate = 3600;
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const markdownMetaList = await readMarkdownMetaListAll();
+
+  return markdownMetaList.markdownMetaList.map((markdownMeta) => ({
+    folderName: markdownMeta.folderName,
+  }));
 }
 
 export default async function Page({ params }: Props) {
@@ -28,6 +40,7 @@ export default async function Page({ params }: Props) {
               <Image
                 alt={alt ?? ''}
                 src={`/markdown/${folderName}/${src ?? ''}`}
+                unoptimized={src?.match(/\.(svg|gif)$/) ? true : false}
                 width={1600}
                 height={900}
                 sizes='100vw'
