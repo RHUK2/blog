@@ -1,6 +1,6 @@
 'use client';
 
-import { ITabListState } from '@/_type';
+import { ITabListState } from '@/data/dynamic/chat.types';
 import { motion, MotionConfig } from 'motion/react';
 import { createContext, Fragment, useContext, useState } from 'react';
 import { ChatForm } from './ChatForm';

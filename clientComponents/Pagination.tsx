@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { Button, Menu } from '.';
 import { MenuItem } from './MenuItem';
-import { useDebounce } from '@/_hooks';
+import { useDebounce } from '@/utils/hooks';
 
 interface Props {
   totalCount: number;

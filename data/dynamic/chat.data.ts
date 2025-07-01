@@ -1,5 +1,5 @@
-import { IChatListRequest } from '@/_type';
 import { useMutation } from '@tanstack/react-query';
+import { IChatListRequest } from './chat.types';
 
 export function useChatMutation(signal?: AbortSignal) {
   return useMutation<Response, unknown, IChatListRequest>({

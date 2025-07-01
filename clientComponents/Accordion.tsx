@@ -1,8 +1,8 @@
 'use client';
 
-import { TExperienceList } from '@/_type';
-import ArrowDown from '@public/assets/arrow-down.svg';
-import ArrowUp from '@public/assets/arrow-up.svg';
+import { TExperienceList } from '@/data/static/types';
+import ArrowDown from '@/public/arrow-down.svg';
+import ArrowUp from '@/public/arrow-up.svg';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { useState } from 'react';
 

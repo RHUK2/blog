@@ -1,4 +1,4 @@
-import RootPage from '@/page';
+import RootPage from '@/app/page';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

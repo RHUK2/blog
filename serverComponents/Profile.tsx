@@ -7,7 +7,7 @@ export function Profile() {
       <div className='flex min-w-32 flex-[1_0_0] justify-center'>
         <Image
           alt='profile'
-          src='/assets/profile.jpg'
+          src='/profile.jpg'
           width={354}
           height={472}
           className='aspect-square self-start rounded-[1rem_50%_50%_50%] object-cover'

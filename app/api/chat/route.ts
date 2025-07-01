@@ -1,4 +1,4 @@
-import { IChatListRequest } from '@/_type';
+import { IChatListRequest } from '@/data/dynamic/chat.types';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({

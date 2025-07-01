@@ -1,3 +1,8 @@
+import { Footer } from '@/clientComponents';
+import { ReactQueryProvider } from '@/contextAPI/ReactQueryProvider';
+import { Header } from '@/serverComponents';
+import '@/styles/globals.css';
+import '@/styles/highlight.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -5,19 +10,13 @@ import 'katex/dist/katex.min.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { ReactNode } from 'react';
-import { Footer } from './_clientComponent';
-import './_css/globals.css';
-import './_css/highlight.css';
-import { writeMarkdownMetaList } from './_data';
-import { CustomQueryClientProvider } from './_provider';
-import { Header } from './_serverComponent';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
 const pretendard = localFont({
   variable: '--font-pretendard',
-  src: '../public/fonts/PretendardVariable.woff2',
+  src: '../styles/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
 });
@@ -31,18 +30,15 @@ interface Props {
   children: ReactNode;
 }
 
-// list.json 업데이트
-// await writeMarkdownMetaList();
-
 export default async function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang='en' className='h-full'>
       <body className={`h-full ${pretendard.className} dark:bg-gray-950 dark:text-white`}>
-        <CustomQueryClientProvider>
+        <ReactQueryProvider>
           <Header />
           {children}
           <Footer />
-        </CustomQueryClientProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

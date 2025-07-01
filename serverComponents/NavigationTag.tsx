@@ -1,4 +1,4 @@
-import { readTagList } from '@/_data';
+import { readTagList } from '@/data/dynamic/local.data';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 

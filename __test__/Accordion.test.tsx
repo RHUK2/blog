@@ -1,13 +1,13 @@
-import { Accordion } from '@/_clientComponent';
+import { Accordion } from '@/clientComponents';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Accordion', () => {
   const title = 'Title';
   const list = [
-    { behavior: 'behavior 1', result: 'result 1' },
-    { behavior: 'behavior 2', result: 'result 2' },
-    { behavior: 'behavior 3', result: 'result 3' },
+    { id: '0', behavior: 'behavior 1', result: 'result 1' },
+    { id: '1', behavior: 'behavior 2', result: 'result 2' },
+    { id: '2', behavior: 'behavior 3', result: 'result 3' },
   ];
 
   test('클릭으로 토글 시 리스트가 보여짐과 숨겨짐을 반복한다.', async () => {

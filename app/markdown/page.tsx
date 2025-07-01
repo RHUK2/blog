@@ -1,7 +1,7 @@
-import { Pagination } from '@/_clientComponent';
-import { PAGE_SIZE, readMarkdownMetaList } from '@/_data';
-import { Divider, MarkdownMetaCard, NavigationTag } from '@/_serverComponent';
-import { Suspense } from 'react';
+import { Pagination } from '@/clientComponents';
+import { readMarkdownMetaList } from '@/data/dynamic/local.data';
+import { PAGE_SIZE } from '@/data/static/constants';
+import { Divider, MarkdownMetaCard, NavigationTag } from '@/serverComponents';
 
 interface Props {
   searchParams: Promise<{
@@ -19,19 +19,15 @@ export default async function Page({ searchParams }: Props) {
   return (
     <>
       <section className='m-auto flex max-w-[768px] min-w-[320px] flex-col gap-8 px-4 py-10'>
-        {/* <Suspense fallback={<div>Loading...</div>}> */}
         <NavigationTag currentTag={tag} />
-        {/* </Suspense> */}
 
         <Divider />
 
         <Pagination totalCount={markdownMetaList.totalCount} size={parseInt(PAGE_SIZE)} />
 
-        {markdownMetaList.markdownMetaList
-          .sort((a, b) => new Date(b.updatedAt ?? '').getTime() - new Date(a.updatedAt ?? '').getTime())
-          .map((markdownMeta) => (
-            <MarkdownMetaCard key={markdownMeta.id} data={markdownMeta} />
-          ))}
+        {markdownMetaList.markdownMetaList.map((markdownMeta) => (
+          <MarkdownMetaCard key={markdownMeta.id} data={markdownMeta} />
+        ))}
       </section>
     </>
   );

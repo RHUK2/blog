@@ -1,4 +1,4 @@
-import { TabsForm } from '@/_clientComponent';
+import { TabsForm } from '@/clientComponents';
 
 export default function Page() {
   return (

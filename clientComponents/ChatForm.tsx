@@ -1,7 +1,7 @@
 'use client';
 
-import { useChatMutation } from '@/_mutation';
-import { IChat, IChatForm } from '@/_type';
+import { useChatMutation } from '@/data/dynamic/chat.data';
+import { IChat, IChatForm } from '@/data/dynamic/chat.types';
 import React, {
   DetailedHTMLProps,
   FormHTMLAttributes,

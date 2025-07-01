@@ -1,5 +1,5 @@
-import { TCareerList, TNavList, TProjectList, TSkillList } from '@/_type';
 import { v4 } from 'uuid';
+import { TCareerList, TNavList, TProjectList, TSkillList } from './types';
 
 export const navList: TNavList = [
   {

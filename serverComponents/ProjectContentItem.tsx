@@ -1,7 +1,7 @@
-import { IProject } from '@/_type';
-import { IconBadge } from './IconBadge';
-import { Accordion } from '@/_clientComponent';
+import { Accordion } from '@/clientComponents';
+import { IProject } from '@/data/static/types';
 import { ContributionsBadge } from './ContributionsBadge';
+import { IconBadge } from './IconBadge';
 
 interface Props {
   data: IProject;

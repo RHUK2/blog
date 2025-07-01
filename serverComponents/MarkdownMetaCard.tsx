@@ -1,4 +1,4 @@
-import { IMarkdownMeta } from '@/_type';
+import { IMarkdownMeta } from '@/data/dynamic/local.types';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { DetailedHTMLProps, LiHTMLAttributes } from 'react';

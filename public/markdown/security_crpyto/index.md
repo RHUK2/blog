@@ -1,5 +1,5 @@
 ---
-folderName: security_crypto
+folderName: security_crpyto
 updatedAt: 2025-02-06
 title: 암호화 방식
 tag: security

@@ -1,7 +1,7 @@
 'use client';
 
-import { DarkLightButton } from '@/_clientComponent';
-import { navList } from '@/_data';
+import { DarkLightButton } from '@/clientComponents';
+import { navList } from '@/data/static/data';
 import { motion, MotionConfig } from 'motion/react';
 import Link from 'next/link';
 

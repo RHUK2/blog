@@ -1,16 +1,16 @@
 'use client';
 
-import { TIcon } from '@/_type';
-import AwsIcon from '@public/assets/aws.svg';
-import GithubIcon from '@public/assets/github.svg';
-import JavascriptIcon from '@public/assets/javascript.svg';
-import MuiIcon from '@public/assets/mui.svg';
-import NextjsIcon from '@public/assets/nextjs.svg';
-import ReactIcon from '@public/assets/react.svg';
-import ReacthookformIcon from '@public/assets/reacthookform.svg';
-import ReactqueryIcon from '@public/assets/reactquery.svg';
-import TailwindcssIcon from '@public/assets/tailwindcss.svg';
-import TypescriptIcon from '@public/assets/typescript.svg';
+import { TIcon } from '@/data/static/types';
+import AwsIcon from '@/public/aws.svg';
+import GithubIcon from '@/public/github.svg';
+import JavascriptIcon from '@/public/javascript.svg';
+import MuiIcon from '@/public/mui.svg';
+import NextjsIcon from '@/public/nextjs.svg';
+import ReactIcon from '@/public/react.svg';
+import ReacthookformIcon from '@/public/reacthookform.svg';
+import ReactqueryIcon from '@/public/reactquery.svg';
+import TailwindcssIcon from '@/public/tailwindcss.svg';
+import TypescriptIcon from '@/public/typescript.svg';
 import Link from 'next/link';
 import { twJoin, twMerge } from 'tailwind-merge';
 

@@ -1,4 +1,4 @@
-import { ICareer } from '@/_type';
+import { ICareer } from '@/data/static/types';
 
 interface Props {
   data: ICareer;
