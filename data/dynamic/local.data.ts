@@ -29,7 +29,7 @@ export async function writeMarkdownMetaList() {
   }
 }
 
-await writeMarkdownMetaList();
+// await writeMarkdownMetaList();
 
 export async function readTagList() {
   try {
