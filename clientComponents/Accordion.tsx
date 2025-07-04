@@ -1,9 +1,8 @@
 'use client';
 
 import { TExperienceList } from '@/data/static/types';
-import ArrowDown from '@/public/arrow-down.svg';
-import ArrowUp from '@/public/arrow-up.svg';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 
 interface Props {
@@ -44,11 +43,7 @@ export function Accordion({ title, list }: Props) {
           </motion.span>
           <p className='flex items-center gap-1'>
             {title}
-            {isOpen ? (
-              <ArrowUp className='h-4 w-4 fill-black dark:fill-white' />
-            ) : (
-              <ArrowDown className='h-4 w-4 fill-black dark:fill-white' />
-            )}
+            {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </p>
         </motion.button>
         <AnimatePresence>
