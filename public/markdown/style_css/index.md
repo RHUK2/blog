@@ -19,6 +19,9 @@ isPublished: true
 - [`outline` • `box-shadow`](#outline--box-shadow)
 - [`transition` • `animation`](#transition--animation)
 - [`pointer-events` • `user-select`](#pointer-events--user-select)
+- [`style` • `className`](#style--classname)
+- [`viewport` • `viewbox`](#viewport--viewbox)
+- [`fieldset` 내부에선 flex가 잘동작하지 않으므로 div로 대체](#fieldset-내부에선-flex가-잘동작하지-않으므로-div로-대체)
 
 ## CSS 명시도
 
@@ -229,3 +232,18 @@ animation:
 - `pointer-events: none`으로 설정하면 해당 속성이 적용된 요소에서는 클릭 이벤트가 발생하지 않는다.
 - `user-select: none`이면 텍스트가 클릭이나 드래그로 선택되는 것을 막는다.
 - `user-select: all`이면 클릭 한 번으로 텍스트가 선택된다.
+
+## `style` • `className`
+
+className은 빌드타임에 정적으로 정의된 값만 사용가능
+style은 주로 동적값 계산 시 사용
+
+## `viewport` • `viewbox`
+
+```tsx
+<svg width='16' height='16' viewBox='0 0 24 24' style={{ background: 'yellow' }}>
+  <rect x='0' y='0' width='24' height='24' fill='none' stroke='red' strokeWidth='1' />
+</svg>
+```
+
+## `fieldset` 내부에선 flex가 잘동작하지 않으므로 div로 대체
