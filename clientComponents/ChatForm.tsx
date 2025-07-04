@@ -177,7 +177,7 @@ export const ChatForm = forwardRef(function ChatForm(
 
   return (
     <form role='tabpanel' ref={formRef} className={twMerge('flex flex-col gap-4', `${className ?? ''}`)} {...formProps}>
-      <ul ref={ulRef} className='flex flex-[1_0_0px] flex-col gap-4 overflow-y-auto pr-4'>
+      <ul ref={ulRef} className='flex flex-[1_0_0px] flex-col gap-4 overflow-y-auto'>
         {chatList.map((message, message_index) => {
           switch (message.role) {
             case 'system':
@@ -264,7 +264,7 @@ export const ChatForm = forwardRef(function ChatForm(
         </label>
       </fieldset> */}
 
-      <fieldset className='flex gap-2'>
+      <div className='flex gap-2'>
         <Textarea
           autoComplete='off'
           rows={1}
@@ -276,7 +276,7 @@ export const ChatForm = forwardRef(function ChatForm(
           onKeyDown={onKeyDown}
         />
         <Button onClick={onClick}>{isStreaming ? '취소' : '입력'}</Button>
-      </fieldset>
+      </div>
     </form>
   );
 });
