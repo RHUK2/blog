@@ -17,18 +17,16 @@ export default async function Page({ searchParams }: Props) {
   const markdownMetaList = await readMarkdownMetaList(tag, page, size);
 
   return (
-    <>
-      <section className='m-auto flex max-w-[768px] min-w-[320px] flex-col gap-8 px-4 py-10'>
-        <NavigationTag currentTag={tag} />
+    <section className='flex flex-col gap-8 px-4 py-10'>
+      <NavigationTag currentTag={tag} />
 
-        <Divider />
+      <Divider />
 
-        <Pagination totalCount={markdownMetaList.totalCount} size={parseInt(PAGE_SIZE)} />
+      <Pagination totalCount={markdownMetaList.totalCount} size={parseInt(PAGE_SIZE)} />
 
-        {markdownMetaList.markdownMetaList.map((markdownMeta) => (
-          <MarkdownMetaCard key={markdownMeta.id} data={markdownMeta} />
-        ))}
-      </section>
-    </>
+      {markdownMetaList.markdownMetaList.map((markdownMeta) => (
+        <MarkdownMetaCard key={markdownMeta.id} data={markdownMeta} />
+      ))}
+    </section>
   );
 }

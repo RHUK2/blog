@@ -6,8 +6,6 @@ interface Props {
 
 export default function Layout({ children }: Readonly<Props>) {
   return (
-    <main className='m-auto min-h-full max-w-[1024px] min-w-[320px] border-x border-x-gray-300 bg-white pt-12 dark:border-x-gray-800 dark:bg-gray-950'>
-      {children}
-    </main>
+    <main className='m-auto min-h-full max-w-[768px] min-w-[320px] bg-white pt-12 dark:bg-gray-950'>{children}</main>
   );
 }

@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
   const markdownContent = await readMarkdownContent(folderName);
 
   return (
-    <section className='m-auto min-h-full max-w-[768px] min-w-[320px] px-4 py-10'>
+    <section className='min-h-full px-4 py-10'>
       <Markdown
         className='prose dark:prose-invert max-w-none'
         remarkPlugins={[remarkGfm]}

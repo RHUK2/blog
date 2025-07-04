@@ -30,8 +30,6 @@ export async function POST(request: Request) {
 
     const stream = new ReadableStream({
       async start(controller) {
-        controller.enqueue('');
-
         try {
           const client = body.model.includes('deepseek') ? deepseek : openai;
 
