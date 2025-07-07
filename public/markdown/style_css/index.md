@@ -160,7 +160,7 @@ body {
 - `styles.hljs`와 `styles.language-text`는 각각 해시된 클래스 이름을 반환하므로, CSS 모듈의 스타일이 적용된다.
 - 문자열로 클래스를 지정하면, CSS 모듈이 생성한 해시값과 일치하지 않아 스타일이 적용되지 않는다.
 
-```ts
+```tsx
 import styles from './markdown.module.css'
 
 fucntion App() {

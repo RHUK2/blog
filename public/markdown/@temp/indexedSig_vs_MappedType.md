@@ -101,7 +101,6 @@ type PartialUser = {
 
 1. 키 집합 순회: `Mapped Type`은 `keyof`와 `in` 키워드를 사용하여 기존 객체 타입의 키를 기반으로 새 타입을 정의합니다.
 2. 유틸리티 타입: TypeScript 내장 유틸리티 타입 (`Readonly<T>`, `Partial<T>`, `Record<K, T>`, 등)은 `Mapped Type`으로 동작합니다.
-
    - 예: `Partial<T>`는 모든 필드를 선택적으로 만드는 타입:
 
    ```ts

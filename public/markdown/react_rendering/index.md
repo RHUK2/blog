@@ -87,7 +87,7 @@ https://www.freecodecamp.org/news/innerhtml-vs-innertext-vs-textcontent/
 
 ## 요소 렌더링
 
-```ts
+```tsx
 const MyComponent = ({ items }) => {
   return <div>{items.map((item) => item.shouldRender && <div key={item.id}>{item.content}</div>)}</div>;
 };
@@ -108,7 +108,6 @@ const MyComponent = ({ items }) => {
 ## 렌더링
 
 1. 조건문을 사용한 요소 렌더링:
-
    - 장점: 조건문을 사용해 요소를 렌더링하면, 해당 요소가 아예 DOM에 추가되지 않거나 제거된다. 이는 불필요한 요소들이 메모리와 리소스를 차지하지 않게 하기 때문에 성능에 긍정적인 영향을 미친다.
    - 단점: 요소가 다시 나타나야 할 때, 새롭게 렌더링 되어야 하므로 초기 렌더링 비용이 발생할 수 있다.
 

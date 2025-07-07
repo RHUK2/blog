@@ -37,11 +37,9 @@ isPublished: true
 개발 환경의 `<StrictMode>`에서는 다음과 같은 동작이 활성화된다.
 
 - 컴포넌트가 불완전한 렌더링으로 인한 버그를 찾기 위해 한 번 더 렌더링한다.
-
   - React는 모든 컴포넌트를 순수한 함수라고 가정한다. 즉, 컴포넌트는 동일한 입력(`props`, `state`, `context`)이 주어졌을 때 항상 동일한 JSX를 반환해야 한다.
 
     이 규칙을 위반하는 컴포넌트는 예측할 수 없는 동작을 하며 버그를 유발한다. 실수로 발생한 버그를 찾을 수 있도록 `<StrictMode>`는 일부 함수(순수해야 하는 함수만)를 두 번 호출한다. 일부 함수는 다음과 같다.
-
     - 컴포넌트 함수 본문(최상위 로직만 포함하므로 이벤트 핸들러 내부의 코드는 포함되지 않음)
 
     - `useState`, `set` 함수에 전달한 함수, `useMemo` 또는 `useReducer`에 전달한 함수
@@ -173,15 +171,18 @@ const ref = useRef(initialValue);
 - `ref` 객체를 JSX 요소의 `ref` 속성으로 전달하면 요소가 렌더링됐을 때 `current`에 요소의 객체가 담긴다.
 - 기본적으로 React는 가상 DOM을 이용해 실제 DOM을 추상화하고 관리하기 때문에 리액트의 메커니즘이 아닌 기존 바닐라 자바스크립트 메커니즘으로 실제 DOM을 수정하려고 할 경우 문제가 생길 수 있다. 그렇기 때문에 DOM 노드를 참조해서 기능을 생성할 때 스타일 수정, 포커스 관리, 스크롤 위치 수정과 같은 비파괴적인 작업은 상관없지만 `appendChild()`, `remove()`와 같은 파괴적인 작업은 예기치 못한 오류를 낼 수 있다.
 
-```ts
+```tsx
 function App() {
   const ref = useRef<HTMLButtonElement | null>(null);
   // 다중 Ref 설정 방법
-  const refArray = [useRef<HTMLButtonElement | null>(null), useRef<HTMLButtonElement | null>(null), useRef<HTMLButtonElement | null>(null)];
-
+  const refArray = [
+    useRef<HTMLButtonElement | null>(null),
+    useRef<HTMLButtonElement | null>(null),
+    useRef<HTMLButtonElement | null>(null),
+  ];
 
   function handleClick() {
-    if(ref.current != null) console.dir(ref.current);
+    if (ref.current != null) console.dir(ref.current);
   }
 
   return (
@@ -189,7 +190,7 @@ function App() {
     // <button ref={(element) => { ref.current = element }} onClick={handleClick}>
     // ref 설정 방법 축약 버전
     <button ref={ref} onClick={handleClick}>
-        Button
+      Button
     </button>
   );
 }
@@ -199,7 +200,7 @@ function App() {
 
 부모 컴포넌트에서 사용자 정의 컴포넌트의 내부 요소를 참조하려는 경우 `forwardRef()` 메서드를 사용해야 한다.
 
-```ts
+```tsx
 const MyButton = forwardRef((props, ref) => {
   return (
     <button ref={ref} {...props}>
@@ -227,7 +228,7 @@ function App() {
 
 `forwardRef()`로 감싸진 컴포넌트는 `ref` 객체가 요소와 연결되면 해당 요소를 컴포넌트 내부에서 조작을 할 수 없게 된다. `useImperativeHandle()`이라는 리액트에서 제공해주는 훅을 사용하면 컴포넌트 내부에서 요소의 연결된 `ref` 객체를 조작할 수 있고 `ref` 객체를 상위 컴포넌트에 내보낼 때 필요한 기능만 커스텀해서 보낼 수 있다.
 
-```ts
+```tsx
 // useImperativeHandle 사용 전
 const FileInput = forwardRef(({ buttonProps, ...inputProps }, ref) => {
   return (
@@ -378,7 +379,7 @@ Context API는 아래와 같은 경우 사용된다.
 - 전역에 값을 선언하여 여러 컴포넌트들에게 제공해야 하는 경우
 - 동일한 값을 같은 컴포넌트들에게 제공해야 하는 경우
 
-```ts
+```tsx
 // Group.tsx
 interface Context {
   name: string;
@@ -416,9 +417,11 @@ export function useGroup() {
 }
 ```
 
-```ts
+```tsx
 // Radio.tsx
-interface Props { value: string }
+interface Props {
+  value: string;
+}
 
 // 4. 자식 컴포넌트에서 커스텀 훅 사용
 function Radio({ value }: Props) {
@@ -428,7 +431,7 @@ function Radio({ value }: Props) {
 }
 ```
 
-```ts
+```tsx
 // App.tsx
 export default function App() {
   const [value, setValue] = useState('');
@@ -439,7 +442,8 @@ export default function App() {
         name='radio'
         onChange={(e) => {
           setValue(e.target.value);
-        }}>
+        }}
+      >
         <Radio value='foo' />
         <Radio value='bar' />
         <Radio value='baz' />

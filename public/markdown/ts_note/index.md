@@ -18,6 +18,11 @@ isPublished: true
 - [`declare`](#declare)
 - [`ReturnType`](#returntype)
 - [`null` • `undefined` 한번에 체크하기](#null--undefined-한번에-체크하기)
+- [`extends` 키워드](#extends-키워드)
+  - [인터페이스 확장](#인터페이스-확장)
+  - [제네릭 제약 (Generic Constraints)](#제네릭-제약-generic-constraints)
+  - [조건부 타입 (Conditional Types)](#조건부-타입-conditional-types)
+  - [infer 키워드와 함께 사용](#infer-키워드와-함께-사용)
 
 ## 타입은 집합이다
 
@@ -350,4 +355,100 @@ const temp = undefined;
 if (temp == null) {
   console.log(temp); // undefined
 }
+```
+
+## `extends` 키워드
+
+TypeScript에서 `extends` 키워드는 상속, 제네릭 제약, 조건부 타입 등 다양한 용도로 사용된다.
+
+### 인터페이스 확장
+
+```ts
+interface Shape {
+  color: string;
+}
+
+interface Square extends Shape {
+  sideLength: number;
+}
+
+interface Circle extends Shape {
+  radius: number;
+}
+
+// 다중 확장
+interface ColoredSquare extends Shape, Square {
+  border: string;
+}
+```
+
+### 제네릭 제약 (Generic Constraints)
+
+```ts
+// T는 반드시 length 프로퍼티를 가져야 함
+function logLength<T extends { length: number }>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+logLength('hello'); // ✅ string has length
+logLength([1, 2, 3]); // ✅ array has length
+logLength({ length: 10, value: 3 }); // ✅ object has length
+// logLength(123); // ❌ number doesn't have length
+```
+
+```ts
+// keyof를 사용한 제약
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const person = { name: 'John', age: 30, city: 'Seoul' };
+const name = getProperty(person, 'name'); // string
+const age = getProperty(person, 'age'); // number
+// const invalid = getProperty(person, "invalid"); // ❌ 존재하지 않는 키
+```
+
+### 조건부 타입 (Conditional Types)
+
+```ts
+// T가 string을 확장하면 true, 아니면 false
+type IsString<T> = T extends string ? true : false;
+
+type Test1 = IsString<string>; // true
+type Test2 = IsString<number>; // false
+type Test3 = IsString<'hello'>; // true (string literal은 string을 확장)
+```
+
+```ts
+// 내장 유틸리티 타입들의 구현 예시
+type MyNonNullable<T> = T extends null | undefined ? never : T;
+type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+type MyParameters<T> = T extends (...args: infer P) => any ? P : never;
+
+function example(a: string, b: number): boolean {
+  return true;
+}
+
+type ExampleReturn = MyReturnType<typeof example>; // boolean
+type ExampleParams = MyParameters<typeof example>; // [string, number]
+```
+
+### infer 키워드와 함께 사용
+
+```ts
+// 배열 요소 타입 추출
+type ArrayElement<T> = T extends (infer U)[] ? U : never;
+
+type StringArray = ArrayElement<string[]>; // string
+type NumberArray = ArrayElement<number[]>; // number
+type NotArray = ArrayElement<string>; // never
+```
+
+```ts
+// Promise 내부 타입 추출
+type Awaited<T> = T extends Promise<infer U> ? U : T;
+
+type PromiseString = Awaited<Promise<string>>; // string
+type RegularString = Awaited<string>; // string
 ```

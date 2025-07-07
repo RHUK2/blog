@@ -6,7 +6,7 @@ tag: issue
 isPublished: true
 ---
 
-```ts
+```tsx
 import { useEffect, useState } from 'react';
 
 export function App() {
