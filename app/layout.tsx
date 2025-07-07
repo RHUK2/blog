@@ -1,4 +1,5 @@
 import { Footer } from '@/clientComponents';
+import { GlobalClientConfig } from '@/clientComponents/GlobalClientConfig';
 import { ReactQueryProvider } from '@/contextAPI/ReactQueryProvider';
 import { Header } from '@/serverComponents';
 import '@/styles/globals.css';
@@ -40,6 +41,7 @@ export default async function RootLayout({ children }: Readonly<Props>) {
     <html lang='en' className={`h-full ${theme}`}>
       <body className={`h-full ${pretendard.className} dark:bg-gray-950 dark:text-white`}>
         <ReactQueryProvider>
+          <GlobalClientConfig />
           <Header />
           {children}
           <Footer />

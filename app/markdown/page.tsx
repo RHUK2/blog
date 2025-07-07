@@ -1,7 +1,7 @@
-import { Pagination } from '@/clientComponents';
+import { MarkdownMetaCard, Pagination } from '@/clientComponents';
 import { readMarkdownMetaList } from '@/data/dynamic/local.data';
 import { PAGE_SIZE } from '@/data/static/constants';
-import { Divider, MarkdownMetaCard, NavigationTag } from '@/serverComponents';
+import { Divider, NavigationTag } from '@/serverComponents';
 
 interface Props {
   searchParams: Promise<{

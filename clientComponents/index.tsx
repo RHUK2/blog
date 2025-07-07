@@ -3,6 +3,7 @@ export * from './Button';
 export * from './ChatForm';
 export * from './DarkLightButton';
 export * from './Footer';
+export * from './MarkdownMetaCard';
 export * from './Menu';
 export * from './Pagination';
 export * from './Radio';

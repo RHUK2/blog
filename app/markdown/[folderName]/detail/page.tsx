@@ -1,3 +1,4 @@
+import { ScrollTopFloatingButton } from '@/clientComponents';
 import { readMarkdownContent, readMarkdownMetaListAll } from '@/data/dynamic/local.data';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
@@ -55,6 +56,8 @@ export default async function Page({ params }: Props) {
       >
         {markdownContent}
       </Markdown>
+
+      <ScrollTopFloatingButton />
     </section>
   );
 }

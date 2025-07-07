@@ -4,8 +4,6 @@ export * from './ContributionsBadge';
 export * from './Divider';
 export * from './Header';
 export * from './IconBadge';
-export * from './MarkdownMetaCard';
 export * from './NavigationTag';
 export * from './Profile';
 export * from './ProjectContentItem';
-export * from './TOC';
