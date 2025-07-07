@@ -1,19 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { Moon, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
-import { twJoin } from 'tailwind-merge';
+import { useEffect, useState } from 'react';
 
 export function DarkLightButton() {
-  const [mode, setMode] = useState({
-    theme: 'dark',
-    isInit: false,
-  });
+  const [theme, setTheme] = useState<'dark' | 'light' | undefined>();
 
-  function handleMode() {
-    setMode((mode) => {
-      const updateValue = mode.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', updateValue);
+  function updateTheme() {
+    setTheme((prev) => {
+      const updateValue = prev === 'dark' ? 'light' : 'dark';
+      Cookies.set('theme', updateValue);
 
       if (updateValue === 'dark') {
         document.documentElement.classList.add('dark');
@@ -21,55 +19,47 @@ export function DarkLightButton() {
         document.documentElement.classList.remove('dark');
       }
 
-      return {
-        ...mode,
-        theme: updateValue,
-      };
+      return updateValue;
     });
   }
 
   useEffect(() => {
-    if (!mode.isInit) {
-      const item = localStorage.getItem('theme');
+    let systemTheme: 'dark' | 'light' = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
-      let updateValue = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const theme = Cookies.get('theme');
 
-      if (item) {
-        updateValue = item;
-      }
-
-      if (updateValue === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-
-      localStorage.setItem('theme', updateValue);
-
-      setMode({
-        theme: updateValue,
-        isInit: true,
-      });
+    if (theme === 'dark' || theme === 'light') {
+      systemTheme = theme;
     }
-  }, [mode.isInit]);
+
+    if (systemTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    Cookies.set('theme', systemTheme);
+
+    setTheme(systemTheme);
+  }, []);
 
   return (
-    <motion.button
-      aria-label='theme-mode'
-      onClick={handleMode}
-      className={twJoin(
-        'flex h-6 w-12 cursor-pointer items-center rounded-2xl border border-gray-700 bg-slate-50 bg-gradient-to-br from-gray-900 to-gray-800 px-1',
-        'dark:border-gray-400 dark:from-gray-50 dark:to-gray-100',
-        `${mode.theme === 'dark' ? 'justify-start' : 'justify-end'}`,
+    <>
+      {theme && (
+        <motion.button
+          aria-label='theme-mode'
+          onClick={updateTheme}
+          className='cursor-pointer'
+          whileHover={{
+            scale: 1.2,
+          }}
+          whileFocus={{
+            scale: 1.2,
+          }}
+        >
+          {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
+        </motion.button>
       )}
-    >
-      <motion.div
-        layout
-        className={twJoin(
-          'h-4 w-4 rounded-[50%] border-gray-400 bg-slate-50 bg-gradient-to-br from-gray-50 to-gray-100',
-          'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
-        )}
-      ></motion.div>
-    </motion.button>
+    </>
   );
 }

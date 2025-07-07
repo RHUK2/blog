@@ -9,6 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'katex/dist/katex.min.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 
 dayjs.locale('ko');
@@ -31,8 +32,12 @@ interface Props {
 }
 
 export default async function RootLayout({ children }: Readonly<Props>) {
+  const cookieStore = await cookies();
+
+  const theme = cookieStore.get('theme')?.value;
+
   return (
-    <html lang='en' className='h-full'>
+    <html lang='en' className={`h-full ${theme}`}>
       <body className={`h-full ${pretendard.className} dark:bg-gray-950 dark:text-white`}>
         <ReactQueryProvider>
           <Header />
