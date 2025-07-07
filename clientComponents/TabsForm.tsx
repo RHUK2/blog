@@ -59,7 +59,7 @@ export function TabsForm() {
       <div className='flex h-full flex-col gap-3'>
         <ul
           role='tablist'
-          className='flex h-18 items-end gap-1 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'
+          className='hide-scrollbar flex h-18 items-end gap-1 overflow-x-auto border-b border-gray-400 px-0.5 dark:border-gray-700'
         >
           {tabListState.tabList.map((tab) => (
             <motion.li

@@ -34,3 +34,7 @@
 *::-webkit-scrollbar-thumb:active {
   background-color: #b8b8b8;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

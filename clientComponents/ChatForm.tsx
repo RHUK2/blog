@@ -22,6 +22,7 @@ import { twMerge } from 'tailwind-merge';
 import { Button } from './Button';
 import { useSetTabListStateContext } from './TabsForm';
 import { Textarea } from './Textarea';
+import { Copy, CopyCheck } from 'lucide-react';
 
 const initChat: IChat[] = [
   {
@@ -40,6 +41,8 @@ export const ChatForm = forwardRef(function ChatForm(
   const [abortController, setAbortController] = useState<AbortController>(new AbortController());
 
   const [isStreaming, setIsStreaming] = useState(false);
+
+  const [isCopy, setIsCopy] = useState<(boolean | undefined)[]>([]);
 
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -143,6 +146,22 @@ export const ChatForm = forwardRef(function ChatForm(
     onChat();
   }
 
+  async function copyMessage(message: string, index: number) {
+    await navigator.clipboard.writeText(message);
+    setIsCopy((prev) => {
+      const newCopyState = [...prev];
+      newCopyState[index] = true;
+      return newCopyState;
+    });
+    setTimeout(() => {
+      setIsCopy((prev) => {
+        const newCopyState = [...prev];
+        newCopyState[index] = false;
+        return newCopyState;
+      });
+    }, 1000);
+  }
+
   function moveScroll() {
     if (ulRef.current) {
       const lastLi = ulRef.current?.children[ulRef.current?.children.length - 1];
@@ -185,7 +204,15 @@ export const ChatForm = forwardRef(function ChatForm(
             case 'user':
               return (
                 <li key={message_index} className='flex flex-col gap-1 self-end'>
-                  <div className='self-end'>User</div>
+                  <div
+                    className='flex cursor-pointer items-center gap-1 self-end'
+                    onClick={() => {
+                      copyMessage(message.content, message_index);
+                    }}
+                  >
+                    {isCopy[message_index] ? <CopyCheck size={14} className='stroke-green-500' /> : <Copy size={14} />}
+                    User
+                  </div>
                   <Markdown
                     className='prose dark:prose-invert rounded-md border border-gray-400 px-4 py-2 dark:border-gray-700'
                     remarkPlugins={[remarkGfm, remarkMath]}
@@ -199,11 +226,13 @@ export const ChatForm = forwardRef(function ChatForm(
               return (
                 <li key={message_index} className='flex flex-col gap-1'>
                   <div
-                    onClick={async () => {
-                      await navigator.clipboard.writeText(message.content);
+                    className='flex cursor-pointer items-center gap-1'
+                    onClick={() => {
+                      copyMessage(message.content, message_index);
                     }}
                   >
                     Assistant
+                    {isCopy[message_index] ? <CopyCheck size={14} className='stroke-green-500' /> : <Copy size={14} />}
                   </div>
                   <Markdown
                     className='prose dark:prose-invert rounded-md border border-gray-400 px-4 py-2 dark:border-gray-700'
