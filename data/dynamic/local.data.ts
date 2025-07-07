@@ -96,27 +96,6 @@ export async function readMarkdownMetaList(tag?: string, page?: string, size?: s
   }
 }
 
-export async function readMarkdownMetaListAll() {
-  try {
-    const markdownMetaList: IMarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>
-      JSON.parse(value.toString()),
-    );
-
-    if (markdownMetaList.length === 0) throw new Error('No data found.');
-
-    const result: IMarkdownMetaListResponse = {
-      id: v4(),
-      totalCount: markdownMetaList.length,
-      markdownMetaList: markdownMetaList,
-    };
-
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error('readMarkdownMetaListAll error occurred.');
-  }
-}
-
 export async function readMarkdownContent(folderName: string) {
   try {
     const post = await readFile(`${markdown_path}/${folderName}/index.md`, 'utf8');

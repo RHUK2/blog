@@ -1,5 +1,6 @@
 import { ScrollTopFloatingButton } from '@/clientComponents';
-import { readMarkdownContent, readMarkdownMetaListAll } from '@/data/dynamic/local.data';
+import markdownMetaList from '@/data/dynamic/list.json';
+import { readMarkdownContent } from '@/data/dynamic/local.data';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -12,14 +13,12 @@ interface Props {
   }>;
 }
 
-export const revalidate = 3600;
+// export const revalidate = 3600;
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const markdownMetaList = await readMarkdownMetaListAll();
-
-  return markdownMetaList.markdownMetaList.map((markdownMeta) => ({
+  return markdownMetaList.map((markdownMeta) => ({
     folderName: markdownMeta.folderName,
   }));
 }
