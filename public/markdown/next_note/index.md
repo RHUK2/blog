@@ -26,6 +26,7 @@ isPublished: true
   - [2. 클라이언트 에러](#2-클라이언트-에러)
   - [요약](#요약)
 - [router.isReady](#routerisready)
+- [Image Component](#image-component)
 
 ## 렌더링 전략 4가지
 
@@ -319,3 +320,44 @@ Next.js에서 에러 처리 우선순위는 일반적으로 에러의 발생 위
 이렇게 우선순위가 적용되어 각각의 에러 타입에 적합한 처리가 이루어집니다.
 
 ## router.isReady
+
+## Image Component
+
+```tsx
+export default async function RootPage() {
+  return (
+    <>
+      <div className='relative h-96 w-full'>
+        <Image
+          alt='img'
+          src='/test.jpg'
+          fill={true} // absolute 자동 적용
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' // 768px 이하까지 100vw, 768px - 1200px 이하까지 50vw, 그 이상 33vw
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN89hMAAssB4YXjhpkAAAAASUVORK5CYII='
+          placeholder='blur'
+        />
+      </div>
+      <div className='flex flex-col gap-4 p-4'>
+        <Image
+          alt='img'
+          src='/test.jpg'
+          width={400} // 이미지 종횡비를 알려주는 역할
+          height={600} // 이미지 종횡비를 알려주는 역할
+          className='mx-auto'
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN89hMAAssB4YXjhpkAAAAASUVORK5CYII='
+          placeholder='blur'
+        />
+        <Image
+          alt='img'
+          src='https://wecruit-landing.s3.ap-northeast-2.amazonaws.com/_assets/customer.png'
+          width={400} // 이미지 종횡비를 알려주는 역할
+          height={267} // 이미지 종횡비를 알려주는 역할
+          className='mx-auto'
+          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN89hMAAssB4YXjhpkAAAAASUVORK5CYII='
+          placeholder='blur'
+        />
+      </div>
+    </>
+  );
+}
+```

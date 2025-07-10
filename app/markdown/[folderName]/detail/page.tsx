@@ -38,16 +38,12 @@ export default async function Page({ params }: Props) {
           img({ alt, src }) {
             return (
               <Image
+                className='not-prose object-contain'
                 alt={alt ?? ''}
                 src={`/markdown/${folderName}/${src ?? ''}`}
                 unoptimized={src?.match(/\.(svg|gif)$/) ? true : false}
-                width={1600}
-                height={900}
-                sizes='100vw'
-                style={{ width: '100%', height: 'auto' }}
-                loading='lazy'
-                placeholder='blur'
-                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO85gMAAf4BJEBW4VEAAAAASUVORK5CYII='
+                width={800}
+                height={600}
               />
             );
           },

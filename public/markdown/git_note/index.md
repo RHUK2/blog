@@ -232,7 +232,8 @@ git merge --abort # 현재 진행 중인 병합을 중단하고 이전 상태로
 ### git rebase
 
 ```sh
-git rebase main
+git rebase main # from main to develop
+git merge develop # from develop to main
 ```
 
 ### git revert

@@ -92,6 +92,7 @@ isPublished: true
     - [심볼릭 링크](#심볼릭-링크-1)
     - [하드 링크](#하드-링크-1)
   - [결론](#결론)
+- [root bashrc 수정으로 모든 사용자 공통 쉘 환경 주입하기](#root-bashrc-수정으로-모든-사용자-공통-쉘-환경-주입하기)
 
 ## Command History
 
@@ -1040,6 +1041,7 @@ touch -- -myfile.txt  # "-myfile.txt" 파일 생성
   [원본 파일] ← (동일 inode) → [하드 링크]
   (inode 2001)                (inode 2001)
   ```
+
   - 원본 삭제 시: 링크 유지 (데이터 블록 참조 카운트가 0이 될 때까지 삭제되지 않음).
 
 ---
@@ -1111,3 +1113,5 @@ touch -- -myfile.txt  # "-myfile.txt" 파일 생성
 > cat hardlink.txt  # "Hello" 출력 (유지됨)
 > cat symlink.txt   # "No such file" (깨짐)
 > ```
+
+## root bashrc 수정으로 모든 사용자 공통 쉘 환경 주입하기
