@@ -38,7 +38,7 @@ export default async function Page({ params }: Props) {
           img({ alt, src }) {
             return (
               <Image
-                className='not-prose object-contain'
+                className='not-prose rounded-md object-contain'
                 alt={alt ?? ''}
                 src={`/markdown/${folderName}/${src ?? ''}`}
                 unoptimized={src?.match(/\.(svg|gif)$/) ? true : false}

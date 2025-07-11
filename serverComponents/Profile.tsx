@@ -11,8 +11,6 @@ export function Profile() {
           width={354}
           height={472}
           className='aspect-square self-start rounded-[1rem_50%_50%_50%] object-cover'
-          placeholder='blur'
-          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO88h8AAq0B1REmZuEAAAAASUVORK5CYII='
         />
       </div>
 
