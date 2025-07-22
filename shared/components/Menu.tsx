@@ -34,7 +34,7 @@ export const Menu = forwardRef(function Menu(
 
     function updateMenuPosition() {
       if (rafId.current == null) {
-        rafId.current = requestAnimationFrame((t) => {
+        rafId.current = requestAnimationFrame(() => {
           if (control?.current == null) return;
           if (ulRef?.current == null) return;
 
@@ -58,6 +58,11 @@ export const Menu = forwardRef(function Menu(
 
     return () => {
       observer.disconnect();
+
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
     };
   }, [control, open]);
 

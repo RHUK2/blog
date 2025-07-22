@@ -1,15 +1,15 @@
 'use client';
 
-import { ITabListState } from '@/data/dynamic/chat.types';
 import { Plus, X } from 'lucide-react';
 import { motion, MotionConfig } from 'motion/react';
 import { createContext, useContext, useState } from 'react';
+import { TabListState } from '../types';
 import { ChatForm } from './ChatForm';
 
-const setTabListStateContext = createContext<React.Dispatch<React.SetStateAction<ITabListState>>>(() => {});
+const setTabListStateContext = createContext<React.Dispatch<React.SetStateAction<TabListState>>>(() => {});
 
 export function TabsForm() {
-  const [tabListState, setTabListState] = useState<ITabListState>({
+  const [tabListState, setTabListState] = useState<TabListState>({
     currentId: '0',
     tabList: [{ id: '0', title: 'New Tab' }],
   });

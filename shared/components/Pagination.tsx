@@ -1,10 +1,11 @@
 'use client';
 
+import { useDebounce } from '@/utils/hooks';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
-import { Button, Menu } from '.';
+import { Button } from './Button';
+import { Menu } from './Menu';
 import { MenuItem } from './MenuItem';
-import { useDebounce } from '@/utils/hooks';
 
 interface Props {
   totalCount: number;

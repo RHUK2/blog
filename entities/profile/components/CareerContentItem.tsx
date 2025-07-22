@@ -1,7 +1,7 @@
-import { ICareer } from '@/data/static/types';
+import { Career } from '@/entities/profile/types';
 
 interface Props {
-  data: ICareer;
+  data: Career;
 }
 
 export function CareerContentItem({ data }: Props) {

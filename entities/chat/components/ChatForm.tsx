@@ -1,7 +1,7 @@
 'use client';
 
-import { useChatMutation } from '@/data/dynamic/chat.data';
-import { IChat, IChatForm } from '@/data/dynamic/chat.types';
+import { Button, Textarea } from '@/shared/components';
+import { Copy, CopyCheck } from 'lucide-react';
 import React, {
   DetailedHTMLProps,
   FormHTMLAttributes,
@@ -19,12 +19,11 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { twMerge } from 'tailwind-merge';
-import { Button } from './Button';
+import { useChatMutation } from '../api';
+import { Chat, ChatForm as ChatFormType } from '../types';
 import { useSetTabListStateContext } from './TabsForm';
-import { Textarea } from './Textarea';
-import { Copy, CopyCheck } from 'lucide-react';
 
-const initChat: IChat[] = [
+const initChat: Chat[] = [
   {
     role: 'system',
     content:
@@ -36,7 +35,7 @@ export const ChatForm = forwardRef(function ChatForm(
   { id, className, ...formProps }: DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>,
   ref,
 ) {
-  const [chatList, setChatList] = useState<IChat[]>(initChat);
+  const [chatList, setChatList] = useState<Chat[]>(initChat);
 
   const [abortController, setAbortController] = useState<AbortController>(new AbortController());
 
@@ -50,7 +49,7 @@ export const ChatForm = forwardRef(function ChatForm(
 
   useImperativeHandle(ref, () => formRef.current);
 
-  const { register, resetField, handleSubmit } = useForm<IChatForm>({
+  const { register, resetField, handleSubmit } = useForm<ChatFormType>({
     defaultValues: {
       userMessage: '',
       model: 'deepseek-chat',

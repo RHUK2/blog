@@ -1,10 +1,10 @@
-import { Accordion } from '@/clientComponents';
-import { IProject } from '@/data/static/types';
-import { ContributionsBadge } from './ContributionsBadge';
+import { Project } from '@/entities/profile/types';
+import { ContributionsBadge } from '@/shared/components';
+import { Accordion, AccordionContent, AccordionTrigger } from '../../../shared/components/Accordion';
 import { IconBadge } from './IconBadge';
 
 interface Props {
-  data: IProject;
+  data: Project;
 }
 
 export function ProjectContentItem({ data }: Props) {
@@ -25,7 +25,17 @@ export function ProjectContentItem({ data }: Props) {
         ))}
       </div>
 
-      <Accordion title='경험 살펴보기' list={data.experienceList} />
+      <Accordion>
+        <AccordionTrigger>경험 살펴보기</AccordionTrigger>
+        <AccordionContent as='ul'>
+          {data.experienceList.map((item) => (
+            <li className='pb-2' key={item.behavior}>
+              <p>{`• ${item.behavior}`}</p>
+              {item.result && <p className='pl-2 text-gray-600 dark:text-gray-400'>{`→ ${item.result}`}</p>}
+            </li>
+          ))}
+        </AccordionContent>
+      </Accordion>
     </li>
   );
 }

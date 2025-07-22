@@ -1,6 +1,6 @@
-import { readTagList } from '@/data/dynamic/local.data';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import { readTagList } from '../data';
 
 interface Props {
   currentTag?: string;

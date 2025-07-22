@@ -1,45 +1,37 @@
-export interface INav {
-  id: string;
-  href: string;
-  text: string;
-}
-
-export type TNavList = INav[];
-
-export interface ICareer {
+export interface Career {
   id: string;
   company: string;
   role: string;
   startDate: string;
   endDate: string;
   description: string;
-  projectList: TProjectList;
+  projectList: ProjectList;
 }
 
-export type TCareerList = ICareer[];
+export type CareerList = Career[];
 
-export interface IExperience {
+export interface Experience {
   id: string;
   behavior: string;
   result: string;
 }
 
-export type TExperienceList = IExperience[];
+export type ExperienceList = Experience[];
 
-export interface IProject {
+export interface Project {
   id: string;
   title: string;
   contributions: number;
   startDate: string;
   endDate: string;
   description: string;
-  skillList: TSkillList;
-  experienceList: TExperienceList;
+  skillList: SkillList;
+  experienceList: ExperienceList;
 }
 
-export type TProjectList = IProject[];
+export type ProjectList = Project[];
 
-export type TIcon =
+export type Icon =
   | 'AwsIcon'
   | 'GithubIcon'
   | 'JavascriptIcon'
@@ -51,10 +43,10 @@ export type TIcon =
   | 'TailwindcssIcon'
   | 'TypescriptIcon';
 
-export interface ISkill {
+export interface Skill {
   id: string;
-  icon: TIcon;
+  icon: Icon;
   text: string;
 }
 
-export type TSkillList = ISkill[];
+export type SkillList = Skill[];

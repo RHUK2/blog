@@ -1,7 +1,6 @@
-import { Footer } from '@/clientComponents';
-import { GlobalClientConfig } from '@/clientComponents/GlobalClientConfig';
-import { ReactQueryProvider } from '@/contextAPI/ReactQueryProvider';
-import { Header } from '@/serverComponents';
+import { Footer, Header } from '@/shared/components';
+import { GlobalClientConfig } from '@/store/GlobalClientConfig';
+import { ReactQueryProvider } from '@/store/ReactQueryProvider';
 import '@/styles/globals.css';
 import '@/styles/highlight.css';
 import dayjs from 'dayjs';
@@ -18,7 +17,7 @@ dayjs.extend(relativeTime);
 
 const pretendard = localFont({
   variable: '--font-pretendard',
-  src: '../styles/PretendardVariable.woff2',
+  src: '../public/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
 });

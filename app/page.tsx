@@ -1,6 +1,6 @@
-import { TreeBox } from '@/clientComponents';
-import { careerList, projectList, skillList } from '@/data/static/data';
-import { CareerContentItem, CategoryBox, IconBadge, Profile, ProjectContentItem } from '@/serverComponents';
+import { careerList, projectList, skillList } from '@/entities/profile/data';
+import { CareerContentItem, IconBadge, Profile, ProjectContentItem } from '@/entities/profile/components';
+import { CategoryBox, TreeBox } from '@/shared/components';
 
 export default function RootPage() {
   return (

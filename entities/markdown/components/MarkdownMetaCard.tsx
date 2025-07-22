@@ -1,12 +1,12 @@
 'use client';
 
-import { IMarkdownMeta } from '@/data/dynamic/local.types';
 import dayjs from 'dayjs';
 import { HTMLMotionProps, motion } from 'motion/react';
 import Link from 'next/link';
+import { MarkdownMeta } from '../types';
 
 interface Props extends Omit<HTMLMotionProps<'li'>, 'ref'> {
-  data: IMarkdownMeta;
+  data: MarkdownMeta;
 }
 
 export function MarkdownMetaCard({ data, ...liProps }: Props) {

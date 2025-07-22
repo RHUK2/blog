@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { IChatListRequest } from './chat.types';
+import { ChatListRequest } from './types';
 
 export function useChatMutation(signal?: AbortSignal) {
-  return useMutation<Response, unknown, IChatListRequest>({
+  return useMutation<Response, unknown, ChatListRequest>({
     mutationFn: async (body) => {
       try {
         const response = await fetch('/api/chat', {

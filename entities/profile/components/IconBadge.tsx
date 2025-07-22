@@ -1,6 +1,5 @@
 'use client';
 
-import { TIcon } from '@/data/static/types';
 import AwsIcon from '@/public/aws.svg';
 import GithubIcon from '@/public/github.svg';
 import JavascriptIcon from '@/public/javascript.svg';
@@ -13,6 +12,7 @@ import TailwindcssIcon from '@/public/tailwindcss.svg';
 import TypescriptIcon from '@/public/typescript.svg';
 import Link from 'next/link';
 import { twJoin, twMerge } from 'tailwind-merge';
+import { Icon } from '../types';
 
 const iconLookup = {
   AwsIcon: AwsIcon,
@@ -29,7 +29,7 @@ const iconLookup = {
 
 interface Props {
   href?: string;
-  icon: TIcon;
+  icon: Icon;
   text?: string;
 }
 

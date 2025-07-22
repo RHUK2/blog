@@ -1,9 +1,9 @@
 'use client';
 
-import { DarkLightButton } from '@/clientComponents';
-import { navList } from '@/data/static/data';
 import { motion, MotionConfig } from 'motion/react';
 import Link from 'next/link';
+import { DarkLightButton } from './DarkLightButton';
+import { navList } from '../data';
 
 export function Header() {
   const MotionLink = motion.create(Link);

@@ -1,4 +1,4 @@
-import { TabsForm } from '@/clientComponents';
+import { TabsForm } from '@/entities/chat/components';
 
 export default function Page() {
   return (

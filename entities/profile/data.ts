@@ -1,20 +1,7 @@
 import { v4 } from 'uuid';
-import { TCareerList, TNavList, TProjectList, TSkillList } from './types';
+import { CareerList, ProjectList, SkillList } from './types';
 
-export const navList: TNavList = [
-  {
-    id: v4(),
-    href: '/markdown',
-    text: 'NOTE',
-  },
-  {
-    id: v4(),
-    href: '/llm',
-    text: 'LLM',
-  },
-];
-
-export const skillList: TSkillList = [
+export const skillList: SkillList = [
   {
     id: v4(),
     icon: 'NextjsIcon',
@@ -52,7 +39,7 @@ export const skillList: TSkillList = [
   },
 ];
 
-export const careerList: TCareerList = [
+export const careerList: CareerList = [
   {
     id: v4(),
     company: '(주)위크루트',
@@ -366,7 +353,7 @@ export const careerList: TCareerList = [
   },
 ];
 
-export const projectList: TProjectList = [
+export const projectList: ProjectList = [
   {
     id: v4(),
     title: '개인 블로그 개발',

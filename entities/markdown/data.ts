@@ -1,14 +1,12 @@
-'use server';
-
+import { PAGE_SIZE } from '@/utils/constants';
 import { readdir, readFile, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';
 import { v4 } from 'uuid';
-import { PAGE_SIZE } from '../static/constants';
-import { IMarkdownMeta, IMarkdownMetaListResponse, IMarkdownTagListResponse } from './local.types';
+import { MarkdownMeta, MarkdownMetaListResponse, MarkdownTagListResponse } from './types';
 
 const markdown_path = path.join(process.cwd(), 'public', 'markdown');
-const meta_markdown_path = path.join(process.cwd(), 'data', 'dynamic', 'list.json');
+const meta_markdown_path = path.join(process.cwd(), 'entities', 'markdown', 'list.json');
 
 export async function writeMarkdownMetaList() {
   try {
@@ -19,7 +17,7 @@ export async function writeMarkdownMetaList() {
     );
 
     const markdownDataList = markdownContentList
-      .map((content) => ({ id: v4(), ...matter(content).data }) as IMarkdownMeta)
+      .map((content) => ({ id: v4(), ...matter(content).data }) as MarkdownMeta)
       .filter((data) => !!data.isPublished);
 
     await writeFile(meta_markdown_path, JSON.stringify(markdownDataList));
@@ -33,7 +31,7 @@ export async function writeMarkdownMetaList() {
 
 export async function readTagList() {
   try {
-    const markdownMetaList: IMarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>
+    const markdownMetaList: MarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>
       JSON.parse(value.toString()),
     );
 
@@ -52,7 +50,7 @@ export async function readTagList() {
       .map((tagArr) => ({ id: v4(), name: tagArr[0], postCount: tagArr[1] }))
       .sort((a, b) => a.name.localeCompare(b.name));
 
-    const result: IMarkdownTagListResponse = {
+    const result: MarkdownTagListResponse = {
       id: v4(),
       markdownTagList: [{ id: v4(), name: '', postCount: markdownMetaList.length }, ...sortTagList],
     };
@@ -66,7 +64,7 @@ export async function readTagList() {
 
 export async function readMarkdownMetaList(tag?: string, page?: string, size?: string) {
   try {
-    let markdownMetaList: IMarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>
+    let markdownMetaList: MarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>
       JSON.parse(value.toString()),
     );
 
@@ -78,12 +76,12 @@ export async function readMarkdownMetaList(tag?: string, page?: string, size?: s
 
     markdownMetaList.sort((a, b) => new Date(b.updatedAt ?? '').getTime() - new Date(a.updatedAt ?? '').getTime());
 
-    const computedMarkdownMetaList: IMarkdownMeta[] = markdownMetaList.slice(
+    const computedMarkdownMetaList: MarkdownMeta[] = markdownMetaList.slice(
       parseInt(page || '0') * parseInt(size ?? PAGE_SIZE),
       (parseInt(page || '0') + 1) * parseInt(size ?? PAGE_SIZE),
     );
 
-    const result: IMarkdownMetaListResponse = {
+    const result: MarkdownMetaListResponse = {
       id: v4(),
       totalCount: markdownMetaList.length,
       markdownMetaList: computedMarkdownMetaList,

@@ -1,6 +1,6 @@
-import { ScrollTopFloatingButton } from '@/clientComponents';
-import markdownMetaList from '@/data/dynamic/list.json';
-import { readMarkdownContent } from '@/data/dynamic/local.data';
+import { readMarkdownContent } from '@/entities/markdown/data';
+import markdownMetaList from '@/entities/markdown/list.json';
+import { ScrollTopFloatingButton } from '@/shared/components';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
