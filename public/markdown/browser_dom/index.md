@@ -14,6 +14,7 @@ isPublished: true
 - [onclick vs addEventListener('click')](#onclick-vs-addeventlistenerclick)
 - [window vs document](#window-vs-document)
 - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
+- [특징 resize 이벤트 ResizeObserver](#특징-resize-이벤트-resizeobserver)
 
 ## script
 
@@ -68,3 +69,12 @@ document객체와 window객체에서 수용 가능한 eventList가 다르기 때
 ```ts
 <input type='file' onClick={(event) => event.target.value = ''} onChange={(event) => console.log(event.target.files)}>
 ```
+
+## 특징 resize 이벤트 ResizeObserver
+
+감지 대상 window (브라우저 창) 특정 DOM 요소
+범위 전역 개별 요소
+정밀도 브라우저 창 크기 변화만 감지 특정 요소의 모든 크기 변화 감지
+성능 빈번한 호출, debounce/throttle 필요 효율적, 필요한 시점에만 호출
+용도 전역 레이아웃 조정 특정 컴포넌트, 요소의 반응형 디자인
+API 형태 이벤트 리스너 객체 인스턴스, 콜백 함수

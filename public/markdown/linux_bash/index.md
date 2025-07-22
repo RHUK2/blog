@@ -92,7 +92,7 @@ isPublished: true
     - [심볼릭 링크](#심볼릭-링크-1)
     - [하드 링크](#하드-링크-1)
   - [결론](#결론)
-- [root bashrc 수정으로 모든 사용자 공통 쉘 환경 주입하기](#root-bashrc-수정으로-모든-사용자-공통-쉘-환경-주입하기)
+- [root etc bashrc 수정으로 모든 사용자 공통 쉘 환경 주입하기](#root-etc-bashrc-수정으로-모든-사용자-공통-쉘-환경-주입하기)
 
 ## Command History
 
@@ -1037,6 +1037,7 @@ touch -- -myfile.txt  # "-myfile.txt" 파일 생성
   - 원본 이동/삭제 시: 링크 깨짐 (`ls -l`에서 빨간색으로 표시).
 
 - 하드 링크
+
   ```text
   [원본 파일] ← (동일 inode) → [하드 링크]
   (inode 2001)                (inode 2001)
@@ -1114,4 +1115,7 @@ touch -- -myfile.txt  # "-myfile.txt" 파일 생성
 > cat symlink.txt   # "No such file" (깨짐)
 > ```
 
-## root bashrc 수정으로 모든 사용자 공통 쉘 환경 주입하기
+## root etc bashrc 수정으로 모든 사용자 공통 쉘 환경 주입하기
+
+etc/profile의 전역 설정 수정하기
+zsh 쓰면 etc 안에서 zsh 관련해서 수정
