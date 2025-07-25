@@ -22,7 +22,7 @@ export default async function Page({ searchParams }: Props) {
 
       <Divider />
 
-      <SearchInput />
+      {/* <SearchInput /> */}
 
       <Pagination totalCount={markdownMetaList.totalCount} size={parseInt(PAGE_SIZE)} />
 

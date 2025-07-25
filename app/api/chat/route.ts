@@ -1,4 +1,4 @@
-import { IChatListRequest } from '@/data/dynamic/chat.types';
+import { ChatListRequest } from '@/entities/chat/types';
 import OpenAI from 'openai';
 import type { Stream } from 'openai/streaming';
 
@@ -18,7 +18,7 @@ if (!process.env.OPENAI_API_KEY || !process.env.DEEPSEEK_API_KEY) {
 
 export async function POST(request: Request) {
   try {
-    const body: IChatListRequest = await request.json();
+    const body: ChatListRequest = await request.json();
 
     if (!body.chatList || !Array.isArray(body.chatList) || body.chatList.length === 0) {
       return Response.json({ code: 'INVALID_CHAT_LIST' }, { status: 400 });

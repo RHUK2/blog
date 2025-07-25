@@ -41,16 +41,16 @@ export function SearchInput() {
             title: result.item.title,
           }));
 
-          setResults(results);
+          // setResults(results);
         }}
       />
       {results.length > 0 && (
         <ul className='mt-2 max-h-60 overflow-y-auto rounded-md border border-gray-300 shadow-lg'>
-          {results.map((result) => (
+          {/* {results.map((result) => (
             <li key={result.id} className='cursor-pointer px-4 py-2 hover:bg-gray-100'>
               <a href={`/markdown/${result.id}`}>{result.title}</a>
             </li>
-          ))}
+          ))} */}
         </ul>
       )}
     </div>
