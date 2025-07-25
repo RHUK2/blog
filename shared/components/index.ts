@@ -1,7 +1,7 @@
-export { Accordion } from './Accordion';
+export { Accordion, AccordionContent, AccordionTrigger } from './Accordion';
+export { Badge } from './Badge';
 export { Button } from './Button';
 export { CategoryBox } from './CategoryBox';
-export { ContributionsBadge } from './ContributionsBadge';
 export { DarkLightButton } from './DarkLightButton';
 export { Divider } from './Divider';
 export { Footer } from './Footer';
@@ -12,6 +12,7 @@ export { Pagination } from './Pagination';
 export { Radio } from './Radio';
 export { ScrollTopFloatingButton } from './ScrollTopFloatingButton';
 export { SearchInput } from './SearchInput';
+export { SvgrIcon } from './SvgrIcon';
 export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
 export { TreeBox } from './TreeBox';

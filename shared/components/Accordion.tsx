@@ -42,39 +42,38 @@ export function Accordion({ children }: AccordionProps) {
 }
 
 interface AccordionTriggerProps {
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }
 
 const variants = {
+  hidden: { x: -10, opacity: 0, width: 0 },
   visible: { x: 0, opacity: 1, width: 26 },
 };
 
-export function AccordionTrigger({ children }: AccordionTriggerProps) {
+export function AccordionTrigger({ icon, children }: AccordionTriggerProps) {
   const { isOpen, toggle } = useAccordionContext();
 
   return (
-    <motion.button
-      whileHover='visible'
-      className='flex cursor-pointer self-start overflow-hidden'
-      onClick={toggle}
-      aria-expanded={isOpen}
-    >
-      <motion.span
-        variants={variants}
-        initial={{
-          x: -10,
-          opacity: 0,
-          width: 0,
-        }}
-        animate={isOpen && 'visible'}
+    <MotionConfig transition={{ duration: 0.2 }}>
+      <motion.button
+        initial='hidden'
+        whileHover='visible'
+        className='flex cursor-pointer self-start overflow-hidden'
+        onClick={toggle}
+        aria-expanded={isOpen}
       >
-        🔎
-      </motion.span>
-      <p className='flex items-center gap-1'>
-        {children}
-        {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-      </p>
-    </motion.button>
+        {icon && (
+          <motion.span variants={variants} animate={isOpen && 'visible'}>
+            {icon}
+          </motion.span>
+        )}
+        <motion.span className='flex items-center gap-1'>
+          {children}
+          {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </motion.span>
+      </motion.button>
+    </MotionConfig>
   );
 }
 

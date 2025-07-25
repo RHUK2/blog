@@ -1,4 +1,4 @@
 export { CareerContentItem } from './CareerContentItem';
-export { IconBadge } from './IconBadge';
+export { ContributionsBadge } from './ContributionsBadge';
 export { Profile } from './Profile';
 export { ProjectContentItem } from './ProjectContentItem';

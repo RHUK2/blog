@@ -1,8 +1,6 @@
 import { Project } from '@/entities/profile/types';
-import { ContributionsBadge } from '@/shared/components';
-import { Accordion, AccordionContent, AccordionTrigger } from '../../../shared/components/Accordion';
-import { IconBadge } from './IconBadge';
-
+import { Accordion, AccordionContent, AccordionTrigger, Badge, SvgrIcon } from '@/shared/components';
+import { ContributionsBadge } from './ContributionsBadge';
 interface Props {
   data: Project;
 }
@@ -21,12 +19,15 @@ export function ProjectContentItem({ data }: Props) {
 
       <div className='flex flex-wrap gap-2'>
         {data.skillList.map((skill) => (
-          <IconBadge key={skill.id} icon={skill.icon} text={skill.text} />
+          <Badge key={skill.id}>
+            <SvgrIcon icon={skill.icon} />
+            <p>{skill.text}</p>
+          </Badge>
         ))}
       </div>
 
       <Accordion>
-        <AccordionTrigger>경험 살펴보기</AccordionTrigger>
+        <AccordionTrigger icon={'🔎'}>경험 살펴보기</AccordionTrigger>
         <AccordionContent as='ul'>
           {data.experienceList.map((item) => (
             <li className='pb-2' key={item.behavior}>

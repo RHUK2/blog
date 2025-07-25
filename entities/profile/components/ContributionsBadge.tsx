@@ -1,6 +1,6 @@
 'use client';
 
-import { twJoin, twMerge } from 'tailwind-merge';
+import { Badge } from '@/shared/components';
 
 interface Props {
   contribution: number;
@@ -18,17 +18,8 @@ export function ContributionsBadge({ contribution }: Props) {
   }
 
   return (
-    <div
-      className={twMerge(
-        twJoin([
-          'flex w-min items-center gap-1 rounded-xl border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2 py-1',
-          'text-xs font-medium whitespace-nowrap',
-          'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
-          getColor(contribution),
-        ]),
-      )}
-    >
-      <p>{`기여도 ${contribution}%`}</p>
-    </div>
+    <Badge>
+      <p className={`${getColor(contribution)} `}>{`기여도 ${contribution}%`}</p>
+    </Badge>
   );
 }
