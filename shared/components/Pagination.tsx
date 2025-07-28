@@ -29,7 +29,7 @@ export function Pagination({ totalCount, size }: Props) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const controlRef = useRef<HTMLButtonElement | null>(null);
+  const ref = useRef<HTMLButtonElement | null>(null);
 
   const pageCount = Math.ceil(totalCount / size);
 
@@ -74,13 +74,13 @@ export function Pagination({ totalCount, size }: Props) {
     <>
       <div className='flex justify-between gap-3'>
         <Button onClick={() => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0'))}>{'<'}</Button>
-        <Button ref={controlRef} onClick={handleMenuToggle}>
+        <Button ref={ref} onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
         </Button>
         <Button onClick={() => handleNextPageQuery(parseInt(searchParams.get('page') || '0'))}>{'>'}</Button>
       </div>
 
-      <Menu control={controlRef} open={isMenuOpen} onClose={handleMenuClose}>
+      <Menu anchorEl={ref.current} open={isMenuOpen} onClose={handleMenuClose}>
         {new Array(pageCount).fill('0').map((item, index) => (
           <MenuItem key={`page_${index}`} onClick={() => handlePageQuery(index)}>
             {index + 1}

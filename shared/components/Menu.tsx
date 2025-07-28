@@ -1,84 +1,70 @@
 'use client';
 
-import {
-  DetailedHTMLProps,
-  forwardRef,
-  HTMLAttributes,
-  RefObject,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from 'react';
+import { DetailedHTMLProps, forwardRef, HTMLAttributes, useEffect, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
 interface Props extends DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement> {
-  control: RefObject<HTMLElement> | null;
+  anchorEl: HTMLElement | null;
   open: boolean;
   onClose: () => void;
 }
 
-export const Menu = forwardRef(function Menu(
-  { control, open, onClose, children, onClick, className, ...ulProps }: Props,
-  ref,
-) {
-  const rafId = useRef<number | null>(null);
-
+export const Menu = forwardRef(function Menu({ anchorEl, open, onClose, children, className, ...ulProps }: Props, ref) {
   const ulRef = useRef<HTMLUListElement | null>(null);
+
+  const rafId = useRef<number | null>(null);
 
   useImperativeHandle(ref, () => ulRef.current);
 
   useEffect(() => {
     if (open === false) return;
-    if (control?.current == null) return;
 
-    function updateMenuPosition() {
-      if (rafId.current == null) {
-        rafId.current = requestAnimationFrame(() => {
-          if (control?.current == null) return;
-          if (ulRef?.current == null) return;
+    function listener() {
+      if (rafId.current != null) return;
 
-          const { bottom, left } = control.current.getBoundingClientRect();
+      rafId.current = requestAnimationFrame((t) => {
+        if (anchorEl == null) return;
+        if (ulRef.current == null) return;
 
-          ulRef.current.style.setProperty(
-            'transform',
-            `translate(${left + window.scrollX}px, ${bottom + window.scrollY + 10}px)`,
-          );
+        const { bottom, left } = anchorEl.getBoundingClientRect();
 
-          rafId.current = null;
-        });
-      }
+        ulRef.current.style.setProperty(
+          'transform',
+          `translate(${left + window.scrollX}px, ${bottom + window.scrollY + 10}px)`,
+        );
+
+        rafId.current = null;
+      });
     }
 
-    updateMenuPosition();
+    listener();
 
-    const observer = new ResizeObserver(updateMenuPosition);
-
-    observer.observe(document.documentElement);
+    window.addEventListener('resize', listener);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('resize', listener);
 
-      if (rafId.current !== null) {
+      if (rafId.current != null) {
         cancelAnimationFrame(rafId.current);
         rafId.current = null;
       }
     };
-  }, [control, open]);
+  }, [anchorEl, open]);
 
   useEffect(() => {
-    function menuCloseListener(this: HTMLElement, event: globalThis.MouseEvent) {
-      if (control?.current?.isEqualNode(event.target as Node)) return;
+    function listener(this: Window, event: globalThis.MouseEvent) {
+      if (anchorEl?.contains(event?.target as HTMLElement)) return;
 
       onClose();
     }
 
-    document.documentElement.addEventListener('click', menuCloseListener);
+    window.addEventListener('click', listener);
 
     return () => {
-      document.documentElement.removeEventListener('click', menuCloseListener);
+      window.removeEventListener('click', listener);
     };
-  }, [control, onClose]);
+  }, [anchorEl, onClose]);
 
   return (
     <>
@@ -86,11 +72,6 @@ export const Menu = forwardRef(function Menu(
         createPortal(
           <ul
             ref={ulRef}
-            onClick={(event) => {
-              if (onClick) {
-                onClick(event);
-              }
-            }}
             className={twMerge(
               'absolute top-0 left-0 z-40 max-h-44 overflow-x-hidden overflow-y-auto rounded-md border border-gray-300 bg-gradient-to-br from-gray-50 to-gray-100 py-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
               `${className ?? ''}`,
