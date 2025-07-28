@@ -1,13 +1,22 @@
+'use client';
+
 import { Project } from '@/entities/profile/types';
 import { Accordion, AccordionContent, AccordionTrigger, Badge, SvgrIcon } from '@/shared/components';
+import { motion } from 'framer-motion';
 import { ContributionsBadge } from './ContributionsBadge';
+
 interface Props {
   data: Project;
 }
 
 export function ProjectContentItem({ data }: Props) {
   return (
-    <li className='flex flex-col gap-4'>
+    <motion.li
+      whileInView={{ opacity: 1, x: 0 }}
+      animate={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.5 }}
+      className='flex flex-col gap-4'
+    >
       <div className='flex flex-col gap-1'>
         <div className='flex items-center gap-2'>
           <p className='text-xl'>{data.title}</p>
@@ -37,6 +46,6 @@ export function ProjectContentItem({ data }: Props) {
           ))}
         </AccordionContent>
       </Accordion>
-    </li>
+    </motion.li>
   );
 }
