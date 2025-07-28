@@ -1,12 +1,12 @@
-import { CareerContentItem, ProjectContentItem } from '@/entities/profile/components';
+import { CareerContentItem, Profile, ProjectContentItem } from '@/entities/profile/components';
 import { careerList, projectList, skillList } from '@/entities/profile/data';
-import { Badge, CategoryBox, SvgrIcon, TreeBox } from '@/shared/components';
+import { Badge, CategoryBox, Leaf, SvgrIcon, Tree } from '@/shared/components';
 
 export default function RootPage() {
   return (
     <main className='m-auto min-h-full max-w-[768px] min-w-[320px] bg-white pt-12 dark:bg-gray-950'>
       <section className='flex flex-col gap-12 px-4 py-10'>
-        {/* <Profile /> */}
+        <Profile />
 
         <CategoryBox category='기술 스택'>
           <div className='flex flex-wrap gap-2'>
@@ -21,11 +21,14 @@ export default function RootPage() {
 
         <CategoryBox category='경력 • 프로젝트'>
           {careerList.map((career) => (
-            <TreeBox key={career.id} parent={<CareerContentItem data={career} />}>
+            <Tree key={career.id}>
+              <CareerContentItem data={career} />
               {career.projectList.map((project) => (
-                <ProjectContentItem key={project.id} data={project} />
+                <Leaf top={14} key={project.id}>
+                  <ProjectContentItem data={project} />
+                </Leaf>
               ))}
-            </TreeBox>
+            </Tree>
           ))}
         </CategoryBox>
 

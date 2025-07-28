@@ -15,4 +15,4 @@ export { SearchInput } from './SearchInput';
 export { SvgrIcon } from './SvgrIcon';
 export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
-export { TreeBox } from './TreeBox';
+export { Leaf, Tree } from './Tree';
