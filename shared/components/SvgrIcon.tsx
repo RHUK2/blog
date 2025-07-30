@@ -1,4 +1,5 @@
 import AwsIcon from '@/public/aws.svg';
+import cssIcon from '@/public/css.svg';
 import GithubIcon from '@/public/github.svg';
 import JavascriptIcon from '@/public/javascript.svg';
 import MuiIcon from '@/public/mui.svg';
@@ -9,7 +10,7 @@ import ReactqueryIcon from '@/public/reactquery.svg';
 import TailwindcssIcon from '@/public/tailwindcss.svg';
 import TypescriptIcon from '@/public/typescript.svg';
 
-const iconMap = {
+export const iconMap = {
   AwsIcon: AwsIcon,
   GithubIcon: GithubIcon,
   JavascriptIcon: JavascriptIcon,
@@ -20,6 +21,7 @@ const iconMap = {
   ReactqueryIcon: ReactqueryIcon,
   TailwindcssIcon: TailwindcssIcon,
   TypescriptIcon: TypescriptIcon,
+  cssIcon: cssIcon,
 };
 
 interface Props {

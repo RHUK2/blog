@@ -1,3 +1,5 @@
+import { iconMap } from '@/shared/components/SvgrIcon';
+
 export interface Career {
   id: string;
   company: string;
@@ -31,21 +33,9 @@ export interface Project {
 
 export type ProjectList = Project[];
 
-export type Icon =
-  | 'AwsIcon'
-  | 'GithubIcon'
-  | 'JavascriptIcon'
-  | 'MuiIcon'
-  | 'NextjsIcon'
-  | 'ReactIcon'
-  | 'ReacthookformIcon'
-  | 'ReactqueryIcon'
-  | 'TailwindcssIcon'
-  | 'TypescriptIcon';
-
 export interface Skill {
   id: string;
-  icon: Icon;
+  icon: keyof typeof iconMap;
   text: string;
 }
 
