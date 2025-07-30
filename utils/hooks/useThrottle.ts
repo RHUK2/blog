@@ -10,16 +10,18 @@ interface ThrottleOptions {
   trailing?: boolean;
 }
 
+// 해당 훅이 컴포넌트에서 호출될 경우 리렌더링 시 마다 새로운 클로저 환경을 가진 새로운 함수를 반환
+// 하지만, useRef를 이용해 값을 유지할 수 있음
+// 이전 클로저는 참조가 사라지면서 가비지 컬렉션에 의해 정리되기 때문에 메모리를 낭비하지 않음
 export function useThrottle<T extends Callback>(
   callback: T,
   delay: number,
   options: ThrottleOptions = { leading: true, trailing: false },
 ) {
   const { leading, trailing } = options;
-  const timerId = useRef<ReturnType<typeof setTimeout>>();
+  const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);
-  // settimeout으로 실행될 때 받는 args
-  const lastArgs = useRef<Parameters<T>>();
+  const lastArgs = useRef<Parameters<T>>(null);
 
   useEffect(() => {
     return () => {
@@ -29,7 +31,6 @@ export function useThrottle<T extends Callback>(
     };
   }, []);
 
-  // 외부에서 호출될 때 받아지는 args
   return (...args: Parameters<T>) => {
     if (trailing) {
       lastArgs.current = args;
@@ -42,7 +43,9 @@ export function useThrottle<T extends Callback>(
 
       isReady.current = false;
 
-      clearTimeout(timerId.current);
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
 
       timerId.current = setTimeout(() => {
         if (trailing && lastArgs.current) {
@@ -50,8 +53,9 @@ export function useThrottle<T extends Callback>(
         }
 
         isReady.current = true;
+
         if (trailing) {
-          lastArgs.current = undefined;
+          lastArgs.current = null;
         }
       }, delay);
     }

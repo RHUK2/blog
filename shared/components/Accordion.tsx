@@ -1,7 +1,7 @@
 'use client';
 
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { createContext, useContext, useState } from 'react';
 import invariant from 'tiny-invariant';
 

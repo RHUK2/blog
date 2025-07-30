@@ -2,7 +2,7 @@
 
 import { Project } from '@/entities/profile/types';
 import { Accordion, AccordionContent, AccordionTrigger, Badge, SvgrIcon } from '@/shared/components';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ContributionsBadge } from './ContributionsBadge';
 
 interface Props {

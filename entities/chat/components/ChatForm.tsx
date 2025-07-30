@@ -212,13 +212,14 @@ export const ChatForm = forwardRef(function ChatForm(
                     {isCopy[message_index] ? <CopyCheck size={14} className='stroke-green-500' /> : <Copy size={14} />}
                     User
                   </div>
-                  <Markdown
-                    className='prose dark:prose-invert rounded-md border border-gray-400 px-4 py-2 dark:border-gray-700'
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
-                  >
-                    {message.content}
-                  </Markdown>
+                  <div className='prose dark:prose-invert rounded-md border border-gray-400 px-4 py-2 dark:border-gray-700'>
+                    <Markdown
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
+                    >
+                      {message.content}
+                    </Markdown>
+                  </div>
                 </li>
               );
             case 'assistant':
@@ -233,13 +234,14 @@ export const ChatForm = forwardRef(function ChatForm(
                     Assistant
                     {isCopy[message_index] ? <CopyCheck size={14} className='stroke-green-500' /> : <Copy size={14} />}
                   </div>
-                  <Markdown
-                    className='prose dark:prose-invert rounded-md border border-gray-400 px-4 py-2 dark:border-gray-700'
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
-                  >
-                    {message.content}
-                  </Markdown>
+                  <div className='prose dark:prose-invert rounded-md border border-gray-400 px-4 py-2 dark:border-gray-700'>
+                    <Markdown
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
+                    >
+                      {message.content}
+                    </Markdown>
+                  </div>
                 </li>
               );
             default:

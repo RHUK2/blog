@@ -28,29 +28,38 @@ export default async function Page({ params }: Props) {
 
   const markdownContent = await readMarkdownContent(folderName);
 
+  const unoptimzed = (src: string | Blob | undefined) => {
+    if (typeof src === 'string') {
+      return src.match(/\.(svg|gif)$/) ? true : false;
+    }
+
+    return true;
+  };
+
   return (
     <section className='min-h-full px-4 py-10'>
-      <Markdown
-        className='prose dark:prose-invert max-w-none'
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight, rehypeSlug]}
-        components={{
-          img({ alt, src }) {
-            return (
-              <Image
-                className='not-prose rounded-md object-contain'
-                alt={alt ?? ''}
-                src={`/markdown/${folderName}/${src ?? ''}`}
-                unoptimized={src?.match(/\.(svg|gif)$/) ? true : false}
-                width={800}
-                height={600}
-              />
-            );
-          },
-        }}
-      >
-        {markdownContent}
-      </Markdown>
+      <div className='prose dark:prose-invert max-w-none'>
+        <Markdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeHighlight, rehypeSlug]}
+          components={{
+            img({ alt, src }) {
+              return (
+                <Image
+                  className='not-prose rounded-md object-contain'
+                  alt={alt ?? ''}
+                  src={`/markdown/${folderName}/${src ?? ''}`}
+                  unoptimized={unoptimzed(src)}
+                  width={800}
+                  height={600}
+                />
+              );
+            },
+          }}
+        >
+          {markdownContent}
+        </Markdown>
+      </div>
 
       <ScrollTopFloatingButton />
     </section>
