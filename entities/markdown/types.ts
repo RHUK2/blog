@@ -4,7 +4,7 @@ export interface MarkdownMeta {
   updatedAt: string;
   title: string;
   tag: string;
-  isPublished: string;
+  isPublished: boolean;
 }
 
 export type MarkdownMetaList = MarkdownMeta[];

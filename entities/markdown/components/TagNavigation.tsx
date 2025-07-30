@@ -6,7 +6,7 @@ interface Props {
   currentTag?: string;
 }
 
-export async function NavigationTag({ currentTag }: Props) {
+export async function TagNavigation({ currentTag }: Props) {
   const tagList = await readTagList();
 
   return (

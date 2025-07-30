@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <section className='flex flex-col gap-8 px-4 py-10'>
-      <NavigationTag currentTag={tag} />
+      <TagNavigation currentTag={tag} />
 
       <Divider />
 
