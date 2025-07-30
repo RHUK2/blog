@@ -4,8 +4,7 @@ import path from 'path';
 const authFile = path.join(__dirname, '..', '__auth__', 'auth.json');
 
 setup('authenticate', async ({ page }) => {
-  // Perform authentication steps. Replace these actions with your own.
-  await page.goto('https://mchecker.wecruitpro.com/');
+  await page.goto('https://example.com');
 
   await page.waitForTimeout(2000);
 
@@ -14,15 +13,9 @@ setup('authenticate', async ({ page }) => {
   await page.getByRole('textbox', { name: '아이디' }).press('Tab');
   await page.getByRole('textbox', { name: '비밀번호' }).fill(process.env.PASSWORD ?? '');
   await page.getByRole('button', { name: '로그인' }).click();
-  // Wait until the page receives the cookies.
-  //
-  // Sometimes login flow sets cookies in the process of several redirects.
-  // Wait for the final URL to ensure that the cookies are actually set.
-  await page.waitForURL('https://mchecker.wecruitpro.com/projects?groupId=', { timeout: 60000 });
-  // Alternatively, you can wait until the page reaches a state where all cookies are set.
-  await expect(page.getByText('© WECRUIT Co., Ltd. All Right')).toBeVisible();
 
-  // End of authentication steps.
+  await page.waitForURL('https://example.com/projects?groupId=', { timeout: 60000 });
+  await expect(page.getByText('Co., Ltd. All Right')).toBeVisible();
 
   await page.context().storageState({ path: authFile });
 });
