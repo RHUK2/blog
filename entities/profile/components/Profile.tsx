@@ -1,5 +1,6 @@
 import { Badge, SvgrIcon } from '@/shared/components';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function Profile() {
   return (
@@ -17,7 +18,7 @@ export function Profile() {
       <div className='min-w-2xs flex-[4_0_0]'>
         <div className='mb-4 flex items-center gap-2'>
           <p className='text-xl'>류현욱</p>
-          <Badge href='https://github.com/RHUK2'>
+          <Badge as={Link} href='https://github.com/RHUK2' target='_blank'>
             <SvgrIcon icon='GithubIcon' />
           </Badge>
         </div>
