@@ -15,7 +15,7 @@ const AccordionContext = createContext<AccordionContext>({
   toggle: () => {},
 });
 
-export function useAccordionContext() {
+export function useAccordion() {
   const context = useContext(AccordionContext);
 
   invariant(context, 'useAccordionContext must be used within an Accordion');
@@ -52,7 +52,7 @@ const variants = {
 };
 
 export function AccordionTrigger({ icon, children }: AccordionTriggerProps) {
-  const { isOpen, toggle } = useAccordionContext();
+  const { isOpen, toggle } = useAccordion();
 
   return (
     <MotionConfig transition={{ duration: 0.2 }}>
@@ -83,7 +83,7 @@ interface AccordionContentProps {
 }
 
 export function AccordionContent({ as, children }: AccordionContentProps) {
-  const { isOpen } = useAccordionContext();
+  const { isOpen } = useAccordion();
 
   const Component = motion.create(as || 'div');
 

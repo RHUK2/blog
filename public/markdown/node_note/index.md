@@ -22,6 +22,9 @@ isPublished: true
 
 서버 어플리케이션은 내용이 바뀌면 pm2로 무중단 서비스 배포가 필요
 
+init: source clone -> next build -> pm2 start
+after: source pull -> backup -> next build -> pm2 reload
+
 ## 모듈에 따라 다른 경로 구하기 방법
 
 - `__dirname`은 코드가 실행되고 있는 모듈 파일이 위치한 폴더 경로를 반환.

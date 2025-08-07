@@ -12,70 +12,10 @@ isPublished: true
 - [QnA](#qna)
 - [Dockerfile](#dockerfile)
 - [Docker Registry](#docker-registry)
-  - [Login to a Docker registry](#login-to-a-docker-registry)
-  - [Logout from a Docker registry](#logout-from-a-docker-registry)
-  - [Build an image from a Dockerfile](#build-an-image-from-a-dockerfile)
-  - [Push an image to a Docker registry](#push-an-image-to-a-docker-registry)
-  - [List images](#list-images)
-  - [Remove image](#remove-image)
 - [Docker Containers](#docker-containers)
-  - [List containers](#list-containers)
-  - [Run a container interactively](#run-a-container-interactively)
-  - [Run a detached container](#run-a-detached-container)
-  - [Run a container with a custom name](#run-a-container-with-a-custom-name)
-  - [Run a container with environment variables](#run-a-container-with-environment-variables)
-  - [Run a container and map ports](#run-a-container-and-map-ports)
-  - [Run a container and mount a volume](#run-a-container-and-mount-a-volume)
-  - [Stop a running container](#stop-a-running-container)
-  - [Start a stopped container](#start-a-stopped-container)
-  - [Pause a running container](#pause-a-running-container)
-  - [Unpause a paused container](#unpause-a-paused-container)
-  - [Restart a container](#restart-a-container)
-  - [Attach to a running container](#attach-to-a-running-container)
-  - [Remove a stopped container](#remove-a-stopped-container)
-  - [Remove all stopped container](#remove-all-stopped-container)
-  - [Remove a running container](#remove-a-running-container)
-  - [Show container resource usage](#show-container-resource-usage)
-  - [Show container logs](#show-container-logs)
-  - [Copy files from/to a container](#copy-files-fromto-a-container)
-  - [Inspect a container](#inspect-a-container)
-  - [Create a container without starting it](#create-a-container-without-starting-it)
 - [Docker Networking](#docker-networking)
-  - [List networks](#list-networks)
-  - [Create a network](#create-a-network)
-  - [Inspect a network](#inspect-a-network)
-  - [Remove a network](#remove-a-network)
-  - [Connect a container to a network](#connect-a-container-to-a-network)
-  - [Disconnect a container from a network](#disconnect-a-container-from-a-network)
-  - [Attach a container to multiple networks](#attach-a-container-to-multiple-networks)
-  - [Create an overlay network](#create-an-overlay-network)
-  - [Remove all unused networks](#remove-all-unused-networks)
-  - [Set up a custom bridge network](#set-up-a-custom-bridge-network)
-  - [Limit container bandwidth on a network](#limit-container-bandwidth-on-a-network)
 - [Docker Volumes](#docker-volumes)
-  - [List volumes](#list-volumes)
-  - [Create a volume](#create-a-volume)
-  - [Inspect a volume](#inspect-a-volume)
-  - [Remove a volume](#remove-a-volume)
-  - [Remove all unused volumes](#remove-all-unused-volumes)
-  - [Mount a volume while running a container](#mount-a-volume-while-running-a-container)
-  - [Mount a host directory as a volume](#mount-a-host-directory-as-a-volume)
-  - [Specify volume driver](#specify-volume-driver)
-  - [Copy files from a container volume to the local host](#copy-files-from-a-container-volume-to-the-local-host)
-  - [Mount a read-only volume](#mount-a-read-only-volume)
-  - [Mount a named volume with specific options](#mount-a-named-volume-with-specific-options)
-  - [Backup a volume to a tar archive](#backup-a-volume-to-a-tar-archive)
 - [Docker Compose](#docker-compose)
-  - [Create and start containers](#create-and-start-containers)
-  - [Stop and remove containers](#stop-and-remove-containers)
-  - [Build services](#build-services)
-  - [Start services](#start-services)
-  - [Stop services](#stop-services)
-  - [Restart services](#restart-services)
-  - [Pause services](#pause-services)
-  - [Unpause services](#unpause-services)
-  - [View service logs](#view-service-logs)
-  - [Scale services](#scale-services)
 
 ## Docker Architecture
 
@@ -90,7 +30,7 @@ Q: Dockerfile에서 `FROM scratch`가 의미하는 바는?
 
 ## Dockerfile
 
-A Dockerfile is a script used to build Docker images. It consists of a series of commands:
+Dockerfile은 도커 이미지를 빌드하는 데 사용되는 스크립트다.
 
 ```sh
 # Specifies the base image used to build the new image.
@@ -129,490 +69,200 @@ USER username
 
 ## Docker Registry
 
-### Login to a Docker registry
-
-Logs in to a Docker registry interactively.
-
 ```sh
+# Logs in to a Docker registry interactively.
 docker login
-```
 
-### Logout from a Docker registry
-
-Logs out from a Docker registry.
-
-```sh
+# Logs out from a Docker registry.
 docker logout
-```
 
-### Build an image from a Dockerfile
-
-Builds a Docker image from a Dockerfile in the current directory.
-
-```sh
+# Builds a Docker image from a Dockerfile in the current directory.
 docker build -t image_name .
-```
 
-### Push an image to a Docker registry
-
-Pushes a Docker image to a Docker registry.
-
-```sh
+# Pushes a Docker image to a Docker registry.
 docker push image_name
-```
 
-### List images
-
-List images
-
-```sh
+# List images
 docker image ls
-```
 
-### Remove image
-
-Remove one or more images
-
-```sh
+# Remove one or more images
 docker image rm image_name
 ```
 
 ## Docker Containers
 
-### List containers
-
-Shows containers in all states.
-
 ```sh
+# Shows containers in all states.
 docker ps -a
-```
 
-### Run a container interactively
-
-Starts a new container interactively using the specified image.
-
-```sh
+# Starts a new container interactively using the specified image.
 docker run -it image_name
-```
 
-### Run a detached container
-
-Starts a new container in detached mode (background).
-
-```sh
+# Starts a new container in detached mode (background).
 docker run -d image_name
-```
 
-### Run a container with a custom name
-
-Starts a new container with a specific name.
-
-```sh
+# Starts a new container with a specific name.
 docker run --name custom_name image_name
-```
 
-### Run a container with environment variables
-
-Sets environment variables in the container.
-
-```sh
+# Sets environment variables in the container.
 docker run -e "VAR=value" image_name
-```
 
-### Run a container and map ports
-
-Maps a container port to a host port.
-
-```sh
+# Maps a container port to a host port.
 docker run -p host_port:container_port image_name
-```
 
-### Run a container and mount a volume
-
-Mounts a host directory into the container.
-
-```sh
+# Mounts a host directory into the container.
 docker run -v /host/path:/container/path image_name
-```
 
-### Stop a running container
-
-Stops a running container.
-
-```sh
+# Stops a running container.
 docker stop container_id
-```
 
-### Start a stopped container
-
-Starts a stopped container.
-
-```sh
+# Starts a stopped container.
 docker start container_id
-```
 
-### Pause a running container
-
-Pauses the execution of a container.
-
-```sh
+# Pauses the execution of a container.
 docker pause container_id
-```
 
-### Unpause a paused container
-
-Resumes a paused container.
-
-```sh
+# Resumes a paused container.
 docker unpause container_id
-```
 
-### Restart a container
-
-Restarts a running or stopped container.
-
-```sh
+# Restarts a running or stopped container.
 docker restart container_id
-```
 
-### Attach to a running container
-
-Attaches to a running container and opens a shell.
-
-```sh
+# Attaches to a running container and opens a shell.
 docker exec -it container_id /bin/bash
-```
 
-### Remove a stopped container
-
-Deletes a stopped container.
-
-```sh
+# Deletes a stopped container.
 docker rm container_id
-```
 
-### Remove all stopped container
-
-Deletes all stopped container.
-
-```sh
+# Deletes all stopped container.
 docker container prune
-```
 
-### Remove a running container
-
-Forces removal of a running container.
-
-```sh
+# Forces removal of a running container.
 docker rm -f container_id
-```
 
-### Show container resource usage
-
-Displays live resource usage statistics of a container.
-
-```sh
+# Displays live resource usage statistics of a container.
 docker stats container_id
-```
 
-### Show container logs
-
-Displays logs from a container.
-
-```sh
+# Displays logs from a container.
 docker logs container_id
-```
 
-### Copy files from/to a container
-
-Copies files between a container and the local filesystem.
-
-```sh
+# Copies files between a container and the local filesystem.
 docker cp /local/path container_id:/container/path
-```
 
-### Inspect a container
-
-Shows detailed information about a container.
-
-```sh
+# Shows detailed information about a container.
 docker inspect container_id
-```
 
-### Create a container without starting it
-
-Creates a new container without starting it.
-
-```sh
+# Creates a new container without starting it.
 docker create image_name
 ```
 
 ## Docker Networking
 
-### List networks
-
-Lists all networks created on the Docker host.
-
 ```sh
+# Lists all networks created on the Docker host.
 docker network ls
-```
 
-### Create a network
-
-Creates a user-defined bridge network named 'my_network'.
-
-```sh
+# Creates a user-defined bridge network named 'my_network'.
 docker network create my_network
-```
 
-### Inspect a network
-
-Displays detailed information about the 'my_network' network.
-
-```sh
+# Displays detailed information about the 'my_network' network.
 docker network inspect my_network
-```
 
-### Remove a network
-
-Removes the 'my_network' network.
-
-```sh
+# Removes the 'my_network' network.
 docker network rm my_network
-```
 
-### Connect a container to a network
-
-Connects a container to the 'my_network' network.
-
-```sh
+# Connects a container to the 'my_network' network.
 docker network connect my_network container_name
-```
 
-### Disconnect a container from a network
-
-Disconnects a container from the 'my_network' network.
-
-```sh
+# Disconnects a container from the 'my_network' network.
 docker network disconnect my_network container_name
-```
 
-### Attach a container to multiple networks
-
-Attaches the container to an additional network 'my_network_2'.
-
-```sh
+# Attaches the container to an additional network 'my_network_2'.
 docker network connect my_network_2 container_name
-```
 
-### Create an overlay network
-
-Creates a multi-host overlay network 'my_overlay_network'.
-
-```sh
+# Creates a multi-host overlay network 'my_overlay_network'.
 docker network create --driver overlay my_overlay_network
-```
 
-### Remove all unused networks
-
-Removes all networks not used by at least one container.
-
-```sh
+# Removes all networks not used by at least one container.
 docker network prune
-```
 
-### Set up a custom bridge network
-
-```sh
+# Creates a custom bridge network 'my_custom_network' with specified subnet and gateway.
 docker network create --driver bridge --subnet=192.168.5.0/24 --gateway=192.168.5.1 my_custom_network
-```
 
-Creates a custom bridge network 'my_custom_network' with specified subnet and gateway.
-
-### Limit container bandwidth on a network
-
-```sh
+# Creates a secure bridge network 'my_secure_network' disabling inter-container communication.
 docker network create --driver bridge --subnet=192.168.5.0/24 --gateway=192.168.5.1 --opt "com.docker.network.bridge.enable_icc=false" my_secure_network
 ```
 
-Creates a secure bridge network 'my_secure_network' disabling inter-container communication.
-
 ## Docker Volumes
 
-### List volumes
-
-Lists all volumes on the Docker host.
-
 ```sh
+# Lists all volumes on the Docker host.
 docker volume ls
-```
 
-### Create a volume
-
-Creates a named volume named 'my_volume'.
-
-```sh
+# Creates a named volume named 'my_volume'.
 docker volume create my_volume
-```
 
-### Inspect a volume
-
-Displays detailed information about the 'my_volume' volume.
-
-```sh
+# Displays detailed information about the 'my_volume' volume.
 docker volume inspect my_volume
-```
 
-### Remove a volume
-
-Removes the 'my_volume' volume.
-
-```sh
+# Removes the 'my_volume' volume.
 docker volume rm my_volume
-```
 
-### Remove all unused volumes
-
-Removes all volumes not used by at least one container.
-
-```sh
+# Removes all volumes not used by at least one container.
 docker volume prune
-```
 
-### Mount a volume while running a container
-
-Mounts the 'my_volume' volume to a specific path inside the container.
-
-```sh
+# Mounts the 'my_volume' volume to a specific path inside the container.
 docker run -v my_volume:/path/in/container image_name
-```
 
-### Mount a host directory as a volume
-
-Mounts a directory from the host system into the container.
-
-```sh
+# Mounts a directory from the host system into the container.
 docker run -v /host/path:/container/path image_name
-```
 
-### Specify volume driver
-
-Creates a volume using a specific volume driver 'my_driver'.
-
-```sh
+# Creates a volume using a specific volume driver 'my_driver'.
 docker volume create --driver my_driver my_volume
-```
 
-### Copy files from a container volume to the local host
-
-Copies files from a container volume to a directory on the local host.
-
-```sh
+# Copies files from a container volume to a directory on the local host.
 docker cp container_id:/path/in/container /local/host/path
-```
 
-### Mount a read-only volume
-
-Mounts the 'my_volume' volume as read-only inside the container.
-
-```sh
+# Mounts the 'my_volume' volume as read-only inside the container.
 docker run -v my_volume:/path/in/container:ro image_name
-```
 
-### Mount a named volume with specific options
-
-Mounts the 'my_volume' volume with specific options (e.g., read-write permissions).
-
-```sh
+# Mounts the 'my_volume' volume with specific options (e.g., read-write permissions).
 docker run -v my_volume:/path/in/container:options image_name
-```
 
-### Backup a volume to a tar archive
-
-Creates a tar archive of the 'my_volume' volume in the /backup directory.
-
-```sh
+# Creates a tar archive of the 'my_volume' volume in the /backup directory.
 docker run --rm -v my_volume:/data -v /backup:/backup ubuntu tar cvf /backup/my_volume_backup.tar /data
 ```
 
 ## Docker Compose
 
-### Create and start containers
-
-Builds, (re)creates, starts, and attaches to containers for a service.
-
 ```sh
+# Builds, (re)creates, starts, and attaches to containers for a service.
 docker compose up
-```
 
-### Stop and remove containers
-
-Stops and removes containers, networks, volumes, and images created by 'up' command.
-
-```sh
+# Stops and removes containers, networks, volumes, and images created by 'up' command.
 docker compose down
-```
 
-### Build services
-
-Builds or rebuilds services defined in the docker-compose.yml file.
-
-```sh
+# Builds or rebuilds services defined in the docker-compose.yml file.
 docker compose build
-```
 
-### Start services
-
-Start services defined in the docker-compose.yml file.
-
-```sh
+# Start services defined in the docker-compose.yml file.
 docker compose start
-```
 
-### Stop services
-
-Stops services defined in the docker-compose.yml file without removing containers.
-
-```sh
+# Stops services defined in the docker-compose.yml file without removing containers.
 docker compose stop
-```
 
-### Restart services
-
-Restarts services defined in the docker-compose.yml file.
-
-```sh
+# Restarts services defined in the docker-compose.yml file.
 docker compose restart
-```
 
-### Pause services
-
-Pauses all services in the docker-compose.yml file.
-
-```sh
+# Pauses all services in the docker-compose.yml file.
 docker compose pause
-```
 
-### Unpause services
-
-Unpauses all paused services in the docker-compose.yml file.
-
-```sh
+# Unpauses all paused services in the docker-compose.yml file.
 docker compose unpause
-```
 
-### View service logs
-
-Displays log output from services.
-
-```sh
+# Displays log output from services.
 docker compose logs
-```
 
-### Scale services
-
-Scale services to a specified number of instances.
-
-```sh
+# Scale services to a specified number of instances.
 docker compose scale service_name=num_of_instances
 ```

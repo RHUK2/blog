@@ -3,14 +3,9 @@
 import React from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 
-interface Props {
-  children: React.ReactNode;
-  className?: string;
-}
-
-type PolymorphicProps<T extends React.ElementType> = Props & {
+type PolymorphicProps<T extends React.ElementType> = {
   as?: T;
-} & Omit<React.ComponentPropsWithoutRef<T>, keyof Props>;
+} & React.ComponentPropsWithoutRef<T>;
 
 export function Badge<T extends React.ElementType>(props: PolymorphicProps<T>) {
   const { as: Component = 'div', children, className, ...rest } = props;

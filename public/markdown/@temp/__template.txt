@@ -1,7 +1,0 @@
----
-fileName:
-updatedAt:
-title:
-tag:
-isPublished:
----
