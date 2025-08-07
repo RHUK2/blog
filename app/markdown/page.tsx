@@ -1,6 +1,6 @@
+import { MarkdownMetaCard, TagNavigation } from '@/entities/markdown/components';
 import { readMarkdownMetaList } from '@/entities/markdown/data';
-import { MarkdownMetaCard, NavigationTag } from '@/entities/markdown/components';
-import { Divider, Pagination, SearchInput } from '@/shared/components';
+import { Divider, Pagination } from '@/shared/components';
 import { PAGE_SIZE } from '@/utils/constants';
 
 interface Props {
@@ -21,8 +21,6 @@ export default async function Page({ searchParams }: Props) {
       <TagNavigation currentTag={tag} />
 
       <Divider />
-
-      {/* <SearchInput /> */}
 
       <Pagination totalCount={markdownMetaList.totalCount} size={parseInt(PAGE_SIZE)} />
 

@@ -314,9 +314,14 @@ export const projectList: ProjectList = [
       },
     ],
     experienceList: [
-      { id: v4(), behavior: 'LLM 프롬프트 구현', result: '' },
-      { id: v4(), behavior: 'FOUC 다크모드 적용', result: '' },
+      {
+        id: v4(),
+        behavior:
+          '다크모드 적용 후 새로고침 시 발생하는 FOUC(Flash of Unstyled Content) 및 Hydration 에러를 쿠키를 활용해 사용자 설정을 저장하고, Hydration 시 서버와 클라이언트의 상태를 일치시켜 해결',
+        result: '',
+      },
       { id: v4(), behavior: 'FSD(Feature-Sliced Design) 패턴 적용', result: '' },
+      { id: v4(), behavior: 'LLM 프롬프트 구현', result: '' },
     ],
   },
 ];

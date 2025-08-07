@@ -71,20 +71,21 @@ isPublished: true
 - 외부 스코프의 렉시컬 환경을 참조하여 스코프 체인(Scope Chain)을 형성한다.
 - 내부 함수가 외부 스코프의 변수에 접근할 수 있는 클로저(Closure)를 구현할 수 있다.
 
-외부 스코프의 렉시컬 환경을 참조한다. 이를 통해 스코프 체인(Scope Chain)이 형성된다.
-
 ### 변수 환경(Variable Environment)
 
-- ES6 이후로는 대부분 렉시컬 환경으로 통합되지만, 호이스팅 동작을 위해 변수 환경 개념이 분리되어 유지된다.
+- 실행 컨텍스트 생성 시점에 렉시컬 환경과 동일한 내용으로 초기화된다.
+- 변수 환경은 `var` 선언과 함수 선언에 의한 호이스팅을 처리하기 위해 사용된다.
+- 코드 실행 중에는 렉시컬 환경이 변경되지만, 변수 환경은 초기 상태를 유지한다.
 
 #### 환경 레코드
 
-▾ 선언적 환경 레코드(Declarative Environment Record)
+▾ 함수 환경 레코드(Function Environment Record)
 
 - 특징
 
   - 함수 스코프 내 `var`로 선언된 변수는 호이스팅되며 `undefined`로 초기화된다.
   - 함수 스코프 내 함수 선언(`function foo() {}`)은 호이스팅되며 즉시 정의된다.
+  - `arguments` 객체가 포함된다.
 
 - 종류
 
@@ -92,7 +93,7 @@ isPublished: true
   - 함수 스코프 내 함수 선언 (`function foo() {}`).
   - 함수 스코프 내 `var`로 선언된 함수 표현식 (예: `var func = function() {}`).
 
-▾ 객체 환경 레코드(Object Environment Record)
+▾ 전역 환경 레코드(Global Environment Record)
 
 - 특징
 

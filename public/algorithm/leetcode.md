@@ -4,9 +4,9 @@
 | --------------------------------------------------------- | ------ | --------- |
 | 🚀 연결 리스트                                            |        |           |
 | Reverse Linked List                                       | 쉬움   | ✅        |
-| Linked List Cycle                                         | 쉬움   |           |
+| Linked List Cycle                                         | 쉬움   | ✅        |
+| Remove Duplicates from Sorted List                        | 쉬움   | ✅        |
 | Linked List Cycle II                                      | 중간   |           |
-| Remove Duplicates from Sorted List                        | 쉬움   |           |
 | Remove Duplicates from Sorted List II                     | 중간   |           |
 | Add Two Numbers                                           | 중간   |           |
 | 🚀 스택                                                   |        |           |
@@ -17,10 +17,10 @@
 | Find K Pairs with Smallest Sums                           | 중간   |           |
 | 🚀 해시맵                                                 |        |           |
 | Two Sum                                                   | 쉬움   | ✅        |
-| Group Anagrams                                            | 중간   |           |
-| Intersection of Two Arrays                                | 쉬움   |           |
+| Intersection of Two Arrays                                | 쉬움   | ✅        |
 | Unique Email Addresses                                    | 쉬움   |           |
 | First Unique Character in a String                        | 쉬움   |           |
+| Group Anagrams                                            | 중간   |           |
 | Subarray Sum Equals K                                     | 중간   |           |
 | 🚀 그래프, BFS, DFS                                       |        |           |
 | Number of Islands                                         | 중간   |           |
@@ -39,14 +39,14 @@
 | Construct Binary Tree from Preorder and Inorder Traversal | 중간   |           |
 | 🚀 동적 프로그래밍                                        |        |           |
 | Paint Fence                                               | 쉬움   |           |
-| Longest Increasing Subsequence                            | 중간   |           |
 | Maximum Subarray                                          | 쉬움   |           |
-| Unique Paths                                              | 중간   |           |
-| Unique Paths II                                           | 중간   |           |
 | House Robber                                              | 쉬움   |           |
-| House Robber II                                           | 중간   |           |
 | Best Time to Buy and Sell Stock                           | 쉬움   |           |
 | Best Time to Buy and Sell Stock II                        | 쉬움   |           |
+| Longest Increasing Subsequence                            | 중간   |           |
+| Unique Paths                                              | 중간   |           |
+| Unique Paths II                                           | 중간   |           |
+| House Robber II                                           | 중간   |           |
 | Word Break                                                | 중간   |           |
 | Coin Change                                               | 중간   |           |
 | 🚀 이진 탐색                                              |        |           |
