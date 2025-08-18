@@ -10,10 +10,7 @@ interface AccordionContext {
   toggle: () => void;
 }
 
-const AccordionContext = createContext<AccordionContext>({
-  isOpen: false,
-  toggle: () => {},
-});
+const AccordionContext = createContext<AccordionContext | null>(null);
 
 export function useAccordion() {
   const context = useContext(AccordionContext);

@@ -4,16 +4,16 @@ import { ScrollTopFloatingButton } from '@/shared/components';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 
 interface Props {
   params: Promise<{
     folderName: string;
   }>;
 }
-
-// export const revalidate = 3600;
 
 export const dynamicParams = false;
 
@@ -40,8 +40,8 @@ export default async function Page({ params }: Props) {
     <section className='min-h-full px-4 py-10'>
       <div className='prose dark:prose-invert max-w-none'>
         <Markdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight, rehypeSlug]}
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
           components={{
             img({ alt, src }) {
               return (

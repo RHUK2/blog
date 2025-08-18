@@ -27,6 +27,7 @@ isPublished: true
   - [요약](#요약)
 - [router.isReady](#routerisready)
 - [Image Component](#image-component)
+- [SSG, SSR, ISR](#ssg-ssr-isr)
 
 ## 렌더링 전략 4가지
 
@@ -361,3 +362,25 @@ export default async function RootPage() {
   );
 }
 ```
+
+## SSG, SSR, ISR
+
+1. nextjs(v15)에서 정적 라우팅 페이지인 경우
+
+1-1. 서버 페칭이 존재하면 SSR
+
+1-2. 서버 페칭이 존재하고, revalidate 설정이 있으면 ISR
+
+1-3. 서버 페칭이 없다면 SSG
+
+2. nextjs(v15)에서 동적 라우팅 페이지인 경우
+
+2-1. generateStaticParams를 제공하고, 서버 페칭이 없는 경우는 SSG
+
+2-2. generateStaticParams를 제공하고, 서버 페칭이 있는 경우는 SSR
+
+2-3. generateStaticParams를 제공하고, 서버 페칭이 있고, revalidate가 설정되면 경우는 ISR
+
+2-4. generateStaticParams를 제공하지않고, dynamicParams가 false면 404
+
+2-5. generateStaticParams를 제공하지않고, dynamicParams가 true면 요청 시 생성(SSR or ISR)
