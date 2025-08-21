@@ -17,11 +17,12 @@ isPublished: true
 - [Module CSS 사용 이슈](#module-css-사용-이슈)
 - [`color`](#color)
 - [`outline` • `box-shadow`](#outline--box-shadow)
+- [`transform`](#transform)
 - [`transition` • `animation`](#transition--animation)
 - [`pointer-events` • `user-select`](#pointer-events--user-select)
 - [`style` • `className`](#style--classname)
-- [`viewport` • `viewbox`](#viewport--viewbox)
-- [`fieldset` 내부에선 flex가 잘동작하지 않으므로 div로 대체](#fieldset-내부에선-flex가-잘동작하지-않으므로-div로-대체)
+- [`viewbox` 좌표 계산](#viewbox-좌표-계산)
+- [`fieldset`에서 `display: flex` 주의사항](#fieldset에서-display-flex-주의사항)
 
 ## CSS 명시도
 
@@ -206,6 +207,10 @@ border: 1px solid currentColor; /* 현재 요소의 color 속성값 */
     },
   ```
 
+## `transform`
+
+- `transform` 속성은 `inline` 요소에서는 동작하지 않는다.
+
 ## `transition` • `animation`
 
 ```css
@@ -235,23 +240,27 @@ animation:
 
 ## `style` • `className`
 
-className은 빌드타임에 정적으로 정의된 값만 사용가능
-style은 주로 동적값 계산 시 사용
-
-## `viewport` • `viewbox`
+- `className`은 빌드타임에 정적으로 정의된 CSS 클래스명을 참조할 때 사용한다.
+- `style`은 런타임에 동적으로 계산된 값이나 변수를 기반으로 스타일을 적용할 때 사용한다.
 
 ```tsx
-<svg width='16' height='16' viewBox='0 0 24 24' style={{ background: 'yellow' }}>
-  <rect x='0' y='0' width='24' height='24' fill='none' stroke='red' strokeWidth='1' />
-</svg>
+// className 사용 - 정적 스타일
+<div className="primary-button" />
+
+// style 사용 - 동적 스타일
+<div style={{ width: `${progress}%`, backgroundColor: dynamicColor }} />
 ```
+
+## `viewbox` 좌표 계산
 
 ```text
-0 0 24 24
-(0, 0), (0+24, 0+24)
+viewBox: 0 0 24 24
+position: (0, 0), (0 + 24, 0 + 24)
 
-50 50 100 100
-(50, 50), (50+100, 50+100)
+viewBox: 50 50 100 100
+position: (50, 50), (50 + 100, 50 + 100)
 ```
 
-## `fieldset` 내부에선 flex가 잘동작하지 않으므로 div로 대체
+## `fieldset`에서 `display: flex` 주의사항
+
+`fieldset`에는 내부 콘텐츠를 감싸는 익명 박스를 생성하여 `display: flex`가 올바르게 동작하지 않을 수 있다.

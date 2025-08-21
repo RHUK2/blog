@@ -8,13 +8,12 @@ isPublished: true
 
 # React Query
 
-- [staleTime, gcTime](#staletime-gctime)
-- [status, fetchStatus](#status-fetchstatus)
-- [select, initialData, placeholderData](#select-initialdata-placeholderdata)
-- [useMutation](#usemutation)
-- [QueryClient](#queryclient)
+- [`staleTime` • `gcTime`](#staletime--gctime)
+- [`status` • `fetchStatus`](#status--fetchstatus)
+- [`select` • `initialData` • `placeholderData`](#select--initialdata--placeholderdata)
+- [`useMutation`](#usemutation)
 
-## staleTime, gcTime
+## `staleTime` • `gcTime`
 
 1. `staleTime`
    - 해당 값은 쿼리를 `fresh` 상태로 유지할 시간을 설정한다.
@@ -37,7 +36,7 @@ isPublished: true
    - 쿼리 데이터를 사용하는 컴포넌트가 더 이상 없을 때 `inactive` 상태로 전환된다.
    - 다른 페이지로 이동했다가 다시 돌아와도
 
-## status, fetchStatus
+## `status` • `fetchStatus`
 
 1. `status`
    - pending success error
@@ -47,7 +46,7 @@ isPublished: true
    - idle fetching pause
    - 쿼리 패칭에 대한 정보를 제공한다. (실행 중인지? 아닌지?)
 
-## select, initialData, placeholderData
+## `select` • `initialData` • `placeholderData`
 
 1. `select`
    - 서버로부터 받아온 데이터를 가공하거나 필터링하여 필요한 부분만 선택할 수 있다. 예를 들어, 객체의 특정 필드만 추출하거나, 배열을 특정 조건에 맞게 필터링할 수 있다.
@@ -77,7 +76,7 @@ const { data } = useQuery(
 );
 ```
 
-## useMutation
+## `useMutation`
 
 - `useMutation`의 `onMutate`, `onSuccess`, `onError`, `onSettled`는 모든 변이 호출에 대해 적용되며 우선순위가 높다.
 - `mutate`의 `onSuccess`, `onError`, `onSettled`는 특정 변이 호출에 대해 적용된다.
@@ -134,13 +133,3 @@ todos.forEach((todo) => {
   });
 });
 ```
-
-## QueryClient
-
-- queryClient.invalidateQueries
-- queryClient.refetchQueries
-- queryClient.resetQueries
-
-- queryClient.cancelQueries
-
-- queryClient.removeQueries

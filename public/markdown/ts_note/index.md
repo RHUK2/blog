@@ -23,15 +23,11 @@ isPublished: true
   - [제네릭 제약 (Generic Constraints)](#제네릭-제약-generic-constraints)
   - [조건부 타입 (Conditional Types)](#조건부-타입-conditional-types)
   - [infer 키워드와 함께 사용](#infer-키워드와-함께-사용)
-- [Promise](#promise)
-- [as const](#as-const)
-- [`as const`의 주요 동작 원리 및 효과](#as-const의-주요-동작-원리-및-효과)
-  - [1. 리터럴 타입으로 추론 (Narrowing Literal Types)](#1-리터럴-타입으로-추론-narrowing-literal-types)
-  - [2. 읽기 전용(Readonly) 속성 부여](#2-읽기-전용readonly-속성-부여)
-- [`as const` 사용 시 주의사항](#as-const-사용-시-주의사항)
-- [`as const`의 활용 예시](#as-const의-활용-예시)
-  - [1. 유니언 타입 활용](#1-유니언-타입-활용)
-  - [2. 함수 인자의 불변성 보장](#2-함수-인자의-불변성-보장)
+- [`Promise<T>`](#promiset)
+- [`as const`](#as-const)
+  - [주요 동작](#주요-동작)
+  - [활용 예시](#활용-예시)
+  - [주의사항](#주의사항)
 
 ## 타입은 집합이다
 
@@ -381,10 +377,6 @@ interface Square extends Shape {
   sideLength: number;
 }
 
-interface Circle extends Shape {
-  radius: number;
-}
-
 // 다중 확장
 interface ColoredSquare extends Shape, Square {
   border: string;
@@ -400,22 +392,13 @@ function logLength<T extends { length: number }>(arg: T): T {
   return arg;
 }
 
-logLength('hello'); // ✅ string has length
-logLength([1, 2, 3]); // ✅ array has length
-logLength({ length: 10, value: 3 }); // ✅ object has length
-// logLength(123); // ❌ number doesn't have length
-```
-
-```ts
 // keyof를 사용한 제약
 function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
   return obj[key];
 }
 
-const person = { name: 'John', age: 30, city: 'Seoul' };
+const person = { name: 'John', age: 30 };
 const name = getProperty(person, 'name'); // string
-const age = getProperty(person, 'age'); // number
-// const invalid = getProperty(person, "invalid"); // ❌ 존재하지 않는 키
 ```
 
 ### 조건부 타입 (Conditional Types)
@@ -426,21 +409,10 @@ type IsString<T> = T extends string ? true : false;
 
 type Test1 = IsString<string>; // true
 type Test2 = IsString<number>; // false
-type Test3 = IsString<'hello'>; // true (string literal은 string을 확장)
-```
 
-```ts
-// 내장 유틸리티 타입들의 구현 예시
-type MyNonNullable<T> = T extends null | undefined ? never : T;
+// 유틸리티 타입 구현 예시
 type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
 type MyParameters<T> = T extends (...args: infer P) => any ? P : never;
-
-function example(a: string, b: number): boolean {
-  return true;
-}
-
-type ExampleReturn = MyReturnType<typeof example>; // boolean
-type ExampleParams = MyParameters<typeof example>; // [string, number]
 ```
 
 ### infer 키워드와 함께 사용
@@ -448,174 +420,65 @@ type ExampleParams = MyParameters<typeof example>; // [string, number]
 ```ts
 // 배열 요소 타입 추출
 type ArrayElement<T> = T extends (infer U)[] ? U : never;
-
 type StringArray = ArrayElement<string[]>; // string
-type NumberArray = ArrayElement<number[]>; // number
-type NotArray = ArrayElement<string>; // never
-```
 
-```ts
 // Promise 내부 타입 추출
 type Awaited<T> = T extends Promise<infer U> ? U : T;
-
 type PromiseString = Awaited<Promise<string>>; // string
-type RegularString = Awaited<string>; // string
 ```
 
-## Promise<T>
+## `Promise<T>`
+
+`Promise<T>`는 비동기 작업의 완료 또는 실패를 나타내는 객체로, `T`는 비동기 작업이 성공했을 때 반환되는 값의 타입을 나타낸다.
+
+## `as const`
+
+`as const`는 값의 타입을 최대한 좁게 추론하고 읽기 전용으로 만드는 타입 단언이다.
+
+### 주요 동작
+
+1. 리터럴 타입 추론: 값을 구체적인 리터럴 타입으로 추론
 
 ```ts
-function temp() {
-  return new Promise((resolve, reject) => {
-    try {
-      setTimeout(() => {
-        resolve('Temporary function executed');
-      }, 1000);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
+let str = 'hello'; // string
+let constStr = 'hello' as const; // "hello"
 
-function temp2() {
-  return Promise.resolve('Temporary function executed');
-}
-
-function temp3() {
-  return Promise.reject('Temporary function executed');
-}
-
-function temp4() {
-  return new Promise((resolve: (value: string) => void, reject: (reason?: any) => void) => {
-    try {
-      setTimeout(() => {
-        resolve('Temporary function executed');
-      }, 1000);
-    } catch (error) {
-      reject(error);
-    }
-  })
-    .then((result) => {
-      console.log(result);
-      return result;
-    })
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
-}
+let arr = [1, 2, 3]; // number[]
+let constArr = [1, 2, 3] as const; // readonly [1, 2, 3]
 ```
 
-## as const
+2. 읽기 전용 속성: 객체와 배열을 재귀적으로 읽기 전용으로 만듦
 
----
-
-`as const`는 TypeScript에서 타입 추론을 더 **엄격하고 구체적으로** 만들 때 사용하는 \*\*단언(Assertion)\*\*입니다. 변수나 리터럴에 `as const`를 붙이면, TypeScript는 해당 값의 타입을 **최대한 좁은(narrowed)** 형태로 추론하고, 그 값을 \*\*읽기 전용(readonly)\*\*으로 만듭니다.
-
-이는 자바스크립트의 `const` 키워드와는 다릅니다. 자바스크립트의 `const`는 변수 재할당을 막을 뿐, 변수가 참조하는 값 내부의 변경은 막지 못합니다. 하지만 TypeScript의 `as const`는 **값 자체의 불변성**을 타입 수준에서 강제합니다.
-
----
-
-## `as const`의 주요 동작 원리 및 효과
-
-### 1\. 리터럴 타입으로 추론 (Narrowing Literal Types)
-
-일반적으로 TypeScript는 리터럴 값을 만날 때 더 넓은(general) 타입으로 추론하는 경향이 있습니다. 하지만 `as const`를 사용하면 정확한 리터럴 값 타입으로 추론합니다.
-
-```typescript
-// 일반적인 추론
-let str = 'hello'; // 타입: string
-let num = 123; // 타입: number
-
-// as const를 사용한 추론
-let constStr = 'hello' as const; // 타입: "hello" (리터럴 타입)
-let constNum = 123 as const; // 타입: 123 (리터럴 타입)
-
-// 일반적인 객체/배열 추론
-let arr = [1, 2, 3]; // 타입: number[]
-let obj = { a: 1, b: 'x' }; // 타입: { a: number; b: string; }
-
-// as const를 사용한 객체/배열 추론
-let constArr = [1, 2, 3] as const;
-// 타입: readonly [1, 2, 3] (tuple 타입 + readonly)
-
-let constObj = { a: 1, b: 'x' } as const;
-// 타입: { readonly a: 1; readonly b: "x"; } (리터럴 타입 + readonly)
+```ts
+const obj = { name: 'Alice', skills: ['TypeScript'] } as const;
+// obj.name = 'Bob'; // Error: readonly property
+// obj.skills.push('React'); // Error: readonly array
 ```
 
-위 예시에서 볼 수 있듯이, `as const`를 사용하면 문자열 `"hello"`는 `string`이 아닌 `"hello"`라는 **리터럴 타입**으로, 숫자 `123`은 `number`가 아닌 `123`이라는 **리터럴 타입**으로 추론됩니다. 이는 특히 유니언 타입이나 특정 상숫값을 다룰 때 유용합니다.
+### 활용 예시
 
-### 2\. 읽기 전용(Readonly) 속성 부여
+유니언 타입 생성:
 
-`as const`는 객체나 배열(튜플)의 모든 속성을 \*\*재귀적으로 읽기 전용(readonly)\*\*으로 만듭니다. 이는 해당 값의 내용을 변경할 수 없음을 타입 시스템이 보장하게 합니다.
-
-```typescript
-const arr = [1, 2, 3] as const;
-// arr.push(4);    // Error: Property 'push' does not exist on type 'readonly [1, 2, 3]'.
-// arr[0] = 10;    // Error: Cannot assign to '0' because it is a read-only property.
-
-const obj = {
-  name: 'Alice',
-  age: 30,
-  skills: ['TypeScript', 'React'],
-} as const;
-
-// obj.age = 31; // Error: Cannot assign to 'age' because it is a read-only property.
-// obj.skills.push("Node.js"); // Error: Property 'push' does not exist on type 'readonly ["TypeScript", "React"]'.
-```
-
-이렇게 `as const`를 사용하면, TypeScript는 해당 데이터 구조가 **절대 변경되지 않을 것임**을 확신하고 더 안전한 코드를 작성하는 데 도움을 줍니다. 이는 순수 함수(Pure Function)의 인자나 불변성(Immutability)을 강조하는 아키텍처에서 특히 유용합니다.
-
----
-
-## `as const` 사용 시 주의사항
-
-- **컴파일 시점에만 작동:** `as const`는 TypeScript의 타입 시스템에서만 동작하는 단언입니다. 런타임 자바스크립트 코드에는 영향을 미치지 않습니다. 즉, `as const`를 적용했더라도, 자바스크립트 코드만 본다면 여전히 변경 가능한 객체나 배열로 보입니다.
-- **리터럴 값에만 적용:** `as const`는 리터럴 값에만 적용할 수 있습니다. 변수에 직접 적용하는 것은 의미가 없거나 오류가 발생할 수 있습니다.
-  ```typescript
-  let x = 5;
-  // let y = x as const; // 오류 또는 의도와 다른 동작
-  // `x` 자체가 이미 `number` 타입이므로 `y`도 `number`로 추론됩니다.
-  // `as const`는 `5`와 같은 리터럴에 직접 적용될 때 강력합니다.
-  ```
-- **외부 모듈의 값:** 외부 모듈에서 임포트한 변수나 함수 반환 값에는 `as const`를 직접 적용하기 어렵습니다. 해당 모듈이 이미 읽기 전용 타입을 제공하거나, `as const`를 적용할 수 있는 형태로 값을 export 해야 합니다.
-
----
-
-## `as const`의 활용 예시
-
-### 1\. 유니언 타입 활용
-
-`as const`를 사용하여 특정 문자열 리터럴들의 배열을 정의하고, 이를 유니언 타입으로 활용할 때 매우 유용합니다.
-
-```typescript
+```ts
 const COLORS = ['red', 'green', 'blue'] as const;
-// COLORS의 타입: readonly ["red", "green", "blue"]
-
-type Color = (typeof COLORS)[number];
-// Color의 타입: "red" | "green" | "blue" (유니언 타입)
-
-let myColor: Color = 'red'; // OK
-// let anotherColor: Color = "yellow"; // Error: Type '"yellow"' is not assignable to type 'Color'.
+type Color = (typeof COLORS)[number]; // "red" | "green" | "blue"
 ```
 
-이렇게 하면 `COLORS` 배열에 새로운 색상이 추가될 때 `Color` 타입도 자동으로 업데이트되어 타입 안전성을 유지할 수 있습니다.
+불변 설정 객체:
 
-### 2\. 함수 인자의 불변성 보장
-
-함수 인자가 객체나 배열일 때, 그 내용이 함수 내부에서 변경되지 않음을 보장하고 싶을 때 `as const`를 사용할 수 있습니다.
-
-```typescript
-function processConfig(config: { readonly debugMode: boolean; readonly settings: readonly string[] }) {
-  // config.debugMode = true; // Error: Cannot assign to 'debugMode' because it is a read-only property.
-  // config.settings.push("newSetting"); // Error: Property 'push' does not exist on type 'readonly string[]'.
-  console.log(config);
-}
-
-const myConfig = {
+```ts
+const config = {
   debugMode: false,
   settings: ['log', 'cache'],
 } as const;
 
-processConfig(myConfig); // OK, 타입 안전하게 전달
+function processConfig(config: typeof config) {
+  // 안전한 읽기 전용 접근
+}
 ```
+
+### 주의사항
+
+- 컴파일 시점에만 작동 (런타임에는 일반 객체)
+- 리터럴 값에만 적용 가능
+- 변수에 직접 적용하면 효과 없음

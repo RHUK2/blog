@@ -30,11 +30,11 @@ isPublished: true
 app.use(cookieParser(process.env.COOKIE_SECRET);
 
 app.use(session({
-  secure: ture,	// https 환경에서만 session 정보를 주고받도록처리
+  secure: true, // https 환경에서만 session 정보를 주고받도록처리
   secret: process.env.COOKIE_SECRET, // 암호화하는 데 쓰일 키
   resave: false, // 세션을 언제나 저장할지 설정함
   saveUninitialized: true, // 세션에 저장할 내역이 없더라도 처음부터 세션을 생성할지 설정
-  cookie: {	//세션 쿠키 설정 (세션 관리 시 클라이언트에 보내는 쿠키)
+  cookie: { //세션 쿠키 설정 (세션 관리 시 클라이언트에 보내는 쿠키)
     httpOnly: true, // 자바스크립트를 통해 세션 쿠키를 사용할 수 없도록 함
     Secure: true
   },

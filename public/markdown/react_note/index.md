@@ -8,7 +8,6 @@ isPublished: true
 
 - [커스텀 훅 vs 일반 함수](#커스텀-훅-vs-일반-함수)
 - [StrictMode](#strictmode)
-- [React.createElement](#reactcreateelement)
 - [useState](#usestate)
 - [useReducer](#usereducer)
 - [useRef](#useref)
@@ -21,6 +20,8 @@ isPublished: true
 - [useCallback](#usecallback)
 - [memo](#memo)
 - [Context API](#context-api)
+- [상태 끌어올리기](#상태-끌어올리기)
+  - [역할 분담](#역할-분담)
 
 ## 커스텀 훅 vs 일반 함수
 
@@ -51,10 +52,6 @@ isPublished: true
 - 더 이상 사용되지 않는 리액트 API를 찾아준다.
 
 `<StrictMode>`로 래핑된 트리 내부에서는 `<StrictMode>`를 해제할 수 있는 방법이 없다. 이러면 모든 컴포넌트가 검사된다는 확신을 가질 수 있다. 앱을 작업하는 개발자 사이에 검사의 가치에 대해 의견이 달라 검사 범위를 축소해야할 경우, 트리에서 `<StrictMode>`를 아래로 이동시켜야 한다.
-
-## React.createElement
-
-<!-- todo -->
 
 ## useState
 
@@ -387,10 +384,7 @@ interface Context {
 }
 
 // 1. Context 생성
-const GroupContext = createContext<Context>({
-  name: '',
-  onChange: () => {},
-});
+const GroupContext = createContext<Context | null>(null);
 
 interface Props {
   children: React.ReactNode;
@@ -413,7 +407,13 @@ export function Group({ children, name, onChange }: Props) {
 
 // 3. 커스텀 훅 작성
 export function useGroup() {
-  return useContext(GroupContext);
+  const context = useContext(GroupContext);
+
+  if (!context) {
+    throw new Error('dose not exist context!');
+  }
+
+  return context;
 }
 ```
 
@@ -452,3 +452,15 @@ export default function App() {
   );
 }
 ```
+
+## 상태 끌어올리기
+
+상태 끌어올리기에서 자식 컴포넌트는 요리 재료를, 부모 컴포넌트는 요리사 역할을 한다고 생각하면 이해하기 쉽습니다.
+
+### 역할 분담
+
+- 자식 컴포넌트: 자신의 내부에서 발생한 변화(사용자 입력, 버튼 클릭 등)로 인해 새로운 데이터(재료)가 생기면, 이 재료들을 콜백 함수라는 바구니에 담아 부모에게 건네줍니다. 자식은 이 재료를 어떻게 요리할지 알 필요가 없습니다.
+
+- 부모 컴포넌트: 자식이 건네준 바구니(콜백 함수)를 받아 그 안에 담긴 재료(인수)를 사용해 자신의 상태를 업데이트하거나 다른 로직을 수행합니다. 부모는 이 재료를 가지고 어떤 요리를 할지 결정하고 실행합니다.
+
+이처럼 자식 컴포넌트는 오직 데이터를 전달하는 역할만 하고, 부모 컴포넌트는 그 데이터를 활용하여 상태를 관리하고 화면을 업데이트하는 역할을 함으로써, 컴포넌트 간의 책임과 역할이 명확하게 분리됩니다.

@@ -8,24 +8,32 @@ isPublished: true
 
 # Regexp Note
 
-- [positive lookahed](#positive-lookahed)
-- [negative lookahed](#negative-lookahed)
+- [positive lookahead](#positive-lookahead)
+- [negative lookahead](#negative-lookahead)
 - [newline](#newline)
 - [이스케이프 패턴](#이스케이프-패턴)
 
-## positive lookahed
+## positive lookahead
+
+매칭된 문자열 바로 뒤에 붙는 글자가 `t`인 것을 찾습니다.
 
 ```text
 /....(?=t)/g
 ←←←←▼
 positive lookahead // 'posi'
+```
 
+매칭된 문자열에서 첫 글자가 `t`인 것을 찾습니다.
+
+```text
 /(?=t)..../g
-   ▼→→→→
+    ▼→→→
 positive lookahead // 'tive'
 ```
 
-## negative lookahed
+## negative lookahead
+
+매칭된 문자열 바로 뒤에 붙는 글자가 `t`가 아닌 것을 찾습니다.
 
 ```text
 /....(?!t)/g
@@ -39,8 +47,12 @@ negative lookahead // ['egat', 'ive ']
 negative lookahead // ['egat', 'ive ', 'look']
              →→→→▼
 negative lookahead // ['egat', 'ive ', 'look', 'ahea']
+```
 
-/(?=t)..../g
+매칭된 문자열에서 첫 글자가 `t`가 아닌 것을 찾습니다.
+
+```text
+/(?!t)..../g
 ▼→→→
 negative lookahead // ['nega']
     ▼→→→(t를 포함)

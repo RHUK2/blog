@@ -18,8 +18,8 @@
 | 🚀 해시맵                                                 |        |           |
 | Two Sum                                                   | 쉬움   | ✅        |
 | Intersection of Two Arrays                                | 쉬움   | ✅        |
-| Unique Email Addresses                                    | 쉬움   |           |
-| First Unique Character in a String                        | 쉬움   |           |
+| Unique Email Addresses                                    | 쉬움   | ✅        |
+| First Unique Character in a String                        | 쉬움   | ✅        |
 | Group Anagrams                                            | 중간   |           |
 | Subarray Sum Equals K                                     | 중간   |           |
 | 🚀 그래프, BFS, DFS                                       |        |           |
