@@ -1,12 +1,12 @@
 ---
 folderName: browser_note
 updatedAt: 2025-03-13
-title: 브라우저 기록하기
+title: Browser Note
 tag: browser
 isPublished: true
 ---
 
-# Web
+# Browser Note
 
 - [웹 브라우저란?](#웹-브라우저란)
   - [렌더링 과정](#렌더링-과정)

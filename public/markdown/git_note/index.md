@@ -1,12 +1,12 @@
 ---
 folderName: git_note
 updatedAt: 2023-02-18
-title: Git
+title: Git Note
 tag: git
 isPublished: true
 ---
 
-# Git
+# Git Note
 
 - [git ssh 접속 설정](#git-ssh-접속-설정)
   - [ssh config 작성 요령](#ssh-config-작성-요령)

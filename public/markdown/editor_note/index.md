@@ -1,12 +1,12 @@
 ---
 folderName: editor_note
 updatedAt: 2025-02-05
-title: 에디터 관련 기록
+title: Editor Note
 tag: editor
 isPublished: true
 ---
 
-# 에디터 관련 기록
+# Editor Note
 
 - [단축키](#단축키)
   - [창 제어](#창-제어)

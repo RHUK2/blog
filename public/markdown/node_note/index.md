@@ -1,12 +1,12 @@
 ---
 folderName: node_note
 updatedAt: 2025-03-13
-title: nodejs
+title: Node Note
 tag: node
 isPublished: true
 ---
 
-# NodeJS
+# Node Note
 
 - [PM2 무중단 배포](#pm2-무중단-배포)
 - [모듈에 따라 다른 경로 구하기 방법](#모듈에-따라-다른-경로-구하기-방법)

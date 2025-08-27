@@ -1,12 +1,12 @@
 ---
 folderName: next_note
 updatedAt: 2025-03-13
-title: nextjs
+title: Next Note
 tag: nextjs
 isPublished: true
 ---
 
-# NextJS
+# Next Note
 
 - [렌더링 전략 4가지](#렌더링-전략-4가지)
   - [SSG](#ssg)
@@ -28,6 +28,12 @@ isPublished: true
 - [router.isReady](#routerisready)
 - [Image Component](#image-component)
 - [SSG, SSR, ISR](#ssg-ssr-isr)
+  - [Page Router (Pages Directory)](#page-router-pages-directory)
+    - [정적 라우팅](#정적-라우팅)
+    - [동적 라우팅](#동적-라우팅)
+    - [정적 라우팅](#정적-라우팅-1)
+    - [동적 라우팅](#동적-라우팅-1)
+  - [렌더링 전략 비교](#렌더링-전략-비교)
 
 ## 렌더링 전략 4가지
 
@@ -364,6 +370,42 @@ export default async function RootPage() {
 ```
 
 ## SSG, SSR, ISR
+
+### Page Router (Pages Directory)
+
+#### 정적 라우팅
+
+- `getStaticProps` → **SSG** (빌드 시점에 정적 페이지 생성)
+- `getStaticProps` + `revalidate` → **ISR** (빌드 후 설정 간격으로 재생성)
+- `getServerSideProps` → **SSR** (매 요청 시 서버 렌더링)
+
+#### 동적 라우팅
+
+- `getStaticPaths(fallback: false)` + `getStaticProps` → **SSG**
+- `getStaticPaths(fallback: true/blocking)` + `getStaticProps` + `revalidate` → **ISR**
+- `getServerSideProps` → **SSR**
+
+#### 정적 라우팅
+
+- 데이터 페칭 없음 → **SSG**
+- 데이터 페칭 + `revalidate` 설정 → **ISR**
+- 데이터 페칭 (revalidate 없음) → **SSR**
+
+#### 동적 라우팅
+
+- `generateStaticParams` + 데이터 페칭 없음 → **SSG**
+- `generateStaticParams` + 데이터 페칭 + `revalidate` → **ISR**
+- `generateStaticParams` + 데이터 페칭 (revalidate 없음) → **SSR**
+- `generateStaticParams` 없음 + `dynamicParams: false` → **404**
+- `generateStaticParams` 없음 + `dynamicParams: true` → **SSR**
+
+### 렌더링 전략 비교
+
+| 전략    | 빌드 시점 | 요청 시점        | 캐시      | 사용 사례                    |
+| ------- | --------- | ---------------- | --------- | ---------------------------- |
+| **SSG** | HTML 생성 | 정적 파일 제공   | 영구      | 블로그, 마케팅 페이지        |
+| **ISR** | HTML 생성 | 캐시 또는 재생성 | 설정 시간 | 자주 업데이트되는 콘텐츠     |
+| **SSR** | -         | 매번 HTML 생성   | 없음      | 개인화 콘텐츠, 실시간 데이터 |
 
 1. nextjs(v15)에서 정적 라우팅 페이지인 경우
 

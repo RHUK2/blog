@@ -1,12 +1,12 @@
 ---
 folderName: js_note
 updatedAt: 2024-10-08
-title: 자바스크립트 노트
+title: Javascript Note
 tag: javascript
 isPublished: true
 ---
 
-# 자바스크립트 노트
+# Javascript Note
 
 - [논리 연산자 단락 평가](#논리-연산자-단락-평가)
 - [배열 • 이터러블 객체 • 유사배열 객체](#배열--이터러블-객체--유사배열-객체)
@@ -20,6 +20,7 @@ isPublished: true
 - [일급 객체(First-class Object)](#일급-객체first-class-object)
 - [`%`(모듈러)](#모듈러)
 - [Tagged Template Literal](#tagged-template-literal)
+- [타입에 따른 변수값 초기화](#타입에-따른-변수값-초기화)
 
 ## 논리 연산자 단락 평가
 
@@ -97,18 +98,15 @@ function increment() {
 ## 값 • 리터럴 • 표현식 • 문
 
 1. 값(Value)
-
    - 메모리에 저장된 데이터를 의미.
    - 변수에 할당되거나, 연산의 결과로 생성될 수 있음.
 
 2. 리터럴(Literal)
-
    - 소스 코드에서 고정된 값을 직접 표현한 것.
    - 값의 표기법으로, 변수나 표현식 없이 직접 사용.
    - 예: `100`, `3.14`, `'A'`, `"World"`
 
 3. 표현식(Expression)
-
    - 값으로 평가될 수 있는 코드 조각.
    - 리터럴, 변수, 연산자, 함수 호출 등이 포함될 수 있음.
    - 예: `5 + 3`, `x * 2`, `Math.sqrt(16)`
@@ -269,4 +267,15 @@ console.log(5 % 0); // NaN
 console.log(-5 % 0); // NaN
 ```
 
-## Tagged Template Literal 
+## Tagged Template Literal
+
+## 타입에 따른 변수값 초기화
+
+```ts
+let num: number = 0;
+let str: string = '';
+let bool: boolean = false;
+let arr: string[] = [];
+let obj: Record<string, string> = {};
+let obj: Record<string, string> | null = null;
+```
