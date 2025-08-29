@@ -8,10 +8,20 @@ isPublished: true
 
 # DOM Note
 
+- [Dom Tree](#dom-tree)
+- [Node Inheritance](#node-inheritance)
 - [script](#script)
 - [window vs document](#window-vs-document)
 - [file input 동일한 파일 입력 시 onChange 동작](#file-input-동일한-파일-입력-시-onchange-동작)
 - [특징 resize 이벤트 ResizeObserver](#특징-resize-이벤트-resizeobserver)
+
+## Dom Tree
+
+![img](images/dom_tree.png)
+
+## Node Inheritance
+
+![img](images/node_inheritance.png)
 
 ## script
 
