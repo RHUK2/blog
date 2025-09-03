@@ -12,6 +12,7 @@ isPublished: true
 - [CSS 연동](#css-연동)
 - [Variable](#variable)
 - [Pseudo class](#pseudo-class)
+  - [`:is()` • `:where()` • `:has()` • `:not()`](#is--where--has--not)
 - [Pesudo element](#pesudo-element)
   - [`attr()`](#attr)
 - [Module CSS 사용 이슈](#module-css-사용-이슈)
@@ -123,6 +124,8 @@ body {
 | `:nth-last-of-type(n)` | 동일한 형제 중 뒤에서 n번째 특정 타입 요소에 스타일 적용 |
 | `:only-of-type`        | 동일한 형제 중 유일한 특정 타입 요소에 스타일 적용       |
 
+### `:is()` • `:where()` • `:has()` • `:not()`
+
 ## Pesudo element
 
 의사 요소는 특정 요소의 특정 부분을 선택하여 스타일을 적용하는 데 사용된다.
@@ -135,6 +138,7 @@ body {
 | `::first-line`   | 요소의 첫 번째 줄에 스타일 적용                     |
 | `::selection`    | 사용자가 선택한 텍스트 부분에 스타일 적용           |
 | `::placeholder`  | 입력 요소의 placeholder 텍스트에 스타일 적용        |
+| `::marker`       | 목록 항목의 마커(불릿, 번호)에 스타일 적용          |
 
 ### `attr()`
 
@@ -186,13 +190,15 @@ color: rgb(26, 230, 26); /* 레드, 그린, 블루 */
 color: rgba(26, 230, 26, 0.5); /* 레드, 그린, 블루 + 투명도 */
 color: hsl(120, 80%, 50%); /* 색상, 채도, 명도 */
 color: hsla(120, 80%, 50%, 0.5); /* 색상, 채도, 명도 + 투명도 */
+color: oklch(0.803 0.267 143); /* 명도, 채도, 색상  */
+color: oklch(0.803 0.267 143 / 0.5); /* 명도, 채도, 색상 + 투명도 */
 color: transparent; /* rgba(0, 0, 0, 0) */
 background: currentColor; /* 현재 요소의 color 속성값 */
 border: 1px solid currentColor; /* 현재 요소의 color 속성값 */
 ```
 
-- 알파 채널은 특정 색상에 대한 투명도를 정의하며, 이는 픽셀 단위로 적용된다.
-- `opacity` 속성은 요소 전체의 투명도를 조절하여, 그 안의 모든 색상과 내용에 동일하게 영향을 미친다.
+- 알파 채널은 특정 색상에 대한 투명도를 정의하며, 각각의 색상마다 개별적으로 투명도를 지정한다.
+- `opacity` 속성은 요소 전체의 투명도를 한 번에 조절하여, 그 안의 모든 색상과 내용에 동일하게 영향을 미친다.
 
 ## `outline` • `box-shadow`
 

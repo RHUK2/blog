@@ -28,8 +28,8 @@
 | Number of Connected Components in an Undirected Graph     | 중간   |           |
 | Word Ladder                                               | 중간   |           |
 | 🚀 트리, 이진 탐색 트리                                   |        |           |
-| Maximum Depth of Binary Tree                              | 쉬움   |           |
-| Minimum Depth of Binary Tree                              | 쉬움   |           |
+| Maximum Depth of Binary Tree                              | 쉬움   | ✅        |
+| Minimum Depth of Binary Tree                              | 쉬움   | ✅        |
 | Merge Two Binary Trees                                    | 쉬움   |           |
 | Convert Sorted Array to Binary Search Tree                | 쉬움   |           |
 | Path Sum                                                  | 쉬움   |           |
