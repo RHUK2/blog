@@ -12,6 +12,18 @@ isPublished: true
 - [negative lookahead](#negative-lookahead)
 - [newline](#newline)
 - [이스케이프 패턴](#이스케이프-패턴)
+- [`RegExp.test()`](#regexptest)
+- [`RegExp.exec()`](#regexpexec)
+- [`RegExp.flags`](#regexpflags)
+- [`RegExp.global`](#regexpglobal)
+- [`RegExp.ignoreCase`](#regexpignorecase)
+- [`RegExp.multiline`](#regexpmultiline)
+- [`RegExp.source`](#regexpsource)
+- [`RegExp.lastIndex`](#regexplastindex)
+- [`String.match()`](#stringmatch)
+- [`String.replace()`](#stringreplace)
+- [`String.search()`](#stringsearch)
+- [`String.split()`](#stringsplit)
 
 ## positive lookahead
 
@@ -86,4 +98,122 @@ const re = new RegExp(/ab+c\.com/, 'i'); // 첫 번째 인수로 정규 표현�
 const re = new RegExp('/ab+c\\d', 'i'); // 첫 번째 인수로 문자열 패턴과 함께 생성자 사용
 // 혹은
 const re = new RegExp(/\/ab+c\d/, 'i'); // 첫 번째 인수로 정규 표현식 리터럴과 함께 생성자 사용
+```
+
+## `RegExp.test()`
+
+패턴이 문자열과 일치하는지 boolean 값으로 반환
+
+```ts
+const regex = /hello/i;
+console.log(regex.test('Hello World')); // true
+console.log(regex.test('Hi there')); // false
+```
+
+## `RegExp.exec()`
+
+일치하는 정보를 배열로 반환 (일치하지 않으면 null)
+
+```ts
+const regex = /(\d{4})-(\d{2})-(\d{2})/;
+const result = regex.exec('2024-12-25');
+// ['2024-12-25', '2024', '12', '25', index: 0, input: '2024-12-25', groups: undefined]
+```
+
+## `RegExp.flags`
+
+정규 표현식의 플래그를 문자열로 반환
+
+```ts
+const regex = /hello/gim;
+console.log(regex.flags); // 'gim'
+```
+
+## `RegExp.global`
+
+전역 검색 플래그(g)의 유무를 boolean으로 반환
+
+```ts
+const regex = /hello/g;
+console.log(regex.global); // true
+```
+
+## `RegExp.ignoreCase`
+
+대소문자 무시 플래그(i)의 유무를 boolean으로 반환
+
+```ts
+const regex = /hello/i;
+console.log(regex.ignoreCase); // true
+```
+
+## `RegExp.multiline`
+
+멀티라인 플래그(m)의 유무를 boolean으로 반환
+
+```ts
+const regex = /^hello/m;
+console.log(regex.multiline); // true
+```
+
+## `RegExp.source`
+
+정규 표현식의 패턴 문자열을 반환
+
+```ts
+const regex = /hello/gi;
+console.log(regex.source); // 'hello'
+```
+
+## `RegExp.lastIndex`
+
+다음 검색을 시작할 인덱스 (global 플래그와 함께 사용)
+
+```ts
+const regex = /\d+/g;
+const str = '123 456 789';
+console.log(regex.exec(str)); // ['123', ...]
+console.log(regex.lastIndex); // 3
+console.log(regex.exec(str)); // ['456', ...]
+console.log(regex.lastIndex); // 7
+```
+
+## `String.match()`
+
+문자열에서 정규 표현식과 일치하는 부분을 찾음
+
+```ts
+const str = 'The price is $100 and $200';
+const regex = /\$(\d+)/g;
+console.log(str.match(regex)); // ['$100', '$200']
+```
+
+## `String.replace()`
+
+일치하는 부분을 다른 문자열로 치환
+
+```ts
+const str = 'Hello World';
+const regex = /world/i;
+console.log(str.replace(regex, 'JavaScript')); // 'Hello JavaScript'
+```
+
+## `String.search()`
+
+일치하는 첫 번째 위치의 인덱스를 반환
+
+```ts
+const str = 'Hello World';
+const regex = /world/i;
+console.log(str.search(regex)); // 6
+```
+
+## `String.split()`
+
+정규 표현식을 구분자로 사용하여 문자열을 분할
+
+```ts
+const str = 'apple,banana;orange:grape';
+const regex = /[,;:]/;
+console.log(str.split(regex)); // ['apple', 'banana', 'orange', 'grape']
 ```
