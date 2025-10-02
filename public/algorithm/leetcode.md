@@ -74,3 +74,51 @@
 | Next Permutation                                          | 중간   |           |
 | String to Integer (atoi)                                  | 중간   |           |
 | ZigZag Conversion                                         | 중간   |           |
+
+```ts
+if (!root) return 0;
+
+return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+```
+
+```ts
+if (!root) return 0;
+
+// 스택에 [노드, 현재깊이] 저장
+const stack = [[root, 1]];
+let maxDepth = 0;
+
+while (stack.length > 0) {
+  const [node, depth] = stack.pop();
+
+  if (node) {
+    maxDepth = Math.max(maxDepth, depth);
+
+    // 자식 노드들을 스택에 추가
+    if (node.left) stack.push([node.left, depth + 1]);
+    if (node.right) stack.push([node.right, depth + 1]);
+  }
+}
+
+return maxDepth;
+```
+
+```ts
+if (!root) return 0;
+
+const stack = [[root, 1]];
+let minDepth = 0;
+
+while (stack.length > 0) {
+  const [node, depth] = stack.pop();
+
+  if (node) {
+    minDepth = Math.min(minDepth, depth);
+
+    if (node.left) stack.push([node.left, depth + 1]);
+    if (node.right) stack.push([node.right, depth + 1]);
+  }
+}
+
+return minDepth;
+```

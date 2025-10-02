@@ -145,6 +145,8 @@ console.log(
 | `window.scrollBy(x, y)`         | 상대 좌표 기준으로 문서의 스크롤 이동                       |
 | `element.scrollTop`             | 요소의 세로 스크롤 위치                                     |
 | `element.scrollLeft`            | 요소의 가로 스크롤 위치                                     |
+| `element.scrollTo(x, y)`        | 절대 좌표 기준으로 요소의 스크롤 이동                       |
+| `element.scrollBy(x, y)`        | 상대 좌표 기준으로 요소의 스크롤 이동                       |
 | `element.scrollIntoView(true)`  | 요소의 위쪽 모서리가 창 위쪽 모서리와 일치하게 이동         |
 | `element.scrollIntoView(false)` | 요소의 아래쪽 모서리가 창 아래쪽 모서리와 일치하게 이동     |
 

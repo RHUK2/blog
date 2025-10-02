@@ -19,8 +19,9 @@ isPublished: true
 - [구조 분해 할당 기본값](#구조-분해-할당-기본값)
 - [일급 객체(First-class Object)](#일급-객체first-class-object)
 - [`%`(모듈러)](#모듈러)
-- [Tagged Template Literal](#tagged-template-literal)
 - [타입에 따른 변수값 초기화](#타입에-따른-변수값-초기화)
+- [루프](#루프)
+- [Tagged Template Literal](#tagged-template-literal)
 
 ## 논리 연산자 단락 평가
 
@@ -267,8 +268,6 @@ console.log(5 % 0); // NaN
 console.log(-5 % 0); // NaN
 ```
 
-## Tagged Template Literal
-
 ## 타입에 따른 변수값 초기화
 
 ```ts
@@ -279,3 +278,62 @@ let arr: string[] = [];
 let obj: Record<string, string> = {};
 let obj: Record<string, string> | null = null;
 ```
+
+## 루프
+
+```ts
+// 1. 전통적인 for 루프
+for (let i = 0; i < array.length; i++) {
+  console.log(array[i]);
+}
+
+// 2. for...in (객체의 키 순회)
+for (let key in object) {
+  console.log(key, object[key]);
+}
+
+// 3. for...of (이터러블 객체의 값 순회)
+for (let value of array) {
+  console.log(value);
+}
+
+// 4. for await...of (비동기 이터러블)
+for await (let value of asyncIterable) {
+  console.log(value);
+}
+```
+
+```ts
+// 1. forEach - 각 요소 실행 (반환값 없음)
+array.forEach((item, index) => console.log(item));
+
+// 2. map - 새 배열 반환
+const newArray = array.map((item) => item * 2);
+
+// 3. filter - 조건에 맞는 요소들로 새 배열
+const filtered = array.filter((item) => item > 5);
+
+// 4. find - 첫 번째 조건 만족 요소
+const found = array.find((item) => item > 5);
+
+// 5. findIndex - 첫 번째 조건 만족 요소의 인덱스
+const index = array.findIndex((item) => item > 5);
+
+// 6. some - 하나라도 조건 만족하면 true
+const hasMatch = array.some((item) => item > 5);
+
+// 7. every - 모든 요소가 조건 만족하면 true
+const allMatch = array.every((item) => item > 0);
+
+// 8. reduce - 누적값 계산
+const sum = array.reduce((acc, item) => acc + item, 0);
+```
+
+- `for...in`: 객체 키, 배열 인덱스 (순서 보장 안됨)
+- `for...of`: 배열 값, 문자열, Map, Set 등
+- `forEach`: 반환값 없음, break/continue 불가
+- `map`: 새 배열 반환, 1:1 변환
+- `filter`: 조건 필터링, 새 배열
+- `reduce`: 단일값으로 축약
+
+## Tagged Template Literal
