@@ -27,7 +27,7 @@ export async function writeMarkdownMetaList() {
   }
 }
 
-// await writeMarkdownMetaList();
+// writeMarkdownMetaList();
 
 export async function readTagList() {
   try {

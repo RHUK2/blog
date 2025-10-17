@@ -15,7 +15,7 @@ const AccordionContext = createContext<AccordionContext | null>(null);
 export function useAccordion() {
   const context = useContext(AccordionContext);
 
-  invariant(context, 'useAccordionContext must be used within an Accordion');
+  invariant(context, 'useAccordion must be used within an Accordion');
 
   return context;
 }

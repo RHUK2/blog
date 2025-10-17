@@ -11,7 +11,6 @@ export { MenuItem } from './MenuItem';
 export { Pagination } from './Pagination';
 export { Radio } from './Radio';
 export { ScrollTopFloatingButton } from './ScrollTopFloatingButton';
-export { SearchInput } from './SearchInput';
 export { SvgrIcon } from './SvgrIcon';
 export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
