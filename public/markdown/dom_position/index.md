@@ -85,8 +85,8 @@ document.elementFromPoint(x, y);
 | `htmlElement.offsetParent`(read only) | 가장 가까운 `postion` 속성이 적용된 부모 요소                  |
 | `htmlElement.offsetTop`(read only)    | `offsetParent`를 기준으로 한 요소의 `borderY` 시작까지의 거리  |
 | `htmlElement.offsetLeft`(read only)   | `offsetParent`를 기준으로 한 요소의 `borderX` 시작까지의 거리  |
-| `htmlElement.offsetWidth`(read only)  | `paddingX` + `width` + `borderX` + y축 스크롤바 너비           |
-| `htmlElement.offsetHeight`(read only) | `paddingY` + `height` + `borderY` + x축 스크롤바 높이          |
+| `htmlElement.offsetWidth`(read only)  | `paddingX` + `borderX` + y축 스크롤바 너비 + `width`           |
+| `htmlElement.offsetHeight`(read only) | `paddingY` + `borderY` + x축 스크롤바 높이 + `height`          |
 | `element.clientTop`(read only)        | 요소의 가장 상단에서 `clientHeight` 시작까지의 거리(`borderY`) |
 | `element.clientLeft`(read only)       | 요소의 가장 왼쪽에서 `clientWidth` 시작까지의 거리(`borderX`)  |
 | `element.clientWidth`(read only)      | `paddingX` + `width`                                           |

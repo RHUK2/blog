@@ -34,17 +34,17 @@ isPublished: true
    - 새로고침 시 캐시는 전부 삭제된다.
    - 쿼리를 사용하는 컴포넌트가 언마운트가 되면 `inactive` 상태가 전환된다.
    - 쿼리 데이터를 사용하는 컴포넌트가 더 이상 없을 때 `inactive` 상태로 전환된다.
-   - 다른 페이지로 이동했다가 다시 돌아와도
+   - 다른 페이지로 이동했다가 다시 돌아와도 캐시가 유지된다.
 
 ## `status` • `fetchStatus`
 
 1. `status`
-   - pending success error
-   - 데이터에 대한 정보를 제공한다. (데이터가 있는지? 없는지?)
+   - `pending`, `success`, `error`
+   - 쿼리가 아직 데이터를 가져오지 않았고 캐시된 데이터도 없는 상태 정보
 
 2. `fetchStatus`
-   - idle fetching pause
-   - 쿼리 패칭에 대한 정보를 제공한다. (실행 중인지? 아닌지?)
+   - `idle`, `fetching`, `pause`
+   - 쿼리가 현재 데이터를 가져오는 중인 상태 정보
 
 ## `select` • `initialData` • `placeholderData`
 
