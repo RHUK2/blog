@@ -21,7 +21,6 @@ isPublished: true
   - [`grid-template-columns`](#grid-template-columns)
   - [`grid-auto-rows`](#grid-auto-rows)
 - [`position`](#position)
-  - [`sticky` 속성이 적용되지 않는 경우](#sticky-속성이-적용되지-않는-경우)
 - [`box-sizing`](#box-sizing)
 - [`object-fit` • `object-position`](#object-fit--object-position)
 - [`@media`](#media)
@@ -31,19 +30,14 @@ isPublished: true
 
 ### `display` 속성에 따라 제어 가능한 속성
 
+| `display`               | `width` | `height` | `paddingX` | `paddingY` | `borderX` | `borderY` | `marginY` | `marginX` | 줄바꿈 |
+| ----------------------- | :-----: | :------: | :--------: | :--------: | :-------: | :-------: | :-------: | :-------: | :----: |
+| `inline`                |    X    |    X     |     O      |     △      |     O     |     △     |     X     |     O     |   X    |
+| `inline-*`              |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |   X    |
+| `block`, `flex`, `grid` |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |   O    |
+
 - `inline` 요소는 `paddingY`와 `borderY`는 동작은 되지만 위아래로 영역을 침범한다.
 - `inline` 요소끼리 배치되면 제어가 어려운 여백이 생긴다.
-- `inline`, `inline-*` 요소는 기본적으로 줄 바꿈이 일어나지 않는다.
-
-|                | `width` | `height` | `paddingX` | `paddingY` | `borderX` | `borderY` | `marginY` | `marginX` |
-| -------------- | :-----: | :------: | :--------: | :--------: | :-------: | :-------: | :-------: | :-------: |
-| `inline`       |    X    |    X     |     O      |     △      |     O     |     △     |     X     |     O     |
-| `inline-block` |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
-| `inline-flex`  |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
-| `inline-grid`  |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
-| `block`        |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
-| `flex`         |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
-| `grid`         |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |
 
 ### `display` 속성에 따른 `width: auto`
 
@@ -192,19 +186,37 @@ div.flex-item-2 {
 
 ## `position`
 
-| `position` | 배치 위치                                                                         | `top`, `bottom`, `left`, `right`, `z-index` |
-| ---------- | --------------------------------------------------------------------------------- | :-----------------------------------------: |
-| `static`   | 문서의 일반적인 흐름                                                              |                      X                      |
-| `relative` | 문서의 일반적인 흐름                                                              |                      O                      |
-| `absolute` | `position` 속성이 `relative`, `absolute`, `fixed`로 설정된 가장 가까운 부모 요소  |                      O                      |
-| `fixed`    | 뷰포트                                                                            |                      O                      |
-| `sticky`   | 문서의 일반적인 흐름에 따라 배치되다가, 스크롤에 의해 화면에서 없어지기 전 고정됨 |                      O                      |
+| `position` | 컨테이닝 블록                                                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `static`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                                         |
+| `relative` | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                                         |
+| `absolute` | 가장 가까운 `position` 값이 `static`이 아닌 부모 요소의 패딩 영역, 부모가 없으면 초기 컨테이닝 블록(보통 뷰포트 또는 HTML 요소) |
+| `fixed`    | 뷰포트                                                                                                                          |
+| `sticky`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                                         |
 
-### `sticky` 속성이 적용되지 않는 경우
+| `position` | 일반적인 문서 흐름 유지 | `top`, `bottom`, `left`, `right`, `z-index` |
+| ---------- | :---------------------: | :-----------------------------------------: |
+| `static`   |            O            |                      X                      |
+| `relative` |            O            |                      O                      |
+| `absolute` |            X            |                      O                      |
+| `fixed`    |            X            |                      O                      |
+| `sticky`   |            O            |                      O                      |
 
-- `top`, `bottom`, `left`, `right` 속성으로 고정될 위치가 지정되지 않는 경우
-- 부모 요소에 `overflow` 속성이 적용되어 있는 경우
-- 부모 요소에 높이가 설정되어 있지 않는 경우
+| `position` | `top`, `bottom`, `left`, `right` 쓰임새      |
+| ---------- | -------------------------------------------- |
+| `static`   | X                                            |
+| `relative` | 현재 위치 기준 요소 이동                     |
+| `absolute` | 컨테이닝 블록 기준 요소 이동                 |
+| `fixed`    | 컨테이닝 블록 기준 요소 이동                 |
+| `sticky`   | 가장 가까운 스크롤 가능한 부모 영역의 임계값 |
+
+`sticky`는 초기에 `relative`처럼 동작하다가 스크롤 시 요소의 컨테이닝 블록이 임계값에 도달하면 `fixed`처럼 동작하고 컨테이닝 블록의 반대편 가장자리를 만나면 `relative`처럼 다시 동작한다.
+
+▾ `sticky` 속성이 적용되지 않는 경우:
+
+- 임계점 위치를 지정하는 `top`, `bottom`, `left`, `right` 속성 값 중 적어도 하나는 `auto`가 아닌 값으로 지정되어 있어야 한다.
+- 가장 가까운 스크롤이 가능한 부모 요소의 영역 내에 `sticky`가 설정된 요소가 있어야 한다.
+- 가장 가까운 스크롤이 가능한 부모 요소(scrollport)의 자손이면서 `sticky`가 설정된 요소의 부모 사이의 요소에는 `overflow` 속성의 값이 `auto`, `scroll` 및 `hidden`으로 설정되어 있지 않아야 한다.
 
 ## `box-sizing`
 
