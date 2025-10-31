@@ -12,6 +12,7 @@ isPublished: true
 - [Navigation API](#navigation-api)
 - [Location 인터페이스](#location-인터페이스)
 - [URL 인코딩](#url-인코딩)
+- [하드 라우팅, 소프트 라우팅](#하드-라우팅-소프트-라우팅)
 
 ## History API
 
@@ -55,3 +56,5 @@ isPublished: true
 | `encodeURIComponent` | 개별 구성 요소, 구조 문자까지 인코딩          | 쿼리 파라미터 값 인코딩        |
 | `decodeURI`          | `encodeURI`로 인코딩된 URL 디코딩             | 인코딩된 URL 복원              |
 | `decodeURIComponent` | `encodeURIComponent`로 인코딩된 문자열 디코딩 | 인코딩된 쿼리 파라미터 값 복원 |
+
+## 하드 라우팅, 소프트 라우팅

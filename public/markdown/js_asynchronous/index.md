@@ -21,6 +21,7 @@ isPublished: true
   - [`Promise.all` • `Promise.allSettled` • `Promise.race`](#promiseall--promiseallsettled--promiserace)
 - [`async` • `await` 처리 방식](#async--await-처리-방식)
 - [top level await](#top-level-await)
+- [프로미스 체이닝](#프로미스-체이닝)
 
 ## 콜백(Callback) 처리 방식
 
@@ -98,7 +99,6 @@ navigator.geolocation.getCurrentPosition(
    - _문제점_: 가독성 저하 및 에러 추적 곤란
 
 2. 에러 처리의 불일치성
-
    - `XMLHttpRequest`: `onerror` + `status code` 수동 확인
    - `setTimeout`: 에러 캐치 불가 → 전역 오류 핸들러 의존
 
@@ -290,3 +290,8 @@ Promise.race(promiseList)
 ![img](images/async_await_6.gif)
 
 ## top level await
+
+## 프로미스 체이닝
+
+A 프로미스 체인에서 B 프로미스를 반환하면 B 프로미스가 해결된 뒤 반환 값이 A 프로미스 체인으로 넘어간다.
+반환하지 않고 프로미스를 생성하면 해당 프로미스는 별개의 체인을 갖는다. 이 경우 내부 프로미스가 에러를 다시 던져도 외부 프로미스는 영향을 받지않는다.

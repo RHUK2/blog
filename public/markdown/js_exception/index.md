@@ -26,6 +26,9 @@ isPublished: true
   - [1. `unhandledrejection` 이벤트](#1-unhandledrejection-이벤트)
   - [2. `error` 이벤트](#2-error-이벤트)
   - [요약](#요약-2)
+- [react-error-boundary](#react-error-boundary)
+- [404 page](#404-page)
+- [500 page](#500-page)
 
 ## try/catch
 
@@ -320,3 +323,9 @@ function init() {
   }
 }
 ```
+
+## react-error-boundary
+
+## 404 page
+
+## 500 page
