@@ -1,6 +1,5 @@
 ---
 folderName: linux_docker
-updatedAt: 2024-04-21
 title: Docker
 tag: linux
 isPublished: true

@@ -1,6 +1,5 @@
 ---
 folderName: js_prototype
-updatedAt: 2025-04-10
 title: 프로토타입(Prototype)
 tag: javascript
 isPublished: true

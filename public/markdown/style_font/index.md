@@ -1,6 +1,5 @@
 ---
 folderName: style_font
-updatedAt: 2025-02-06
 title: Font
 tag: style
 isPublished: true
@@ -69,19 +68,19 @@ body {
 
 `rem`과 `em`은 CSS 글꼴 크기와 요소의 크기를 정의하는 데 사용되는 상대 단위이다.
 
-▾ `rem`:
+`rem`:
 
 `rem`은 문서의 루트 요소인 `<html>`의 `font-size` 속성값을 기준으로 한다.
 
 브라우저 글꼴 크기 설정 변경 시 모든 `rem` 단위가 동일한 비율로 조정되어 일관성 있는 레이아웃을 유지할 수 있다.
 
-▾ `em`:
+`em`:
 
 `em`은 해당 단위가 사용되고 있는 요소의 `font-size` 속성값을 기준으로 한다.
 
 `em` 단위의 특성상 형제 요소의 스타일에 영향을 받을 수 있기 때문에, 필요한 경우가 아니라면 `rem` 단위를 사용하는 것이 좋다.
 
-▾ 예시:
+예시:
 
 ```ts
 h1: {
@@ -133,12 +132,12 @@ div {
 
 ## 문자 수평 맞추기
 
-▾ 수평 정렬이 안맞는 경우:
+수평 정렬이 안맞는 경우:
 
 - 크기가 서로 다른 문자끼리 수평인 경우
 - 문자와 아이콘 또는 이미지와 수평인 경우
 
-▾ 해결 방법:
+해결 방법:
 
 - `line-height: 1`로 설정해본다.
 
@@ -152,11 +151,11 @@ A → U+0041 → "65" : 4
 
 `A`는 유니코드 `U+0041`이고, 이는 10진수로 `65`이다. 이 값은 글리프 인덱스 `4`에 매핑된다.
 
-▾ 글리프:
+글리프:
 
 ![img](images/glyph_1.png)
 
-▾ cmap(Character To Glyph Index Mapping Table):
+cmap(Character To Glyph Index Mapping Table):
 
 ![img](images/cmap.png)
 
@@ -164,7 +163,7 @@ A → U+0041 → "65" : 4
 
 아이콘 폰트는 일반적으로 PUA(Private Use Area, E000–F8FF)에 위치한 유니코드와 해당 글리프를 매핑하여 저장한다. 따라서 아이콘 폰트 제공자는 사용자의 접근성을 고려하여 PUA 내 유니코드에 접근할 수 있는 다양한 방법을 제공한다.
 
-▾ FontAwesome 폰트 파일의 접근 방식:
+FontAwesome 폰트 파일의 접근 방식:
 
 ```css
 .fas {
@@ -179,7 +178,7 @@ A → U+0041 → "65" : 4
 <i class="fas fa-home"></i>
 ```
 
-▾ Material Icons 폰트 파일의 접근 방식:
+Material Icons 폰트 파일의 접근 방식:
 
 ```css
 .material-icons {
@@ -194,14 +193,14 @@ A → U+0041 → "65" : 4
 
 `"error"`가 `glyphNameIndexs`와 `names`를 이용해 `glyphIndex`와 매핑되는 과정은 PostScript 테이블의 구조를 기반으로 설명할 수 있다.
 
-▾ PostScript 테이블 구조:
+PostScript 테이블 구조:
 
 - `glyphNameIndexs` 배열: 각 글리프 인덱스에 대응하는 글리프 이름의 참조값을 저장한다.
   - 값이 0–257인 경우: 표준 글리프 이름(예: `.notdef`, `A`, `B` 등)을 참조한다.
   - 값이 258 이상인 경우: `names` 배열의 인덱스를 참조한다 (`glyphNameIndex[i] - 258`).
 - `names` 배열: 사용자 정의 글리프 이름을 저장한다.
 
-▾ 매핑 과정:
+매핑 과정:
 
 - `names` 배열에서 값이 `"error"`인 위치를 찾는다. (`names[260]`)
 - `glyphNameIndexs` 배열에서 값이 `258 + 260 = 518`인 위치를 찾는다. (`glyphNameIndexs[262]`).
@@ -209,11 +208,11 @@ A → U+0041 → "65" : 4
 - 글리프 인덱스를 사용하여 GLYF 테이블에서 글리프 데이터를 조회한다.
 - 글리프 데이터를 기반으로 아이콘을 화면에 렌더링한다.
 
-▾ 글리프:
+글리프:
 
 ![img](images/glyph_2.png)
 
-▾ post(PostScript Table):
+post(PostScript Table):
 
 ![img](images/post.png)
 

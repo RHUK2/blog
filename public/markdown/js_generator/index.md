@@ -1,6 +1,5 @@
 ---
 folderName: js_generator
-updatedAt: 2024-04-29
 title: Generator
 tag: javascript
 isPublished: true

@@ -1,6 +1,5 @@
 ---
 folderName: i18n_note
-updatedAt: 2025-03-13
 title: I18n Note
 tag: i18n
 isPublished: true

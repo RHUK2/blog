@@ -1,6 +1,5 @@
 ---
 folderName: react_rendering
-updatedAt: 2024-09-12
 title: React Rendering
 tag: react
 isPublished: true
@@ -102,7 +101,7 @@ React에서는 XSS 방지를 위해 `dangerouslySetInnerHTML`을 명시적으로
 
 ## 조건부 렌더링
 
-▾ 조건문 사용
+조건문 사용:
 
 ```tsx
 function MyComponent({ items }) (
@@ -110,7 +109,7 @@ function MyComponent({ items }) (
 );
 ```
 
-▾ CSS display 속성 사용
+CSS display 속성 사용:
 
 ```tsx
 function MyComponent({ items }) (
@@ -124,7 +123,7 @@ function MyComponent({ items }) (
 );
 ```
 
-▾ 차이 비교
+차이 비교:
 
 | 방식        | 장점                         | 단점          | 권장 상황                          |
 | ----------- | ---------------------------- | ------------- | ---------------------------------- |

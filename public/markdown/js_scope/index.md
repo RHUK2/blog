@@ -1,6 +1,5 @@
 ---
 folderName: js_scope
-updatedAt: 2025-03-17
 title: 스코프(Scope)
 tag: javascript
 isPublished: true
@@ -23,7 +22,6 @@ isPublished: true
 ![img](images/scope.png)
 
 1. 전역 스코프
-
    - 코드의 가장 바깥쪽에서 선언된 변수 또는 함수.
    - 어디서든 접근 가능.
 
@@ -36,7 +34,6 @@ isPublished: true
      ```
 
 2. 모듈 스코프
-
    - ES6(ES2015)에서 도입된 `import`/`export`를 사용하는 모듈 시스템에서 적용.
    - 전역 스코프와 분리되어, 모듈 간의 충돌을 방지.
    - 모듈 내부의 변수는 전역으로 노출되지 않으며, `export`를 통해 외부에 공개 가능.
@@ -58,7 +55,6 @@ isPublished: true
      ```
 
 3. 함수 스코프
-
    - 함수 내부에서 선언된 변수 또는 함수.
    - 해당 함수 내부에서만 접근 가능.
 
@@ -73,7 +69,6 @@ isPublished: true
      ```
 
 4. 블록 스코프
-
    - `{}`로 묶인 블록 내부에서 선언된 변수.
    - `let`과 `const`로 선언된 변수만 블록 스코프를 가짐.
 

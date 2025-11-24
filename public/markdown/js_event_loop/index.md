@@ -1,6 +1,5 @@
 ---
 folderName: js_event_loop
-updatedAt: 2025-03-18
 title: 이벤트 루프(Event Loop)
 tag: javascript
 isPublished: true

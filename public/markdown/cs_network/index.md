@@ -1,6 +1,5 @@
 ---
 folderName: cs_network
-updatedAt: 2025-03-13
 title: 네트워크
 tag: cs
 isPublished: true
@@ -40,7 +39,7 @@ isPublished: true
 
 ## 논 스트림 방식 • 스트림 방식
 
-▾ 논 스트림 방식
+논 스트림 방식:
 
 - 논 스트림 방식에서는 서버로부터 자원(예: HTML, JSON, 이미지 등)을 요청하면, 브라우저는 해당 데이터가 완전히 수신될 때까지 기다린 뒤, 그 이후에 렌더링이나 후속 작업을 시작한다.
 
@@ -54,7 +53,7 @@ isPublished: true
   - 데이터가 완전한 상태로 도착하므로, 처리 로직이 단순하고 안정적임.
   - 데이터 크기가 크거나 네트워크 속도가 느리면 응답 시간이 길어질 수 있음.
 
-▾ 스트림 방식
+스트림 방식:
 
 - 스트림 방식에서는 데이터를 한 번에 모두 받는 대신, 작은 조각(chunk) 단위로 나누어 데이터가 도착하는 대로 즉시 처리할 수 있어 대기 시간이 줄어든다.
 
@@ -86,7 +85,7 @@ isPublished: true
 - MIME 타입은 파일의 형식이나 유형을 식별하기 위한 표준화된 문자열이다.
 - 형태는 type/subtype(주요 콘텐츠 유형/해당 유형의 구체적인 하위 분류)이다.
 
-▾ `multipart/form-data`
+`multipart/form-data`:
 
 - 여러 데이터 유형(텍스트, 이미지, 파일 등)을 동시에 HTTP 요청의 `body` 값으로 전송할 수 있으며 주로 파일 업로드와 폼 데이터를 같이 전송할 때 사용된다.
 - 각 파트에 `Content-Type` 및 `Content-Disposition` 헤더가 부여된다.
@@ -96,7 +95,7 @@ isPublished: true
 
 ![img](images/payload_multipart2.png)
 
-▾ `application/json`
+`application/json`:
 
 - HTTP 요청의 `body` 값으로 JSON 데이터를 보낼 때 사용한다.
 
@@ -106,7 +105,7 @@ isPublished: true
 
 ![img](images/payload_json2.png)
 
-▾ `application/octet-stream`
+`application/octet-stream`:
 
 - HTTP 요청의 `body` 값으로 아무런 특별한 분류나 변환 없이 원시 바이트 데이터로 이루어진 스트림을 전송할 때 사용한다.
 - 어떤 종류의 파일인지 알 수 있는 바이너리 데이터는 다른 MIME 타입을 사용해서 명시해준다.
@@ -114,7 +113,7 @@ isPublished: true
 
 ![img](images/payload_octet_stream.png)
 
-▾ `application/x-www-form-urlencoded`
+`application/x-www-form-urlencoded`:
 
 - HTML 폼 방식으로 HTTP 요청을 할 때 기본값으로 설정되며, HTTP 요청의 `body` 값으로 데이터를 URL 인코딩하여 보낼 때 사용한다.
 
@@ -122,7 +121,7 @@ isPublished: true
 
 ![img](images/payload_form_urlencoded2.png)
 
-▾ etc
+etc:
 
 - application/xml
 - application/zip

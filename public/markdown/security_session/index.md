@@ -1,6 +1,5 @@
 ---
 folderName: security_session
-updatedAt: 2025-02-06
 title: Session 인증
 tag: security
 isPublished: true

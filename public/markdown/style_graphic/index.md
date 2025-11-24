@@ -1,6 +1,5 @@
 ---
 folderName: style_graphic
-updatedAt: 2025-02-09
 title: Graphic
 tag: style
 isPublished: true

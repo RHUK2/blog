@@ -1,6 +1,5 @@
 ---
 folderName: node_npm
-updatedAt: 2024-04-21
 title: NPM
 tag: node
 isPublished: true

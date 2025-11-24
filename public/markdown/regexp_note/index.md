@@ -1,6 +1,5 @@
 ---
 folderName: regexp_note
-updatedAt: 2025-02-06
 title: Regexp Note
 tag: regexp
 isPublished: true

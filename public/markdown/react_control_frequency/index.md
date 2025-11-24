@@ -1,6 +1,5 @@
 ---
 folderName: react_control_frequency
-updatedAt: 2025-03-17
 title: 이벤트 호출 주기 제어
 tag: javascript
 isPublished: true
@@ -20,7 +19,7 @@ isPublished: true
 - 이벤트가 너무 자주 발생할 때 (예: 스크롤, 리사이즈, 키 입력), 성능 저하를 방지하기 위해 호출 빈도를 줄인다.
 - 설정한 시간 간격(예: 100ms) 동안에는 함수가 한 번만 실행되고, 그 시간 내에 추가 호출은 무시된다.
 
-▾ 구현:
+구현:
 
 ```ts
 import { useRef } from 'react';
@@ -75,7 +74,7 @@ export function useThrottle<T extends Callback>(
 
 ![img](images/debounce.png)
 
-▾ 구현:
+구현:
 
 ```ts
 import { useRef } from 'react';
@@ -126,7 +125,7 @@ export function useDebounce<T extends Callback>(
 - 애니메이션이나 부드러운 UI 업데이트가 필요할 때, 브라우저의 렌더링 주기(보통 60fps)에 맞춰 최적화된 실행을 보장한다.
 - `setTimeout`이나 `setInterval` 대신 사용하며, 브라우저가 준비될 때만 호출되므로 불필요한 연산을 줄인다.
 
-▾ 구현:
+구현:
 
 ```ts
 import { useRef } from 'react';

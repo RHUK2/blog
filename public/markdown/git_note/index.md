@@ -1,6 +1,5 @@
 ---
 folderName: git_note
-updatedAt: 2023-02-18
 title: Git Note
 tag: git
 isPublished: true

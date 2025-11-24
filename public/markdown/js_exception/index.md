@@ -1,6 +1,5 @@
 ---
 folderName: js_exception
-updatedAt: 2025-03-13
 title: 예외 처리(Exception)
 tag: javascript
 isPublished: true

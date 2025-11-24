@@ -1,6 +1,5 @@
 ---
 folderName: dom_note
-updatedAt: 2025-02-05
 title: DOM Note
 tag: dom
 isPublished: true

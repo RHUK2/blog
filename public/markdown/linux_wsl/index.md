@@ -1,6 +1,5 @@
 ---
 folderName: linux_wsl
-updatedAt: 2024-04-21
 title: WSL 기록하기
 tag: linux
 isPublished: true

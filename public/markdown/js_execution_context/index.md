@@ -1,6 +1,5 @@
 ---
 folderName: js_execution_context
-updatedAt: 2025-03-20
 title: 실행 컨텍스트(Execution Context)
 tag: javascript
 isPublished: true
@@ -38,30 +37,26 @@ isPublished: true
 
 #### 환경 레코드(Environment Record)
 
-▾ 선언적 환경 레코드(Declarative Environment Record)
+선언적 환경 레코드(Declarative Environment Record):
 
 - 특징
-
   - `let`, `const`로 선언된 변수는 호이스팅되지만 초기화되지 않으며, TDZ(Temporal Dead Zone)에 의해 선언 전 접근 시 참조 오류(ReferenceError)가 발생한다.
   - 블록 스코프 또는 모듈 스코프를 기반으로 동작하며, 전역 객체(`window`/`global`)의 속성으로 반영되지 않는다.
 
 - 종류
-
   - `let`, `const`로 선언된 변수 (블록 스코프).
   - `let`, `const`로 선언된 함수 표현식 (예: `let func = () => {}`).
   - 클래스 선언 (`class MyClass {}`).
   - 모듈에서 `import`로 불러온 변수 및 함수 (모듈 스코프).
 
-▾ 객체 환경 레코드(Object Environment Record)
+객체 환경 레코드(Object Environment Record):
 
 - 특징
-
   - 전역 스코프 내 `var`로 선언된 변수는 호이스팅되며 `undefined`로 초기화된다.
   - 전역 스코프 내 함수 선언(`function foo() {}`)은 호이스팅되며 즉시 정의된다.
   - 전역 객체와 연결되어 속성으로 접근 가능 (예: `window.foo`).
 
 - 종류
-
   - 전역 스코프 내 `var`로 선언된 변수.
   - 전역 스코프 내 함수 선언 (`function foo() {}`).
   - `with` 문에서 사용되는 객체 속성.
@@ -79,30 +74,26 @@ isPublished: true
 
 #### 환경 레코드
 
-▾ 함수 환경 레코드(Function Environment Record)
+함수 환경 레코드(Function Environment Record):
 
 - 특징
-
   - 함수 스코프 내 `var`로 선언된 변수는 호이스팅되며 `undefined`로 초기화된다.
   - 함수 스코프 내 함수 선언(`function foo() {}`)은 호이스팅되며 즉시 정의된다.
   - `arguments` 객체가 포함된다.
 
 - 종류
-
   - 함수 스코프 내 `var`로 선언된 변수.
   - 함수 스코프 내 함수 선언 (`function foo() {}`).
   - 함수 스코프 내 `var`로 선언된 함수 표현식 (예: `var func = function() {}`).
 
-▾ 전역 환경 레코드(Global Environment Record)
+전역 환경 레코드(Global Environment Record):
 
 - 특징
-
   - 전역 스코프 내 `var`로 선언된 변수는 호이스팅되며 `undefined`로 초기화된다.
   - 전역 스코프 내 함수 선언(`function foo() {}`)은 호이스팅되며 즉시 정의된다.
   - 전역 객체와 연결되어 속성으로 접근 가능 (예: `window.foo`).
 
 - 종류
-
   - 전역 스코프 내 `var`로 선언된 변수.
   - 전역 스코프 내 함수 선언 (`function foo() {}`).
   - `with` 문에서 사용되는 객체 속성.
@@ -117,16 +108,13 @@ isPublished: true
 실행 컨텍스트 내에서 `this` 값이 결정된다.
 
 - 전역 컨텍스트
-
   - 브라우저에서는 `window`, Node.js에서는 `global` 객체를 참조.
   - 엄격 모드에서 `undefined`.
 
 - 모듈 컨텍스트
-
   - 기본값이 엄격 모드이므로, `undefined`.
 
 - 함수 컨텍스트
-
   - 함수 호출 방식에 따라 동적으로 결정.
   - 전역 컨텍스트에서 일반 함수 호출 시 `this`는 전역 객체 또는 엄격 모드에서 `undefined`.
   - 모듈 컨텍스트에서 일반 함수 호출 시 `this`는 `undefined`.
@@ -135,7 +123,7 @@ isPublished: true
   - `call`, `apply`, `bind`는 명시적으로 `this`를 바인딩 가능.
   - 화살표 함수는 예외로, `this`가 호출 방식이 아닌 렉시컬 스코프에 따라 상위 스코프의 `this`를 상속받는다.
 
-▾ `this` 바인딩 예제
+`this` 바인딩 예제:
 
 ```ts
 console.log(this); // window or undefined
@@ -268,14 +256,12 @@ setTimeout(cls.classFunc.bind(cls), 0); // instance
 ### 전역 컨텍스트
 
 1. 생성 단계
-
    - 전역 객체 생성
    - 환경 레코드 설정
    - this 바인딩
    - 외부 렉시컬 환경 참조
 
 2. 실행 단계
-
    - 코드가 순차적으로 실행됨.
    - 변수에 값이 할당되고, 함수가 호출되며, `let`과 `const` 변수가 TDZ를 벗어나 초기화됨.
    - 전역 스코프에서 선언된 변수와 함수는 전역 객체의 속성으로 접근 가능함 (예: `window.foo`).
@@ -287,13 +273,11 @@ setTimeout(cls.classFunc.bind(cls), 0); // instance
 ### 모듈 컨텍스트
 
 1. 생성 단계
-
    - 환경 레코드 설정
    - this 바인딩
    - 외부 렉시컬 환경 참조
 
 2. 실행 단계
-
    - 모듈 내 코드가 실행되며, `import`된 값이 실제로 사용되고, 변수가 초기화됨.
    - 모듈 스코프는 블록 스코프처럼 동작하며, 외부에서 직접 접근할 수 없음 (명시적 `export` 필요).
    - 모듈은 한 번만 실행되며, 이후에는 캐시된 결과를 재사용함 (싱글톤 패턴).
@@ -305,14 +289,12 @@ setTimeout(cls.classFunc.bind(cls), 0); // instance
 ### 함수 컨텍스트
 
 1. 생성 단계
-
    - 환경 레코드 설정
    - this 바인딩
    - 외부 렉시컬 환경 참조
    - Arguments 객체 생성
 
 2. 실행 단계
-
    - 함수 내 코드가 실행되며, 변수에 값이 할당되고, 내부 로직이 수행됨.
    - `let`, `const` 변수가 TDZ를 벗어나 초기화됨.
    - 스코프 체인을 통해 외부 변수에 접근할 수 있음.

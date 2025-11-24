@@ -1,6 +1,5 @@
 ---
 folderName: frontend_design
-updatedAt: 2025-03-13
 title: frontend 설계
 tag: design
 isPublished: true
@@ -23,66 +22,75 @@ isPublished: true
 - [로그인 설계](#로그인-설계)
 - [에러 핸들링](#에러-핸들링)
 - [최적화](#최적화)
+- [form](#form)
 
 ## 프로젝트 환경 설정 체크리스트
 
 - repository structure
   - [ ] monorepo
   - [ ] multirepo
-- rendering method
-  - [ ] (CSR) react
-  - [ ] (CSR + SSG + SSR) next
-- mock data
+- user interface library
+  - [ ] react
+- frontend framework
+  - [ ] nextjs
+  - [ ] react-router
+- backend framework
   - [ ] express
-  - [ ] next
-  - [ ] nest
-- [ ] eslint
-- [ ] prettier
-- [ ] tsconfig
-- css framework
+  - [ ] nestjs
+- css library
   - [ ] emotion
   - [ ] tailwind
-- [ ] react-hook-form
-- [ ] react-router
-- global state managemet
-  - [ ] recoil
-  - [ ] redux
+- design system library
+  - [ ] radix-ui
+  - [ ] shadcn/ui
+  - [ ] mui
+- form management
+  - [ ] react-hook-form
+  - [ ] zod
+- global state management
+  - [ ] zustand
 - asynchronous data management
-  - [ ] react-query
-  - [ ] redux-saga
-- intl
-  - [ ] react-intl
-  - [ ] next-translate
-- util
   - [ ] axios
-  - [ ] lodash
-  - [ ] qs
+  - [ ] @tanstack/react-query
+- i18n
+  - [ ] react-intl
+  - [ ] next-intl
+  - [ ] next-translate
+- chart
+  - [ ] recharts
+  - [ ] d3.js
+- drag and drop
+  - [ ] dnd-kit
+- table
+  - [ ] @tanstack/react-table
+- grid input
+  - [ ] @silevis/reactgrid
+- wysiwyg editor
+  - [ ] tiptap
+- util
+  - [ ] query-string
+  - [ ] jwt-decode
+  - [ ] es-toolkit
   - [ ] js-cookie
   - [ ] dayjs
-  - [ ] moment
-  - [ ] xlxs
-  - [ ] uuid
-  - [ ] jwt-decode
-  - [ ] file-saver
-- chart
-  - [ ] chartjs
-  - [ ] d3.js
-- drag&drop
-  - [ ] ...
-- WYSIWYG
-  - [ ] ...
+- code quality tools
+  - [ ] eslint
+  - [ ] prettier
 
 ## 설계 목록
 
 - [ ] 레이아웃 설계
-- [ ] 헤더, 푸터, 네비게이션 설계
 - [ ] 페이지 설계
-- [ ] 권한에 따른 라우트 가드 설계(미들웨어 방식)
-- [ ] 비동기 통신 인터셉터 설계
-- [ ] 로그인 토큰 제어 방법 설계
-- [ ] 다국어 언어 데이터 구조 설계
-- [ ] 디자인 컴포넌트 설계
-- [ ] 데이터 컴포넌트 설계
+- [ ] 네비게이션 설계
+- [ ] 라우팅 가드 설계
+- [ ] 인증 토큰 관리 및 제어 방식 설계
+- [ ] 비동기 통신 인터셉터 로직 설계
+- [ ] 다국어 텍스트 데이터 구조 설계
+- [ ] 디자인 시스템 설계
+- [ ] 404, 500 에러 페이지 설계
+- [ ] 전역 상태 관리 방법 설계
+- [ ] 전역 상태 자료형 및 초기값 설정
+- [ ] 전역 상태 에러 처리 설계
 - [ ] 검색, 정렬, 필터링, 페이징, 사이징 관련 쿼리 설계
 - [ ] 클라이언트 데이터 관리 방법 설계
 - [ ] 클라이언트 데이터 자료형 및 초기값 설정
@@ -222,3 +230,10 @@ uncaught 에러 -> sentry 사용
 ## 최적화
 
 ![img](images/frontend_optimization.jpg)
+
+## form
+
+전역 폼 설계 후 아래 단계
+
+form submit -> global state update
+input -> global state update

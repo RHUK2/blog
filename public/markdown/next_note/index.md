@@ -1,6 +1,5 @@
 ---
 folderName: next_note
-updatedAt: 2025-03-13
 title: Next Note
 tag: nextjs
 isPublished: true
@@ -21,7 +20,7 @@ isPublished: true
 
 ![img](images/page_router_rendering_strategy.webp)
 
-▾ SSG (Static-Site Generation):
+SSG (Static-Site Generation):
 
 `getStaticProps` → SSG (빌드 시점에 정적 페이지 생성)
 
@@ -31,7 +30,7 @@ isPublished: true
 4. 클라이언트가 브라우저에서 SPA 파싱 및 렌더링 (FP/FCP/LCP 발생)
 5. React 하이드레이션 실행 (TBT/TTI 영향)
 
-▾ SSR (Server-Side Rendering):
+SSR (Server-Side Rendering):
 
 `getServerSideProps` → SSR (매 요청 시 서버 렌더링)
 
@@ -41,7 +40,7 @@ isPublished: true
 4. SSG와 동일한 렌더링 과정
 5. SSG와 동일한 하이드레이션 과정
 
-▾ ISR (Incremental Static Regeneration):
+ISR (Incremental Static Regeneration):
 
 `getStaticProps` + `revalidate` → ISR (빌드 시점에 정적 페이지 생성 후 `revalidate` 간격으로 재생성)
 
@@ -51,7 +50,7 @@ isPublished: true
 4. SSG와 동일한 렌더링
 5. SSG와 동일한 하이드레이션
 
-▾ CSR (Client-Side Rendering):
+CSR (Client-Side Rendering):
 
 1. 데이터 제외한 정적 파일만 생성
 2. 데이터 없는 SPA 요청

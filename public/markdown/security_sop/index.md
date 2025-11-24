@@ -1,6 +1,5 @@
 ---
 folderName: security_sop
-updatedAt: 2025-02-06
 title: Same Origin Policy
 tag: security
 isPublished: true
@@ -81,7 +80,7 @@ CORS는 교차 출처 읽기를 허용하기 위해 브라우저의 기본 보�
   - `Content-Language`
   - `Content-Type` (단, `application/x-www-form-urlencoded`, `multipart/form-data`, `text/plain`만 허용)
 
-▾ 클라이언트 요청 예시
+클라이언트 요청 예시:
 
 ```ts
 // GET 요청
@@ -102,7 +101,7 @@ fetch('https://api.example.com/login', {
 });
 ```
 
-▾ 서버 응답 헤더 설정
+서버 응답 헤더 설정:
 
 ```ts
 // Express.js 예시
@@ -116,13 +115,13 @@ app.get('/users', (req, res) => {
 
 단순 요청 조건을 만족하지 않는 경우, 브라우저가 실제 요청 전에 `OPTIONS` 메서드로 사전 요청을 보낸다.
 
-▾ 사전 요청이 필요한 경우
+사전 요청이 필요한 경우:
 
 - HTTP 메서드: `PUT`, `DELETE`, `PATCH` 등
 - 커스텀 헤더 사용: `Authorization`, `X-Custom-Header` 등
 - Content-Type: `application/json`, `application/xml` 등
 
-▾ 클라이언트 요청 예시
+클라이언트 요청 예시:
 
 ```ts
 // JSON 데이터를 PUT으로 전송
@@ -136,7 +135,7 @@ fetch('https://api.example.com/users/123', {
 });
 ```
 
-▾ 브라우저가 자동으로 보내는 사전 요청
+브라우저가 자동으로 보내는 사전 요청:
 
 ```http
 OPTIONS /users/123 HTTP/1.1
@@ -146,7 +145,7 @@ Access-Control-Request-Method: PUT
 Access-Control-Request-Headers: Content-Type, Authorization
 ```
 
-▾ 서버 사전 요청 응답 설정
+서버 사전 요청 응답 설정:
 
 ```ts
 // OPTIONS 요청 처리
@@ -169,7 +168,7 @@ app.put('/users/:id', (req, res) => {
 
 쿠키를 포함하는 요청이다.
 
-▾ 클라이언트 요청 예시
+클라이언트 요청 예시:
 
 ```ts
 // 쿠키를 포함한 요청
@@ -182,7 +181,7 @@ fetch('https://api.example.com/protected', {
 });
 ```
 
-▾ 서버 응답 헤더 설정
+서버 응답 헤더 설정:
 
 ```ts
 app.get('/protected', (req, res) => {
@@ -202,7 +201,7 @@ app.get('/protected', (req, res) => {
 });
 ```
 
-▾ 종합 CORS 설정 예시
+종합 CORS 설정 예시:
 
 ```ts
 // Express.js cors 미들웨어 사용

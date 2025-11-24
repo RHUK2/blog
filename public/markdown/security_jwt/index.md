@@ -1,6 +1,5 @@
 ---
 folderName: security_jwt
-updatedAt: 2025-02-06
 title: JWT 인증
 tag: security
 isPublished: true

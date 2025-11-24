@@ -1,6 +1,5 @@
 ---
 folderName: aws_s3
-updatedAt: 2025-08-21
 title: S3
 tag: aws
 isPublished: false

@@ -1,6 +1,5 @@
 ---
 folderName: dom_position
-updatedAt: 2025-02-05
 title: 좌표 • 사이즈 • 스크롤
 tag: dom
 isPublished: true
@@ -14,7 +13,7 @@ isPublished: true
 
 ## 좌표
 
-▾ 요소 좌표
+요소 좌표:
 
 ![img](images/coordinate_element.png)
 
@@ -45,7 +44,7 @@ function getCoords(elem) {
 element.closest('#droppable');
 ```
 
-▾ 마우스 좌표
+마우스 좌표:
 
 ![img](images/coordinate_mouse.png)
 
@@ -76,7 +75,7 @@ document.elementFromPoint(x, y);
 
 ## 사이즈
 
-▾ 요소 사이즈
+요소 사이즈:
 
 ![img](images/geometry_element.png)
 
@@ -94,7 +93,7 @@ document.elementFromPoint(x, y);
 | `element.scrollWidth`(read only)      | `clientWidth` + 오버플로우된 영역의 너비                       |
 | `element.scrollHeight`(read only)     | `clientHeight` + 오버플로우된 영역의 높이                      |
 
-▾ 브라우저창 사이즈
+브라우저창 사이즈:
 
 `document.documentElement`는 `html` 요소를 의미한다.
 
@@ -105,7 +104,7 @@ document.elementFromPoint(x, y);
 | `document.documentElement.clientWidth`  | y축 스크롤바 너비가 포함되지 않은 브라우저 창 너비 |
 | `document.documentElement.clientHeight` | x축 스크롤바 높이가 포함되지 않은 브라우저 창 높이 |
 
-▾ 문서 사이즈
+문서 사이즈:
 
 아래 방식은 정확한 문서 전체 너비/높이를 얻기 위해 오래 전부터 사용하던 방식이므로 이해할 필요가 없다.
 
@@ -135,7 +134,7 @@ console.log(
 
 ## 스크롤
 
-▾ 스크롤 제어
+스크롤 제어:
 
 | 속성                            | 설명                                                        |
 | ------------------------------- | ----------------------------------------------------------- |
@@ -150,13 +149,13 @@ console.log(
 | `element.scrollIntoView(true)`  | 요소의 위쪽 모서리가 창 위쪽 모서리와 일치하게 이동         |
 | `element.scrollIntoView(false)` | 요소의 아래쪽 모서리가 창 아래쪽 모서리와 일치하게 이동     |
 
-▾ 스크롤바 막기
+스크롤바 막기:
 
 ```ts
 // 스크롤바 고정
 document.body.style.overflow = 'hidden';
 // 스크롤바 고정 시 스크롤바 너비만큼 보정
-document.body.style.paddingLeft = `${window.innerWidth - document.documentElement.clientWidth}`;
+document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
 // 스크롤바 고정 해제
 document.body.style.overflow = '';
 // 스크롤바 고정 해제 시 스크롤바 너비만큼 보정 해제

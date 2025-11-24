@@ -1,6 +1,5 @@
 ---
 folderName: style_layout
-updatedAt: 2025-02-06
 title: Layout
 tag: style
 isPublished: true
@@ -125,7 +124,7 @@ isPublished: true
 
 `width`가 지정되어 있을 경우, `flex-basis`가 우선적으로 적용되며 이 이후에 `width` 속성이 이 요소의 크기 조정에 개입하게 된다.
 
-▾ 응용 예제:
+응용 예제:
 
 ```css
 div {
@@ -212,7 +211,7 @@ div.flex-item-2 {
 
 `sticky`는 초기에 `relative`처럼 동작하다가 스크롤 시 요소의 컨테이닝 블록이 임계값에 도달하면 `fixed`처럼 동작하고 컨테이닝 블록의 반대편 가장자리를 만나면 `relative`처럼 다시 동작한다.
 
-▾ `sticky` 속성이 적용되지 않는 경우:
+`sticky` 속성이 적용되지 않는 경우:
 
 - 임계점 위치를 지정하는 `top`, `bottom`, `left`, `right` 속성 값 중 적어도 하나는 `auto`가 아닌 값으로 지정되어 있어야 한다.
 - 가장 가까운 스크롤이 가능한 부모 요소의 영역 내에 `sticky`가 설정된 요소가 있어야 한다.
@@ -229,7 +228,7 @@ div.flex-item-2 {
 
 ## `object-fit` • `object-position`
 
-▾ `object-fit`:
+`object-fit`:
 
 `<img>`나 `<video>`, `<iframe>` 요소와 같은 대체 요소의 콘텐츠 크기를 어떤 방식으로 조절해 요소에 맞출 것인지 지정한다.
 
@@ -243,7 +242,7 @@ div.flex-item-2 {
 | `none`       | 아무것도 하지 않음                                                     |
 | `scale-down` | `none`과 `contain` 중 콘텐츠의 크기가 더 작은 값을 선택                |
 
-▾ `object-position`:
+`object-position`:
 
 대체 요소의 콘텐츠 정렬 방식을 지정한다. 대체 요소의 객체가 덮지 않은 부분은 요소의 배경이 보이게 된다.
 
@@ -252,7 +251,7 @@ object-position: center top;
 object-position: 100px 50px;
 ```
 
-▾ 대체 요소:
+대체 요소:
 
 대체 요소는 CSS 서식 모델과는 분리된 외부 객체인 요소이다. 즉, 대체 요소는 자신의 콘텐츠가 현재 문서 스타일의 영향을 받지 않는 요소라고 할 수 있다. CSS는 대체 요소의 위치에 영향을 줄 수 있지만 콘텐츠에는 미치지 못한다.
 

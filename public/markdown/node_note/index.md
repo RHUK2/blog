@@ -1,6 +1,5 @@
 ---
 folderName: node_note
-updatedAt: 2025-03-13
 title: Node Note
 tag: node
 isPublished: true

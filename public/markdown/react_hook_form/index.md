@@ -1,6 +1,5 @@
 ---
 folderName: react_hook_form
-updatedAt: 2024-10-02
 title: React Hook Form
 tag: react
 isPublished: true

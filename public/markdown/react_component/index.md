@@ -1,6 +1,5 @@
 ---
 folderName: react_component
-updatedAt: 2024-09-12
 title: React Component
 tag: react
 isPublished: true

@@ -1,6 +1,5 @@
 ---
 folderName: linux_bash2
-updatedAt: 2024-10-11
 title: Bash2
 tag: linux
 isPublished: true

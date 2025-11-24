@@ -1,6 +1,5 @@
 ---
 folderName: editor_note
-updatedAt: 2025-02-05
 title: Editor Note
 tag: editor
 isPublished: true

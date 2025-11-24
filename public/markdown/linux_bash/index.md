@@ -1,6 +1,5 @@
 ---
 folderName: linux_bash
-updatedAt: 2024-10-10
 title: Bash
 tag: linux
 isPublished: true

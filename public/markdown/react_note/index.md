@@ -1,6 +1,5 @@
 ---
 folderName: react_note
-updatedAt: 2025-02-06
 title: React Note
 tag: react
 isPublished: true

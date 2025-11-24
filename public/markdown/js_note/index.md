@@ -1,6 +1,5 @@
 ---
 folderName: js_note
-updatedAt: 2024-10-08
 title: Javascript Note
 tag: javascript
 isPublished: true
@@ -21,6 +20,7 @@ isPublished: true
 - [`%`(모듈러)](#모듈러)
 - [타입에 따른 변수값 초기화](#타입에-따른-변수값-초기화)
 - [루프](#루프)
+  - [JavaScript String 메서드 비교](#javascript-string-메서드-비교)
 - [Tagged Template Literal](#tagged-template-literal)
 
 ## 논리 연산자 단락 평가
@@ -73,7 +73,7 @@ if (typeof window !== 'undefined') {
 
 ## 순수 함수 • 비순수 함수
 
-▾ 순수 함수
+순수 함수:
 
 - 입력값에 의해서만 결과가 결정되며, 외부 상태를 변경하지 않는다.
 
@@ -83,7 +83,7 @@ function add(a, b) {
 }
 ```
 
-▾ 비순수 함수
+비순수 함수:
 
 - 외부 상태에 의존하거나 외부 상태를 변경할 수 있으며, 같은 입력값에 대해 항상 같은 결과를 보장하지 않는다.
 
@@ -121,7 +121,7 @@ function increment() {
 
 `sort` 메서드는 원본 배열을 정렬하며, 별도의 비교 함수를 제공하지 않으면 문자열로 변환 후 유니코드 코드 포인트 순서로 정렬한다.
 
-▾ 문자열 정렬
+문자열 정렬:
 
 ```ts
 let fruits = ['banana', 'apple', 'cherry'];
@@ -129,7 +129,7 @@ fruits.sort();
 console.log(fruits); // ["apple", "banana", "cherry"]
 ```
 
-▾ 숫자열 정렬
+숫자열 정렬:
 
 ```ts
 let numbers = [10, 5, 100, 25];
@@ -139,7 +139,7 @@ numbers.sort((a, b) => b - a);
 console.log(numbers); // [100, 25, 10, 5]
 ```
 
-▾ 다국어 정렬
+다국어 정렬:
 
 ```ts
 let words = ['äpple', 'zebra', 'österreich'];
@@ -335,5 +335,14 @@ const sum = array.reduce((acc, item) => acc + item, 0);
 - `map`: 새 배열 반환, 1:1 변환
 - `filter`: 조건 필터링, 새 배열
 - `reduce`: 단일값으로 축약
+
+### JavaScript String 메서드 비교
+
+JavaScript의 문자열 처리 메서드는 구버전(UTF-16 기준)과 현대 버전(유니코드 전체 기준)으로 나뉜다. 이모지(Emoji)와 같이 2바이트를 초과하는 문자를 처리할 때 차이가 발생한다.
+
+| 구분          | 메서드                                         | 특징                                                             | 비고      |
+| :------------ | :--------------------------------------------- | :--------------------------------------------------------------- | :-------- |
+| 현대 메서드   | `fromCodePoint()`, `.at()`, `.codePointAt()`   | 전체 유니코드 기준. 이모지 등 4바이트 문자도 완벽하게 처리함.    | 권장      |
+| 구버전 메서드 | `fromCharCode()`, `.charAt()`, `.charCodeAt()` | UTF-16 조각(16비트) 기준. 이모지 처리 시 깨지거나 조각만 반환함. | 사용 지양 |
 
 ## Tagged Template Literal

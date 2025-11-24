@@ -1,6 +1,5 @@
 ---
 folderName: ts_note
-updatedAt: 2025-02-06
 title: Typescript Note
 tag: typescript
 isPublished: true
@@ -292,7 +291,7 @@ type Example = NonNullable<string | undefined | null>;
 - `declare`는 타입 정보만 제공하며, 실제 구현은 포함하지 않는다.
 - `declare` 없이 타입을 정의하면, TypeScript는 해당 코드가 구현되어 있다고 가정한다.
 
-▾ 사용 예시:
+사용 예시:
 
 - 외부 자바스크립트 라이브러리의 타입 선언
 
@@ -325,7 +324,7 @@ type Example = NonNullable<string | undefined | null>;
 type returnFuncType = ReturnType<typeof func>;
 ```
 
-▾ 실무 사용 사례:
+실무 사용 사례:
 
 브라우저의 Web API와 Node.js의 환경에 따라 `setTimeout`이 반환하는 값이 다를 수 있다.
 

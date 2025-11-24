@@ -1,6 +1,5 @@
 ---
 folderName: uncategorized
-updatedAt: 2025-08-19
 title: 미분류
 tag:
 isPublished: false

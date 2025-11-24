@@ -1,6 +1,5 @@
 ---
 folderName: js_asynchronous
-updatedAt: 2025-02-18
 title: 비동기 작업 처리 방식
 tag: javascript
 isPublished: true
@@ -142,7 +141,7 @@ navigator.geolocation.getCurrentPosition(
 ![img](images/promise_3.gif)
 ![img](images/promise_4.gif)
 
-▾ 위 그림 설명:
+위 그림 설명:
 
 1. 실행흐름 중 비동기 작업을 수행하는 함수을 만나 Web API로 넘겨서 처리한다.
 2. 비동기 작업을 수행하는 함수가 완료되면 인수로 넘겨진 콜백을 매크로태스크 큐로 넘긴다.
@@ -150,7 +149,7 @@ navigator.geolocation.getCurrentPosition(
 ![img](images/promise_5.gif)
 ![img](images/promise_6.gif)
 
-▾ 위 그림 설명:
+위 그림 설명:
 
 1. 실행흐름 중 `Promise`를 만나 `executor` 함수를 즉시 실행한다.
 2. `resolve` 함수가 호출되면 `then` 함수에 인수로 넘겨진 콜백을 마이크로태스크 큐로 넘긴다.
@@ -159,7 +158,7 @@ navigator.geolocation.getCurrentPosition(
 ![img](images/promise_7.gif)
 ![img](images/promise_8.gif)
 
-▾ 위 그림 설명:
+위 그림 설명:
 
 1. 콜 스택이 비워지면 이벤트 루프는 마이크로태스크 큐의 작업을 우선으로 콜 스택으로 보낸다.
 2. 이후 매크로태스크 큐의 작업을 콜 스택으로 보낸다.
