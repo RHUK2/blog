@@ -1,5 +1,5 @@
 import { PAGE_SIZE } from '@/utils/constants';
-import { readdir, readFile, writeFile } from 'fs/promises';
+import { readdir, readFile, stat, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';
 import { v4 } from 'uuid';
@@ -13,11 +13,20 @@ export async function writeMarkdownMetaList() {
     const markdownFolderNameList = (await readdir(markdown_path)).filter((content) => /^[^@.]*$/.test(content));
 
     const markdownContentList = await Promise.all(
-      markdownFolderNameList.map((folderName) => readFile(`${markdown_path}/${folderName}/index.md`)),
+      markdownFolderNameList.map(async (folderName) => {
+        const filePath = `${markdown_path}/${folderName}/index.md`;
+        const content = await readFile(filePath);
+        const fileStat = await stat(filePath);
+
+        return {
+          ...matter(content).data,
+          updatedAt: fileStat.mtime.toISOString(),
+        };
+      }),
     );
 
     const markdownDataList = markdownContentList
-      .map((content) => ({ id: v4(), ...matter(content).data }) as MarkdownMeta)
+      .map((content) => ({ id: v4(), ...content }) as MarkdownMeta)
       .filter((data) => !!data.isPublished);
 
     await writeFile(meta_markdown_path, JSON.stringify(markdownDataList));
@@ -31,9 +40,9 @@ export async function writeMarkdownMetaList() {
 
 export async function readTagList() {
   try {
-    const markdownMetaList: MarkdownMeta[] = await readFile(meta_markdown_path).then((value) =>
-      JSON.parse(value.toString()),
-    );
+    const markdownMetaList: MarkdownMeta[] = await readFile(meta_markdown_path, 'utf-8').then((value) => {
+      return JSON.parse(value);
+    });
 
     const tagList = markdownMetaList
       .filter((metaData) => metaData.tag != null)
