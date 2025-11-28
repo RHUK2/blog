@@ -34,7 +34,12 @@ isPublished: true
 ![img](images/browser_url_input.jpg)
 
 1. URL 해석: 브라우저가 입력된 텍스트가 검색어인지 URL인지 확인한다.
-2. DNS 조회: 도메인 이름을 IP 주소로 변환하기 위해 DNS 서버에 요청한다. (캐시 확인 -> hosts 파일 -> DNS 서버)
+2. DNS 조회: 도메인 이름을 IP 주소로 변환하기 위해 DNS 서버에 요청한다.
+   - 브라우저 캐시 확인: 브라우저가 이전에 방문한 기록이 있는지 자체 캐시를 확인한다.
+   - OS 캐시 (hosts 파일 포함) 확인: 브라우저에 없으면 운영체제의 DNS 캐시와 hosts 파일을 확인한다.
+   - 라우터 캐시 확인: 공유기(라우터)의 캐시를 확인한다.
+   - ISP의 DNS 서버 (Recursive Resolver) 요청: 위 단계에서 찾지 못하면, 인터넷 서비스 제공자(ISP)가 제공하는 DNS 서버(또는 사용자가 설정한 8.8.8.8 같은 공용 DNS)에 요청을 보낸다.
+   - 반복적 질의 (Iterative Query): ISP의 DNS 서버가 캐시를 가지고 있지 않다면, 그때부터 Root 네임서버 -> TLD 네임서버(.com 등) -> 도메인의 실제 네임서버 순으로 순차적으로 물어보며 IP 주소를 찾아낸다.
 3. TCP 연결 (3-way Handshake): 서버와 통신하기 위해 TCP 소켓 연결을 맺는다. HTTPS의 경우 TLS Handshake가 추가된다.
 4. HTTP 요청: 브라우저가 서버로 HTTP Request 메시지를 보낸다.
 5. 서버 처리 및 응답: 서버가 요청을 처리하고 HTTP Response 메시지를 보낸다.

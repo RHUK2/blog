@@ -7,10 +7,8 @@ isPublished: true
 
 # Frontend Design
 
-- [프로젝트 환경 설정 체크리스트](#프로젝트-환경-설정-체크리스트)
 - [설계 목록](#설계-목록)
 - [데이터 핸들링](#데이터-핸들링)
-- [그림으로 보는 프론트엔드 설계](#그림으로-보는-프론트엔드-설계)
 - [유효성 설계](#유효성-설계)
 - [페이지 간 데이터 전달](#페이지-간-데이터-전달)
 - [하나의 페이지를 미들웨어(인터셉터) 처럼 사용해서 값에 따라 페이징 분기처리 하는 방법](#하나의-페이지를-미들웨어인터셉터-처럼-사용해서-값에-따라-페이징-분기처리-하는-방법)
@@ -21,61 +19,30 @@ isPublished: true
 - [axios 요청 응답 타입 인터페이스 정의](#axios-요청-응답-타입-인터페이스-정의)
 - [로그인 설계](#로그인-설계)
 - [에러 핸들링](#에러-핸들링)
-- [최적화](#최적화)
-- [form](#form)
-
-## 프로젝트 환경 설정 체크리스트
-
-- repository structure
-  - [ ] monorepo
-  - [ ] multirepo
-- user interface library
-  - [ ] react
-- frontend framework
-  - [ ] nextjs
-  - [ ] react-router
-- backend framework
-  - [ ] express
-  - [ ] nestjs
-- css library
-  - [ ] emotion
-  - [ ] tailwind
-- design system library
-  - [ ] radix-ui
-  - [ ] shadcn/ui
-  - [ ] mui
-- form management
-  - [ ] react-hook-form
-  - [ ] zod
-- global state management
-  - [ ] zustand
-- asynchronous data management
-  - [ ] axios
-  - [ ] @tanstack/react-query
-- i18n
-  - [ ] react-intl
-  - [ ] next-intl
-  - [ ] next-translate
-- chart
-  - [ ] recharts
-  - [ ] d3.js
-- drag and drop
-  - [ ] dnd-kit
-- table
-  - [ ] @tanstack/react-table
-- grid input
-  - [ ] @silevis/reactgrid
-- wysiwyg editor
-  - [ ] tiptap
-- util
-  - [ ] query-string
-  - [ ] jwt-decode
-  - [ ] es-toolkit
-  - [ ] js-cookie
-  - [ ] dayjs
-- code quality tools
-  - [ ] eslint
-  - [ ] prettier
+- [폼 설계](#폼-설계)
+- [그림으로 보는 프론트엔드 설계](#그림으로-보는-프론트엔드-설계)
+- [그림으로 보는 프론트엔드 최적화](#그림으로-보는-프론트엔드-최적화)
+- [라이브러리 선택](#라이브러리-선택)
+- [설계 목록](#설계-목록-1)
+- [데이터 핸들링](#데이터-핸들링-1)
+  - [데이터 종류 및 관리 도구](#데이터-종류-및-관리-도구)
+  - [자료형과 초기값 설정](#자료형과-초기값-설정)
+  - [필터링과 쿼리 스트링](#필터링과-쿼리-스트링)
+  - [비동기 데이터 처리](#비동기-데이터-처리)
+- [유효성 설계](#유효성-설계-1)
+- [페이지 간 데이터 전달](#페이지-간-데이터-전달-1)
+- [미들웨어 패턴을 이용한 페이징 분기](#미들웨어-패턴을-이용한-페이징-분기)
+- [프로덕션 배포](#프로덕션-배포-1)
+- [오래 걸리는 로직 처리](#오래-걸리는-로직-처리)
+- [ENUM 및 상수 관리](#enum-및-상수-관리)
+- [입력 상태 구분](#입력-상태-구분)
+- [API 타입 정의 (Axios)](#api-타입-정의-axios)
+- [로그인 및 인증 설계](#로그인-및-인증-설계)
+  - [라우팅 및 가드](#라우팅-및-가드)
+  - [토큰 및 세션 관리](#토큰-및-세션-관리)
+  - [보안 (Security)](#보안-security)
+- [에러 핸들링](#에러-핸들링-1)
+- [Form 설계](#form-설계)
 
 ## 설계 목록
 
@@ -129,15 +96,11 @@ isPublished: true
 
 > 비동기 데이터 제어 시 원본 데이터를 기반으로 새 데이터를 받는 식으로 가공해서 작성하는 것이 불변성 유지에 좋다
 
-## 그림으로 보는 프론트엔드 설계
-
-![img](images/frontend_design.jpg)
-
 ## 유효성 설계
 
-<!-- todo: 내용 보완 필요 -->
-
-입력의 제한을 두는 것이 아닌 입력은 자유로우나 해당 입력이 잘못됐으면 사용자 경험상 UI로 표현해준다. 입력에 대한 에러가 존재하면 그 입력값을 요청값으로 보내는 API는 동작하지 않도록 설계한다. 유효성 검사 로직과 API 요청 로직은 분리해서 작성한다.
+- 입력의 제한을 두는 것이 아닌 입력은 자유로우나 입력값이 유효하지않다면 UI로 표현해준다.
+- 입력에 대한 에러가 존재하면 입력값을 요청값으로 보내는 API는 동작하지 않도록 설계한다.
+- 유효성 검사 로직과 API 요청 로직은 분리해서 작성한다.
 
 ## 페이지 간 데이터 전달
 
@@ -227,13 +190,231 @@ next 서버 렌더링 에러 -> next 기능 사용
 
 uncaught 에러 -> sentry 사용
 
-## 최적화
-
-![img](images/frontend_optimization.jpg)
-
-## form
+## 폼 설계
 
 전역 폼 설계 후 아래 단계
 
 form submit -> global state update
 input -> global state update
+
+## 그림으로 보는 프론트엔드 설계
+
+![img](images/frontend_design.jpg)
+
+## 그림으로 보는 프론트엔드 최적화
+
+![img](images/frontend_optimization.jpg)
+
+## 라이브러리 선택
+
+- Repository Structure
+  - [ ] Monorepo (Turborepo)
+  - [ ] Multirepo
+- UI Library
+  - [ ] React
+- Framework
+  - [ ] Next.js
+  - [ ] React Router (SPA)
+  - [ ] Vite
+- Backend Framework
+  - [ ] Express
+  - [ ] NestJS
+- Package Manager
+  - [ ] npm
+  - [ ] Yarn
+  - [ ] pnpm
+- Styling
+  - [ ] Emotion
+  - [ ] Tailwind CSS
+- Design System / UI Kit
+  - [ ] Radix UI (Headless)
+  - [ ] Shadcn/ui
+  - [ ] MUI
+- Form Management
+  - [ ] React Hook Form
+- Validation
+  - [ ] Zod
+  - [ ] Yup
+- State Management
+  - [ ] Zustand
+  - [ ] Recoil
+  - [ ] Jotai
+- Async Data
+  - [ ] Axios
+  - [ ] TanStack Query (React Query)
+- i18n
+  - [ ] next-intl
+  - [ ] react-i18next
+- Visualization
+  - [ ] Recharts
+  - [ ] D3.js
+- Interaction
+  - [ ] dnd-kit (Drag & Drop)
+  - [ ] TanStack Table
+  - [ ] @silevis/reactgrid
+  - [ ] Tiptap (WYSIWYG)
+- Utilities
+  - [ ] query-string
+  - [ ] jwt-decode
+  - [ ] es-toolkit
+  - [ ] js-cookie
+  - [ ] dayjs
+- Code Quality
+  - [ ] ESLint
+  - [ ] Prettier
+
+## 설계 목록
+
+프로젝트 시작 전 고려해야 할 주요 설계 항목입니다.
+
+- [ ] 레이아웃 및 UI 구조: 레이아웃, 페이지, 네비게이션, 디자인 시스템
+- [ ] 라우팅 및 인증: 라우팅 가드, 토큰 관리, 404/500 페이지
+- [ ] 데이터 통신: 비동기 인터셉터, 다국어(i18n) 구조
+- [ ] 상태 관리 (Global/Client): 전역 상태 구조/초기값/에러 처리, 클라이언트 데이터 관리
+- [ ] 데이터 조작: 검색/정렬/필터링/페이징 쿼리 설계
+- [ ] 폼(Form) 관리: 데이터 구조, 초기값, 유효성 검사
+- [ ] 비동기 데이터: 로딩/성공/에러 상태 처리, 데이터 부재(0개) 시 화면 처리
+
+## 데이터 핸들링
+
+### 데이터 종류 및 관리 도구
+
+데이터의 성격에 따라 적절한 관리 도구를 선택합니다.
+
+- Global State: `Recoil`, `Context API`, `Zustand` (앱 전반에 걸쳐 공유되는 상태)
+- Global Data: `Cookie`, `Local Storage`, `Session Storage` (지속성이 필요한 데이터)
+- Asynchronous Data: `React Query` (서버 상태 및 캐싱)
+- Form State: `React Hook Form` (입력 폼 상태 관리)
+- Local State: `useState`, `useMemo` (컴포넌트 내부 상태)
+- Filter Data: `Query String` (URL 기반 필터링)
+
+### 자료형과 초기값 설정
+
+대부분의 데이터는 명확한 자료형과 초기값을 가지는 것이 좋습니다.
+
+- 이유: 변수가 다양한 타입을 가지거나 초기값이 `undefined/null`일 경우, 런타임에서 메서드 호출 시 타입 에러가 발생하여 사용자 경험을 저하시킬 수 있습니다.
+- 전략:
+  - 클라이언트 데이터는 조작이 용이한 `string` 형태를 기본으로 하되, 필요에 따라 변환하여 사용합니다.
+  - 초기값은 빈 문자열(`""`) 등으로 세팅하여 `null` 참조 오류를 방지합니다.
+  - TypeScript를 도입하여 컴파일 단계에서 타입 오류를 방지하는 것을 권장합니다.
+
+### 필터링과 쿼리 스트링
+
+리스트 필터링은 URL Query String을 통해 관리하는 것이 보편적입니다.
+
+- 장점: 새로고침 시에도 필터 상태가 유지되며, 링크 공유가 가능합니다.
+- 히스토리 관리:
+  - `push`: 뒤로가기 시 이전 필터 상태로 이동
+  - `replace`: 뒤로가기 시 이전 페이지로 이동
+- 데이터 파싱:
+  - 쿼리는 모두 문자열로 전송되므로, 사용 시 적절한 형변환이 필요합니다 (`qs` 라이브러리 등 활용).
+  - 배열 데이터(`?foo=1&foo=2`)나 `null/undefined` 값의 전송 방식은 백엔드와 협의하여 결정합니다.
+
+### 비동기 데이터 처리
+
+- 상태 관리:
+  - GET: `로딩` / `성공` / `에러`
+  - Mutation (POST/PUT/DELETE): `대기` / `로딩` / `성공` / `에러`
+- 데이터 가공:
+  - 서버 데이터가 `null`일 경우를 대비해 옵셔널 체이닝(`?.`)과 Nullish 병합 연산자(`??`)를 적극 활용하여 기본값을 보장합니다.
+  - 불변성 유지: 원본 데이터를 직접 수정하지 않고, 가공된 새 데이터를 생성하여 사용하는 것이 좋습니다.
+
+## 유효성 설계
+
+<!-- todo: 내용 보완 필요 -->
+
+- 원칙: 입력 자체를 막기보다는, 자유로운 입력을 허용하되 잘못된 입력에 대해 UI로 피드백을 제공합니다.
+- 제어: 유효성 에러가 존재하는 경우 API 요청 트리거를 비활성화합니다.
+- 구조: 유효성 검사 로직(Validation)과 API 요청 로직(Submission)은 분리하여 작성합니다.
+
+## 페이지 간 데이터 전달
+
+<!-- todo: 내용 보완 필요 -->
+
+## 미들웨어 패턴을 이용한 페이징 분기
+
+<!-- todo: 내용 보완 필요 -->
+
+하나의 페이지 컴포넌트를 미들웨어(인터셉터)처럼 사용하여, 진입 시 값에 따라 다른 페이지로 리다이렉트하거나 분기 처리하는 패턴에 대해 기술합니다.
+
+## 프로덕션 배포
+
+<!-- todo: 내용 보완 필요 -->
+
+- React (SPA):
+  - 빌드 시 정적 파일(HTML, JS, CSS) 생성.
+  - 캐싱 이슈 해결: 빌드마다 파일명에 해시값(Fingerprint)을 포함시켜, 브라우저가 변경된 정적 자산을 새로 받아오도록 설정해야 합니다.
+- Next.js (SSR/SSG):
+  - 빌드 후 서버 재시작이 필요할 수 있으며, 브라우저 새로고침 시 업데이트가 반영됩니다.
+
+## 오래 걸리는 로직 처리
+
+대용량 보고서 다운로드 등 시간이 오래 걸리는 작업에 대한 UX 전략입니다.
+
+1. 비동기 알림: 요청 접수 후 작업이 완료되면 이메일/알림 발송 (사용자는 대기하지 않음).
+2. 미리 생성 (Pre-generation): 프로젝트 종료 등 특정 시점에 미리 데이터를 생성해두고, 요청 시 즉시 제공.
+3. 실시간 생성 (지양): 요청 시 생성 (대기 시간 길어짐, 타임아웃 위험).
+
+## ENUM 및 상수 관리
+
+코드 내 하드코딩을 피하고 유지보수성을 높이기 위해 상수를 관리합니다.
+
+- Select/Radio 옵션의 `Key-Value`
+- 정렬 기준 `Key`
+- 상태(Status) 코드
+
+## 입력 상태 구분
+
+입력 필드의 상태를 명확히 정의하여 서버 전송 시 혼선을 줄입니다.
+
+- 상태 정의:
+  - 미입력: 값이 없음 (`null` or `undefined`로 전송하거나 전송 필드에서 제외)
+  - 입력: 유효한 값 존재
+- 필수/선택:
+  - 필수값: 반드시 입력 상태여야 함.
+  - 선택값: 미입력 상태 허용.
+
+## API 타입 정의 (Axios)
+
+- Response (응답): 모든 필드는 누락되거나 `null`일 가능성을 염두에 두고 Optional 처리를 권장합니다.
+- Request (요청): 필수값과 선택값을 엄격히 구분하여, 선택값에만 Optional 처리를 합니다.
+
+## 로그인 및 인증 설계
+
+### 라우팅 및 가드
+
+- React: `react-router`의 Loader나 HOC, 혹은 커스텀 훅을 이용한 접근 제어.
+- Next.js: Middleware를 이용한 서버 사이드 리다이렉트 및 접근 제어.
+
+### 토큰 및 세션 관리
+
+- 로그아웃: 클라이언트 저장소의 토큰 제거.
+- 만료 처리: Axios Interceptor에서 401 응답 감지 시 토큰 갱신(Refresh) 또는 로그아웃 처리.
+
+### 보안 (Security)
+
+- 저장소 정책:
+  - 민감 정보는 암호화되지 않은 Web Storage(Local/Session)나 Cookie에 장기간 저장하지 않는 것이 원칙입니다.
+  - 인증된 사용자의 데이터는 브라우저 종료 시 휘발되는 Session Storage 사용을 권장합니다.
+- 자동 로그인:
+  - 보안 위험(데이터 노출)에 대해 사용자 동의를 받고, '신뢰할 수 있는 기기' 등록 절차 등을 고려합니다.
+- UI 제어의 한계: `disabled` 처리 등은 개발자 도구로 우회 가능하므로, 반드시 서버 측 검증이 동반되어야 합니다.
+- 기타: 동시 접속 제한, 권한(Role) 관리 등.
+
+## 에러 핸들링
+
+에러 종류에 따른 대응 전략을 수립합니다.
+
+- GET (조회): 에러 발생 시 UI에 에러 컴포넌트(Fallback) 노출.
+- Mutation (수정/삭제): Toast 알림 메시지 및 후속 로직(롤백 등) 처리.
+- 비동기 공통 에러: Axios Interceptor에서 전역적으로 핸들링 (예: 네트워크 오류, 인증 만료).
+- 렌더링 에러 (React): `react-error-boundary`를 사용하여 컴포넌트 레벨에서 격리.
+- 서버 에러 (Next.js): `error.js`, `global-error.js` 등 프레임워크 기능 활용.
+- Uncaught 에러: Sentry 등의 모니터링 도구로 수집.
+
+## Form 설계
+
+- 데이터 흐름:
+  1. 전역 폼 스키마/타입 설계
+  2. Input 변경 -> Global/Local State 업데이트
+  3. Form Submit -> 데이터 가공 후 서버 전송
