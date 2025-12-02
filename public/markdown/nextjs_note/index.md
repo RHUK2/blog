@@ -1,11 +1,11 @@
 ---
-folderName: next_note
-title: Next Note
+folderName: nextjs_note
+title: Nextjs Note
 tag: nextjs
 isPublished: true
 ---
 
-# Next Note
+# Nextjs Note
 
 - [Page Router 방식의 렌더링 전략](#page-router-방식의-렌더링-전략)
 - [Page Router 동적 라우팅 시 경로 사전 생성하기](#page-router-동적-라우팅-시-경로-사전-생성하기)
@@ -86,9 +86,9 @@ output: 'export' 사용 시 지원되지 않음
 
 ## App Router 방식의 렌더링 전략
 
-`await fetch(`https://...`, { cache: 'force-cache' })` → SSG
-`await fetch(`https://...`, { next: { revalidate: 60 } })` → ISR
-`await fetch(`https://...`, { cache: 'no-store' })` → SSR
+`await fetch(https://..., { cache: 'force-cache' })` → SSG
+`await fetch(https://..., { next: { revalidate: 60 } })` → ISR
+`await fetch(https://..., { cache: 'no-store' })` → SSR
 
 ## Hydration Error
 
