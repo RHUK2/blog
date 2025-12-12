@@ -18,17 +18,15 @@ isPublished: true
   - [`Promise.resolve`](#promiseresolve)
   - [`Promise.reject`](#promisereject)
   - [`Promise.all` • `Promise.allSettled` • `Promise.race`](#promiseall--promiseallsettled--promiserace)
+  - [프로미스 체이닝](#프로미스-체이닝)
 - [`async` • `await` 처리 방식](#async--await-처리-방식)
-- [top level await](#top-level-await)
-- [프로미스 체이닝](#프로미스-체이닝)
+  - [top level await](#top-level-await)
 
 ## 콜백(Callback) 처리 방식
 
 - Promise 이전 시대의 Web API 설계 철학
   - _핵심 원칙_: 이벤트 드리븐 아키텍처에 기반한 비동기 처리
   - _주요 기법_: 콜백 분리, 이벤트 버블링, 폴링(Polling)
-
----
 
 ### 1. 대표적 설계 패턴
 
@@ -264,6 +262,11 @@ Promise.race(promiseList)
   .catch((error) => console.error(error));
 ```
 
+### 프로미스 체이닝
+
+A 프로미스 체인에서 B 프로미스를 반환하면 B 프로미스가 해결된 뒤 반환 값이 A 프로미스 체인으로 넘어간다.
+반환하지 않고 프로미스를 생성하면 해당 프로미스는 별개의 체인을 갖는다. 이 경우 내부 프로미스가 에러를 다시 던져도 외부 프로미스는 영향을 받지않는다.
+
 ## `async` • `await` 처리 방식
 
 ![img](images/async_await_1.gif)
@@ -288,9 +291,4 @@ Promise.race(promiseList)
 
 ![img](images/async_await_6.gif)
 
-## top level await
-
-## 프로미스 체이닝
-
-A 프로미스 체인에서 B 프로미스를 반환하면 B 프로미스가 해결된 뒤 반환 값이 A 프로미스 체인으로 넘어간다.
-반환하지 않고 프로미스를 생성하면 해당 프로미스는 별개의 체인을 갖는다. 이 경우 내부 프로미스가 에러를 다시 던져도 외부 프로미스는 영향을 받지않는다.
+### top level await

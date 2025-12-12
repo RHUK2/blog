@@ -97,7 +97,8 @@ isPublished: true
 
 ## `flex`
 
-`display: flex`는 해당 속성이 적힌 요소를 flex container로 만들고, 자식 요소들을 flex item으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
+- `display: flex`는 해당 속성이 적힌 요소를 `flex-container`로 만들고, 자식 요소들을 `flex-item`으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
+- `flex-item`은 `min-width`, `min-height` 기본값이 `auto`로 설정되어 있어 내용물 크기만큼 최소 크기를 가진다.
 
 ### `flex-direction`
 
