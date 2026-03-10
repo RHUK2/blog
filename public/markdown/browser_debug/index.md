@@ -21,7 +21,7 @@ isPublished: true
 
 크롬 개발자 도구 콘솔(Console)에서 다음 명령어로 등록된 이벤트 리스너를 확인할 수 있다. (단, 이 API는 표준이 아니며 크롬 개발자 도구에서만 동작한다.)
 
-```javascript
+```ts
 getEventListeners($0); // 현재 선택된 요소의 리스너 확인
 getEventListeners(window);
 getEventListeners(document);
@@ -72,7 +72,7 @@ HTTPS 사이트에서 HTTP 리소스(이미지, 스크립트, API 요청 등)를
 
 ![img](images/preview_image.png)
 
-```javascript
+```ts
 async function getResource() {
   try {
     const response = await fetch('/images/images/test.png');
@@ -88,4 +88,4 @@ async function getResource() {
 
 `fetch`로 가져온 자원은 개발자 도구 Network 탭의 Preview 또는 Response 탭에서 내용을 확인할 수 있다.
 
-하지만 코드 내에서 `response.blob()`, `response.json()` 등의 메서드를 사용하여 응답 본문(Body) 스트림을 이미 읽어버린(consumed) 경우, 브라우저 정책이나 타이밍에 따라 개발자 도구에서 해당 응답 내용을 더 이상 표시하지 못할 수 있다. 디버깅 시에는 데이터를 읽기 전 시점을 확인하거나, 네트워크 탭의 기록을 활용해야 한다.
+하지만 코드 내에서 `response.blob()`, `response.json()` 등의 메서드를 사용하여 응답 본문(Body) 스트림을 이미 읽어버린 경우, 브라우저 정책이나 타이밍에 따라 개발자 도구에서 해당 응답 내용을 더 이상 표시하지 못할 수 있다. 디버깅 시에는 데이터를 읽기 전 시점을 확인하거나, 네트워크 탭의 기록을 활용해야 한다.

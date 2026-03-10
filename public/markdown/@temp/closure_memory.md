@@ -14,7 +14,7 @@
 
 제공된 코드에서 `useCustom2`는 다음과 같습니다:
 
-```javascript
+```ts
 function useCustom2() {
   const array = Array.from({ length: 1000000 }, (_, i) => i + 1);
   return () => {
@@ -46,7 +46,7 @@ function useCustom2() {
 
 1. 배열 생성 단일화:
 
-   ```javascript
+   ```ts
    function useCustom2() {
      const array = useRef(Array.from({ length: 1000000 }, (_, i) => i + 1));
      return () => {
@@ -59,7 +59,7 @@ function useCustom2() {
 
 2. `console.log` 디버깅 조건부 실행:
 
-   ```javascript
+   ```ts
    function useCustom2() {
      const array = useRef(Array.from({ length: 1000000 }, (_, i) => i + 1));
      return () => {
@@ -73,13 +73,12 @@ function useCustom2() {
    - 프로덕션에서 `console.log`를 비활성화하고, 큰 배열 전체 대신 일부만 출력.
 
 3. DevTools 콘솔 관리:
-
    - 디버깅 중 DevTools 콘솔을 주기적으로 지우거나(`Clear console`), 큰 객체를 출력하지 않도록 주의.
    - Allocation Timeline에서 GC를 강제로 실행하여 참조 해제 확인.
 
 4. 이벤트 핸들러 최적화:
 
-   ```javascript
+   ```ts
    export const Home = () => {
      const temp = useCustom();
      const temp2 = useCustom2();
@@ -113,7 +112,8 @@ function useCustom2() {
 - DevTools 주의: 디버깅 중 `console.log`로 큰 객체를 출력하면 DevTools가 GC Root로 유지하므로, 디버깅 후 로그 제거 또는 작은 데이터 출력 권장.
 - 메모리 프로파일링: Chrome DevTools의 "Heap Snapshot" 또는 "Allocation Timeline"에서 GC Root 경로(예: `Console` → `window`)를 확인하여 누수 원인 파악.
 - 지연 초기화: 큰 배열 생성을 지연시키는 방법도 유용:
-  ```javascript
+
+  ```ts
   function useCustom2() {
     const array = useRef(null);
     return () => {

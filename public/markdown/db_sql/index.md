@@ -7,89 +7,133 @@ isPublished: true
 
 # SQL 기록하기
 
-- [특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정](#특정-테이블에서-컬럼-데이터-확인하기-및-별칭-지정)
-- [조인](#조인)
-- [조건문](#조건문)
-- [정렬](#정렬)
-- [출력 갯수 제한](#출력-갯수-제한)
-- [중복 값을 가진 데이터 분석](#중복-값을-가진-데이터-분석)
-- [관계형 DB의 관계](#관계형-db의-관계)
+- [데이터 조회 및 별칭](#데이터-조회-및-별칭)
+- [조인 (Join)](#조인-join)
+  - [조인 종류](#조인-종류)
+  - [조인 예제](#조인-예제)
+  - [조인의 기술적 실행 방식](#조인의-기술적-실행-방식)
+- [조건문 및 필터링](#조건문-및-필터링)
+- [정렬 및 제한](#정렬-및-제한)
+- [데이터 그룹화 및 중복 분석](#데이터-그룹화-및-중복-분석)
+- [인덱스 (Index)](#인덱스-index)
+  - [B-Tree 인덱스 원리](#b-tree-인덱스-원리)
+- [정규화 (Normalization)](#정규화-normalization)
+  - [정규화 단계 요약](#정규화-단계-요약)
+- [관계형 데이터베이스의 관계](#관계형-데이터베이스의-관계)
 
-## 특정 테이블에서 컬럼 데이터 확인하기 및 별칭 지정
+## 데이터 조회 및 별칭
+
+테이블의 데이터를 조회하고 별칭(Alias)을 지정하여 가독성을 높일 수 있다.
 
 ```sql
-SELECT * FROM user
-SELECT id FROM user
-SELECT id, name FROM user
-SELECT post.id, user.name FROM user, post
-SELECT post.id, user.* FROM user, post
-SELECT post.id AS postId, user.* FROM user, post
+SELECT * FROM user; -- 모든 컬럼 조회
+SELECT id, name FROM user; -- 특정 컬럼 조회
+SELECT post.id AS postId, user.name FROM user, post; -- 별칭 지정
 ```
 
-## 조인
+## 조인 (Join)
+
+조인(Join)은 두 개 이상의 테이블을 결합하여 데이터를 조회하는 연산이다.
 
 ![img](images/join_cheat_sheet.jpg)
 
-```sql
-SELECT * FROM user LEFT JOIN post ON user.id = post.user_id
-SELECT * FROM user RIGHT JOIN post ON user.id = post.user_id
-SELECT * FROM user INNER JOIN post ON user.id = post.user_id
-SELECT * FROM user INNER JOIN post ON user.id = post.user_id WHERE user.id = 20
-```
+### 조인 종류
 
-## 조건문
+- 내부 조인 (Inner Join): 양쪽 테이블에 매칭되는 데이터가 모두 있는 경우에만 반환함
+- 왼쪽 외부 조인 (Left Outer Join): 왼쪽 테이블의 모든 행과 오른쪽 테이블의 매칭되는 데이터를 반환하며, 매칭이 없으면 NULL로 채움
+- 오른쪽 외부 조인 (Right Outer Join): 오른쪽 테이블의 모든 행을 기준으로 함
 
-```sql
-SELECT * FROM user WHERE id = 50
-SELECT * FROM user WHERE name LIKE "%현%" # %는 길이와 값 상관없는 모든 문자 데이터와 매칭
-SELECT * FROM user WHERE name LIKE "_현_" # _는 값 상관없이 한 개의 문자 데이터와 매칭
-SELECT * FROM user WHERE id = 50 AND name LIKE "%현%"
-SELECT * FROM user WHERE id = 50 OR name LIKE "%현%"
-SELECT * FROM user WHERE id IN (3, 20, 25)
-SELECT * FROM user WHERE id NOT IN (3, 20, 25)
-SELECT * FROM user WHERE id BETWEEN 20 AND 50
-SELECT * FROM user WHERE id IS NULL
-SELECT * FROM user WHERE id IS NOT NULL
-```
+### 조인 예제
 
-## 정렬
+조인은 각 테이블의 관계에 따라 적절한 형식을 선택하여 사용한다.
 
 ```sql
-SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC
-SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id DESC
+-- 내부 조인 (Inner Join)
+-- 유저와 해당 유저가 작성한 게시글을 모두 조회함 (작성글이 없는 유저는 제외)
+SELECT u.name, p.title
+FROM user u
+INNER JOIN post p ON u.id = p.userId;
+
+-- 왼쪽 외부 조인 (Left Outer Join)
+-- 작성한 게시글이 없는 유저도 결과에 포함됨 (게시글 제목은 NULL로 표시됨)
+SELECT u.name, p.title
+FROM user u
+LEFT JOIN post p ON u.id = p.userId;
+
+-- 오른쪽 외부 조인 (Right Outer Join)
+-- 게시글을 기준으로 작성자가 없는 경우도 포함됨
+SELECT u.name, p.title
+FROM user u
+RIGHT JOIN post p ON u.id = p.userId;
+
+-- 셀프 조인 (Self Join)
+-- 같은 테이블 내에서 부모-자식 관계 등을 조회할 때 사용함 (예: 직원과 매니저 관계)
+SELECT e1.name AS employee, e2.name AS manager
+FROM employee e1
+JOIN employee e2 ON e1.managerId = e2.id;
 ```
 
-## 출력 갯수 제한
+### 조인의 기술적 실행 방식
+
+데이터베이스 엔진은 쿼리 최적화 단계에서 다음과 같은 알고리즘을 선택하여 조인을 실행한다.
+
+- 중첩 루프 조인 (Nested Loop Join): 하나의 테이블을 기준으로 다른 테이블의 행을 하나씩 검색함 (소량의 데이터에 적합)
+- 해시 조인 (Hash Join): 조인 속성을 기반으로 해시 테이블을 생성하여 결합함 (대용량 데이터 조인에 효율적)
+- 정렬 병합 조인 (Sort Merge Join): 양쪽 데이터를 정렬한 뒤 순차적으로 병합함 (범위 조건 조인에 유리)
+
+## 조건문 및 필터링
 
 ```sql
-SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC LIMIT 10
-SELECT * FROM user WHERE name LIKE "%현%" ORDER BY id ASC LIMIT 5,100
+SELECT * FROM user WHERE id = 50;
+SELECT * FROM user WHERE name LIKE "%현%"; -- 부분 일치 검색
+SELECT * FROM user WHERE id IN (3, 20, 25); -- 여러 값 매칭
+SELECT * FROM user WHERE id BETWEEN 20 AND 50; -- 범위 검색
+SELECT * FROM user WHERE id IS NULL; -- NULL 값 확인
 ```
 
-## 중복 값을 가진 데이터 분석
+## 정렬 및 제한
 
 ```sql
-SELECT age , COUNT(*) FROM user GROUP BY age HAVING COUNT(*) > 1;
+SELECT * FROM user ORDER BY id ASC; -- 오름차순
+SELECT * FROM user ORDER BY id DESC; -- 내림차순
+SELECT * FROM user LIMIT 10; -- 출력 개수 제한
+SELECT * FROM user LIMIT 5, 100; -- 오프셋 5부터 100개 조회
 ```
 
-## 관계형 DB의 관계
+## 데이터 그룹화 및 중복 분석
+
+```sql
+-- 나이별 인원수를 집계하고 중복된 데이터(2명 이상)만 추출함
+SELECT age, COUNT(*) FROM user GROUP BY age HAVING COUNT(*) > 1;
+```
+
+## 인덱스 (Index)
 
 ![img](images/erd_example.png)
 
-일대일 관계 (One-to-One Relationship):
+인덱스(Index)는 데이터베이스에서 검색 속도를 향상시키기 위해 사용하는 자료구조다.
 
-- 한 테이블의 각 레코드가 다른 테이블의 레코드와 1:1 관계를 가진다.
+### B-Tree 인덱스 원리
 
-일대다 관계 (One-to-Many Relationship):
+대부분의 관계형 데이터베이스(RDBMS)는 B-Tree(Balanced Tree) 구조를 인덱스로 사용한다.
 
-- 한 테이블의 레코드가 다른 테이블의 여러 레코드와 관련이 있는 경우이다.
-- 일대다 관계에서 "일"쪽의 PK 값을 알면 연관된 모든 "다"를 알 수 있지만, 특정 "다"를 알려면 추가적인 정보가 요구된다.
+- 균형 잡힌 트리 구조를 유지하여 모든 데이터 접근 시간을 `O(log N)`으로 일정하게 보장함
+- 리프 노드(Leaf Node)들이 연결 리스트(Linked List)로 연결되어 있어 범위 검색(Range Scan)에 유리함
+- 루트 노드에서 시작하여 각 노드의 키 값과 비교하며 최적의 경로를 찾아감
 
-다대일 관계 (Many-to-One Relationship):
+## 정규화 (Normalization)
 
-- 다수의 레코드가 다른 테이블의 한 레코드와 관련이 있는 경우이다.
-- 다대일 관계에서 특정한 "다"는 FK 값을 통해서 연결된 "일"의 관계를 알 수 있다.
+정규화(Normalization)는 데이터 중복을 최소화하고 데이터 무결성을 유지하기 위해 테이블을 구조화하는 과정이다.
 
-다대다 관계 (Many-to-Many Relationship):
+### 정규화 단계 요약
 
-- 다수의 레코드가 다른 테이블의 다수의 레코드와 관련이 있는 경우이다.
+1. 제1정규형 (1NF): 모든 도메인이 원자 값(Atomic Value)으로만 구성되어야 함
+2. 제2정규형 (2NF): 부분 함수 종속성을 제거하여 완전 함수 종속이 되도록 함
+3. 제3정규형 (3NF): 이행적 함수 종속성을 제거함 (기본키 이외의 속성 간 종속성 제거)
+4. BCNF (Boyce-Codd Normal Form): 모든 결정자가 후보키여야 한다는 조건을 만족해야 함
+
+## 관계형 데이터베이스의 관계
+
+- 일대일 (1:1): 두 테이블의 레코드가 서로 하나씩만 연결됨
+- 일대다 (1:N): 한 테이블의 레코드가 다른 테이블의 여러 레코드와 연결됨 (가장 일반적인 형태)
+- 다대다 (N:M): 양쪽 테이블 모두 서로 여러 레코드와 연결될 수 있으며, 조인 테이블(매개 테이블)이 필요함
