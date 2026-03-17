@@ -5,7 +5,7 @@ tag: browser
 isPublished: true
 ---
 
-# 브라우저 동작 원리
+# 브라우저 렌더링
 
 - [웹 브라우저(Web Browser)란?](#웹-브라우저web-browser란)
   - [렌더링 파이프라인(Rendering Pipeline)](#렌더링-파이프라인rendering-pipeline)
@@ -27,7 +27,7 @@ isPublished: true
 
 1. DOM 트리 생성: HTML을 파싱(Parsing)하여 객체 모델인 DOM(Document Object Model) 트리를 구축함.
 2. CSSOM 트리 생성: CSS를 파싱하여 스타일 정보가 담긴 CSSOM(CSS Object Model) 트리를 구축함.
-3. 렌더 트리(Render Tree) 생성: DOM과 CSSOM을 결합하여 실제로 화면에 보일 요소들만 포함된 트리를 생성함 (`display: none` 요소는 제외됨).
+3. 렌더 트리(Render Tree) 생성: DOM과 CSSOM을 결합하여 실제로 화면에 보일 요소들만 포함된 트리를 생성함 (`display: none` 요소는 제외됨. `visibility: hidden` 요소는 공간을 차지한 채 포함됨).
 4. 레이아웃(Layout) / 리플로우(Reflow): 각 노드의 정확한 위치와 크기를 계산함. 뷰포트(Viewport) 내에서의 기하학적 구조를 결정하는 단계임.
 5. 페인트(Paint) / 리페인트(Repaint): 계산된 위치에 실제 픽셀을 채워 넣음. 텍스트, 색상, 이미지, 효과 등을 그림.
 6. 레이어 합성(Composite): 생성된 레이어들을 순서대로 합성하여 최종 화면을 완성함.

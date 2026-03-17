@@ -37,7 +37,7 @@ const { x, y, width, height, top, left, bottom, right } = element.getBoundingCli
 
 // 문서 기준 좌표 계산 함수
 function getCoords(elem) {
-  const { top, left } = element.getBoundingClientRect();
+  const { top, left } = elem.getBoundingClientRect();
 
   return {
     top: top + window.scrollY,

@@ -16,26 +16,41 @@ isPublished: true
 - [`flex`](#flex)
   - [`flex-direction`](#flex-direction)
   - [`flex-basis`](#flex-basis)
+  - [`gap`](#gap)
+  - [`min-width: auto`](#min-width-auto)
+  - [정렬 속성](#정렬-속성)
 - [`grid`](#grid)
   - [`grid-template-columns`](#grid-template-columns)
+  - [`auto-fit` • `auto-fill` 주의사항](#auto-fit--auto-fill-주의사항)
+    - [`minmax()` 최솟값에 `fr` 단위 사용 불가](#minmax-최솟값에-fr-단위-사용-불가)
+    - [아이템 수가 적을 때 `auto-fit` 주의](#아이템-수가-적을-때-auto-fit-주의)
+    - [컨테이너 너비가 최솟값보다 좁을 때 오버플로우](#컨테이너-너비가-최솟값보다-좁을-때-오버플로우)
   - [`grid-auto-rows`](#grid-auto-rows)
+  - [`gap`](#gap-1)
+  - [`grid-column` • `grid-row`](#grid-column--grid-row)
+  - [`grid-template-areas`](#grid-template-areas)
+  - [`grid-auto-flow`](#grid-auto-flow)
+  - [`min-width: auto`](#min-width-auto-1)
+  - [정렬 속성](#정렬-속성-1)
 - [`position`](#position)
 - [`box-sizing`](#box-sizing)
 - [`object-fit` • `object-position`](#object-fit--object-position)
 - [`@media`](#media)
 - [Layout Tip](#layout-tip)
+- [의도하지 않은 스크롤이 발생하는 원인](#의도하지-않은-스크롤이-발생하는-원인)
 
 ## `display`
 
 ### `display` 속성에 따라 제어 가능한 속성
 
-| `display`               | `width` | `height` | `paddingX` | `paddingY` | `borderX` | `borderY` | `marginY` | `marginX` | 줄바꿈 |
+| `display`               | `width` | `height` | `paddingX` | `paddingY` | `borderX` | `borderY` | `marginX` | `marginY` | 줄바꿈 |
 | ----------------------- | :-----: | :------: | :--------: | :--------: | :-------: | :-------: | :-------: | :-------: | :----: |
-| `inline`                |    X    |    X     |     O      |     △      |     O     |     △     |     X     |     O     |   X    |
+| `inline`                |    X    |    X     |     O      |     △      |     O     |     △     |     O     |     X     |   X    |
 | `inline-*`              |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |   X    |
 | `block`, `flex`, `grid` |    O    |    O     |     O      |     O      |     O     |     O     |     O     |     O     |   O    |
 
 - `inline` 요소는 `paddingY`와 `borderY`는 동작은 되지만 위아래로 영역을 침범한다.
+- `inline` 요소 중 대체 요소(Replaced Element)인 `<img>`, `<input>`, `<select>`, `<button>`, `<video>` 등은 `width`, `height`, `margin` 속성이 모두 적용됨.
 - `inline` 요소끼리 배치되면 제어가 어려운 여백이 생긴다.
 
 ### `display` 속성에 따른 `width: auto`
@@ -97,8 +112,7 @@ isPublished: true
 
 ## `flex`
 
-- `display: flex`는 해당 속성이 적힌 요소를 `flex-container`로 만들고, 자식 요소들을 `flex-item`으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
-- `flex-item`은 `min-width`, `min-height` 기본값이 `auto`로 설정되어 있어 내용물 크기만큼 최소 크기를 가진다.
+`display: flex`는 해당 속성이 적힌 요소를 `flex-container`로 만들고, 자식 요소들을 `flex-item`으로 만들어 `flex` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
 
 ### `flex-direction`
 
@@ -106,24 +120,24 @@ isPublished: true
 
 ![img](images/flex_axis.png)
 
-|               | `flex-direction: row`    | `flex-direction: column` |
-| ------------- | ------------------------ | ------------------------ |
-| 메인 축       | 가로                     | 세로                     |
-| `justify-*`   | 가로 정렬                | 세로 정렬                |
-| `align-*`     | 세로 정렬                | 가로 정렬                |
-| `flex-basis`  | 기본 가로 여백 차지 공간 | 기본 세로 여백 차지 공간 |
-| `flex-grow`   | 가로 증가                | 세로 증가                |
-| `flex-shrink` | 가로 감소                | 세로 감소                |
+|               | `flex-direction: row`        | `flex-direction: column`     |
+| ------------- | ---------------------------- | ---------------------------- |
+| 메인 축       | 가로                         | 세로                         |
+| `justify-*`   | 가로 정렬                    | 세로 정렬                    |
+| `align-*`     | 세로 정렬                    | 가로 정렬                    |
+| `flex-basis`  | 기본 크기(Initial Main Size) | 기본 크기(Initial Main Size) |
+| `flex-grow`   | 가로 증가                    | 세로 증가                    |
+| `flex-shrink` | 가로 감소                    | 세로 감소                    |
 
 ### `flex-basis`
 
-`flex-basis`는 요소의 기본 여백 차지 공간을 결정한다.
+`flex-basis`는 아이템이 남은 공간(Free space)을 나누기 전의 기본 크기를 결정한다.
 
 ![img](images/flex_basis.jpg)
 
-위 사진처럼 여백을 정확한 비율로 나누기 위해서는 `flex-basis: 0`을 사용한다. `flex-basis: auto`일 경우엔 flex item의 너비만큼 차지하므로 정확한 비율로 나누지 못한다.
+위 사진처럼 여백을 정확한 비율로 나누기 위해서는 `flex-basis: 0`을 사용한다. `flex-basis: auto`일 경우 아이템의 내용물(Content) 너비만큼 미리 차지하므로 정확한 비율로 나누지 못한다.
 
-`width`가 지정되어 있을 경우, `flex-basis`가 우선적으로 적용되며 이 이후에 `width` 속성이 이 요소의 크기 조정에 개입하게 된다.
+`width` 또는 `height`가 지정되어 있을 경우, `flex-basis`가 우선적으로 적용되며 `width` 속성은 `flex-basis: auto`일 때만 유효함. (단, `min-width`, `max-width` 제약은 여전히 적용됨.)
 
 응용 예제:
 
@@ -146,6 +160,85 @@ div.flex-item-2 {
 }
 ```
 
+`align-items: baseline` 옵션은 글자 밑을 기준으로 정렬한다.
+
+### `gap`
+
+`gap`은 flex 아이템 사이의 간격을 설정한다. `row-gap`과 `column-gap`의 단축 속성이다.
+
+```css
+.container {
+  display: flex;
+  gap: 16px; /* row-gap: 16px, column-gap: 16px */
+  gap: 16px 8px; /* row-gap: 16px, column-gap: 8px */
+}
+```
+
+`margin`으로 간격을 설정할 경우 첫 번째 또는 마지막 아이템에도 여백이 생겨 별도 처리가 필요하지만, `gap`은 아이템 사이에만 적용된다.
+
+### `min-width: auto`
+
+`flex-item`의 `min-width`, `min-height` 기본값은 `auto`이며, 콘텐츠 크기가 최소 크기로 적용된다. 이로 인해 `flex-shrink`가 설정되어도 아이템이 콘텐츠 크기 이하로 줄어들지 않는 문제가 발생할 수 있다.
+
+- `flex-direction: row`에서는 `min-width: 0`을 설정하여 해결한다.
+- `flex-direction: column`에서는 `min-height: 0`을 설정하여 해결한다.
+
+```css
+.flex-item {
+  flex: 1;
+  min-width: 0; /* ✅ 콘텐츠 크기에 의한 최솟값 제거 */
+  overflow: hidden;
+}
+```
+
+텍스트가 긴 경우 `min-width: 0`과 함께 `overflow: hidden`, `text-overflow: ellipsis`, `white-space: nowrap`을 조합하여 사용하는 경우가 많다.
+
+### 정렬 속성
+
+flex 정렬 속성은 메인 축과 교차 축(Cross axis)을 기준으로 동작한다.
+
+| 속성              | 적용 대상 | 기준 축 | 설명                                                       |
+| ----------------- | --------- | ------- | ---------------------------------------------------------- |
+| `justify-content` | container | 메인 축 | 아이템 전체를 메인 축 기준으로 정렬                        |
+| `align-items`     | container | 교차 축 | 각 행 내에서 아이템을 교차 축 기준으로 정렬                |
+| `align-content`   | container | 교차 축 | 여러 행을 교차 축 기준으로 정렬 (`flex-wrap` 사용 시 유효) |
+| `align-self`      | item      | 교차 축 | 개별 아이템에 `align-items` 재정의                         |
+| `justify-items`   | -         | -       | flex에서는 동작하지 않음                                   |
+| `justify-self`    | -         | -       | flex에서는 동작하지 않음                                   |
+
+`justify-content` 값:
+
+| 값              | 설명                                                              |
+| --------------- | ----------------------------------------------------------------- |
+| `flex-start`    | 메인 축 시작점 정렬 (기본값)                                      |
+| `flex-end`      | 메인 축 끝점 정렬                                                 |
+| `center`        | 메인 축 중앙 정렬                                                 |
+| `space-between` | 첫/끝 아이템을 양 끝에 배치, 나머지 간격 균등 분배                |
+| `space-around`  | 각 아이템 양쪽에 균등 여백 (양 끝 여백은 아이템 사이 여백의 절반) |
+| `space-evenly`  | 모든 간격(아이템 사이 및 양 끝) 동일하게 분배                     |
+
+`align-items` / `align-self` 값:
+
+| 값           | 설명                                      |
+| ------------ | ----------------------------------------- |
+| `stretch`    | 교차 축 방향으로 늘림 (기본값)            |
+| `flex-start` | 교차 축 시작점 정렬                       |
+| `flex-end`   | 교차 축 끝점 정렬                         |
+| `center`     | 교차 축 중앙 정렬                         |
+| `baseline`   | 첫 번째 텍스트 기준선(Baseline) 기준 정렬 |
+
+`align-content` 값:
+
+| 값              | 설명                                          |
+| --------------- | --------------------------------------------- |
+| `stretch`       | 교차 축 방향으로 늘림 (기본값)                |
+| `flex-start`    | 교차 축 시작점 정렬                           |
+| `flex-end`      | 교차 축 끝점 정렬                             |
+| `center`        | 교차 축 중앙 정렬                             |
+| `space-between` | 행 사이 균등 분배, 양 끝 행은 가장자리에 배치 |
+| `space-around`  | 각 행 양쪽에 균등 여백                        |
+| `space-evenly`  | 모든 행 간격 동일                             |
+
 ## `grid`
 
 `grid`는 해당 속성이 적힌 요소를 grid container로 만들고, 자식 요소들을 grid item으로 만들어 `grid` 관련 속성을 사용할 수 있게해서 유연한 레이아웃을 구현할 수 있도록 해준다.
@@ -154,8 +247,8 @@ div.flex-item-2 {
 
 `grid-template-columns` 속성의 값을 `repeat(auto-fit, minmax(100px ,1fr))` 또는 `repeat(auto-fill, minmax(100px ,1fr))`을 사용하여 반응형으로 구성 가능하다.
 
-- `auto-fill`: 행에 들어갈 수 있는 만큼의 열로 행을 채운다. 따라서 가능한 한 많은 열로 행을 채우려고 하기 때문에 새 열이 들어갈 수 있을 때마다 암시적 열을 생성한다. 새로 추가된 열은 비어 있을 수도 있고 비어 있지 않을 수도 있지만 여전히 행의 지정된 공간을 차지한다.
-- `auto-fit`: 현재 사용 가능한 열을 확장하여 사용 가능한 공간을 차지하도록 열을 공간에 끼워 넣는다.
+- `auto-fill`: 컨테이너 너비에 들어갈 수 있는 만큼의 열(Column)을 생성한다. 아이템이 없더라도 빈 트랙을 그대로 유지하여 레이아웃을 채우려 시도한다.
+- `auto-fit`: 아이템을 배치한 후 남는 빈 트랙을 0px로 축소(Collapse)시킨다. 결과적으로 배정된 아이템들이 컨테이너의 남은 공간을 꽉 채우도록 확장되는 효과를 준다.
 
 `grid-template-columns` 속성의 값을 미디어쿼리로 제어하여 반응형으로 구성한다.
 
@@ -172,6 +265,45 @@ div.flex-item-2 {
 }
 ```
 
+### `auto-fit` • `auto-fill` 주의사항
+
+#### `minmax()` 최솟값에 `fr` 단위 사용 불가
+
+`repeat(auto-fit, minmax(1fr, 1fr))`처럼 최솟값에 `fr`을 사용하면 브라우저가 이를 무시한다. `fr`은 사용 가능한 공간의 비율로 계산되는데, 열 크기를 결정하기 전에 비율을 먼저 계산해야 하므로 순환 참조가 발생하기 때문이다.
+
+최솟값에는 반드시 `px`, `rem`, `%` 등의 고정 단위를 사용한다. `min-content`, `max-content`도 `minmax()` 자체에서는 유효하지만, `repeat(auto-fit/auto-fill, ...)` 내에서는 사용할 수 없다. 브라우저가 열 수를 사전에 계산하려면 트랙 크기가 확정되어야 하는데, 이 키워드들은 콘텐츠에 따라 가변적이기 때문이다.
+
+```css
+/* ❌ incorrect: 최솟값에 fr 사용 */
+grid-template-columns: repeat(auto-fit, minmax(1fr, 1fr));
+
+/* ✅ correct: 최솟값에 고정 단위 사용 */
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+```
+
+#### 아이템 수가 적을 때 `auto-fit` 주의
+
+`auto-fit`은 빈 트랙을 0px로 축소하므로, 아이템이 열 수보다 적을 경우 남은 공간을 기존 아이템이 채워 의도치 않게 늘어난다. 예를 들어 아이템이 1개뿐이면 해당 아이템이 컨테이너 전체 너비를 차지한다.
+
+```css
+/* auto-fill: 빈 트랙을 유지 → 아이템 크기가 minmax의 최솟값에서 고정됨 */
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+/* auto-fit: 빈 트랙을 축소 → 아이템이 적으면 비정상적으로 늘어날 수 있음 */
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+```
+
+아이템 크기를 일정하게 유지하려면 `auto-fill`을 사용하거나, `auto-fit` 사용 시 아이템에 `max-width`를 지정한다.
+
+#### 컨테이너 너비가 최솟값보다 좁을 때 오버플로우
+
+`minmax(200px, 1fr)` 사용 시 컨테이너 너비가 200px 미만으로 좁아지면 열이 컨테이너를 벗어나 수평 오버플로우가 발생한다. `min()` 함수와 조합하면 이를 방지할 수 있다.
+
+```css
+/* 컨테이너 너비와 200px 중 작은 값을 최솟값으로 사용 */
+grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+```
+
 ### `grid-auto-rows`
 
 `grid-auto-rows` 속성은 암시적으로 생성될 행의 높이를 설정한다.
@@ -184,15 +316,157 @@ div.flex-item-2 {
 }
 ```
 
+### `gap`
+
+`gap`은 grid 트랙 사이의 간격을 설정한다. `row-gap`과 `column-gap`의 단축 속성이다.
+
+```css
+.container {
+  display: grid;
+  gap: 16px; /* row-gap: 16px, column-gap: 16px */
+  gap: 16px 8px; /* row-gap: 16px, column-gap: 8px */
+}
+```
+
+### `grid-column` • `grid-row`
+
+그리드 아이템이 차지할 열(Column)과 행(Row)의 범위를 지정한다. `grid-column-start` / `grid-column-end`, `grid-row-start` / `grid-row-end`의 단축 속성이다.
+
+```css
+.item {
+  grid-column: 1 / 3; /* 1번 라인에서 3번 라인까지 (2칸 차지) */
+  grid-row: 1 / 2; /* 1번 라인에서 2번 라인까지 (1칸 차지) */
+}
+
+.item {
+  grid-column: span 2; /* 현재 위치에서 2칸 차지 */
+}
+```
+
+- 그리드 라인 번호는 1부터 시작한다.
+- 음수 값을 사용하면 반대편 끝에서 계산한다. (`-1`은 마지막 라인)
+
+### `grid-template-areas`
+
+ASCII 아트 방식으로 레이아웃 구조를 정의한다. 각 행은 문자열로 표현하며, 공백으로 열을 구분한다.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'header  header  header'
+    'sidebar content aside'
+    'footer  footer  footer';
+}
+
+.header {
+  grid-area: header;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.content {
+  grid-area: content;
+}
+.aside {
+  grid-area: aside;
+}
+.footer {
+  grid-area: footer;
+}
+```
+
+- 같은 이름을 인접하게 나열하면 해당 영역을 차지함.
+- 빈 셀은 `.`으로 표기함.
+- 이름이 붙은 영역은 직사각형이어야 함 (L자형 불가).
+
+### `grid-auto-flow`
+
+아이템이 자동으로 배치되는 방향을 설정한다.
+
+| 값             | 설명                                                                          |
+| -------------- | ----------------------------------------------------------------------------- |
+| `row`          | 행 방향으로 순차 배치 (기본값)                                                |
+| `column`       | 열 방향으로 순차 배치                                                         |
+| `dense`        | 이후 아이템을 앞당겨 빈 공간을 채움 (시각적 순서와 DOM 순서가 달라질 수 있음) |
+| `row dense`    | 행 방향 + dense                                                               |
+| `column dense` | 열 방향 + dense                                                               |
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
+}
+```
+
+### `min-width: auto`
+
+`grid-item`의 `min-width`, `min-height` 기본값은 `auto`이며, 콘텐츠 크기가 최소 크기로 적용된다. 이로 인해 아이템이 콘텐츠 크기 이하로 줄어들지 않아 부모 컨테이너를 벗어나는 문제가 발생할 수 있다.
+
+- 인라인 축(가로) 방향에서는 `min-width: 0`을 설정하여 해결한다.
+- 블록 축(세로) 방향에서는 `min-height: 0`을 설정하여 해결한다.
+
+```css
+.grid-item {
+  min-width: 0; /* ✅ 콘텐츠 크기에 의한 최솟값 제거 */
+  overflow: hidden;
+}
+```
+
+### 정렬 속성
+
+grid 정렬 속성은 인라인 축(Inline axis, 행 방향)과 블록 축(Block axis, 열 방향)을 기준으로 동작한다.
+
+| 속성              | 적용 대상 | 기준 축   | 설명                                                                         |
+| ----------------- | --------- | --------- | ---------------------------------------------------------------------------- |
+| `justify-content` | container | 인라인 축 | 그리드 트랙 전체를 컨테이너 내에서 정렬 (그리드가 컨테이너보다 작을 때 유효) |
+| `justify-items`   | container | 인라인 축 | 모든 아이템을 각 셀 내에서 인라인 축 기준으로 정렬                           |
+| `justify-self`    | item      | 인라인 축 | 개별 아이템에 `justify-items` 재정의                                         |
+| `align-content`   | container | 블록 축   | 그리드 트랙 전체를 컨테이너 내에서 정렬                                      |
+| `align-items`     | container | 블록 축   | 모든 아이템을 각 셀 내에서 블록 축 기준으로 정렬                             |
+| `align-self`      | item      | 블록 축   | 개별 아이템에 `align-items` 재정의                                           |
+
+`justify-content` / `align-content` 값:
+
+| 값              | 설명                                             |
+| --------------- | ------------------------------------------------ |
+| `start`         | 축 시작점 정렬 (기본값)                          |
+| `end`           | 축 끝점 정렬                                     |
+| `center`        | 축 중앙 정렬                                     |
+| `stretch`       | 트랙을 늘려 컨테이너를 가득 채움                 |
+| `space-between` | 첫/끝 트랙을 양 끝에 배치, 나머지 간격 균등 분배 |
+| `space-around`  | 각 트랙 양쪽에 균등 여백                         |
+| `space-evenly`  | 모든 간격 동일                                   |
+
+`justify-items` / `align-items` / `justify-self` / `align-self` 값:
+
+| 값        | 설명                    |
+| --------- | ----------------------- |
+| `stretch` | 셀 전체를 채움 (기본값) |
+| `start`   | 셀 시작점 정렬          |
+| `end`     | 셀 끝점 정렬            |
+| `center`  | 셀 중앙 정렬            |
+
+`place-content`, `place-items`, `place-self`는 각각 `align-*`과 `justify-*`를 합친 단축 속성이다.
+
+```css
+place-content: center space-between; /* align-content justify-content */
+place-items: center start; /* align-items justify-items */
+place-self: end center; /* align-self justify-self */
+```
+
 ## `position`
 
-| `position` | 컨테이닝 블록                                                                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `static`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                                         |
-| `relative` | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                                         |
-| `absolute` | 가장 가까운 `position` 값이 `static`이 아닌 부모 요소의 패딩 영역, 부모가 없으면 초기 컨테이닝 블록(보통 뷰포트 또는 HTML 요소) |
-| `fixed`    | 뷰포트                                                                                                                          |
-| `sticky`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                                         |
+| `position` | 컨테이닝 블록                                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------------------------- |
+| `static`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                             |
+| `relative` | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                             |
+| `absolute` | 가장 가까운 `position` 값이 `static`이 아닌 부모 요소의 패딩 경계(Padding edge), 부모가 없으면 초기 컨테이닝 블록   |
+| `fixed`    | 뷰포트(단, 조상 중 `transform`, `filter`, `perspective` 중 하나라도 `none`이 아니면 해당 조상이 컨테이닝 블록이 됨) |
+| `sticky`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                             |
 
 | `position` | 일반적인 문서 흐름 유지 | `top`, `bottom`, `left`, `right`, `z-index` |
 | ---------- | :---------------------: | :-----------------------------------------: |
@@ -205,9 +479,9 @@ div.flex-item-2 {
 | `position` | `top`, `bottom`, `left`, `right` 쓰임새      |
 | ---------- | -------------------------------------------- |
 | `static`   | X                                            |
-| `relative` | 현재 위치 기준 요소 이동                     |
-| `absolute` | 컨테이닝 블록 기준 요소 이동                 |
-| `fixed`    | 컨테이닝 블록 기준 요소 이동                 |
+| `relative` | 원래 위치 기준 요소 이동                     |
+| `absolute` | 컨테이닝 블록의 패딩 경계 기준 요소 이동     |
+| `fixed`    | 컨테이닝 블록(뷰포트 등) 기준 요소 이동      |
 | `sticky`   | 가장 가까운 스크롤 가능한 부모 영역의 임계값 |
 
 `sticky`는 초기에 `relative`처럼 동작하다가 스크롤 시 요소의 컨테이닝 블록이 임계값에 도달하면 `fixed`처럼 동작하고 컨테이닝 블록의 반대편 가장자리를 만나면 `relative`처럼 다시 동작한다.
@@ -220,7 +494,7 @@ div.flex-item-2 {
 
 ## `box-sizing`
 
-- 실무에서는 대부분 모든 요소에 `box-sizing: border-box`를 사용하여 작업을 한다.
+- 실무에서는 모든 요소에 `box-sizing: border-box`를 기본으로 적용하여 작업함.
 
 | `box-sizing`  | 설명                                                                        |
 | ------------- | --------------------------------------------------------------------------- |
@@ -278,7 +552,22 @@ xl: 1536,
 
 ## Layout Tip
 
-- `vw`는 뷰포트 너비로, `width: 100vw` 사용 시 스크롤 크기를 고려하지 않기 때문에 수직 스크롤이 생기면 수평 스크롤이 생기기 때문에 사용을 지양한다.
-- `vh`는 뷰포트 높이로, `height: 100vh`보다는 `min-height: 100vh`를 더 사용한다. 이유는 브라우저는 항상 충분히 길어질 수 있기 때문에 레이아웃에서 고정 높이를 사용하는 것은 지양한다.
-- 레이아웃의 최대 너비를 고정하고 가운데 정렬하고 싶은 경우에는 `max-width` 값을 지정하고 `margin: auto`를 통해 가운데 정렬한다.
-- 반응형으로 작성 시 브라우저 너비가 매우 좁아졌을 때 컨텐츠들이 오버플로우로 인해 튀어나가는 현상을 방지하려면 컨텐츠를 감싸는 부모 요소의 `min-width` 값을 주고 `overflow-x: auto`를 통해 튀어나가는 현상을 방지한다.
+- `vw`: 뷰포트 너비임. `width: 100vw` 사용 시 스크롤바 너비를 고려하지 않아 수평 스크롤이 발생할 수 있으므로 사용을 지양함.
+- `vh`: 뷰포트 높이임. 브라우저는 유동적으로 길어질 수 있으므로 `height: 100vh`보다 `min-height: 100vh` 사용을 권장함. 레이아웃에서의 고정 높이 사용은 지양함.
+- 최대 너비 고정 및 가운데 정렬: `max-width` 지정 후 `margin: auto`를 통해 구현함.
+- 반응형 오버플로우 방지: 브라우저 너비가 좁아질 때 콘텐츠 유실을 방지하기 위해 부모 요소에 `min-width`와 `overflow-x: auto`를 설정함.
+
+## 의도하지 않은 스크롤이 발생하는 원인
+
+높이와 오버플로우(Overflow) 설정이 올바름에도 부모 요소에서 스크롤이 발생하는 경우 다음 요인을 확인한다.
+
+- 외부 라이브러리 간섭:
+  - 모달(Modal)이나 팝오버(Popover) 컴포넌트 마운트 시, 라이브러리 내부 로직에 의해 `body`나 루트 요소에 강제로 스크롤 관련 스타일(`overflow: hidden`, `padding-right` 등)이 추가되어 레이아웃이 밀릴 수 있음.
+- 포커스(Focus) 및 자동 스크롤:
+  - 특정 컴포넌트 내부에서 `element.focus()` 또는 `scrollIntoView()` 메서드를 호출하여 브라우저가 해당 요소를 보여주기 위해 강제로 스크롤을 발생시킴.
+- 뷰포트(Viewport) 단위 사용:
+  - `100vw`는 스크롤바 너비를 포함하기 때문에 수직 스크롤바가 존재할 때 사용하면 미세한 수평 스크롤이 발생함.
+- 최소 너비(min-width) 제한:
+  - 플렉스(Flex)나 그리드(Grid) 환경에서 자식 요소의 `min-width` 기본값은 `auto`임.
+  - 내부 콘텐츠 크기로 인해 자식 요소가 부모보다 커지면 부모의 오버플로우 설정을 무시하고 영역을 벗어날 수 있음.
+  - 해당 요소에 `min-width: 0`을 적용하여 해결함.
