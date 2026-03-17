@@ -5,7 +5,7 @@ tag: git
 isPublished: true
 ---
 
-# Git Note
+# Git
 
 - [설정(Config)](#설정config)
   - [git 다중 사용자 설정](#git-다중-사용자-설정)

@@ -1,267 +1,123 @@
 ---
 folderName: linux_docker
-title: Docker
+title: Docker 컨테이너 기술
 tag: linux
 isPublished: true
 ---
 
-# Docker
+# Docker 컨테이너 기술
 
-- [Docker Architecture](#docker-architecture)
-- [QnA](#qna)
-- [Dockerfile](#dockerfile)
-- [Docker Registry](#docker-registry)
-- [Docker Containers](#docker-containers)
-- [Docker Networking](#docker-networking)
-- [Docker Volumes](#docker-volumes)
-- [Docker Compose](#docker-compose)
+- [Docker 아키텍처](#docker-아키텍처)
+- [Dockerfile 작성 및 이미지 빌드](#dockerfile-작성-및-이미지-빌드)
+- [이미지 레이어 구조 및 최적화](#이미지-레이어-구조-및-최적화)
+  - [레이어 캐싱(Layer Caching)](#레이어-캐싱layer-caching)
+  - [멀티 스테이지 빌드(Multi-stage Build)](#멀티-스테이지-빌드multi-stage-build)
+- [주요 명령어 가이드](#주요-명령어-가이드)
+  - [이미지 및 레지스트리 관리](#이미지-및-레지스트리-관리)
+  - [컨테이너 실행 및 관리](#컨테이너-실행-및-관리)
+  - [네트워크 및 볼륨 관리](#네트워크-및-볼륨-관리)
+- [Docker Compose를 활용한 서비스 오케스트레이션](#docker-compose를-활용한-서비스-오케스트레이션)
 
-## Docker Architecture
+## Docker 아키텍처
 
 ![img](images/docker_architecture.webp)
 
-## QnA
+- Docker는 클라이언트-서버 구조를 가짐.
+- Docker 클라이언트는 Docker 데몬(Docker Daemon)과 통신하여 컨테이너를 빌드, 실행 및 배포함.
 
-Q: Dockerfile에서 `FROM scratch`가 의미하는 바는?
+## Dockerfile 작성 및 이미지 빌드
 
-- 이는 어떠한 파일 시스템도 포함하지 않은 완전히 비어 있는 이미지를 의미한다.
-- 대부분의 OS 이미지의 Dockerfile은 `FROM scratch`로 작성된다.
+Dockerfile은 이미지를 생성하기 위한 명령어 집합이 담긴 텍스트 파일임.
 
-## Dockerfile
+```dockerfile
+# 베이스 이미지 지정
+FROM node:20-alpine
 
-Dockerfile은 도커 이미지를 빌드하는 데 사용되는 스크립트다.
+# 작업 디렉터리 설정
+WORKDIR /app
 
-```sh
-# Specifies the base image used to build the new image.
-FROM image_name:tag
+# 의존성 파일 복사 및 설치
+COPY package*.json ./
+RUN npm install
 
-# Executes a command in the new image's filesystem during the build process.
-RUN command
+# 소스 코드 복사
+COPY . .
 
-# Specifies the default command to run when a container is launched from the image.
-CMD command
-
-# Sets the working directory for subsequent instructions.
-WORKDIR /path/to/directory
-
-# Copies files or directories from the host system into the image.
-COPY source destination
-
-# Similar to COPY, but can also extract tarballs or fetch URLs.
-ADD source destination
-
-# Informs Docker that the container listens on specific network ports at runtime.
-EXPOSE port
-
-# Sets environment variables in the image.
-ENV key=value
-
-# Configures the container to run as an executable.
-ENTRYPOINT command
-
-# Defines a variable that users can pass at build-time to the builder with the docker build command.
-ARG variable_name
-
-# Sets the user the application will run as within the container.
-USER username
+# 실행 명령어 지정
+CMD ["npm", "start"]
 ```
 
-## Docker Registry
+## 이미지 레이어 구조 및 최적화
 
-```sh
-# Logs in to a Docker registry interactively.
-docker login
+Docker 이미지는 읽기 전용 레이어(Read-only Layer)들이 쌓인 구조임. Dockerfile의 각 명령어(`FROM`, `RUN`, `COPY`, `ADD`)는 새로운 레이어를 생성함.
 
-# Logs out from a Docker registry.
-docker logout
+### 레이어 캐싱(Layer Caching)
 
-# Builds a Docker image from a Dockerfile in the current directory.
-docker build -t image_name .
+- 빌드 시 변경되지 않은 이전 레이어는 재사용하여 빌드 속도를 높임.
+- 자주 변경되는 파일(`COPY . .`)은 Dockerfile 하단에 배치하여 상단 레이어의 캐시를 최대한 활용하는 것이 좋음.
 
-# Pushes a Docker image to a Docker registry.
-docker push image_name
+### 멀티 스테이지 빌드(Multi-stage Build)
 
-# List images
-docker image ls
+빌드 환경과 실행 환경을 분리하여 최종 이미지 크기를 최소화하는 기법임.
 
-# Remove one or more images
-docker image rm image_name
+```dockerfile
+# 1단계: 빌드 스테이지
+FROM node:20 AS builder
+WORKDIR /app
+COPY . .
+RUN npm run build
+
+# 2단계: 실행 스테이지 (경량화 이미지 사용)
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
 ```
 
-## Docker Containers
+- 이미지 경량화 팁:
+  - `alpine` 계열의 작은 베이스 이미지를 사용함.
+  - 여러 `RUN` 명령어를 `&&`로 연결하여 레이어 수를 줄임.
+  - `.dockerignore` 파일을 사용하여 불필요한 파일이 이미지에 포함되지 않도록 함.
+  - 극단적으로 경량화할 경우 `FROM scratch`를 사용함. 어떠한 파일 시스템도 포함하지 않은 완전히 빈 이미지이며, 대부분의 OS 베이스 이미지가 이를 시작점으로 작성됨.
+
+## 주요 명령어 가이드
+
+### 이미지 및 레지스트리 관리
 
 ```sh
-# Shows containers in all states.
-docker ps -a
-
-# Starts a new container interactively using the specified image.
-docker run -it image_name
-
-# Starts a new container in detached mode (background).
-docker run -d image_name
-
-# Starts a new container with a specific name.
-docker run --name custom_name image_name
-
-# Sets environment variables in the container.
-docker run -e "VAR=value" image_name
-
-# Maps a container port to a host port.
-docker run -p host_port:container_port image_name
-
-# Mounts a host directory into the container.
-docker run -v /host/path:/container/path image_name
-
-# Stops a running container.
-docker stop container_id
-
-# Starts a stopped container.
-docker start container_id
-
-# Pauses the execution of a container.
-docker pause container_id
-
-# Resumes a paused container.
-docker unpause container_id
-
-# Restarts a running or stopped container.
-docker restart container_id
-
-# Attaches to a running container and opens a shell.
-docker exec -it container_id /bin/bash
-
-# Deletes a stopped container.
-docker rm container_id
-
-# Deletes all stopped container.
-docker container prune
-
-# Forces removal of a running container.
-docker rm -f container_id
-
-# Displays live resource usage statistics of a container.
-docker stats container_id
-
-# Displays logs from a container.
-docker logs container_id
-
-# Copies files between a container and the local filesystem.
-docker cp /local/path container_id:/container/path
-
-# Shows detailed information about a container.
-docker inspect container_id
-
-# Creates a new container without starting it.
-docker create image_name
+docker build -t app:v1 . # 이미지 빌드
+docker images            # 로컬 이미지 목록 확인
+docker rmi app:v1        # 이미지 삭제
+docker pull nginx        # 레지스트리에서 이미지 가져오기
+docker push my/app:v1    # 레지스트리에 이미지 업로드
 ```
 
-## Docker Networking
+### 컨테이너 실행 및 관리
 
 ```sh
-# Lists all networks created on the Docker host.
-docker network ls
-
-# Creates a user-defined bridge network named 'my_network'.
-docker network create my_network
-
-# Displays detailed information about the 'my_network' network.
-docker network inspect my_network
-
-# Removes the 'my_network' network.
-docker network rm my_network
-
-# Connects a container to the 'my_network' network.
-docker network connect my_network container_name
-
-# Disconnects a container from the 'my_network' network.
-docker network disconnect my_network container_name
-
-# Attaches the container to an additional network 'my_network_2'.
-docker network connect my_network_2 container_name
-
-# Creates a multi-host overlay network 'my_overlay_network'.
-docker network create --driver overlay my_overlay_network
-
-# Removes all networks not used by at least one container.
-docker network prune
-
-# Creates a custom bridge network 'my_custom_network' with specified subnet and gateway.
-docker network create --driver bridge --subnet=192.168.5.0/24 --gateway=192.168.5.1 my_custom_network
-
-# Creates a secure bridge network 'my_secure_network' disabling inter-container communication.
-docker network create --driver bridge --subnet=192.168.5.0/24 --gateway=192.168.5.1 --opt "com.docker.network.bridge.enable_icc=false" my_secure_network
+docker run -d -p 80:80 --name web nginx # 배경에서 실행 및 포트 바인딩
+docker ps                               # 실행 중인 컨테이너 확인
+docker stop web                         # 컨테이너 정지
+docker rm -f web                        # 컨테이너 강제 삭제
+docker logs -f web                      # 컨테이너 로그 실시간 확인
+docker exec -it web sh                  # 실행 중인 컨테이너 접속
 ```
 
-## Docker Volumes
+### 네트워크 및 볼륨 관리
+
+- 네트워크: 컨테이너 간 또는 외부와의 통신을 정의함.
+- 볼륨: 컨테이너가 삭제되어도 데이터를 유지하기 위해 호스트 경로와 연결함.
 
 ```sh
-# Lists all volumes on the Docker host.
-docker volume ls
-
-# Creates a named volume named 'my_volume'.
-docker volume create my_volume
-
-# Displays detailed information about the 'my_volume' volume.
-docker volume inspect my_volume
-
-# Removes the 'my_volume' volume.
-docker volume rm my_volume
-
-# Removes all volumes not used by at least one container.
-docker volume prune
-
-# Mounts the 'my_volume' volume to a specific path inside the container.
-docker run -v my_volume:/path/in/container image_name
-
-# Mounts a directory from the host system into the container.
-docker run -v /host/path:/container/path image_name
-
-# Creates a volume using a specific volume driver 'my_driver'.
-docker volume create --driver my_driver my_volume
-
-# Copies files from a container volume to a directory on the local host.
-docker cp container_id:/path/in/container /local/host/path
-
-# Mounts the 'my_volume' volume as read-only inside the container.
-docker run -v my_volume:/path/in/container:ro image_name
-
-# Mounts the 'my_volume' volume with specific options (e.g., read-write permissions).
-docker run -v my_volume:/path/in/container:options image_name
-
-# Creates a tar archive of the 'my_volume' volume in the /backup directory.
-docker run --rm -v my_volume:/data -v /backup:/backup ubuntu tar cvf /backup/my_volume_backup.tar /data
+docker network create my-net            # 사용자 정의 네트워크 생성
+docker volume create my-data            # 데이터 볼륨 생성
+docker run -v my-data:/data nginx       # 볼륨 마운트하여 실행
 ```
 
-## Docker Compose
+## Docker Compose를 활용한 서비스 오케스트레이션
+
+여러 개의 컨테이너를 하나의 서비스 단위로 묶어 관리할 때 사용함. `docker-compose.yml` 파일에 서비스 구성을 정의함.
 
 ```sh
-# Builds, (re)creates, starts, and attaches to containers for a service.
-docker compose up
-
-# Stops and removes containers, networks, volumes, and images created by 'up' command.
-docker compose down
-
-# Builds or rebuilds services defined in the docker-compose.yml file.
-docker compose build
-
-# Start services defined in the docker-compose.yml file.
-docker compose start
-
-# Stops services defined in the docker-compose.yml file without removing containers.
-docker compose stop
-
-# Restarts services defined in the docker-compose.yml file.
-docker compose restart
-
-# Pauses all services in the docker-compose.yml file.
-docker compose pause
-
-# Unpauses all paused services in the docker-compose.yml file.
-docker compose unpause
-
-# Displays log output from services.
-docker compose logs
-
-# Scale services to a specified number of instances.
-docker compose scale service_name=num_of_instances
+docker compose up -d    # 정의된 모든 서비스 실행
+docker compose down     # 서비스 정지 및 관련 자원 삭제
+docker compose logs -f  # 전체 서비스 로그 확인
 ```

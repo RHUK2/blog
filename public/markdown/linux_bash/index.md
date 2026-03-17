@@ -1,753 +1,395 @@
 ---
 folderName: linux_bash
-title: Bash
+title: Bash 셸(Shell) 사용법
 tag: linux
 isPublished: true
 ---
 
-# Bash
+# Bash 셸(Shell) 사용법
 
-- [Command History](#command-history)
-- [Navigating Directories](#navigating-directories)
-- [Creating Directories](#creating-directories)
-- [Moving Directories](#moving-directories)
-- [Deleting Directories](#deleting-directories)
-- [Creating Files](#creating-files)
-- [Standard Output, Standard Error and Standard Input](#standard-output-standard-error-and-standard-input)
-- [Moving Files](#moving-files)
-- [Deleting Files](#deleting-files)
-- [Reading Files](#reading-files)
-- [File Permissions](#file-permissions)
-- [Finding Files](#finding-files)
-- [Find in Files](#find-in-files)
-  - [Replace in Files](#replace-in-files)
-- [Symbolic Links](#symbolic-links)
-- [Compressing Files](#compressing-files)
-  - [zip](#zip)
-  - [gzip](#gzip)
-  - [tar -c](#tar--c)
-- [Decompressing Files](#decompressing-files)
-  - [unzip](#unzip)
-  - [gunzip](#gunzip)
-  - [tar -x](#tar--x)
-- [Disk Usage](#disk-usage)
-- [Memory Usage](#memory-usage)
-- [Packages](#packages)
-- [Shutdown and Reboot](#shutdown-and-reboot)
-- [Identifying Processes](#identifying-processes)
-- [Process Priority](#process-priority)
-- [Killing Processes](#killing-processes)
-- [Date \& Time](#date--time)
-- [Scheduled Tasks](#scheduled-tasks)
-- [HTTP Requests](#http-requests)
-- [Network Troubleshooting](#network-troubleshooting)
-- [DNS](#dns)
-- [Hardware](#hardware)
-- [Terminal Multiplexers](#terminal-multiplexers)
-- [Secure Shell Protocol (SSH)](#secure-shell-protocol-ssh)
-- [Secure Copy](#secure-copy)
-- [Bash Profile](#bash-profile)
-- [Bash Script](#bash-script)
-  - [Variables](#variables)
-  - [Environment Variables](#environment-variables)
-  - [Functions](#functions)
-  - [Exit Codes](#exit-codes)
-  - [Conditional Statements](#conditional-statements)
-    - [Boolean Operators](#boolean-operators)
-    - [Numeric Operators](#numeric-operators)
-    - [String Operators](#string-operators)
-    - [If Statements](#if-statements)
-    - [Inline If Statements](#inline-if-statements)
-    - [While Loops](#while-loops)
-    - [For Loops](#for-loops)
-    - [Case Statements](#case-statements)
+- [파일 및 디렉터리 관리](#파일-및-디렉터리-관리)
+- [표준 입출력 및 리다이렉션(Redirection)](#표준-입출력-및-리다이렉션redirection)
+- [파일 권한(File Permissions) 관리](#파일-권한file-permissions-관리)
+  - [심볼릭 링크와 하드 링크](#심볼릭-링크와-하드-링크)
+  - [umask: 기본 권한 마스크](#umask-기본-권한-마스크)
+- [텍스트 처리](#텍스트-처리)
+  - [grep: 패턴 검색](#grep-패턴-검색)
+  - [sort: 행 단위 정렬](#sort-행-단위-정렬)
+  - [awk: 데이터 추출 및 가공](#awk-데이터-추출-및-가공)
+  - [tr: 문자 변환 및 삭제](#tr-문자-변환-및-삭제)
+- [파일 검색](#파일-검색)
+- [압축 및 해제](#압축-및-해제)
+- [시스템 리소스 모니터링](#시스템-리소스-모니터링)
+- [프로세스 관리](#프로세스-관리)
+- [패키지 관리](#패키지-관리)
+- [사용자 및 그룹 관리](#사용자-및-그룹-관리)
+- [네트워크 문제 해결](#네트워크-문제-해결)
+- [SSH (Secure Shell Protocol)](#ssh-secure-shell-protocol)
+- [예약 작업(Cron)](#예약-작업cron)
+- [셸 환경 설정](#셸-환경-설정)
+  - [alias: 명령어 별칭 설정](#alias-명령어-별칭-설정)
+  - [source: 설정 파일 즉시 적용](#source-설정-파일-즉시-적용)
+  - [다중 명령어 처리 연산자](#다중-명령어-처리-연산자)
+- [Bash 스크립트](#bash-스크립트)
+  - [변수 선언 및 참조](#변수-선언-및-참조)
+  - [환경 변수(Environment Variables)](#환경-변수environment-variables)
+  - [위치 매개변수(Positional Parameters)](#위치-매개변수positional-parameters)
+  - [조건문 및 연산자](#조건문-및-연산자)
+  - [반복문](#반복문)
+  - [함수(Function)](#함수function)
+- [vi 에디터](#vi-에디터)
 
-## Command History
+## 파일 및 디렉터리 관리
 
 ```sh
-!!            # Run the last command
+# 현재 위치 확인 및 이동
+pwd                       # 현재 디렉터리 경로 출력
+ls                        # 디렉터리 목록 표시
+ls -a                     # 숨김 파일 포함 모든 목록 표시
+ls -l                     # 상세 정보(권한, 소유자, 크기 등) 표시
+ls -lh                    # 파일 크기를 읽기 쉬운 단위(KB, MB 등)로 표시
+cd ~                      # 홈 디렉터리로 이동
+cd -                      # 이전 작업 디렉터리로 이동
 
-touch foo.sh
-chmod +x !$   # !$ is the last argument of the last command i.e. foo.sh
+# 디렉터리 관리
+mkdir foo                 # 디렉터리 생성
+mkdir -p foo/bar          # 하위 디렉터리까지 계층적으로 생성
+cp -r foo bar             # 디렉터리 재귀적 복사
+mv foo bar                # 디렉터리 이동 또는 이름 변경
+rmdir foo                 # 비어있는 디렉터리 삭제
+rm -rf foo                # 디렉터리와 그 내용을 강제로 삭제
+
+# 파일 관리
+touch foo.txt             # 빈 파일 생성 또는 수정 시간 업데이트
+cp foo.txt bar.txt        # 파일 복사
+mv foo.txt bar.txt        # 파일 이동 또는 이름 변경
+rm foo.txt                # 파일 삭제
+cat foo.txt               # 파일 내용 출력
+head -n 20 foo.txt        # 앞 20줄 출력
+tail -n 20 foo.txt        # 뒤 20줄 출력
+tail -f foo.txt           # 파일에 추가되는 내용을 실시간 출력(로그 모니터링)
 ```
 
-## Navigating Directories
+## 표준 입출력 및 리다이렉션(Redirection)
 
 ```sh
-pwd                       # Print current directory path
-ls                        # List directories
-ls -a|--all               # List directories including hidden
-ls -l                     # List directories in long form
-ls -l -h|--human-readable # List directories in long form with human readable sizes
-ls -t                     # List directories by modification time, newest first
-stat foo.txt              # List size, created and modified timestamps for a file
-stat foo                  # List size, created and modified timestamps for a directory
-tree                      # List directory and file tree
-tree -a                   # List directory and file tree including hidden
-tree -d                   # List directory tree
-cd foo                    # Go to foo sub-directory
-cd                        # Go to home directory
-cd ~                      # Go to home directory
-cd -                      # Go to last directory
-pushd foo                 # Go to foo sub-directory and add previous directory to stack
-popd                      # Go back to directory in stack saved by `pushd`
+echo "foo" > bar.txt       # 파일 내용을 덮어쓰기
+echo "foo" >> bar.txt      # 파일 끝에 내용 추가
+
+ls exists 1> stdout.txt    # 표준 출력(stdout)을 파일로 저장
+ls noexist 2> stderror.txt # 표준 에러(stderr)를 파일로 저장
+ls > /dev/null 2>&1        # 모든 출력과 에러를 무시함
 ```
 
-## Creating Directories
+## 파일 권한(File Permissions) 관리
+
+- `r`(읽기, 4), `w`(쓰기, 2), `x`(실행, 1) 조합으로 구성됨.
+- 사용자(User), 그룹(Group), 기타(Others) 순서로 적용됨.
 
 ```sh
-mkdir foo                        # Create a directory
-mkdir foo bar                    # Create multiple directories
-mkdir -p|--parents foo/bar       # Create nested directory
-mkdir -p|--parents {foo,bar}/baz # Create multiple nested directories
-
-mktemp -d|--directory            # Create a temporary directory
+chmod 755 foo.sh         # 소유자에게 모든 권한, 나머지에 읽기/실행 권한 부여
+chmod +x foo.sh          # 모든 사용자에게 실행 권한 추가
+chown user:group foo.txt # 파일의 소유자와 그룹 변경
 ```
 
-## Moving Directories
+### 심볼릭 링크와 하드 링크
+
+| 특징          | 심볼릭 링크(Symbolic Link)  | 하드 링크(Hard Link)                  |
+| ------------- | --------------------------- | ------------------------------------- |
+| 정의          | 원본 경로를 가리키는 포인터 | 원본과 동일한 inode를 공유하는 복제본 |
+| 원본 삭제 시  | 링크가 깨짐(Dangling)       | 데이터가 유지됨                       |
+| 디렉터리 링크 | 가능                        | 불가능                                |
+| 생성 명령어   | `ln -s origin link`         | `ln origin link`                      |
+
+### umask: 기본 권한 마스크
+
+파일이나 디렉터리 생성 시 자동으로 차단할 권한을 지정함.
+
+- 계산 방식: 기본 권한(파일 666, 디렉터리 777) - umask 값 = 최종 권한.
+- 예: `umask 022` 설정 시 파일 권한은 `644`(`rw-r--r--`)가 됨.
+
+## 텍스트 처리
+
+### grep: 패턴 검색
+
+파일 내에서 특정 패턴에 일치하는 행을 출력함.
 
 ```sh
-cp -R|--recursive foo bar                               # Copy directory
-mv foo bar                                              # Move directory
-
-rsync -z|--compress -v|--verbose /foo /bar              # Copy directory, overwrites destination
-rsync -a|--archive -z|--compress -v|--verbose /foo /bar # Copy directory, without overwriting destination
-rsync -avz /foo username@hostname:/bar                  # Copy local directory to remote directory
-rsync -avz username@hostname:/foo /bar                  # Copy remote directory to local directory
+grep "pattern" foo.txt        # 파일에서 패턴 검색
+grep -r "pattern" ./dir       # 디렉터리 내 모든 파일에서 재귀 검색
+grep -i "pattern" foo.txt     # 대소문자 구분 없이 검색
+grep -n "pattern" foo.txt     # 일치하는 행 번호를 함께 출력
+grep -v "pattern" foo.txt     # 패턴이 없는 행만 출력(반전)
 ```
 
-## Deleting Directories
+### sort: 행 단위 정렬
+
+텍스트 파일의 내용을 특정 기준에 따라 정렬함.
 
 ```sh
-rmdir foo                        # Delete empty directory
-rm -r|--recursive foo            # Delete directory including contents
-rm -r|--recursive -f|--force foo # Delete directory including contents, ignore nonexistent files and never prompt
+sort foo.txt    # 오름차순 정렬
+sort -r foo.txt # 내림차순(Reverse) 정렬
+sort -n foo.txt # 숫자 크기순(Numeric) 정렬
 ```
 
-## Creating Files
+### awk: 데이터 추출 및 가공
+
+텍스트 데이터를 열(Column) 단위로 인식하여 처리하는 스크립트 언어임.
+
+- 기본 문법: `awk 'pattern { action }' filename`
 
 ```sh
-touch foo.txt          # Create file or update existing files modified timestamp
-touch foo.txt bar.txt  # Create multiple files
-touch {foo,bar}.txt    # Create multiple files
-touch test{1..3}       # Create test1, test2 and test3 files
-touch test{a..c}       # Create testa, testb and testc files
-
-mktemp                 # Create a temporary file
+awk -F, '{ print $0 }' foo.txt                         # 쉼표를 구분자로 전체 출력
+awk '{ sum += $2 } END { print "Total:", sum }' foo.txt # 2번째 열 합계 출력
+awk '/ERROR/ { print $0 }' foo.txt                     # ERROR 포함 행만 필터링
+awk '$3 > 50 { print $1, $2 }' foo.txt                 # 3번째 열이 50보다 큰 행만 출력
 ```
 
-## Standard Output, Standard Error and Standard Input
+### tr: 문자 변환 및 삭제
+
+표준 입력으로부터 문자를 받아 변환하거나 삭제함.
 
 ```sh
-echo "foo" > bar.txt       # Overwrite file with content
-echo "foo" >> bar.txt      # Append to file with content
-
-ls exists 1> stdout.txt    # Redirect the standard output to a file
-ls noexist 2> stderror.txt # Redirect the standard error output to a file
-ls 2>&1 > out.txt          # Redirect standard output and error to a file
-ls > /dev/null             # Discard standard output and error
-
-read foo                   # Read from standard input and write to the variable foo
+echo "hello" | tr 'a-z' 'A-Z'  # 소문자를 대문자로 변환
+echo "$PATH" | tr ':' '\n'      # 구분자(:)를 줄바꿈으로 변환
 ```
 
-## Moving Files
+## 파일 검색
 
 ```sh
-cp foo.txt bar.txt                                # Copy file
-mv foo.txt bar.txt                                # Move file
-
-rsync -z|--compress -v|--verbose /foo.txt /bar    # Copy file quickly if not changed
-rsync z|--compress -v|--verbose /foo.txt /bar.txt # Copy and rename file quickly if not changed
+which wget                    # 실행 파일의 경로 확인
+locate foo.txt                # 인덱스 데이터베이스 기반 빠른 파일 검색
+find /path -name "*.txt"      # 특정 경로 내에서 파일명 패턴으로 검색
+find /path -type f -mtime -7  # 7일 이내에 수정된 파일 검색
 ```
 
-## Deleting Files
+## 압축 및 해제
+
+- `tar`: 여러 파일을 하나로 묶거나 압축할 때 사용함.
+- `zip` / `unzip`: `.zip` 형식의 압축 관리.
 
 ```sh
-rm foo.txt            # Delete file
-rm -f|--force foo.txt # Delete file, ignore nonexistent files and never prompt
+tar -cvzf archive.tar.gz /path  # gzip 방식으로 압축 및 아카이브 생성
+tar -xvzf archive.tar.gz        # 압축 해제
+zip -r archive.zip /path        # 디렉터리를 zip으로 압축
+unzip archive.zip               # zip 압축 해제
 ```
 
-## Reading Files
+## 시스템 리소스 모니터링
 
 ```sh
-cat foo.txt            # Print all contents
-less foo.txt           # Print some contents at a time (g - go to top of file, SHIFT+g, go to bottom of file, /foo to search for 'foo')
-head foo.txt           # Print top 10 lines of file
-tail foo.txt           # Print bottom 10 lines of file
-open foo.txt           # Open file in the default editor
-wc foo.txt             # List number of lines words and characters in the file
+df -h                  # 디스크 여유 공간 확인
+du -sh .               # 현재 디렉터리의 전체 크기 확인
+free -h                # 메모리 사용 현황 확인
 ```
 
-## File Permissions
-
-| #   | Permission              | rwx | Binary |
-| --- | ----------------------- | --- | ------ |
-| 7   | read, write and execute | rwx | 111    |
-| 6   | read and write          | rw- | 110    |
-| 5   | read and execute        | r-x | 101    |
-| 4   | read only               | r-- | 100    |
-| 3   | write and execute       | -wx | 011    |
-| 2   | write only              | -w- | 010    |
-| 1   | execute only            | --x | 001    |
-| 0   | none                    | --- | 000    |
-
-For a directory, execute means you can enter a directory.
-
-| User | Group | Others | Description                                                                                          |
-| ---- | ----- | ------ | ---------------------------------------------------------------------------------------------------- |
-| 6    | 4     | 4      | User can read and write, everyone else can read (Default file permissions)                           |
-| 7    | 5     | 5      | User can read, write and execute, everyone else can read and execute (Default directory permissions) |
-
-- u - User
-- g - Group
-- o - Others
-- a - All of the above
+## 프로세스 관리
 
 ```sh
-ls -l /foo.sh            # List file permissions
-chmod +100 foo.sh        # Add 1 to the user permission
-chmod -100 foo.sh        # Subtract 1 from the user permission
-chmod u+x foo.sh         # Give the user execute permission
-chmod g+x foo.sh         # Give the group execute permission
-chmod u-x,g-x foo.sh     # Take away the user and group execute permission
-chmod u+x,g+x,o+x foo.sh # Give everybody execute permission
-chmod a+x foo.sh         # Give everybody execute permission
-chmod +x foo.sh          # Give everybody execute permission
+top                    # 실시간 프로세스 모니터링
+ps aux                 # 실행 중인 모든 프로세스 상세 목록 표시
+kill -9 PID            # 특정 PID를 가진 프로세스 강제 종료
+pkill process_name     # 프로세스 이름으로 종료
 ```
 
-## Finding Files
+## 패키지 관리
 
-Find binary files for a command.
+Debian/Ubuntu 계열 시스템에서 `apt`로 소프트웨어를 설치 및 관리함.
 
 ```sh
-type wget                                  # Find the binary
-which wget                                 # Find the binary
-whereis wget                               # Find the binary, source, and manual page files
+apt update               # 패키지 목록 최신화
+apt upgrade              # 설치된 패키지 업그레이드
+apt install wget         # 패키지 설치
+apt remove wget          # 패키지 삭제(설정 파일 유지)
+apt autoremove           # 불필요한 의존성 패키지 자동 삭제
 ```
 
-`locate` uses an index and is fast.
+## 사용자 및 그룹 관리
 
 ```sh
-updatedb                                   # Update the index
-
-locate foo.txt                             # Find a file
-locate --ignore-case                       # Find a file and ignore case
-locate f*.txt                              # Find a text file starting with 'f'
+adduser username         # 사용자 추가
+userdel username         # 사용자 삭제
+usermod -aG group user   # 사용자를 그룹에 추가
+groups username          # 사용자가 속한 그룹 목록 확인
 ```
 
-`find` doesn't use an index and is slow.
+- `/etc/passwd`: 시스템 사용자 정보가 저장된 파일.
+- `/etc/group`: 시스템 그룹 정보가 저장된 파일.
+
+## 네트워크 문제 해결
 
 ```sh
-find /path -name foo.txt                   # Find a file
-find /path -iname foo.txt                  # Find a file with case insensitive search
-find /path -name "*.txt"                   # Find all text files
-find /path -name foo.txt -delete           # Find a file and delete it
-find /path -name "*.png" -exec pngquant {} # Find all .png files and execute pngquant on it
-find /path -type f -name foo.txt           # Find a file
-find /path -type d -name foo               # Find a directory
-find /path -type l -name foo.txt           # Find a symbolic link
-find /path -type f -mtime +30              # Find files that haven't been modified in 30 days
-find /path -type f -mtime +30 -delete      # Delete files that haven't been modified in 30 days
+ping google.com          # 네트워크 연결 확인
+ip addr                  # 네트워크 인터페이스 및 IP 주소 확인
+netstat -tnlp            # 현재 리스닝(Listening) 중인 포트 확인
+curl -I https://url      # HTTP 응답 헤더 확인
+curl ifconfig.me         # 공인 IP 주소 확인
 ```
 
-## Find in Files
+## SSH (Secure Shell Protocol)
+
+SSH는 원격 서버에 안전하게 접속하는 프로토콜이다. 암호화된 채널을 통해 데이터를 송수신함.
 
 ```sh
-grep 'foo' /bar.txt                         # Search for 'foo' in file 'bar.txt'
-grep 'foo' /bar -r|--recursive              # Search for 'foo' in directory 'bar'
-grep 'foo' /bar -R|--dereference-recursive  # Search for 'foo' in directory 'bar' and follow symbolic links
-grep 'foo' /bar -l|--files-with-matches     # Show only files that match
-grep 'foo' /bar -L|--files-without-match    # Show only files that don't match
-grep 'Foo' /bar -i|--ignore-case            # Case insensitive search
-grep 'foo' /bar -x|--line-regexp            # Match the entire line
-grep 'foo' /bar -C|--context 1              # Add N line of context above and below each search result
-grep 'foo' /bar -v|--invert-match           # Show only lines that don't match
-grep 'foo' /bar -c|--count                  # Count the number lines that match
-grep 'foo' /bar -n|--line-number            # Add line numbers
-grep 'foo' /bar --colour                    # Add colour to output
-grep 'foo\|bar' /baz -R                     # Search for 'foo' or 'bar' in directory 'baz'
-grep --extended-regexp|-E 'foo|bar' /baz -R # Use regular expressions
-egrep 'foo|bar' /baz -R                     # Use regular expressions
+ssh user@host               # 원격 서버에 접속
+ssh -p 2222 user@host       # 포트를 지정하여 접속
+ssh-keygen -t ed25519       # Ed25519 방식의 SSH 키 쌍 생성
+ssh-copy-id user@host       # 공개키를 원격 서버에 등록(비밀번호 없이 접속 가능)
+scp foo.txt user@host:/path # 로컬 파일을 원격 서버로 복사
+scp user@host:/path/foo.txt . # 원격 파일을 로컬로 복사
 ```
 
-### Replace in Files
+`~/.ssh/config` 파일에 접속 정보를 등록하면 별칭으로 접속할 수 있다.
 
 ```sh
-sed 's/fox/bear/g' foo.txt               # Replace fox with bear in foo.txt and output to console
-sed 's/fox/bear/gi' foo.txt              # Replace fox (case insensitive) with bear in foo.txt and output to console
-sed 's/red fox/blue bear/g' foo.txt      # Replace red with blue and fox with bear in foo.txt and output to console
-sed 's/fox/bear/g' foo.txt > bar.txt     # Replace fox with bear in foo.txt and save in bar.txt
-sed 's/fox/bear/g' foo.txt -i|--in-place # Replace fox with bear and overwrite foo.txt
-```
-
-## Symbolic Links
-
-```sh
-ln -s|--symbolic foo bar            # Create a link 'bar' to the 'foo' folder
-ln -s|--symbolic -f|--force foo bar # Overwrite an existing symbolic link 'bar'
-ls -l                               # Show where symbolic links are pointing
-```
-
-## Compressing Files
-
-### zip
-
-Compresses one or more files into \*.zip files.
-
-```sh
-zip foo.zip /bar.txt                # Compress bar.txt into foo.zip
-zip foo.zip /bar.txt /baz.txt       # Compress bar.txt and baz.txt into foo.zip
-zip foo.zip /{bar,baz}.txt          # Compress bar.txt and baz.txt into foo.zip
-zip -r|--recurse-paths foo.zip /bar # Compress directory bar into foo.zip
-```
-
-### gzip
-
-Compresses a single file into \*.gz files.
-
-```sh
-gzip /bar.txt foo.gz           # Compress bar.txt into foo.gz and then delete bar.txt
-gzip -k|--keep /bar.txt foo.gz # Compress bar.txt into foo.gz
-```
-
-### tar -c
-
-Compresses (optionally) and combines one or more files into a single _.tar, _.tar.gz, _.tpz or _.tgz file.
-
-```sh
-tar -c|--create -z|--gzip -f|--file=foo.tgz /bar.txt /baz.txt # Compress bar.txt and baz.txt into foo.tgz
-tar -c|--create -z|--gzip -f|--file=foo.tgz /{bar,baz}.txt    # Compress bar.txt and baz.txt into foo.tgz
-tar -c|--create -z|--gzip -f|--file=foo.tgz /bar              # Compress directory bar into foo.tgz
-```
-
-## Decompressing Files
-
-### unzip
-
-```sh
-unzip foo.zip          # Unzip foo.zip into current directory
-```
-
-### gunzip
-
-```sh
-gunzip foo.gz           # Unzip foo.gz into current directory and delete foo.gz
-gunzip -k|--keep foo.gz # Unzip foo.gz into current directory
-```
-
-### tar -x
-
-```sh
-tar -x|--extract -z|--gzip -f|--file=foo.tar.gz # Un-compress foo.tar.gz into current directory
-tar -x|--extract -f|--file=foo.tar              # Un-combine foo.tar into current directory
-```
-
-## Disk Usage
-
-```sh
-df                     # List disks, size, used and available space
-df -h|--human-readable # List disks, size, used and available space in a human readable format
-
-du                     # List current directory, subdirectories and file sizes
-du /foo/bar            # List specified directory, subdirectories and file sizes
-du -h|--human-readable # List current directory, subdirectories and file sizes in a human readable format
-du -d|--max-depth      # List current directory, subdirectories and file sizes within the max depth
-du -d 0                # List current directory size
-```
-
-## Memory Usage
-
-```sh
-free                   # Show memory usage
-free -h|--human        # Show human readable memory usage
-free -h|--human --si   # Show human readable memory usage in power of 1000 instead of 1024
-free -s|--seconds 5    # Show memory usage and update continuously every five seconds
-```
-
-## Packages
-
-```sh
-apt update                   # Refreshes repository index
-apt search wget              # Search for a package
-apt show wget                # List information about the wget package
-apt list --all-versions wget # List all versions of the package
-apt install wget             # Install the latest version of the wget package
-apt install wget=1.2.3       # Install a specific version of the wget package
-apt remove wget              # Removes the wget package
-apt upgrade                  # Upgrades all upgradable packages
-```
-
-## Shutdown and Reboot
-
-```sh
-shutdown                     # Shutdown in 1 minute
-shutdown now "Cya later"     # Immediately shut down
-shutdown +5 "Cya later"      # Shutdown in 5 minutes
-
-shutdown --reboot            # Reboot in 1 minute
-shutdown -r now "Cya later"  # Immediately reboot
-shutdown -r +5 "Cya later"   # Reboot in 5 minutes
-
-shutdown -c                  # Cancel a shutdown or reboot
-
-reboot                       # Reboot now
-reboot -f                    # Force a reboot
-```
-
-## Identifying Processes
-
-```sh
-top                    # List all processes interactively
-htop                   # List all processes interactively
-ps all                 # List all processes
-pidof foo              # Return the PID of all foo processes
-
-CTRL+Z                 # Suspend a process running in the foreground
-bg                     # Resume a suspended process and run in the background
-fg                     # Bring the last background process to the foreground
-fg 1                   # Bring the background process with the PID to the foreground
-
-sleep 30 &             # Sleep for 30 seconds and move the process into the background
-jobs                   # List all background jobs
-jobs -p                # List all background jobs with their PID
-
-lsof                   # List all open files and the process using them
-lsof -itcp:4000        # Return the process listening on port 4000
-```
-
-## Process Priority
-
-Process priorities go from -20 (highest) to 19 (lowest).
-
-```sh
-nice -n -20 foo        # Change process priority by name
-renice 20 PID          # Change process priority by PID
-ps -o ni PID           # Return the process priority of PID
-```
-
-## Killing Processes
-
-```sh
-CTRL+C                 # Kill a process running in the foreground
-kill PID               # Shut down process by PID gracefully. Sends TERM signal.
-kill -9 PID            # Force shut down of process by PID. Sends SIGKILL signal.
-pkill foo              # Shut down process by name gracefully. Sends TERM signal.
-pkill -9 foo           # force shut down process by name. Sends SIGKILL signal.
-killall foo            # Kill all process with the specified name gracefully.
-```
-
-## Date & Time
-
-```sh
-date                   # Print the date and time
-date --iso-8601        # Print the ISO8601 date
-date --iso-8601=ns     # Print the ISO8601 date and time
-
-time tree              # Time how long the tree command takes to execute
-```
-
-## Scheduled Tasks
-
-```pre
-   *      *         *         *           *
-Minute, Hour, Day of month, Month, Day of the week
+# ~/.ssh/config
+Host myserver
+    HostName 192.168.1.100
+    User ubuntu
+    IdentityFile ~/.ssh/id_ed25519
 ```
 
 ```sh
-crontab -l                 # List cron tab
-crontab -e                 # Edit cron tab in Vim
-crontab /path/crontab      # Load cron tab from a file
-crontab -l > /path/crontab # Save cron tab to a file
-
-* * * * * foo              # Run foo every minute
-*/15 * * * * foo           # Run foo every 15 minutes
-0 * * * * foo              # Run foo every hour
-15 6 * * * foo             # Run foo daily at 6:15 AM
-44 4 * * 5 foo             # Run foo every Friday at 4:44 AM
-0 0 1 * * foo              # Run foo at midnight on the first of the month
-0 0 1 1 * foo              # Run foo at midnight on the first of the year
-
-at -l                      # List scheduled tasks
-at -c 1                    # Show task with ID 1
-at -r 1                    # Remove task with ID 1
-at now + 2 minutes         # Create a task in Vim to execute in 2 minutes
-at 12:34 PM next month     # Create a task in Vim to execute at 12:34 PM next month
-at tomorrow                # Create a task in Vim to execute tomorrow
+ssh myserver  # 위 설정을 사용하여 접속
 ```
 
-## HTTP Requests
+## 예약 작업(Cron)
+
+Cron은 특정 시간에 명령어를 자동으로 실행하는 작업 스케줄러다.
 
 ```sh
-curl https://example.com                               # Return response body
-curl -i|--include https://example.com                  # Include status code and HTTP headers
-curl -L|--location https://example.com                 # Follow redirects
-curl -o|--remote-name foo.txt https://example.com      # Output to a text file
-curl -H|--header "User-Agent: Foo" https://example.com # Add a HTTP header
-curl -X|--request POST -H "Content-Type: application/json" -d|--data '{"foo":"bar"}' https://example.com # POST JSON
-curl -X POST -H --data-urlencode foo="bar" http://example.com                           # POST URL Form Encoded
-
-wget https://example.com/file.txt .                            # Download a file to the current directory
-wget -O|--output-document foo.txt https://example.com/file.txt # Output to a file with the specified name
+crontab -e   # 현재 사용자의 cron 작업 편집
+crontab -l   # 현재 등록된 cron 작업 목록 확인
+crontab -r   # 현재 사용자의 cron 작업 전체 삭제
 ```
 
-## Network Troubleshooting
+crontab 작업의 형식은 `분 시 일 월 요일 명령어` 순서다.
 
 ```sh
-ping example.com            # Send multiple ping requests using the ICMP protocol
-ping -c 10 -i 5 example.com # Make 10 attempts, 5 seconds apart
+# 매일 오전 2시에 백업 스크립트 실행
+0 2 * * * /home/user/backup.sh
 
-ip addr                     # List IP addresses on the system
-ip route show               # Show IP addresses to router
+# 매주 월요일 오전 9시에 스크립트 실행
+0 9 * * 1 /home/user/script.sh
 
-netstat -i|--interfaces     # List all network interfaces and in/out usage
-netstat -l|--listening      # List all open ports
-
-traceroute example.com      # List all servers the network traffic goes through
-
-mtr -w|--report-wide example.com                                    # Continually list all servers the network traffic goes through
-mtr -r|--report -w|--report-wide -c|--report-cycles 100 example.com # Output a report that lists network traffic 100 times
-
-nmap 0.0.0.0                # Scan for the 1000 most common open ports on localhost
-nmap 0.0.0.0 -p1-65535      # Scan for open ports on localhost between 1 and 65535
-nmap 192.168.4.3            # Scan for the 1000 most common open ports on a remote IP address
-nmap -sP 192.168.1.1/24     # Discover all machines on the network by ping'ing them
+# 매 5분마다 실행
+*/5 * * * * /home/user/check.sh
 ```
 
-## DNS
+## 셸 환경 설정
+
+### alias: 명령어 별칭 설정
+
+길고 복잡한 명령어를 짧은 별명으로 등록하여 사용함.
 
 ```sh
-host example.com            # Show the IPv4 and IPv6 addresses
-
-dig example.com             # Show complete DNS information
-
-cat /etc/resolv.conf        # resolv.conf lists nameservers
+alias ll='ls -lah'  # 상세 목록 표시 별칭 등록
+unalias ll          # 등록된 별칭 제거
+alias               # 현재 등록된 모든 별칭 목록 출력
 ```
 
-## Hardware
+`~/.bashrc` 또는 `~/.zshrc`에 alias를 등록하면 새 셸 세션에서도 유지됨.
+
+### source: 설정 파일 즉시 적용
+
+스크립트나 설정 파일을 현재 셸 세션에서 직접 실행함. 새로운 셸을 띄우지 않으므로 변수 변경 사항이 현재 세션에 즉시 반영됨.
 
 ```sh
-lsusb                  # List USB devices
-lspci                  # List PCI hardware
-lshw                   # List all hardware
+source ~/.bashrc   # 수정된 bash 설정 적용
+. ~/.bashrc        # source 명령의 축약형
 ```
 
-## Terminal Multiplexers
+### 다중 명령어 처리 연산자
 
-Start multiple terminal sessions. Active sessions persist reboots. `tmux` is more modern than `screen`.
+하나의 라인에서 여러 명령어를 제어함.
 
-```sh
-tmux             # Start a new session (CTRL-b + d to detach)
-tmux ls          # List all sessions
-tmux attach -t 0 # Reattach to a session
+- `;` (순차 실행): 앞 명령어의 성공 여부와 상관없이 다음 명령어 실행.
+- `&&` (논리 AND): 앞 명령어가 성공(`exit 0`)했을 때만 다음 명령어 실행.
+- `||` (논리 OR): 앞 명령어가 실패했을 때만 다음 명령어 실행.
+- `|` (파이프): 앞 명령어의 표준 출력을 다음 명령어의 표준 입력으로 전달.
 
-screen           # Start a new session (CTRL-a + d to detach)
-screen -ls       # List all sessions
-screen -R 31166  # Reattach to a session
+## Bash 스크립트
 
-exit             # Exit a session
-```
+### 변수 선언 및 참조
 
-## Secure Shell Protocol (SSH)
-
-```sh
-ssh hostname                 # Connect to hostname using your current user name over the default SSH port 22
-ssh -i foo.pem hostname      # Connect to hostname using the identity file
-ssh user@hostname            # Connect to hostname using the user over the default SSH port 22
-ssh user@hostname -p 8765    # Connect to hostname using the user over a custom port
-ssh ssh://user@hostname:8765 # Connect to hostname using the user over a custom port
-```
-
-Set default user and port in `~/.ssh/config`, so you can just enter the name next time:
-
-```sh
-$ cat ~/.ssh/config
-Host name
-  User foo
-  Hostname 127.0.0.1
-  Port 8765
-$ ssh name
-```
-
-## Secure Copy
-
-```sh
-scp foo.txt ubuntu@hostname:/home/ubuntu # Copy foo.txt into the specified remote directory
-```
-
-## Bash Profile
-
-- bash - `.bashrc`
-- zsh - `.zshrc`
-
-```sh
-# Always run ls after cd
-function cd {
-  builtin cd "$@" && ls
-}
-
-# Prompt user before overwriting any files
-alias cp='cp --interactive'
-alias mv='mv --interactive'
-alias rm='rm --interactive'
-
-# Always show disk usage in a human readable format
-alias df='df -h'
-alias du='du -h'
-```
-
-## Bash Script
-
-### Variables
+- 변수 대입 시 `=` 좌우에 공백이 없어야 함.
+- 참조 시 `$` 기호를 사용하며, 문자열 연결 시 `${var}` 형태를 권장함.
 
 ```sh
 #!/bin/bash
 
-foo=123                # Initialize variable foo with 123
-declare -i foo=123     # Initialize an integer foo with 123
-declare -r foo=123     # Initialize readonly variable foo with 123
-echo $foo              # Print variable foo
-echo ${foo}_'bar'      # Print variable foo followed by _bar
-echo ${foo:-'default'} # Print variable foo if it exists otherwise print default
+NAME="Gemini"          # 일반 변수 선언
+readonly PI=3.14       # 읽기 전용 변수
+declare -i AGE=20      # 정수형 변수 명시
 
-export foo             # Make foo available to child processes
-unset foo              # Make foo unavailable to child processes
+echo "Hello, $NAME"           # 변수 출력
+echo "${NAME}_CLI"            # 문자열 연결
+echo ${UNDEFINED:-"Default"}  # 변수 미정의 시 기본값 사용
 ```
 
-### Environment Variables
+### 환경 변수(Environment Variables)
+
+- `export` 명령어를 사용하여 자식 프로세스로 변수를 전달함.
 
 ```sh
-#!/bin/bash
-
-env            # List all environment variables
-echo $PATH     # Print PATH environment variable
-export FOO=Bar # Set an environment variable
+export API_KEY="secret"  # 환경 변수 설정
+env                      # 현재 설정된 모든 환경 변수 목록 출력
 ```
 
-### Functions
+### 위치 매개변수(Positional Parameters)
+
+스크립트 실행 시 전달된 인자를 참조함.
+
+- `$0`: 스크립트 이름, `$1`~`$9`: 인자 순서, `$#`: 인자 개수, `$@`: 모든 인자 목록.
+
+### 조건문 및 연산자
+
+- `[[ ... ]]` 구문을 사용하여 조건을 평가함.
+- 숫자 비교: `-eq`(같음), `-ne`(다름), `-gt`(큼), `-lt`(작음).
+- 문자열 비교: `==`(같음), `!=`(다름), `-z`(빈 문자열).
+- 파일 확인: `-e`(존재), `-f`(일반 파일), `-d`(디렉터리).
 
 ```sh
-#!/bin/bash
-
-greet() {
-  local world = "World"
-  echo "$1 $world"
-  return "$1 $world"
-}
-greet "Hello"
-greeting=$(greet "Hello")
-```
-
-### Exit Codes
-
-```sh
-#!/bin/bash
-
-exit 0   # Exit the script successfully
-exit 1   # Exit the script unsuccessfully
-echo $?  # Print the last exit code
-```
-
-### Conditional Statements
-
-#### Boolean Operators
-
-- `$foo` - Is true
-- `!$foo` - Is false
-
-#### Numeric Operators
-
-- `-eq` - Equals
-- `-ne` - Not equals
-- `-gt` - Greater than
-- `-ge` - Greater than or equal to
-- `-lt` - Less than
-- `-le` - Less than or equal to
-- `-e` foo.txt - Check file exists
-- `-z` foo - Check if variable exists
-
-#### String Operators
-
-- `=` - Equals
-- `==` - Equals
-- `-z` - Is null
-- `-n` - Is not null
-- `<` - Is less than in ASCII alphabetical order
-- `>` - Is greater than in ASCII alphabetical order
-
-#### If Statements
-
-```sh
-#!/bin/bash
-
-if [[$foo = 'bar']]; then
-  echo 'one'
-elif [[$foo = 'bar']] || [[$foo = 'baz']]; then
-  echo 'two'
-elif [[$foo = 'ban']] && [[$USER = 'bat']]; then
-  echo 'three'
+if [[ $AGE -gt 19 ]]; then
+  echo "Adult"
+elif [[ $AGE -eq 19 ]]; then
+  echo "Borderline"
 else
-  echo 'four'
+  echo "Minor"
 fi
 ```
 
-#### Inline If Statements
+### 반복문
 
 ```sh
-#!/bin/bash
+# for 반복문
+for i in 1 2 3 4 5; do
+  echo "Number: $i"
+done
 
-[[ $USER = 'rehan' ]] && echo 'yes' || echo 'no'
-```
-
-#### While Loops
-
-```sh
-#!/bin/bash
-
-declare -i counter
-counter=10
-while [$counter -gt 2]; do
-  echo The counter is $counter
-  counter=counter-1
+# while 반복문
+COUNT=0
+while [[ $COUNT -lt 5 ]]; do
+  echo "Count: $COUNT"
+  ((COUNT++))
 done
 ```
 
-#### For Loops
+### 함수(Function)
 
 ```sh
-#!/bin/bash
+greet() {
+  local name=$1   # local 키워드로 지역 변수 선언
+  echo "Hello, $name"
+}
 
-for i in {0..10..2}
-  do
-    echo "Index: $i"
-  done
-
-for filename in file1 file2 file3
-  do
-    echo "Content: " >> $filename
-  done
-
-for filename in *;
-  do
-    echo "Content: " >> $filename
-  done
+greet "World"  # 함수 호출
 ```
 
-#### Case Statements
+## vi 에디터
 
-```sh
-#!/bin/bash
+![img](images/vi.png)
 
-echo "What's the weather like tomorrow?"
-read weather
-
-case $weather in
-  sunny | warm ) echo "Nice weather: " $weather
-  ;;
-  cloudy | cool ) echo "Not bad weather: " $weather
-  ;;
-  rainy | cold ) echo "Terrible weather: " $weather
-  ;;
-  * ) echo "Don't understand"
-  ;;
-esac
-```
+- 명령 모드: 기본 상태, 이동 및 삭제 명령 수행.
+- 입력 모드: `i`, `a`, `o` 키로 진입하여 텍스트 입력.
+- 마지막 행 모드: `:` 키로 진입하여 저장(`w`), 종료(`q`) 등 수행.
