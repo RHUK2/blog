@@ -282,8 +282,29 @@ function toUserRequest(user: User): UserResponse {
 
 ## 입력 유효성 검증(Validation)
 
-- 원칙: 사용자 입력을 과도하게 제한하기보다, 자유로운 입력을 허용하되 실시간 피드백을 통해 올바른 입력을 유도함.
-- 구현: 유효성 검사 로직을 API 요청과 분리하고, 에러 발생 시 전송 버튼을 비활성화함.
+1. 자유 입력 + 실시간 피드백 (Validation 중심)
+   - `onChange`: 값만 저장.
+   - 오류 메시지 실시간 표시.
+   - 언제: 이메일, 비밀번호 등 형식 검증이 중요한 텍스트 필드.
+
+2. 제한 입력 + blur 클램핑
+   - `onChange`: 형식만 차단 (숫자만 허용 등).
+   - `onBlur`: 범위 보정 (min/max 초과 시 클램핑).
+   - 언제: 숫자 범위 입력 (나이, 글자 수 제한 등).
+
+3. Masked Input
+   - `onChange`: 입력과 동시에 포맷 강제 적용 (`010-1234-5678`, `2026/03/18`).
+   - 라이브러리: `react-imask`, `react-input-mask`.
+   - 언제: 전화번호, 날짜, 카드번호.
+
+4. Debounced Validation
+   - `onChange`: 일정 시간 후 검증 실행 (300~500ms).
+   - 언제: 중복 확인처럼 API 호출이 필요한 경우 (이메일, 닉네임).
+
+5. Submit-only Validation
+   - `onChange`: 아무것도 하지 않음.
+   - `onSubmit`에서만 검증.
+   - 언제: 짧은 단순 폼, 입력 중 방해 최소화가 목표일 때.
 
 ## 비동기 데이터 통신
 

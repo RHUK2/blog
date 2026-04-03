@@ -12,6 +12,7 @@ isPublished: true
 - [수직 동기화(VSync) 신호](#수직-동기화vsync-신호)
   - [핵심 개념](#핵심-개념)
   - [렌더링 최적화 전략](#렌더링-최적화-전략)
+- [CSS 속성과 렌더링 단계](#css-속성과-렌더링-단계)
 
 ## 웹 브라우저(Web Browser)란?
 
@@ -52,3 +53,20 @@ isPublished: true
   - 긴 작업은 `requestIdleCallback` 등을 활용하여 작업을 잘게 쪼개어(Time Slicing) 실행함.
 - 애니메이션 제어:
   - 애니메이션 관련 로직은 반드시 `requestAnimationFrame` 내부에서 처리하여 VSync 주기에 동기화함.
+
+## CSS 속성과 렌더링 단계
+
+JavaScript로 DOM 스타일을 변경할 때 어떤 속성을 사용하느냐에 따라 트리거되는 렌더링 단계가 달라진다.
+
+| 변경 속성 | 레이아웃 | 페인트 | 합성 | 성능 비용 |
+| --- | --- | --- | --- | --- |
+| `width`, `height`, `margin`, `padding`, `top`, `left` | O | O | O | 높음 |
+| `background-color`, `color`, `box-shadow`, `border-color` | X | O | O | 중간 |
+| `transform`, `opacity` | X | X | O | 낮음 (GPU 처리) |
+
+애니메이션 구현 시 가능하면 `transform`과 `opacity`만 변경하여 합성 단계만 거치도록 유도하는 것이 성능상 유리하다.
+
+레이아웃 스레싱(Layout Thrashing):
+
+- JavaScript에서 레이아웃 읽기(예: `offsetWidth`, `getBoundingClientRect`)와 쓰기(예: `style.width`)를 교대로 반복하면 매번 강제 레이아웃 재계산이 발생한다.
+- 읽기 작업을 먼저 일괄 처리하고 쓰기 작업을 이후에 일괄 처리하거나, `requestAnimationFrame`으로 쓰기를 다음 프레임으로 미루어 성능을 개선할 수 있다.

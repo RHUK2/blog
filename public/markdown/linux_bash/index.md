@@ -30,6 +30,7 @@ isPublished: true
   - [alias: 명령어 별칭 설정](#alias-명령어-별칭-설정)
   - [source: 설정 파일 즉시 적용](#source-설정-파일-즉시-적용)
   - [다중 명령어 처리 연산자](#다중-명령어-처리-연산자)
+  - [기본 셸 변경(chsh)](#기본-셸-변경chsh)
 - [Bash 스크립트](#bash-스크립트)
   - [변수 선언 및 참조](#변수-선언-및-참조)
   - [환경 변수(Environment Variables)](#환경-변수environment-variables)
@@ -307,6 +308,21 @@ source ~/.bashrc   # 수정된 bash 설정 적용
 - `&&` (논리 AND): 앞 명령어가 성공(`exit 0`)했을 때만 다음 명령어 실행.
 - `||` (논리 OR): 앞 명령어가 실패했을 때만 다음 명령어 실행.
 - `|` (파이프): 앞 명령어의 표준 출력을 다음 명령어의 표준 입력으로 전달.
+
+### 기본 셸 변경(chsh)
+
+`chsh` 명령어로 로그인 셸을 변경한다. PAM 설정에 따라 인증 오류가 발생하는 경우 `pam_shells` 설정을 수정해야 한다.
+
+```sh
+# PAM 인증 오류 발생 시 (required → sufficient)
+sudo vi /etc/pam.d/chsh
+# auth required pam_shells.so → auth sufficient pam_shells.so 로 변경
+
+# 기본 셸을 zsh로 변경
+chsh -s $(which zsh)
+```
+
+변경 후 터미널 세션을 종료하고 재접속하면 새 셸이 적용된다. WSL2에서 VS Code Server가 설치된 경우 VS Code Server 제거 후 재시작이 필요할 수 있음.
 
 ## Bash 스크립트
 

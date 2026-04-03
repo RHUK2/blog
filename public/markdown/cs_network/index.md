@@ -204,6 +204,13 @@ server {
 
 - `127.0.0.1` (IPv4): 관례적으로 사용하는 IPv4 루프백 주소임.
 - `::1` (IPv6): IPv6 환경에서 로컬 호스트를 가리키는 128비트 주소임.
+- OS의 `hosts` 파일(`/etc/hosts`, `C:\Windows\System32\drivers\etc\hosts`)에 `localhost → 127.0.0.1` 매핑이 정의되어 있음.
+
+로컬 개발 환경에서 자주 맞닥뜨리는 문제와 해결 방법:
+
+- 쿠키 도메인 문제: 쿠키의 `domain` 속성이 `localhost`에 적용되지 않는 경우, `hosts` 파일에 별칭을 추가하여 커스텀 도메인을 `127.0.0.1`로 매핑하면 해결할 수 있음.
+- 로컬 HTTPS 통신: `mkcert`로 로컬 CA를 생성하면 `localhost`에서 HTTPS 인증서를 발급받아 `https://localhost`로 개발이 가능함.
+- CORS 문제: 개발 서버의 프록시 기능(예: Vite `proxy`, Next.js `rewrites`)을 사용하면 브라우저가 CORS 검사를 건너뛰고 서버 측에서 API 요청을 중계할 수 있음.
 
 ## 이메일 프로토콜(SMTP, POP3, IMAP)
 

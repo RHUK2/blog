@@ -17,6 +17,10 @@ isPublished: true
 - [`onclick` • `addEventListener('click')`](#onclick--addeventlistenerclick)
   - [`passive: true` 옵션](#passive-true-옵션)
 - [터치 이벤트 시퀀스(Touch Event Sequence)](#터치-이벤트-시퀀스touch-event-sequence)
+- [Observer API](#observer-api)
+  - [IntersectionObserver](#intersectionobserver)
+  - [ResizeObserver vs resize 이벤트](#resizeobserver-vs-resize-이벤트)
+- [Web Worker](#web-worker)
 
 ## 이벤트 상속(Event Inheritance)
 
@@ -106,3 +110,74 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
 터치 인터페이스에서 발생하는 이벤트들의 발생 순서와 흐름을 나타낸다.
 
 ![img](images/sequence_of_touch_event.png)
+
+## Observer API
+
+### IntersectionObserver
+
+- 특정 DOM 요소가 뷰포트(또는 지정된 루트 요소)와 교차하는지 비동기적으로 감지하는 API다.
+- 스크롤 이벤트 기반의 가시성 감지보다 성능상 효율적임.
+- 무한 스크롤, 지연 로딩(Lazy Loading), 광고 노출 추적 등에 활용된다.
+
+```ts
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // 요소가 뷰포트에 진입
+        }
+      });
+    },
+    {
+      root: null,       // null이면 뷰포트를 기준으로 함
+      rootMargin: '0px',
+      threshold: 0.1,   // 요소가 10% 이상 보일 때 콜백 실행
+    },
+  );
+
+  const elements = document.querySelectorAll('.target');
+  elements.forEach((el) => observer.observe(el));
+
+  return () => observer.disconnect();
+}, []);
+```
+
+### ResizeObserver vs resize 이벤트
+
+| 항목 | resize 이벤트 | ResizeObserver |
+| --- | --- | --- |
+| 감지 대상 | `window` (브라우저 창) | 특정 DOM 요소 |
+| 감지 범위 | 전역 창 크기 변화 | 개별 요소의 모든 크기 변화 |
+| 성능 | 빈번한 호출, debounce/throttle 필요 | 효율적, 필요한 시점에만 호출 |
+| 용도 | 전역 레이아웃 조정 | 특정 컴포넌트의 반응형 처리 |
+| API 형태 | 이벤트 리스너 | 객체 인스턴스, 콜백 함수 |
+
+## Web Worker
+
+Web Worker는 메인 스레드와 별개의 백그라운드 스레드에서 스크립트를 실행하는 API다. 대용량 연산처럼 메인 스레드를 차단할 수 있는 작업을 분리하여 UI 응답성을 유지할 수 있다.
+
+- 메인 스레드와 Worker 간에 `postMessage()`와 `onmessage`로 데이터를 주고받음.
+- DOM에 직접 접근할 수 없음.
+- 컴포넌트 unmount 시 `worker.terminate()`로 종료해야 함.
+
+```ts
+// worker.js
+self.onmessage = function (event) {
+  const result = event.data * 2;
+  self.postMessage(result);
+};
+
+// 컴포넌트
+useEffect(() => {
+  const worker = new Worker(new URL('./worker.js', import.meta.url));
+
+  worker.onmessage = (event) => {
+    setResult(event.data);
+  };
+
+  worker.postMessage(inputValue);
+
+  return () => worker.terminate();
+}, [inputValue]);
+```
