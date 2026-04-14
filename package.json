@@ -6,9 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write './**/*.tsx'",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "prettier": "prettier --write './**/*.tsx'"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.59.19",

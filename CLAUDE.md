@@ -1,177 +1,64 @@
-# 아티클 작성 규칙
+# CLAUDE.md
 
-## 1. 프론트매터(Frontmatter)
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-모든 정식 아티클은 YAML 프론트매터를 포함한다.
+## 명령어
 
-```yaml
----
-folderName: snake_case_folder_name
-title: 아티클 제목
-tag: 카테고리 태그
-isPublished: true
----
+```bash
+npm run dev        # 개발 서버 실행 (포트 3003)
+npm run build      # 프로덕션 빌드
+npm run lint       # ESLint 실행
+npm run prettier   # 모든 .tsx 파일 포맷
+npm run test       # Jest 실행
+npm run test:watch # Jest watch 모드
 ```
 
-- `folderName`: 폴더명과 동일, snake_case 사용
-- `title`: 한글 또는 영문 (기술 용어는 영문 그대로 사용)
-- `tag`: 단일 카테고리 (javascript, react, browser, cs, security, style, dom, linux, aws, design 등)
-- `isPublished`: 공개 여부
+## 아키텍처
 
-## 2. 파일 및 폴더 구조
+Next.js 16 (App Router) 기반 개인 블로그로, 주요 라우트는 세 가지다.
 
-- 정식 아티클: `public/markdown/{폴더명}/index.md`
-- 임시/초안 아티클: `public/markdown/@temp/{파일명}.md` (프론트매터 없음)
-- 이미지: `public/markdown/{폴더명}/images/` 하위에 저장
-- 이미지 참조: `![img](images/파일명.png)` (상대 경로 사용)
+- `/markdown` — 태그 필터링 및 페이지네이션이 있는 아티클 목록
+- `/markdown/[folderName]/detail` — 정적 마크다운 아티클 상세 페이지 (`generateStaticParams`로 SSG)
+- `/llm` — 멀티 모델 LLM 채팅 인터페이스 (OpenAI + DeepSeek 스트리밍)
 
-## 3. 문서 구조
+### 마크다운 콘텐츠 파이프라인
 
-### 제목
+아티클은 `public/markdown/{folderName}/index.md`에 YAML 프론트매터(`folderName`, `title`, `tag`, `isPublished`)와 함께 저장된다. 임시/초안 아티클은 `public/markdown/@temp/`에 둔다.
 
-- `#` h1 제목은 프론트매터의 `title`과 동일하게 작성한다.
-- 기술 용어는 `한글명(영문명)` 형태로 병기한다. (예: `실행 컨텍스트(Execution Context)`, `이벤트 루프(Event Loop)`)
-- 고유 명사나 널리 알려진 기술명은 영문 그대로 사용한다. (예: `Docker`, `React Rendering`, `Layout`)
+메타데이터 인덱스는 `entities/markdown/list.json`에 저장되며 저장소에 커밋된다. `entities/markdown/data.ts` 하단에 주석 처리된 `writeMarkdownMetaList()` 호출을 해제하고 실행하면 재생성된다. 이후 `list.json`을 다시 커밋해야 한다. 상세 페이지는 `dynamicParams = false`로 설정되어 있고 `generateStaticParams`에서 `list.json`을 읽으므로, 빌드 전에 반드시 최신 상태여야 한다.
 
-### 목차(TOC)
+### 경로 별칭
 
-- h1 제목 바로 아래에 마크다운 링크 형태의 목차를 수동으로 작성한다.
-- 목차는 `h2`, `h3` 수준까지 포함하며, 중첩 리스트로 계층을 표현한다.
+`@/*`는 저장소 루트로 매핑된다(`tsconfig.json` 참고). 모든 import는 상대 경로 대신 `@/`를 사용한다.
 
-```md
-- [섹션 제목](#앵커-링크)
-  - [하위 섹션](#앵커-링크)
-```
+### 디렉터리 구조
 
-### 섹션 계층
+- `app/` — Next.js App Router 페이지 및 API 라우트
+- `entities/` — 기능 단위 데이터, 타입, 컴포넌트 (markdown, chat, profile)
+- `shared/` — 디자인 시스템 컴포넌트, 공통 타입/데이터 (`NavList` 등)
+- `store/` — 클라이언트 전용 글로벌 설정 (`GlobalClientConfig`) 및 React Query 프로바이더
+- `utils/` — 상수, 커스텀 훅
+- `public/markdown/` — 아티클 콘텐츠 및 이미지
+- `styles/` — 전역 CSS 및 구문 강조 CSS
 
-- `##` h2: 주요 주제 단위
-- `###` h3: 세부 항목
-- `####` h4: 세부 항목 내 하위 분류 (드물게 사용)
-- h5 이하는 사용하지 않는다.
+### API 라우트
 
-## 4. 말투 및 톤
+- `POST /api/chat` — LLM 응답 스트리밍. `body.model` 값에 따라 OpenAI 또는 DeepSeek 클라이언트를 선택한다. `OPENAI_API_KEY`, `DEEPSEEK_API_KEY` 환경 변수가 필요하다.
+- `POST /api/mail` — 스텁 (빈 핸들러).
 
-### 기본 원칙
+### 테마
 
-- **해요체/합쇼체를 사용하지 않는다.** 기술 문서 톤의 **평서형 종결어미(-다)**를 사용한다.
-- 간결하고 직접적인 서술을 지향한다. 불필요한 수식어를 배제한다.
+다크/라이트 모드는 `theme` 쿠키에 저장되며, `app/layout.tsx`에서 서버 사이드로 읽어 `<html>` 클래스에 적용한다. `DarkLightButton` 컴포넌트가 클라이언트에서 쿠키를 쓴다.
 
-### 종결어미 패턴
+### 스타일링
 
-- 정의/설명: `~다`, `~이다`
-  - "실행 컨텍스트는 JavaScript 엔진이 코드를 실행하기 위해 필요한 환경 정보를 담고 있는 객체다."
-  - "캐시는 데이터를 미리 복사해 놓는 임시 장소다."
-- 동작/결과: `~한다`, `~된다`
-  - "변경된 부분만 실제 DOM에 반영하여 성능을 최적화한다."
-  - "함수 실행이 완료되면 함수 컨텍스트가 스택에서 제거됨."
-- 나열/부연: `~함`, `~됨`, `~있음` (명사형 종결)
-  - "모듈은 한 번만 실행되며, 이후에는 캐시된 결과를 재사용함 (싱글톤 패턴)."
-  - "데이터가 네트워크 카드를 거치지 않고 OS 내부 네트워크 스택에서만 맴돈다."
+Tailwind CSS v4와 마크다운 prose를 위한 `@tailwindcss/typography`를 사용한다. 조건부 클래스 병합에는 `tailwind-merge`를 사용하고, 포맷 시 `prettier-plugin-tailwindcss`가 클래스 순서를 정렬한다.
 
-### 혼용 허용
+## 아티클 작성
 
-- `-다` 종결과 `-함/-됨` 명사형 종결이 같은 아티클 내에서 혼용된다.
-- 리스트 항목에서는 명사형 종결(`~함`, `~됨`, `~가능`)을 주로 사용한다.
-- 본문 설명에서는 `-다` 종결을 주로 사용한다.
+전체 작성 규칙은 저장소 루트의 `markdown.md`를 참고한다. 주요 사항은 다음과 같다.
 
-## 5. 콘텐츠 작성 패턴
-
-### 개념 설명
-
-- 핵심 정의를 먼저 한 문장으로 제시한다.
-- 이후 리스트(`-`)로 세부 사항을 나열한다.
-- 비유나 별칭이 있으면 따옴표로 병기한다. (예: `버킷 정책 (Bucket Policy) - "버킷의 문지기"`)
-
-```md
-## 캐시의 개념
-
-- 캐시는 데이터를 미리 복사해 놓는 임시 장소다.
-- 데이터 접근 시간이 오래 걸리거나 값을 다시 연산하는 시간을 단축하기 위해 사용한다.
-```
-
-### 비교/분류
-
-- 테이블(표)을 적극적으로 활용한다.
-- 열 헤더는 간결하게, 셀 내용은 짧은 문장 또는 키워드로 작성한다.
-
-```md
-| 항목 | 설명 |
-| ---- | ---- |
-| A    | ...  |
-| B    | ...  |
-```
-
-### 코드 블록
-
-- 언어 태그를 반드시 명시한다 (`ts`, `tsx`, `js`, `css`, `sh`, `nginx`, `json` 등).
-- TypeScript(`ts`, `tsx`)를 기본으로 사용한다.
-- 코드 블록 앞에 설명 문장을 배치한다.
-- 코드 내 주석으로 핵심 포인트를 표시한다.
-- 올바른 예시와 잘못된 예시를 함께 제시할 때는 `// ✅ correct:`, `// ❌ incorrect:` 형태를 사용한다.
-
-### 이미지
-
-- 개념 다이어그램, 플로우차트, 아키텍처 그림 등 시각 자료를 적극 활용한다.
-- 이미지는 관련 섹션 시작 부분 또는 설명 직후에 배치한다.
-- alt 텍스트는 `img`로 통일한다.
-
-### 참고 링크
-
-- 외부 참고 자료는 아티클 하단에 URL만 단독으로 기재한다.
-- 별도의 "참고자료" 섹션을 만들지 않고 본문 끝에 배치한다.
-
-## 6. 용어 표기 규칙
-
-### 기술 용어
-
-- 최초 등장 시: `한글명(영문명)` 형태로 병기한다. (예: "렉시컬 환경(Lexical Environment)")
-- 이후 재등장 시: 한글명 또는 영문명 중 하나를 일관되게 사용한다.
-- 약어는 풀네임을 먼저 쓰고 괄호 안에 약어를 표기한다. (예: "CDN (Content Delivery Network)")
-
-### 인라인 코드
-
-- 코드, 명령어, 속성명, 파일명 등은 백틱(`` ` ``)으로 감싼다.
-  - 예: `let`, `const`, `window.foo`, `Cache-Control`, `robots.txt`
-- CSS 속성, HTML 태그, JavaScript API 등도 인라인 코드로 표기한다.
-  - 예: `display: flex`, `<br/>`, `console.log`
-
-### 구분자
-
-- 관련 개념을 나란히 소개할 때 가운뎃점(`•`)을 사용한다.
-  - 예: "Access Token • Refresh Token", "memory cache • disk cache"
-
-## 7. 리스트 작성 규칙
-
-- 순서가 중요하지 않은 항목은 `-` (unordered list)를 사용한다.
-- 순서가 있는 절차/단계는 `1. 2. 3.` (ordered list)를 사용한다.
-- 리스트 항목에 하위 설명이 필요하면 들여쓰기한 `-`로 중첩한다.
-- "특징", "종류", "장점/단점" 등의 소제목을 리스트 상위에 `볼드체:` 또는 `텍스트:` 형태로 붙인다.
-
-```md
-- 특징:
-  - 항목 1
-  - 항목 2
-- 종류:
-  - 항목 A
-  - 항목 B
-```
-
-## 8. Q&A 패턴
-
-질의응답 형식이 필요한 경우 다음 포맷을 사용한다:
-
-```md
-Q: 질문 내용
-
-- 답변 내용
-```
-
-## 9. 금지 사항
-
-- 이모지를 사용하지 않는다.
-- 감탄사, 감정 표현을 사용하지 않는다. ("놀랍게도", "정말 중요한" 등)
-- `~습니다`, `~세요`, `~해요` 등의 경어체를 사용하지 않는다.
-- 독자에게 직접 말을 거는 표현을 사용하지 않는다. ("여러분", "우리" 등)
-- 빈 h1 태그를 두 개 이상 사용하지 않는다.
-- 마크다운 볼드체 문법(`**`)은 사용하지 않는다. (일반 텍스트 또는 백틱(`)을 사용한다.)
+- 프론트매터 필드: `folderName` (snake_case, 폴더명과 동일), `title`, `tag` (쉼표 구분), `isPublished`
+- `public/markdown/` 하위 폴더마다 `index.md` 하나; 이미지는 `public/markdown/{folderName}/images/`에 저장
+- 아티클 추가/수정 후 `writeMarkdownMetaList()`를 실행하여 `list.json`을 재생성하고 커밋
+- 말투: 한국어 기술 문서 스타일, 평서형 종결어미(`-다`), 볼드체(`**`) 및 이모지 사용 금지
