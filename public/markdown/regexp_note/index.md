@@ -1,52 +1,61 @@
 ---
 folderName: regexp_note
-title: Regexp Note
+title: Regexp
 tag: regexp
 isPublished: true
 ---
 
-# Regexp Note
+# Regexp
 
-- [positive lookahead](#positive-lookahead)
-- [negative lookahead](#negative-lookahead)
-- [newline](#newline)
-- [이스케이프 패턴](#이스케이프-패턴)
-- [`RegExp.test()`](#regexptest)
-- [`RegExp.exec()`](#regexpexec)
-- [`RegExp.flags`](#regexpflags)
-- [`RegExp.global`](#regexpglobal)
-- [`RegExp.ignoreCase`](#regexpignorecase)
-- [`RegExp.multiline`](#regexpmultiline)
-- [`RegExp.source`](#regexpsource)
-- [`RegExp.lastIndex`](#regexplastindex)
-- [`String.match()`](#stringmatch)
-- [`String.replace()`](#stringreplace)
-- [`String.search()`](#stringsearch)
-- [`String.split()`](#stringsplit)
+- [그룹화 및 캡처(Grouping \& Capturing)](#그룹화-및-캡처grouping--capturing)
+  - [캡처 그룹(Capturing Group)](#캡처-그룹capturing-group)
+  - [비캡처 그룹(Non-capturing Group)](#비캡처-그룹non-capturing-group)
+- [전후방 탐색(Lookaround)](#전후방-탐색lookaround)
+  - [전방 탐색(Lookahead)](#전방-탐색lookahead)
+  - [후방 탐색(Lookbehind)](#후방-탐색lookbehind)
+- [개행 문자(Newline)](#개행-문자newline)
+- [이스케이프 패턴(Escape Pattern)](#이스케이프-패턴escape-pattern)
 
-## positive lookahead
+## 그룹화 및 캡처(Grouping & Capturing)
 
-매칭된 문자열 바로 뒤에 붙는 글자가 `t`인 것을 찾습니다.
+정규 표현식에서 괄호`()`를 사용하여 패턴의 일부를 그룹으로 묶음.
+
+### 캡처 그룹(Capturing Group)
+
+- 패턴의 일부를 `(pattern)` 형태로 묶어 일치하는 부분을 메모리에 저장함.
+- `exec()` 또는 `match()` 메서드 호출 시 결과 배열의 인덱스에 포함됨.
+
+### 비캡처 그룹(Non-capturing Group)
+
+- 패턴을 그룹화하되 메모리에 저장(캡처)하지 않음.
+- 형식: `(?:pattern)`
+- 캡처가 필요 없는 단순 그룹화로 성능을 최적화하고 캡처 인덱스의 혼동을 방지함.
+
+## 전후방 탐색(Lookaround)
+
+특정 패턴의 앞이나 뒤에 오는 문자를 확인하지만, 결과 문자열에는 포함하지 않는 기법임.
+
+### 전방 탐색(Lookahead)
+
+대상 문자열의 오른쪽(앞)을 탐색함.
+
+- 긍정 전방 탐색(Positive Lookahead): `(?=pattern)`. 뒤에 특정 패턴이 오는 경우에만 매칭됨.
+- 부정 전방 탐색(Negative Lookahead): `(?!pattern)`. 뒤에 특정 패턴이 오지 않는 경우에만 매칭됨.
 
 ```text
+// 긍정: 탐색 조건이 패턴 뒤에 위치할 때 (←←←← 방향으로 4자리 탐색)
 /....(?=t)/g
 ←←←←▼
 positive lookahead // 'posi'
-```
 
-매칭된 문자열에서 첫 글자가 `t`인 것을 찾습니다.
-
-```text
+// 긍정: 탐색 조건이 패턴 앞에 위치할 때 (▼→→→ 방향으로 4자리 탐색)
 /(?=t)..../g
     ▼→→→
 positive lookahead // 'tive'
 ```
 
-## negative lookahead
-
-매칭된 문자열 바로 뒤에 붙는 글자가 `t`가 아닌 것을 찾습니다.
-
 ```text
+// 부정: 탐색 조건이 패턴 뒤에 위치할 때
 /....(?!t)/g
 →→→→▼(t를 포함)
 negative lookahead // []
@@ -58,11 +67,8 @@ negative lookahead // ['egat', 'ive ']
 negative lookahead // ['egat', 'ive ', 'look']
              →→→→▼
 negative lookahead // ['egat', 'ive ', 'look', 'ahea']
-```
 
-매칭된 문자열에서 첫 글자가 `t`가 아닌 것을 찾습니다.
-
-```text
+// 부정: 탐색 조건이 패턴 앞에 위치할 때
 /(?!t)..../g
 ▼→→→
 negative lookahead // ['nega']
@@ -76,138 +82,90 @@ negative lookahead // ['nega', 'ive ', 'look']
 negative lookahead // ['nega', 'ive ', 'look', 'ahea']
 ```
 
-## newline
-
-- `\n`을 사용해서 검색
-- `.`은 `\n`을 포함하지 않는 모든 문자를 의미
-- `\W`, `\D`, `\s`는 `\n`을 포함
-- `\w`, `\d`, `\S`는 `\n`을 포함하지 않음
-
-## 이스케이프 패턴
-
-| 의도         | 정규식 리터럴 | 문자열 패턴               |
-| ------------ | ------------- | ------------------------- |
-| 숫자         | `/\d/`        | `'\\d'`                   |
-| 마침표(.)    | `/\./`        | `'\\.'`                   |
-| 슬래시(/)    | `/\//`        | `'/'` (이스케이프 불필요) |
-| 백슬래시(\\) | `/\\/`        | `'\\\\'` (4개!)           |
-| 단어 경계    | `/\b/`        | `'\\b'`                   |
-| 공백         | `/\s/`        | `'\\s'`                   |
-
-## `RegExp.test()`
-
-패턴이 문자열과 일치하는지 boolean 값으로 반환
-
 ```ts
-const regex = /hello/i;
-console.log(regex.test('Hello World')); // true
-console.log(regex.test('Hi there')); // false
+// 긍정: 단위(px)가 붙은 숫자만 추출
+//
+//  "100px"   "200em"   "300px"
+//   ^^^                 ^^^
+//   매칭                매칭     ("px" 앞의 숫자만 반환, "px"는 결과에 포함되지 않음)
+
+const pos = /\d+(?=px)/g;
+'100px 200em 300px'.match(pos); // ['100', '300']
 ```
 
-## `RegExp.exec()`
-
-일치하는 정보를 배열로 반환 (일치하지 않으면 null)
-
 ```ts
-const regex = /(\d{4})-(\d{2})-(\d{2})/;
-const result = regex.exec('2024-12-25');
-// ['2024-12-25', '2024', '12', '25', index: 0, input: '2024-12-25', groups: undefined]
+// 부정: 단위(px)가 붙지 않은 숫자만 추출
+//
+//  "100px"   "200em"   "300px"
+//             ^^^
+//             매칭      ("px"가 없는 숫자만 반환)
+
+const neg = /\d+(?!px)/g;
+'100px 200em 300px'.match(neg); // ['10', '200', '30']
+// 주의: '100px'에서 '10'이 매칭됨 — '0' 뒤에는 'px'가 없기 때문
 ```
 
-## `RegExp.flags`
-
-정규 표현식의 플래그를 문자열로 반환
+전방 탐색은 패턴 맨 앞에 위치시킬 수도 있다. 문자를 소비하지 않는 특성을 이용해 동일한 시작 위치에서 여러 조건을 동시에 검사할 때 유용함.
 
 ```ts
-const regex = /hello/gim;
-console.log(regex.flags); // 'gim'
+// 비밀번호 유효성 검사:
+// 대문자 포함, 숫자 포함, 8자 이상을 동시에 검사
+//
+// (?=.*[A-Z])  → 어딘가에 대문자가 있는지 확인 (위치 이동 없음)
+// (?=.*\d)     → 어딘가에 숫자가 있는지 확인  (위치 이동 없음)
+// .{8,}        → 실제 매칭: 8자 이상
+
+const password = /(?=.*[A-Z])(?=.*\d).{8,}/;
+
+password.test('abcdefgh'); // false — 대문자, 숫자 없음
+password.test('Abcdefgh'); // false — 숫자 없음
+password.test('Abcdefg1'); // true
 ```
 
-## `RegExp.global`
+### 후방 탐색(Lookbehind)
 
-전역 검색 플래그(g)의 유무를 boolean으로 반환
+대상 문자열의 왼쪽(뒤)을 탐색함.
+
+- 긍정 후방 탐색(Positive Lookbehind): `(?<=pattern)`. 앞에 특정 패턴이 있는 경우에만 매칭됨.
+- 부정 후방 탐색(Negative Lookbehind): `(?<!pattern)`. 앞에 특정 패턴이 없는 경우에만 매칭됨.
 
 ```ts
-const regex = /hello/g;
-console.log(regex.global); // true
+// 긍정: '$' 기호 뒤의 숫자만 추출
+//
+//  "$100"   "200"   "€300"
+//    ^^^
+//    매칭             ("$" 뒤의 숫자만 반환, "$"는 결과에 포함되지 않음)
+
+const pos = /(?<=\$)\d+/g;
+'$100 200 €300'.match(pos); // ['100']
 ```
-
-## `RegExp.ignoreCase`
-
-대소문자 무시 플래그(i)의 유무를 boolean으로 반환
 
 ```ts
-const regex = /hello/i;
-console.log(regex.ignoreCase); // true
+// 부정: '$' 기호가 없는 숫자만 추출
+//
+//  "$100"   "200"   "€300"
+//            ^^^      ^^^
+//            매칭     매칭
+
+const neg = /(?<!\$)\d+/g;
+'$100 200 €300'.match(neg); // ['200', '300']
 ```
 
-## `RegExp.multiline`
+## 개행 문자(Newline)
 
-멀티라인 플래그(m)의 유무를 boolean으로 반환
+- `\n`을 사용하여 검색함.
+- 마침표(`.`)는 기본적으로 `\n`을 포함하지 않는 모든 문자를 의미함.
+- `\W`, `\D`, `\s`는 `\n`을 포함함.
+- `\w`, `\d`, `\S`는 `\n`을 포함하지 않음.
 
-```ts
-const regex = /^hello/m;
-console.log(regex.multiline); // true
-```
+## 이스케이프 패턴(Escape Pattern)
 
-## `RegExp.source`
+특수 문자를 문자로 인식시키기 위해 백슬래시(`\`)를 사용함.
 
-정규 표현식의 패턴 문자열을 반환
-
-```ts
-const regex = /hello/gi;
-console.log(regex.source); // 'hello'
-```
-
-## `RegExp.lastIndex`
-
-다음 검색을 시작할 인덱스 (global 플래그와 함께 사용)
-
-```ts
-const regex = /\d+/g;
-const str = '123 456 789';
-console.log(regex.exec(str)); // ['123', ...]
-console.log(regex.lastIndex); // 3
-console.log(regex.exec(str)); // ['456', ...]
-console.log(regex.lastIndex); // 7
-```
-
-## `String.match()`
-
-문자열에서 정규 표현식과 일치하는 부분을 찾음
-
-```ts
-const str = 'The price is $100 and $200';
-const regex = /\$(\d+)/g;
-console.log(str.match(regex)); // ['$100', '$200']
-```
-
-## `String.replace()`
-
-일치하는 부분을 다른 문자열로 치환
-
-```ts
-const str = 'Hello World';
-const regex = /world/i;
-console.log(str.replace(regex, 'JavaScript')); // 'Hello JavaScript'
-```
-
-## `String.search()`
-
-일치하는 첫 번째 위치의 인덱스를 반환
-
-```ts
-const str = 'Hello World';
-const regex = /world/i;
-console.log(str.search(regex)); // 6
-```
-
-## `String.split()`
-
-정규 표현식을 구분자로 사용하여 문자열을 분할
-
-```ts
-const str = 'apple,banana;orange:grape';
-const regex = /[,;:]/;
-console.log(str.split(regex)); // ['apple', 'banana', 'orange', 'grape']
-```
+| 의도         | 정규식 리터럴 | 문자열 패턴 |
+| ------------ | ------------- | ----------- |
+| 숫자         | `/\d/`        | `'\\d'`     |
+| 마침표(.)    | `/\./`        | `'\\.'`     |
+| 슬래시(/)    | `/\//`        | `'/'`       |
+| 백슬래시(\\) | `/\\/`        | `'\\\\'`    |
+| 단어 경계    | `/\b/`        | `'\\b'`     |
