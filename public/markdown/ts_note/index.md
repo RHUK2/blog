@@ -5,479 +5,272 @@ tag: typescript
 isPublished: true
 ---
 
-# Typescript Note
+# TypeScript 핵심 노트(TypeScript Core Note)
 
-- [타입은 집합이다](#타입은-집합이다)
-  - [`any`](#any)
-  - [`unknown`](#unknown)
-  - [`never`](#never)
-  - [유니온(`|`) 타입 • 인터섹션(`&`) 타입](#유니온-타입--인터섹션-타입)
-- [옵셔널 프로퍼티](#옵셔널-프로퍼티)
-- [분배적 조건부 타입](#분배적-조건부-타입)
-- [`declare`](#declare)
-- [`ReturnType`](#returntype)
-- [`null` • `undefined` 한번에 체크하기](#null--undefined-한번에-체크하기)
-- [`extends` 키워드](#extends-키워드)
-  - [인터페이스 확장](#인터페이스-확장)
-  - [제네릭 제약 (Generic Constraints)](#제네릭-제약-generic-constraints)
-  - [조건부 타입 (Conditional Types)](#조건부-타입-conditional-types)
-  - [infer 키워드와 함께 사용](#infer-키워드와-함께-사용)
-- [`Promise<T>`](#promiset)
-- [`as const`](#as-const)
-  - [주요 동작](#주요-동작)
-  - [활용 예시](#활용-예시)
-  - [주의사항](#주의사항)
+- [타입 시스템과 집합론](#타입-시스템과-집합론)
+  - [any vs unknown](#any-vs-unknown)
+  - [never 타입](#never-타입)
+  - [유니온(|)과 인터섹션(\&)](#유니온과-인터섹션)
+- [제네릭(Generics)의 유연성](#제네릭generics의-유연성)
+- [타입 가드(Type Guards)와 is 키워드](#타입-가드type-guards와-is-키워드)
+- [조건부 타입(Conditional Types)](#조건부-타입conditional-types)
+- [타입 단언(as) vs 타입 검증(satisfies)](#타입-단언as-vs-타입-검증satisfies)
+- [기타 유틸리티 및 키워드](#기타-유틸리티-및-키워드)
+- [인덱스 시그니처(Index Signature)와 맵드 타입(Mapped Type)](#인덱스-시그니처index-signature와-맵드-타입mapped-type)
+  - [인덱스 시그니처(Index Signature)](#인덱스-시그니처index-signature)
+  - [맵드 타입(Mapped Type)](#맵드-타입mapped-type)
+  - [비교](#비교)
 
-## 타입은 집합이다
+## 타입 시스템과 집합론
+
+TypeScript의 타입 시스템은 집합론을 기반으로 설계되었다. 상위 집합(Supertype)에는 하위 집합(Subtype)을 할당할 수 있지만, 반대의 경우는 불가능함.
 
 ![img](images/type_hierarchy.png)
 
-- 위 계층도는 타입스크립트 컴파일러 옵션 중 `strictNullCheck` 옵션이 `true`인 경우에 해당한다.
-- 타입을 집합으로 생각하면 상위 집합에 하위 집합을 할당할 수 있지만, 하위 집합에 상위 집합은 할당 불가능하다.
+### any vs unknown
 
-### `any`
+두 타입 모두 모든 값을 허용하는 전체 집합이지만, 타입 안정성 측면에서 결정적인 차이가 있다.
 
-- `any`는 `unknown`을 제외하면 전체 집합이고, 다른 모든 타입의 상위 타입이기 때문에 다른 모든 타입은 `any`로 할당 가능하다.
+- `any`:
+  - 타입 검사를 완전히 비활성화하는 탈출구임.
+  - 어떤 타입의 변수에도 할당 가능하며, 속성 접근이나 메서드 호출 시 아무런 제약이 없음.
+  - 타입 안정성을 파괴하므로 사용을 지양해야 한다.
+- `unknown`:
+  - `any`와 마찬가지로 모든 값을 받을 수 있지만, 사용 전 반드시 타입을 좁혀야 함.
+  - 타입 가드나 타입 단언 없이 속성에 접근하거나 함수로 호출할 수 없음.
+  - `any`보다 안전한 대안으로, 알 수 없는 데이터(예: API 응답)를 다룰 때 권장됨.
 
 ```ts
-  const a: any = 1; // number -> any
-  const b: any = 'hello'; // string -> any
-  const c: any = true; // boolean -> any
-  const d: any = null; // null -> any
-  const e: any = undefined; // undefined -> any
-  const f: any = []; // Array -> any
-  const g: any = {}; // Object -> any
-  const h: any = () => {}; // Function -> any
-  ...
+let a: any = 'hello';
+a.toFixed(); // 컴파일 에러 없음 — 런타임 에러 발생 가능
+
+let u: unknown = 'hello';
+// ❌ incorrect: 타입 좁히기 없이 접근 불가
+u.toUpperCase();
+
+// ✅ correct: typeof 타입 가드로 좁힌 후 접근
+if (typeof u === 'string') {
+  u.toUpperCase();
+}
 ```
 
-- `any`는 타입 시스템의 제약을 제거하므로, 타입 안정성을 포기해야 한다. 가능한 사용을 피해야한다.
+### never 타입
 
-### `unknown`
-
-- `unknown`은 전체 집합이고, 다른 모든 타입의 상위 타입이기 때문에 다른 모든 타입은 `unknown`으로 할당 가능하다.
-
-  ```ts
-  const a: unknown = 1; // number -> unknown
-  const b: unknown = 'hello'; // string -> unknown
-  const c: unknown = true; // boolean -> unknown
-  const d: unknown = null; // null -> unknown
-  const e: unknown = undefined; // undefined -> unknown
-  const f: unknown = []; // Array -> unknown
-  const g: unknown = {}; // Object -> unknown
-  const h: unknown = () => {}; // Function -> unknown
-  ...
-  ```
-
-- 예외적으로 `any` 타입으로 다운캐스팅이 가능하다.
-
-  ```ts
-  let ANY: any;
-  let UNKNOWN: unknown;
-
-  ANY = UNKNOWN; // unknown -> any
-  ```
-
-- `unknown` 타입의 경우 타입 가드를 통해 타입을 좁혀주어야 하기 때문에 타입 안정성이 존재한다.
-
-  ```ts
-  try {
-    // ...
-  } catch (error) {
-    if (error instanceof TypeError) {
-      // ...
-    } else if (error instanceof ReferenceError) {
-      // ...
-    } else {
-      // ...
-    }
-  }
-  ```
-
-### `never`
-
-- `never`는 공집합이고, 다른 모든 타입의 하위 타입이기 때문에 다른 모든 타입으로 할당 가능하다.
-
-  ```ts
-  function throwError(message: string): never {
-    throw new Error(message);
-  }
-
-  let neverVar: never = throwError('error');
-
-  const a: number = neverVar; // never -> number
-  const b: string = neverVar; // never -> string
-  const c: boolean = neverVar; // never -> boolean
-  const d: null = neverVar; // never -> null
-  const e: undefined = neverVar; // never -> undefined
-  const f: [] = neverVar; // never -> Array
-  const g: {} = neverVar; // never -> Object
-  const h: () => {} = neverVar; // never -> Function
-  ...
-  ```
-
-- `never` 타입은 결코 발생할 수 없는 값을 나타내며, 주로 예외를 던지거나 무한 루프를 표현할 때 사용된다.
-
-  ```ts
-  // 함수가 오류를 발생시킬 때:
-  function throwError(message: string): never {
-    throw new Error(message);
-  }
-  ```
-
-  ```ts
-  // 함수가 무한 루프를 돌 때:
-  function infiniteLoop(): never {
-    while (true) {}
-  }
-  ```
-
-  ```ts
-  // 타입에 따라 절대 발생하지 않을 케이스를 처리할 때:
-  type SomeType = 'A' | 'B';
-
-  function handleType(x: SomeType): string {
-    switch (x) {
-      case 'A':
-        return 'Type A';
-      case 'B':
-        return 'Type B';
-      default:
-        const check: never = x;
-        return check;
-    }
-  }
-  ```
-
-- `never` 타입을 이용하여 코드를 작성할 때, 모든 가능한 케이스를 처리하고 있음을 보장할 수 있다. 이로 인해 코드의 안전성과 예측 가능성이 향상된다.
-
-### 유니온(`|`) 타입 • 인터섹션(`&`) 타입
+- 결코 발생할 수 없는 값을 의미하는 공집합이다.
+- 모든 타입의 하위 타입이며, 어떤 값도 `never` 타입에 할당될 수 없음.
+- 주로 예외를 던지는 함수의 반환 타입이나, `switch` 문의 `default` 케이스에서 모든 타입을 처리했음을 보장(Exhaustiveness Check)할 때 사용함.
 
 ```ts
-type Type1 = number | string; // 서로소 합집합
-function foo1(bar1: Type1) {
-  // bar1 : number | string(타입 좁히기 전 공통메서드 사용 가능)
-  if (typeof bar1 === 'number') {
-    // bar1: number
-  } else if (typeof bar1 === 'string') {
-    // bar1: string
+// 예외를 던지는 함수는 정상적으로 값을 반환하지 않으므로 반환 타입이 never
+function throwError(message: string): never {
+  throw new Error(message);
+}
+
+// Exhaustiveness Check: Shape에 새 케이스가 추가되면 컴파일 에러로 누락을 감지
+type Shape = 'circle' | 'square' | 'triangle';
+
+function getArea(shape: Shape): number {
+  switch (shape) {
+    case 'circle':
+      return Math.PI;
+    case 'square':
+      return 1;
+    case 'triangle':
+      return 0.5;
+    default:
+      const _check: never = shape; // 모든 케이스를 처리했으므로 never 할당 가능
+      return _check;
+  }
+}
+```
+
+### 유니온(|)과 인터섹션(&)
+
+- 유니온(Union): 여러 타입 중 하나일 수 있음을 나타내는 합집합임. 공통된 프로퍼티에만 접근 가능하며, 개별 프로퍼티 접근을 위해서는 타입 좁히기가 필요함.
+- 인터섹션(Intersection): 여러 타입을 모두 만족해야 하는 교집합임. 객체 타입을 결합하여 새로운 타입을 생성할 때 유용하다.
+
+```ts
+type Admin = { role: 'admin'; permissions: string[] };
+type Member = { name: string; email: string };
+
+// 유니온: Admin 또는 Member
+type AdminOrMember = Admin | Member;
+
+function greet(person: AdminOrMember) {
+  // ❌ incorrect: 공통 프로퍼티가 아니므로 접근 불가
+  // person.name;
+
+  // ✅ correct: in 연산자로 타입을 좁힌 후 접근
+  if ('role' in person) {
+    console.log(person.permissions);
   } else {
-    const never: never = bar1;
-    return never;
+    console.log(person.name);
   }
 }
 
-type Type2 = number & string; // 서로소 교집합(공집합)
-function foo2(bar2: Type2) {
-  const never: never = bar2;
-  return never;
-}
+// 인터섹션: Admin과 Member를 모두 만족
+type AdminMember = Admin & Member;
 
-type Type3 = 3 | number; // 상위/하위집합 합집합
-function foo3(bar3: Type3) {
-  if (typeof bar3 === 'number') {
-    // bar3: number
-  } else {
-    const never: never = bar3;
-    return never;
-  }
-}
-
-type Type4 = 3 & number; // 상위/하위집합 교집합
-function foo4(bar4: Type4) {
-  if (bar4 === 3) {
-    // bar4: 3
-  } else {
-    const never: never = bar4;
-    return never;
-  }
-}
-
-interface A {
-  a: number;
-  b: number;
-  c: number;
-}
-
-interface B {
-  a: number;
-  b: string;
-  d: number;
-}
-
-type Type5 = A | B; // 합집합
-function foo5(bar5: Type5) {
-  // bar5.a: number
-  // bar5.b: number | string(타입 좁히기 전 공통메서드 사용 가능)
-  if ('c' in bar5) {
-    // bar5: interface A
-  } else if ('d' in bar5) {
-    // bar5: interface B
-  } else {
-    const never: never = bar5;
-    return never;
-  }
-}
-
-type Type6 = A & B; // 교집합
-function foo6(bar6: Type6) {
-  // bar6.a: number
-  // bar6.b: never
-  // bar6.c: number
-  // bar6.d: number
-}
-
-interface C {
-  x: number;
-}
-
-interface D {
-  x: number;
-  y: number;
-}
-
-type Type7 = C | D; // 상위/하위집합 합집합
-function foo7(bar7: Type7) {
-  // bar7.x: number
-}
-
-type Type8 = C & D; // 상위/하위집합 교집합
-function foo8(bar8: Type8) {
-  // bar8.x: number
-  // bar8.y: number
-}
+const adminMember: AdminMember = {
+  role: 'admin',
+  permissions: ['read', 'write'],
+  name: 'Alice',
+  email: 'alice@example.com',
+};
 ```
 
-## 옵셔널 프로퍼티
+## 제네릭(Generics)의 유연성
 
-타입스크립트에서 옵셔널 프로퍼티(`?`)는 해당 변수가 `undefined`일 수 있다는 것을 유니온 타입으로 정의해준다.
-
-`null` 타입은 적용되지 않으므로 따로 유니온 타입으로 정의해주어야 한다.
-
-```ts
-interface Person {
-  name: string;
-  age?: number; // number | undefined
-  hobby?: string | null; // number | null | undefined
-}
-```
-
-옵셔널 프로퍼티가 정의된 매개변수에는 초기값을 부여할 수 없다. 초기값을 부여하려면 옵셔널 프로퍼티를 제거하고 정의해야 한다.
+- 제네릭(Generics)은 타입을 파라미터처럼 사용하여 재사용성을 높이는 기법이다.
+- 특정 타입에 고정되지 않고, 함수나 클래스 호출 시점에 타입을 결정할 수 있는 유연성을 제공함.
+- `extends` 키워드를 사용하여 제네릭에 제약 조건을 추가함으로써 특정 구조를 가진 타입만 허용할 수 있다.
 
 ```ts
-function init(a: number , b?: number = 0) {
-  ...
-} // ❌
-
-function init(a: number, b: number = 0) {
-  ...
-} // ⭕
-```
-
-## 분배적 조건부 타입
-
-조건부 타입은 분배적으로 동작한다. 분배적 조건부 타입은 유니온 타입에서 각 구성 요소에 대해 개별적으로 조건부 타입을 적용한다.
-
-```ts
-// Exclude null and undefined from T
-type NonNullable<T> = T extends null | undefined ? never : T;
-
-type Example = NonNullable<string | undefined | null>;
-// typeof Example === 'string'
-```
-
-## `declare`
-
-- `declare`는 타입 정보만 제공하며, 실제 구현은 포함하지 않는다.
-- `declare` 없이 타입을 정의하면, TypeScript는 해당 코드가 구현되어 있다고 가정한다.
-
-사용 예시:
-
-- 외부 자바스크립트 라이브러리의 타입 선언
-
-  ```ts
-  declare module 'my-library' {
-    export function doSomething(): void;
-  }
-  ```
-
-- 전역 스코프에 존재하는 변수나 함수의 타입을 선언
-
-  ```ts
-  declare const Kakao: Kakao;
-
-  declare const turnstile: Turnstile.Turnstile;
-  ```
-
-- 타입 정의 파일(`.d.ts`)에서 사용
-
-|             | `.ts`                             | `.d.ts`                          |
-| ----------- | --------------------------------- | -------------------------------- |
-| 내용        | 실제 구현 코드와 타입 정보를 포함 | 타입 정보만 포함                 |
-| 컴파일 대상 | JavaScript로 컴파일됨             | 컴파일되지 않음 타입 정보만 제공 |
-
-## `ReturnType`
-
-`ReturnType`은 함수 타입으로부터 반환 타입을 추론하는 데 사용된다. 즉, 특정 함수가 반환하는 값의 타입을 추출한다.
-
-```ts
-type returnFuncType = ReturnType<typeof func>;
-```
-
-실무 사용 사례:
-
-브라우저의 Web API와 Node.js의 환경에 따라 `setTimeout`이 반환하는 값이 다를 수 있다.
-
-- 브라우저 환경에서는 `setTimeout`이 `number`를 반환한다. (`timer ID`: 특정 타이머를 식별하기 위한 숫자)
-- Node.js 환경에서는 `setTimeout`이 `NodeJS.Timeout` 객체를 반환한다.
-
-`ReturnType<typeof setTimeout>`을 사용하면 환경에 따른 반환 타입 차이를 자동으로 처리할 수 있다.
-
-```ts
-type TimerType = ReturnType<typeof setTimeout>;
-
-let timer: TimerType;
-
-timer = setTimeout(() => console.log('Hello'), 1000);
-
-clearTimeout(timer);
-```
-
-## `null` • `undefined` 한번에 체크하기
-
-```ts
-const temp = null;
-
-if (temp == null) {
-  console.log(temp); // null
-}
-```
-
-```ts
-const temp = undefined;
-
-if (temp == null) {
-  console.log(temp); // undefined
-}
-```
-
-## `extends` 키워드
-
-TypeScript에서 `extends` 키워드는 상속, 제네릭 제약, 조건부 타입 등 다양한 용도로 사용된다.
-
-### 인터페이스 확장
-
-```ts
-interface Shape {
-  color: string;
-}
-
-interface Square extends Shape {
-  sideLength: number;
-}
-
-// 다중 확장
-interface ColoredSquare extends Shape, Square {
-  border: string;
-}
-```
-
-### 제네릭 제약 (Generic Constraints)
-
-```ts
-// T는 반드시 length 프로퍼티를 가져야 함
-function logLength<T extends { length: number }>(arg: T): T {
+// T는 반드시 length 속성을 가진 객체여야 함
+function logSize<T extends { length: number }>(arg: T): void {
   console.log(arg.length);
-  return arg;
-}
-
-// keyof를 사용한 제약
-function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key];
-}
-
-const person = { name: 'John', age: 30 };
-const name = getProperty(person, 'name'); // string
-```
-
-### 조건부 타입 (Conditional Types)
-
-```ts
-// T가 string을 확장하면 true, 아니면 false
-type IsString<T> = T extends string ? true : false;
-
-type Test1 = IsString<string>; // true
-type Test2 = IsString<number>; // false
-
-// 유틸리티 타입 구현 예시
-type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
-type MyParameters<T> = T extends (...args: infer P) => any ? P : never;
-```
-
-### infer 키워드와 함께 사용
-
-```ts
-// 배열 요소 타입 추출
-type ArrayElement<T> = T extends (infer U)[] ? U : never;
-type StringArray = ArrayElement<string[]>; // string
-
-// Promise 내부 타입 추출
-type Awaited<T> = T extends Promise<infer U> ? U : T;
-type PromiseString = Awaited<Promise<string>>; // string
-```
-
-## `Promise<T>`
-
-`Promise<T>`는 비동기 작업의 완료 또는 실패를 나타내는 객체로, `T`는 비동기 작업이 성공했을 때 반환되는 값의 타입을 나타낸다.
-
-## `as const`
-
-`as const`는 값의 타입을 최대한 좁게 추론하고 읽기 전용으로 만드는 타입 단언이다.
-
-### 주요 동작
-
-1. 리터럴 타입 추론: 값을 구체적인 리터럴 타입으로 추론
-
-```ts
-let str = 'hello'; // string
-let constStr = 'hello' as const; // "hello"
-
-let arr = [1, 2, 3]; // number[]
-let constArr = [1, 2, 3] as const; // readonly [1, 2, 3]
-```
-
-2. 읽기 전용 속성: 객체와 배열을 재귀적으로 읽기 전용으로 만듦
-
-```ts
-const obj = { name: 'Alice', skills: ['TypeScript'] } as const;
-// obj.name = 'Bob'; // Error: readonly property
-// obj.skills.push('React'); // Error: readonly array
-```
-
-### 활용 예시
-
-유니언 타입 생성:
-
-```ts
-const COLORS = ['red', 'green', 'blue'] as const;
-type Color = (typeof COLORS)[number]; // "red" | "green" | "blue"
-```
-
-불변 설정 객체:
-
-```ts
-const config = {
-  debugMode: false,
-  settings: ['log', 'cache'],
-} as const;
-
-function processConfig(config: typeof config) {
-  // 안전한 읽기 전용 접근
 }
 ```
 
-### 주의사항
+## 타입 가드(Type Guards)와 is 키워드
 
-- 컴파일 시점에만 작동 (런타임에는 일반 객체)
-- 리터럴 값에만 적용 가능
-- 변수에 직접 적용하면 효과 없음
+- 타입 가드(Type Guards)는 런타임에 값의 타입을 확인하여 타입을 좁히는 메커니즘이다.
+- `typeof`, `instanceof`, `in` 연산자를 주로 사용함.
+- 사용자 정의 타입 가드: `is` 키워드를 사용하여 함수가 특정 타입을 확인했음을 컴파일러에게 명시적으로 알릴 수 있다.
+
+```ts
+interface Cat {
+  meow(): void;
+}
+interface Dog {
+  bark(): void;
+}
+
+// 사용자 정의 타입 가드 함수
+function isCat(animal: Cat | Dog): animal is Cat {
+  return (animal as Cat).meow !== undefined;
+}
+
+function speak(animal: Cat | Dog) {
+  if (isCat(animal)) {
+    animal.meow(); // 여기서 animal은 Cat으로 추론됨
+  } else {
+    animal.bark(); // 여기서 animal은 Dog로 추론됨
+  }
+}
+```
+
+## 조건부 타입(Conditional Types)
+
+- 입력 타입에 따라 출력 타입을 결정하는 로직을 타입 시스템에 포함함.
+- `T extends U ? X : Y` 형식을 사용하며, 분배적 특성을 활용해 유니온 타입의 각 요소를 순회하며 적용할 수 있다.
+
+```ts
+type TypeLabel<T> = T extends string ? 'text' : T extends number ? 'number' : 'other';
+
+type A = TypeLabel<string>; // 'text'
+type B = TypeLabel<number>; // 'number'
+type C = TypeLabel<boolean>; // 'other'
+
+// 유니온 타입에 분배적으로 적용됨
+type D = TypeLabel<string | number>; // 'text' | 'number'
+```
+
+## 타입 단언(as) vs 타입 검증(satisfies)
+
+- `as` (Type Assertion): 개발자가 컴파일러에게 해당 타입을 강제로 주입함. 추론된 타입 정보가 무시될 수 있어 런타임 에러 위험이 존재함.
+- `satisfies`: 특정 타입을 만족하는지 검증하면서도, 구체적으로 추론된 타입 정보(Literal Type 등)를 그대로 유지함. 타입 안정성을 유지하면서 더 정밀한 타입 추론이 가능하다.
+
+```ts
+// as: red의 타입이 string | number[]로 넓혀져 배열 메서드 접근 불가
+const paletteAs = {
+  red: [255, 0, 0],
+  green: '#00ff00',
+} as Record<string, string | number[]>;
+
+// ❌ incorrect: red가 string | number[]로 추론되어 .map 사용 불가
+paletteAs.red.map((v) => v * 2);
+
+// satisfies: 타입 검증은 하되 구체적인 추론 타입(number[])을 유지
+const palette = {
+  red: [255, 0, 0],
+  green: '#00ff00',
+} satisfies Record<string, string | number[]>;
+
+// ✅ correct: red가 number[]로 추론되어 .map 사용 가능
+palette.red.map((v) => v * 2);
+```
+
+## 기타 유틸리티 및 키워드
+
+- `ReturnType<T>`: 함수의 반환 타입을 추출함.
+
+```ts
+function fetchUser() {
+  return { id: 1, name: 'Alice' };
+}
+
+type UserResult = ReturnType<typeof fetchUser>; // { id: number; name: string }
+```
+
+- `declare`: 외부 라이브러리나 전역 변수의 존재를 알리는 선언문임. 실제 구현 없이 타입 정보만 컴파일러에게 제공한다.
+
+```ts
+// 빌드 도구가 런타임에 주입하는 전역 변수 선언
+declare const __APP_VERSION__: string;
+declare function externalLogger(message: string): void;
+```
+
+- `infer`: 조건부 타입 내에서 타입을 추론하여 변수처럼 사용할 수 있게 함.
+
+```ts
+// 함수의 첫 번째 파라미터 타입을 추출하는 유틸리티 타입
+type FirstParam<T> = T extends (first: infer P, ...rest: any[]) => any ? P : never;
+
+function greet(name: string, age: number) {}
+type Name = FirstParam<typeof greet>; // string
+```
+
+## 인덱스 시그니처(Index Signature)와 맵드 타입(Mapped Type)
+
+### 인덱스 시그니처(Index Signature)
+
+- 객체의 키가 미리 정해지지 않았을 때, 키와 값의 타입을 일괄 정의하는 방법이다.
+- 키 타입은 `string`, `number`, `symbol`만 사용 가능함.
+- 동적 키를 가진 객체를 다룰 때 유용하다.
+
+```ts
+interface Scores {
+  [name: string]: number;
+}
+
+const scores: Scores = { alice: 90, bob: 85 };
+scores['charlie'] = 88; // 가능
+```
+
+- 주의: 인덱스 시그니처를 사용하면 명시적으로 선언한 다른 프로퍼티도 같은 값 타입을 따라야 함.
+
+### 맵드 타입(Mapped Type)
+
+- 기존 타입의 키를 순회하여 새로운 타입을 생성하는 방법이다.
+- `keyof`와 `in` 키워드를 조합하여 사용함.
+- TypeScript 내장 유틸리티 타입(`Readonly<T>`, `Partial<T>`, `Record<K, T>` 등)이 맵드 타입으로 구현되어 있다.
+
+```ts
+type User = { id: string; name: string; age: number };
+
+// 모든 프로퍼티를 선택적으로 변환 (Partial<T>와 동일)
+type PartialUser = { [K in keyof User]?: User[K] };
+
+// 모든 프로퍼티를 읽기 전용으로 변환 (Readonly<T>와 동일)
+type ReadonlyUser = { readonly [K in keyof User]: User[K] };
+```
+
+### 비교
+
+| 항목        | 인덱스 시그니처                   | 맵드 타입                          |
+| ----------- | --------------------------------- | ---------------------------------- |
+| 목적        | 동적 키의 타입 일괄 정의          | 기존 타입을 변형하여 새 타입 생성  |
+| 키 타입     | `string`, `number`, `symbol` 고정 | `keyof`로 기존 타입의 키를 추론    |
+| 타입 정밀도 | 모든 키에 동일한 타입 적용        | 기존 타입의 각 키별 타입 유지 가능 |
+| 예시        | `[key: string]: number`           | `[K in keyof T]: T[K]`             |

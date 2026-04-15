@@ -1,239 +1,193 @@
 ---
 folderName: security_sop
-title: Same Origin Policy
+title: 동일 출처 정책(Same Origin Policy)과 CORS
 tag: security
 isPublished: true
 ---
 
-# Same Origin Policy
+# 동일 출처 정책(Same Origin Policy)과 CORS
 
-- [동일 출처 정책(Same Origin Policy)이란?](#동일-출처-정책same-origin-policy이란)
-- [교차 출처로 삽입할 수 있는 리소스](#교차-출처로-삽입할-수-있는-리소스)
-  - [컨텐츠 보안 정책(Content Security Policy)으로 교차 출처 삽입 접근 제어](#컨텐츠-보안-정책content-security-policy으로-교차-출처-삽입-접근-제어)
-- [교차 출처 읽기를 허용하기 위한 교차 출처 자원 공유(Cross-Origin Resource Sharing)](#교차-출처-읽기를-허용하기-위한-교차-출처-자원-공유cross-origin-resource-sharing)
-  - [첫 번째 시나리오 - 단순 요청 (Simple Request)](#첫-번째-시나리오---단순-요청-simple-request)
-  - [두 번째 시나리오 - 사전 요청 (Preflight Request)](#두-번째-시나리오---사전-요청-preflight-request)
-  - [세 번째 시나리오 - 자격 증명을 포함한 요청 (Credentialed Request)](#세-번째-시나리오---자격-증명을-포함한-요청-credentialed-request)
-  - [CORS 헤더 상세](#cors-헤더-상세)
+- [동일 출처 정책(Same Origin Policy) 개요](#동일-출처-정책same-origin-policy-개요)
+- [출처(Origin)의 정의](#출처origin의-정의)
+  - [동일 출처 vs 교차 출처 예시](#동일-출처-vs-교차-출처-예시)
+  - [허용 및 제한 범위](#허용-및-제한-범위)
+- [교차 출처 리소스 공유(CORS)](#교차-출처-리소스-공유cors)
+  - [단순 요청(Simple Request)](#단순-요청simple-request)
+  - [사전 요청(Preflight Request)](#사전-요청preflight-request)
+  - [인증 정보를 포함한 요청(Credentialed Request)](#인증-정보를-포함한-요청credentialed-request)
+- [CORS 에러 디버깅](#cors-에러-디버깅)
 
-## 동일 출처 정책(Same Origin Policy)이란?
+## 동일 출처 정책(Same Origin Policy) 개요
 
-- 동일 출처 정책은 어떤 출처에서 불러온 문서나 스크립트가 다른 출처에서 가져온 리소스와 상호 작용할 수 있는 방법을 제한하는 중요한 보안 메커니즘이다.
-- 출처는 프로토콜, 호스트, 포트로 구성된다. 이 세 가지가 동일한 경우에만 두 URL은 동일한 출처로 간주된다.
-- 브라우저에서만 적용되는 정책이기에 서버 간의 통신에선 적용되지 않는다.
+동일 출처 정책(SOP)은 특정 출처에서 로드된 문서나 스크립트가 다른 출처의 자원과 상호작용하는 방식을 제한하는 브라우저의 핵심 보안 메커니즘이다.
+
+SOP가 없을 때 발생할 수 있는 공격 시나리오는 다음과 같다.
+
+1. 사용자가 `bank.com`에 로그인하여 세션 쿠키가 저장됨.
+2. 사용자가 악성 사이트 `evil.com`을 방문함.
+3. `evil.com`의 스크립트가 `bank.com/api/transfer`에 요청을 전송함.
+4. 브라우저가 자동으로 세션 쿠키를 첨부하여 인증된 요청이 성립됨.
+
+SOP는 3~4 단계에서 교차 출처 읽기를 차단하여 이러한 공격을 방지한다.
+
+- 브라우저 환경에서만 강제되며, 서버 간 통신(Server-to-Server)에는 적용되지 않음.
+- `curl`, `Postman` 등 브라우저 외부 도구는 SOP의 영향을 받지 않음.
+
+## 출처(Origin)의 정의
+
+출처는 프로토콜(Protocol) · 호스트(Host) · 포트(Port)의 조합으로 결정된다. 세 가지 요소가 모두 일치해야 동일 출처로 간주한다.
 
 ![img](images/origin.gif)
 
-- 교차 출처 쓰기 허용(링크, 리다이렉트, 기본동작을 막지 않은 `form` 제출(응답 데이터를 읽지 않음))
-- 교차 출처 삽입 허용
-- 교차 출처 읽기 비허용(`AJAX`, `XMLHttpRequest` 등을 사용해 응답 데이터를 읽으려하는 행위)
+### 동일 출처 vs 교차 출처 예시
 
-## 교차 출처로 삽입할 수 있는 리소스
+기준 URL: `https://www.example.com:443/page`
 
-- `<script src="…"></script>`를 사용하는 JavaScript
-  - 구문 오류에 대한 오류 세부 정보는 동일 출처 스크립트에서만 사용할 수 있다.
+| URL                                 | 결과      | 이유                              |
+| ----------------------------------- | --------- | --------------------------------- |
+| `https://www.example.com:443/other` | 동일 출처 | 프로토콜, 호스트, 포트 동일       |
+| `https://www.example.com/page`      | 동일 출처 | HTTPS 기본 포트 443 생략          |
+| `http://www.example.com/page`       | 교차 출처 | 프로토콜 상이 (`https` vs `http`) |
+| `https://api.example.com/page`      | 교차 출처 | 서브도메인 상이                   |
+| `https://www.example.com:8080/page` | 교차 출처 | 포트 상이                         |
+| `https://www.other.com/page`        | 교차 출처 | 호스트 상이                       |
 
-- `<link rel="stylesheet" href="…">`로 적용된 CSS
-  - CSS의 완화된 구문 규칙으로 인해 교차 출처 CSS에는 올바른 Content-Type 헤더가 요구된다.
-  - 브라우저는 MIME 유형이 올바르지 않고 리소스가 유효한 CSS 구성으로 시작하지 않는 교차 출처 로드인 경우 스타일시트 로드를 차단한다.
+### 허용 및 제한 범위
 
-- `<img>`로 표시하는 이미지
-- `<video>`와 `<audio>`로 재생하는 미디어
-- `<object>`와 `<embed>`로 삽입하는 외부 리소스
-- `@font-face`로 적용하는 글꼴
-- `<iframe>`으로 삽입하는 모든 것
+| 동작                                         | 허용 여부 |
+| -------------------------------------------- | --------- |
+| 교차 출처 링크 연결                          | 허용      |
+| 교차 출처 리다이렉트                         | 허용      |
+| `<form>` 교차 출처 제출                      | 허용      |
+| `<script>`, `<link>`, `<img>` 교차 출처 로드 | 허용      |
+| `<iframe>` 교차 출처 콘텐츠 접근             | 제한      |
+| `fetch` / `XMLHttpRequest` 교차 출처 요청    | 제한      |
+| 교차 출처 응답 본문 읽기                     | 제한      |
 
-### 컨텐츠 보안 정책(Content Security Policy)으로 교차 출처 삽입 접근 제어
+## 교차 출처 리소스 공유(CORS)
 
-- 컨텐츠 보안 정책(Content Security Policy)을 헤더에 삽입하여 접근을 제한할 수 있다.
-- 브라우저에게 파일을 서빙하는 서버에서 응답 헤더(`Content-Security-Policy: ...)` 또는 HTML의 메타 태그(`<meta http-equiv="Content-Security-Policy" content="...">`)로 설정 가능하다.
+교차 출처 리소스 공유(Cross-Origin Resource Sharing)는 SOP의 제한을 안전하게 완화하여 다른 출처의 자원에 접근할 수 있게 하는 메커니즘이다. 브라우저와 서버가 HTTP 헤더를 통해 허용 여부를 협상한다.
 
-```ts
-const cspHeader = `
-    default-src 'self';
-    style-src 'self' 'unsafe-inline';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://t1.kakaocdn.net https://cdn.channel.io https://js.sentry-cdn.com;
-    img-src 'self' blob: data: https://i.ytimg.com https://cf.channel.io;
-    font-src 'self';
-    media-src 'self' https://cdn.channel.io;
-    object-src 'self';
-    connect-src 'self' https://*.channel.io wss://*.channel.io;
-    form-action 'self' https://accounts.kakao.com  https://sharer.kakao.com;
-    frame-src https://www.youtube.com https://www.google.com;
-    frame-ancestors 'none';
-    upgrade-insecure-requests;
-`;
-```
+### 단순 요청(Simple Request)
 
-## 교차 출처 읽기를 허용하기 위한 교차 출처 자원 공유(Cross-Origin Resource Sharing)
+사전 요청(Preflight) 없이 본 요청을 바로 전송하는 방식이다. 아래 조건을 모두 만족해야 단순 요청으로 처리된다.
 
-CORS는 교차 출처 읽기를 허용하기 위해 브라우저의 기본 보안 정책을 완화하는 메커니즘이다. 서버에서 CORS 헤더를 설정하여 특정 출처의 요청을 허용할 수 있다.
+- HTTP 메서드: `GET`, `HEAD`, `POST` 중 하나.
+- `Content-Type`: `application/x-www-form-urlencoded`, `multipart/form-data`, `text/plain` 중 하나.
+- 사용자 정의 헤더(`Authorization`, `X-Custom-Header` 등)를 포함하지 않아야 함.
 
-### 첫 번째 시나리오 - 단순 요청 (Simple Request)
+실제 요청/응답 헤더 흐름은 다음과 같다.
 
-다음 조건을 모두 만족하는 요청은 사전 요청 없이 바로 전송된다.
-
-- HTTP 메서드: `GET`, `HEAD`, `POST` 중 하나
-- 헤더: 브라우저가 자동으로 설정하는 헤더 + 다음 헤더만 허용
-  - `Accept`
-  - `Accept-Language`
-  - `Content-Language`
-  - `Content-Type` (단, `application/x-www-form-urlencoded`, `multipart/form-data`, `text/plain`만 허용)
-
-클라이언트 요청 예시:
-
-```ts
-// GET 요청
-fetch('https://api.example.com/users', {
-  method: 'GET',
-  headers: {
-    Accept: 'application/json',
-  },
-});
-
-// POST 폼 데이터
-fetch('https://api.example.com/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: 'username=john&password=secret',
-});
-```
-
-서버 응답 헤더 설정:
-
-```ts
-// Express.js 예시
-app.get('/users', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://frontend.example.com');
-  res.json({ users: [] });
-});
-```
-
-### 두 번째 시나리오 - 사전 요청 (Preflight Request)
-
-단순 요청 조건을 만족하지 않는 경우, 브라우저가 실제 요청 전에 `OPTIONS` 메서드로 사전 요청을 보낸다.
-
-사전 요청이 필요한 경우:
-
-- HTTP 메서드: `PUT`, `DELETE`, `PATCH` 등
-- 커스텀 헤더 사용: `Authorization`, `X-Custom-Header` 등
-- Content-Type: `application/json`, `application/xml` 등
-
-클라이언트 요청 예시:
-
-```ts
-// JSON 데이터를 PUT으로 전송
-fetch('https://api.example.com/users/123', {
-  method: 'PUT',
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer token123',
-  },
-  body: JSON.stringify({ name: 'John Doe' }),
-});
-```
-
-브라우저가 자동으로 보내는 사전 요청:
-
-```http
-OPTIONS /users/123 HTTP/1.1
+```sh
+# 요청 (브라우저 → 서버)
+GET /api/data HTTP/1.1
 Host: api.example.com
-Origin: https://frontend.example.com
-Access-Control-Request-Method: PUT
-Access-Control-Request-Headers: Content-Type, Authorization
+Origin: https://www.client.com
+
+# 응답 (서버 → 브라우저)
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://www.client.com
+Content-Type: application/json
 ```
 
-서버 사전 요청 응답 설정:
+브라우저는 응답의 `Access-Control-Allow-Origin` 값이 요청한 `Origin`과 일치하는지 확인한다. 불일치하면 응답을 차단하고 CORS 에러를 발생시킨다.
 
-```ts
-// OPTIONS 요청 처리
-app.options('/users/:id', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://frontend.example.com');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Max-Age', '86400'); // 24시간 캐시
-  res.sendStatus(200);
-});
+### 사전 요청(Preflight Request)
 
-// 실제 PUT 요청 처리
-app.put('/users/:id', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'https://frontend.example.com');
-  res.json({ message: 'User updated' });
-});
+본 요청을 보내기 전 `OPTIONS` 메서드로 서버에 허용 여부를 확인하는 방식이다. 단순 요청 조건을 벗어나는 경우에 발생한다.
+
+사전 요청이 발생하는 주요 조건은 다음과 같다.
+
+- `PUT`, `DELETE`, `PATCH` 메서드 사용
+- `Content-Type: application/json` 사용
+- `Authorization` 등 사용자 정의 헤더 포함
+
+실제 헤더 흐름은 다음과 같다.
+
+```sh
+# 1단계: 사전 요청 (브라우저 → 서버)
+OPTIONS /api/data HTTP/1.1
+Host: api.example.com
+Origin: https://www.client.com
+Access-Control-Request-Method: DELETE
+Access-Control-Request-Headers: Authorization, Content-Type
+
+# 2단계: 사전 요청 응답 (서버 → 브라우저)
+HTTP/1.1 204 No Content
+Access-Control-Allow-Origin: https://www.client.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: Authorization, Content-Type
+Access-Control-Max-Age: 86400
+
+# 3단계: 본 요청 (브라우저 → 서버)
+DELETE /api/data/123 HTTP/1.1
+Host: api.example.com
+Origin: https://www.client.com
+Authorization: Bearer eyJhbGci...
+
+# 4단계: 본 요청 응답 (서버 → 브라우저)
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://www.client.com
 ```
 
-### 세 번째 시나리오 - 자격 증명을 포함한 요청 (Credentialed Request)
+주요 응답 헤더 역할은 다음과 같다.
 
-쿠키를 포함하는 요청이다.
+| 헤더                            | 설명                                             |
+| ------------------------------- | ------------------------------------------------ |
+| `Access-Control-Allow-Origin`   | 허용할 출처. 와일드카드(`*`) 또는 특정 출처 지정 |
+| `Access-Control-Allow-Methods`  | 허용할 HTTP 메서드 목록                          |
+| `Access-Control-Allow-Headers`  | 허용할 요청 헤더 목록                            |
+| `Access-Control-Max-Age`        | 사전 요청 결과 캐싱 시간(초). 중복 요청 방지     |
+| `Access-Control-Expose-Headers` | 브라우저가 읽을 수 있도록 노출할 응답 헤더 목록  |
 
-클라이언트 요청 예시:
+### 인증 정보를 포함한 요청(Credentialed Request)
+
+쿠키(Cookie) · 인증 헤더(`Authorization`) · TLS 클라이언트 인증서를 포함하여 교차 출처 요청을 보낼 때 사용하는 방식이다.
+
+기본적으로 `fetch`는 교차 출처 요청에 인증 정보를 포함하지 않는다. 포함하려면 클라이언트와 서버 양측에 명시적 설정이 필요하다.
+
+클라이언트 설정은 다음과 같다.
 
 ```ts
-// 쿠키를 포함한 요청
-fetch('https://api.example.com/protected', {
+// fetch
+fetch('https://api.example.com/profile', {
   method: 'GET',
-  credentials: 'include', // 쿠키 포함
-  headers: {
-    Authorization: 'Bearer token123',
-  },
+  credentials: 'include', // 인증 정보 포함
 });
+
+// XMLHttpRequest
+const xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://api.example.com/profile');
+xhr.withCredentials = true;
+xhr.send();
 ```
 
-서버 응답 헤더 설정:
+서버 응답 헤더는 다음 두 가지 조건을 동시에 만족해야 한다.
 
-```ts
-app.get('/protected', (req, res) => {
-  // 자격 증명을 포함한 요청에서는 와일드카드(*) 사용 불가
-  res.header('Access-Control-Allow-Origin', 'https://frontend.example.com');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Authorization');
-
-  // 쿠키 설정 예시
-  res.cookie('sessionId', 'abc123', {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'None', // 크로스 도메인에서 쿠키 전송 허용
-  });
-
-  res.json({ data: 'protected data' });
-});
+```sh
+Access-Control-Allow-Origin: https://www.client.com  # * 사용 불가
+Access-Control-Allow-Credentials: true
 ```
 
-종합 CORS 설정 예시:
+`Access-Control-Allow-Origin`에 와일드카드(`*`)를 사용하면 인증 정보 포함 요청은 브라우저에 의해 차단된다. 구체적인 출처를 명시해야 한다.
 
-```ts
-// Express.js cors 미들웨어 사용
-const cors = require('cors');
+## CORS 에러 디버깅
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = ['https://frontend.example.com', 'https://admin.example.com'];
+CORS 에러는 브라우저 콘솔에 다음과 같은 메시지로 나타난다.
 
-    // origin이 없는 경우(같은 도메인) 또는 허용된 도메인인 경우
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // 자격 증명 포함 허용
-  optionsSuccessStatus: 200,
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Custom-Header'],
-  exposedHeaders: ['X-Total-Count', 'X-Page-Count'],
-};
-
-app.use(cors(corsOptions));
+```text
+Access to fetch at 'https://api.example.com/data' from origin 'https://www.client.com'
+has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present
+on the requested resource.
 ```
 
-### CORS 헤더 상세
+원인별 진단 방법은 다음과 같다.
 
-| 헤더                               | 설명                     | 예시                          |
-| ---------------------------------- | ------------------------ | ----------------------------- |
-| `Access-Control-Allow-Origin`      | 허용할 출처 지정         | `https://example.com`         |
-| `Access-Control-Allow-Methods`     | 허용할 HTTP 메서드       | `GET, POST, PUT, DELETE`      |
-| `Access-Control-Allow-Headers`     | 허용할 헤더              | `Content-Type, Authorization` |
-| `Access-Control-Allow-Credentials` | 자격 증명 포함 허용 여부 | `true`                        |
-| `Access-Control-Max-Age`           | 사전 요청 캐시 시간(초)  | `86400`                       |
-| `Access-Control-Expose-Headers`    | 클라이언트에 노출할 헤더 | `X-Total-Count`               |
+| 에러 메시지                                                             | 원인                                                 | 해결 방법                                                          |
+| ----------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+| `No 'Access-Control-Allow-Origin' header`                               | 서버가 CORS 헤더를 응답에 포함하지 않음              | 서버에 `Access-Control-Allow-Origin` 헤더 추가                     |
+| `has been blocked by CORS policy: Response to preflight...`             | 사전 요청(`OPTIONS`)에 서버가 올바르게 응답하지 않음 | `OPTIONS` 메서드 처리 및 CORS 헤더 응답 추가                       |
+| `The value of the 'Access-Control-Allow-Origin' header must not be '*'` | `credentials: 'include'` 사용 시 와일드카드 지정     | 특정 출처를 명시하고 `Access-Control-Allow-Credentials: true` 추가 |
+| `Request header field X-Custom-Header is not allowed`                   | 사전 요청 없이 허용되지 않은 헤더 전송               | `Access-Control-Allow-Headers`에 해당 헤더 추가                    |
+
+CORS 에러는 서버 응답이 실제로 도달한 뒤 브라우저가 차단하는 것이다. 서버 로그에는 요청이 기록되지만 브라우저는 응답을 읽지 못한다. 따라서 네트워크 탭에서 응답 헤더를 직접 확인하는 것이 진단의 출발점이다.

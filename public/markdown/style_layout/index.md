@@ -7,6 +7,7 @@ isPublished: true
 
 # Layout
 
+- [상대 단위(rem • em)](#상대-단위rem--em)
 - [`display`](#display)
   - [`display` 속성에 따라 제어 가능한 속성](#display-속성에-따라-제어-가능한-속성)
   - [`display` 속성에 따른 `width: auto`](#display-속성에-따른-width-auto)
@@ -36,8 +37,34 @@ isPublished: true
 - [`box-sizing`](#box-sizing)
 - [`object-fit` • `object-position`](#object-fit--object-position)
 - [`@media`](#media)
+- [레이아웃에 영향을 주지 않는 스타일링](#레이아웃에-영향을-주지-않는-스타일링)
 - [Layout Tip](#layout-tip)
 - [의도하지 않은 스크롤이 발생하는 원인](#의도하지-않은-스크롤이-발생하는-원인)
+
+## 상대 단위(rem • em)
+
+CSS 글꼴 크기와 요소 크기를 정의하는 상대 단위다.
+
+`rem` (Root EM):
+
+- 문서의 루트 요소인 `<html>`의 `font-size`를 기준으로 함.
+- 브라우저 글꼴 크기 설정 변경 시 모든 `rem` 단위가 동일한 비율로 조정되어 일관성 있는 레이아웃을 유지할 수 있음.
+
+`em`:
+
+- 해당 단위가 사용되고 있는 요소의 `font-size`를 기준으로 함.
+- 중첩 구조에서 상위 요소의 스타일에 영향을 받으므로, 필요한 경우가 아니라면 `rem`을 사용하는 것이 좋음.
+
+```css
+html {
+  font-size: 16px; /* 1rem = 16px */
+}
+
+h1 {
+  font-size: 2rem; /* 32px */
+  letter-spacing: -0.01562em; /* 32px × -0.01562 ≈ -0.5px */
+}
+```
 
 ## `display`
 
@@ -547,6 +574,20 @@ xl: 1536,
 
 @media (min-width: 1200px) {
   /* 1200px 이상의 스크린에서 적용 */
+}
+```
+
+## 레이아웃에 영향을 주지 않는 스타일링
+
+요소의 크기나 위치를 변화시키지 않고 외형만 수정해야 할 때 사용한다.
+
+- `outline`: 테두리(`border`)와 달리 공간을 차지하지 않아 레이아웃이 틀어지지 않음. 일부 픽셀이 잘리는 경우 `margin` 값으로 방지할 수 있음.
+- `box-shadow`: 요소 바깥이나 안쪽에 그림자를 생성하며 레이아웃 흐름에 영향을 주지 않음. 입력 자동완성(autofill)의 배경색은 브라우저가 `!important`로 고정하므로, `box-shadow` 트릭으로 덮어쓸 수 있음.
+
+```css
+/* autofill 배경색 제거 트릭 */
+input:autofill {
+  box-shadow: 0 0 0px 1000px #f5f5f5 inset; /* x y blur spread color inset */
 }
 ```
 

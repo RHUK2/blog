@@ -1,285 +1,107 @@
 ---
 folderName: security_jwt
-title: JWT 인증
+title: JWT(JSON Web Token) 인증
 tag: security
 isPublished: true
 ---
 
-# JWT 인증
+# JWT(JSON Web Token) 인증
 
-- [JWT 특징](#jwt-특징)
+- [JWT(JSON Web Token)란?](#jwtjson-web-token란)
 - [JWT 구조](#jwt-구조)
-- [공통키(대칭키) 방식의 JWT 생성 및 검증](#공통키대칭키-방식의-jwt-생성-및-검증)
-- [공개키 • 개인키(비대칭키) 방식의 JWT 생성 및 검증](#공개키--개인키비대칭키-방식의-jwt-생성-및-검증)
+- [JWT 인증의 특징](#jwt-인증의-특징)
+- [토큰 저장 위치와 보안](#토큰-저장-위치와-보안)
 - [Access Token • Refresh Token](#access-token--refresh-token)
-- [JWT 인증 흐름](#jwt-인증-흐름)
+- [구현 예제(Node.js)](#구현-예제nodejs)
+  - [대칭키(HMAC) 방식](#대칭키hmac-방식)
+  - [비대칭키(RSA) 방식](#비대칭키rsa-방식)
 
-## JWT 특징
+## JWT(JSON Web Token)란?
 
-| 특징          | JWT                                    |
-| ------------- | -------------------------------------- |
-| 상태 관리     | 클라이언트 측에서 상태를 유지          |
-| 저장 위치     | 클라이언트에 토큰 형태로 저장          |
-| 유효성 검증   | 토큰의 서명을 통해 클라이언트에서 검증 |
-| 확장성        | 서버 간 상태 공유가 용이, 확장성 높음  |
-| 로그아웃 처리 | 클라이언트 측에서 토큰 삭제            |
-| 환경          | Cross Origin                           |
+JWT는 당사자 간에 정보를 JSON 객체로 안전하게 전송하기 위한 개방형 표준(RFC 7519)이다. 주로 인증(Authentication)과 정보 교환(Information Exchange)을 위해 사용된다.
+
+- 특징:
+  - 자가 수용적(Self-contained): 토큰 자체에 필요한 모든 정보(사용자 권한, 만료 시간 등)를 담고 있음.
+  - 무상태성(Stateless): 서버가 클라이언트의 상태를 저장하지 않아 서버 확장에 유리함.
+  - 무결성 보장: 서명(Signature)을 통해 데이터의 변조 여부를 확인할 수 있음.
 
 ## JWT 구조
 
-1. header:
+JWT는 점(`.`)으로 구분된 세 부분으로 구성된다.
 
-   ```json
-   {
-     "alg": "HS256",
-     "typ": "JWT"
-   }
-   ```
+1. Header(헤더): 토큰의 유형(typ)과 사용 중인 해싱 알고리즘(alg) 정보를 담고 있음.
+2. Payload(페이로드): 토큰에 담긴 실제 클레임(Claim) 정보임. Base64로 인코딩되어 누구나 읽을 수 있으므로 민감한 정보는 담지 않아야 함.
+3. Signature(서명): 헤더와 페이로드를 비밀키로 해싱하여 생성함. 토큰의 위변조를 방지하는 역할을 함.
 
-   - 토큰 유형과 해싱 알고리즘 정보를 포함한다.
+## JWT 인증의 특징
 
-2. payload:
+| 특징      | 내용                                                                         |
+| :-------- | :--------------------------------------------------------------------------- |
+| 상태 관리 | 클라이언트 측에서 상태를 유지함 (Stateless)                                  |
+| 확장성    | 세션 저장소가 필요 없어 수평적 확장이 용이함                                 |
+| 보안      | 토큰 탈취 시 만료 전까지 무효화가 어려움 (Blacklist 등 추가 로직 필요)       |
+| 크기      | 페이로드에 정보가 많아질수록 토큰 크기가 커져 네트워크 부하가 발생할 수 있음 |
 
-   ```json
-   {
-     "sub": "1234567890",
-     "name": "John Doe",
-     "iat": 1516239022
-   }
-   ```
+## 토큰 저장 위치와 보안
 
-   - 토큰에 담길 실제 데이터를 포함한다. 일반적으로 사용자의 정보나 만료 시간 등이 들어간다.
-
-3. signature:
-
-   ```ts
-   HMACSHA256(base64UrlEncode(header) + '.' + base64UrlEncode(payload), secret);
-   ```
-
-   - 토큰의 무결성을 검증하기 위해 사용된다. 헤더와 페이로드를 합친 후 비밀 키로 서명한다.
-
-## 공통키(대칭키) 방식의 JWT 생성 및 검증
-
-```ts
-const crypto = require('crypto');
-
-// Base64 URL 인코딩 함수
-function base64urlEncode(str) {
-  return Buffer.from(str).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-}
-
-// Base64 URL 디코딩 함수
-function base64urlDecode(str) {
-  str = str.replace(/-/g, '+').replace(/_/g, '/');
-  return Buffer.from(str, 'base64').toString('utf8');
-}
-
-// HMAC-SHA256 해싱 함수
-function hmacSHA256(data, secret) {
-  return crypto.createHmac('sha256', secret).update(data).digest('base64url');
-}
-
-// JWT 생성 함수
-function generateToken(payload, secret, expiresIn = '1h') {
-  const header = {
-    alg: 'HS256',
-    typ: 'JWT',
-  };
-
-  const iat = Math.floor(Date.now() / 1000);
-  let exp = iat;
-
-  // 만료 시간 계산
-  if (expiresIn.endsWith('h')) {
-    exp += parseInt(expiresIn) * 60 * 60;
-  } else if (expiresIn.endsWith('m')) {
-    exp += parseInt(expiresIn) * 60;
-  } else if (expiresIn.endsWith('s')) {
-    exp += parseInt(expiresIn);
-  }
-
-  const extendedPayload = {
-    ...payload,
-    iat,
-    exp,
-  };
-
-  const encodedHeader = base64urlEncode(JSON.stringify(header));
-  const encodedPayload = base64urlEncode(JSON.stringify(extendedPayload));
-  const signature = hmacSHA256(`${encodedHeader}.${encodedPayload}`, secret);
-
-  return `${encodedHeader}.${encodedPayload}.${signature}`;
-}
-
-// JWT 검증 함수
-function verifyToken(token, secret) {
-  const [encodedHeader, encodedPayload, signature] = token.split('.');
-
-  const data = `${encodedHeader}.${encodedPayload}`;
-  const validSignature = hmacSHA256(data, secret);
-
-  if (signature !== validSignature) {
-    return null;
-  }
-
-  const payload = JSON.parse(base64urlDecode(encodedPayload));
-  const currentTime = Math.floor(Date.now() / 1000);
-
-  if (currentTime > payload.exp) {
-    return null;
-  }
-
-  return payload;
-}
-
-// 예제 데이터
-const secretKey = 'your-256-bit-secret';
-const payload = {
-  userId: 123,
-  username: 'exampleUser',
-};
-
-// 토큰 생성
-const token = generateToken(payload, secretKey);
-console.log('Generated Token:', token);
-
-// 토큰 검증
-const decoded = verifyToken(token, secretKey);
-if (decoded) {
-  console.log('Decoded Payload:', decoded);
-} else {
-  console.log('Invalid or expired token');
-}
-```
-
-## 공개키 • 개인키(비대칭키) 방식의 JWT 생성 및 검증
-
-```ts
-const crypto = require('crypto');
-
-// Base64 URL 인코딩 함수
-function base64urlEncode(str) {
-  return Buffer.from(str).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-}
-
-// Base64 URL 디코딩 함수
-function base64urlDecode(str) {
-  str = str.replace(/-/g, '+').replace(/_/g, '/');
-  return Buffer.from(str, 'base64').toString('utf8');
-}
-
-// RSA-SHA256 서명 생성 함수
-function sign(data, privateKey) {
-  const sign = crypto.createSign('RSA-SHA256');
-  sign.update(data);
-  sign.end();
-  return sign.sign(privateKey, 'base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-}
-
-// RSA-SHA256 서명 검증 함수
-function verify(data, signature, publicKey) {
-  const verify = crypto.createVerify('RSA-SHA256');
-  verify.update(data);
-  verify.end();
-  return verify.verify(publicKey, signature.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
-}
-
-// JWT 생성 함수
-function generateToken(payload, privateKey, expiresIn = '1h') {
-  const header = {
-    alg: 'RS256',
-    typ: 'JWT',
-  };
-
-  const iat = Math.floor(Date.now() / 1000);
-  let exp = iat;
-
-  // 만료 시간 계산
-  if (expiresIn.endsWith('h')) {
-    exp += parseInt(expiresIn) * 60 * 60;
-  } else if (expiresIn.endsWith('m')) {
-    exp += parseInt(expiresIn) * 60;
-  } else if (expiresIn.endsWith('s')) {
-    exp += parseInt(expiresIn);
-  }
-
-  const extendedPayload = {
-    ...payload,
-    iat,
-    exp,
-  };
-
-  const encodedHeader = base64urlEncode(JSON.stringify(header));
-  const encodedPayload = base64urlEncode(JSON.stringify(extendedPayload));
-  const signature = sign(`${encodedHeader}.${encodedPayload}`, privateKey);
-
-  return `${encodedHeader}.${encodedPayload}.${signature}`;
-}
-
-// JWT 검증 함수
-function verifyToken(token, publicKey) {
-  const [encodedHeader, encodedPayload, signature] = token.split('.');
-
-  const data = `${encodedHeader}.${encodedPayload}`;
-
-  if (!verify(data, signature, publicKey)) {
-    return null;
-  }
-
-  const payload = JSON.parse(base64urlDecode(encodedPayload));
-  const currentTime = Math.floor(Date.now() / 1000);
-
-  if (currentTime > payload.exp) {
-    return null;
-  }
-
-  return payload;
-}
-
-// RSA 키 생성
-const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-  modulusLength: 2048,
-});
-
-// 예제 데이터
-const payload = {
-  userId: 123,
-  username: 'exampleUser',
-};
-
-// 토큰 생성
-const token = generateToken(payload, privateKey);
-console.log('Generated Token:', token);
-
-// 토큰 검증
-const decoded = verifyToken(token, publicKey);
-if (decoded) {
-  console.log('Decoded Payload:', decoded);
-} else {
-  console.log('Invalid or expired token');
-}
-```
+| 저장 위치         | 주요 공격 위험                   | 방어 전략                                       |
+| :---------------- | :------------------------------- | :---------------------------------------------- |
+| `LocalStorage`    | XSS(Cross-Site Scripting)        | 스크립트를 통한 탈취가 매우 쉬움. 권장되지 않음 |
+| `HttpOnly` Cookie | CSRF(Cross-Site Request Forgery) | `SameSite` 속성과 CSRF 토큰을 사용하여 방어함   |
 
 ## Access Token • Refresh Token
 
-| 항목        | 액세스 토큰                                               | 리프레시 토큰                                        |
-| ----------- | --------------------------------------------------------- | ---------------------------------------------------- |
-| 목적        | 리소스 서버에 접근하여 보호된 리소스에 대한 권한을 증명   | 새로운 액세스 토큰을 발급받기 위한 권한을 증명       |
-| 용도        | API 호출 시 인증을 위해 사용                              | 액세스 토큰이 만료되었을 때 갱신을 위해 사용         |
-| 유효 기간   | 짧음 (몇 분에서 몇 시간)                                  | 길음 (몇 일에서 몇 주)                               |
-| 보안 위험성 | 만료 시간이 짧아 상대적으로 적음                          | 만료 시간이 길어 유출 시 위험성 큼                   |
-| 만료될 경우 | 새로운 액세스 토큰 발급 필요                              | 재로그인 필요                                        |
-| 저장 위치   | 주로 클라이언트 측                                        | 주로 클라이언트 측                                   |
-| 페이로드    | 사용자 ID, 권한, 만료 시간, 발급자 정보                   | 사용자 ID, 토큰 ID, 만료 시간                        |
-| 발급 주체   | 인증 서버                                                 | 인증 서버                                            |
-| 전송 방식   | HTTP 헤더에 포함 (`Authorization: Bearer <access_token>`) | HTTP 요청의 바디에 포함 (토큰 갱신을 위한 POST 요청) |
-
-## JWT 인증 흐름
-
-- 일반적인 방식
+- Access Token: 실제 리소스 접근 권한을 증명함. 보안을 위해 유효 기간을 짧게(예: 15분) 설정함.
+- Refresh Token: 새로운 Access Token을 발급받기 위해 사용함. 보안이 강화된 저장소에 보관하며 유효 기간을 길게(예: 2주) 설정함.
 
 ![img](images/jwt_auth_1.png)
 
-- Refresh Token Rotation을 이용한 보안이 강화된 방식
+- Refresh Token Rotation: Refresh Token 사용 시마다 새로운 토큰을 재발급하여 탈취된 토큰의 재사용을 방지하는 기법임.
 
 ![img](images/jwt_auth_2.png)
+
+## 구현 예제(Node.js)
+
+### 대칭키(HMAC) 방식
+
+동일한 비밀키를 사용하여 생성과 검증을 모두 수행한다.
+
+```ts
+const crypto = require('crypto');
+
+function generateToken(payload, secret) {
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+  const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', secret).update(`${header}.${encodedPayload}`).digest('base64url');
+
+  return `${header}.${encodedPayload}.${signature}`;
+}
+
+function verifyToken(token, secret) {
+  const [header, payload, signature] = token.split('.');
+  const expected = crypto.createHmac('sha256', secret).update(`${header}.${payload}`).digest('base64url');
+
+  if (signature !== expected) throw new Error('Invalid signature');
+  return JSON.parse(Buffer.from(payload, 'base64url').toString());
+}
+```
+
+### 비대칭키(RSA) 방식
+
+개인키로 서명하고 공개키로 검증한다. 인증 서버와 리소스 서버가 분리된 환경에서 안전하다.
+
+```ts
+const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
+
+function signToken(data, privateKey) {
+  const sign = crypto.createSign('RSA-SHA256');
+  sign.update(data);
+  return sign.sign(privateKey, 'base64url');
+}
+
+function verifyToken(data, signature, publicKey) {
+  const verify = crypto.createVerify('RSA-SHA256');
+  verify.update(data);
+  return verify.verify(publicKey, signature, 'base64url');
+}
+```
