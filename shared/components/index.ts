@@ -15,3 +15,4 @@ export { SvgrIcon } from './SvgrIcon';
 export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
 export { Leaf, Tree } from './Tree';
+export { MermaidDiagram } from './MermaidDiagram';

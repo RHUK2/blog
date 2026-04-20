@@ -1,6 +1,6 @@
 import { readMarkdownContent } from '@/entities/markdown/data';
 import markdownMetaList from '@/entities/markdown/list.json';
-import { ScrollTopFloatingButton } from '@/shared/components';
+import { MermaidDiagram, ScrollTopFloatingButton } from '@/shared/components';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -43,6 +43,12 @@ export default async function Page({ params }: Props) {
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
           components={{
+            code({ className, children }) {
+              if (className?.includes('language-mermaid')) {
+                return <MermaidDiagram chart={String(children)} />;
+              }
+              return <code className={className}>{children}</code>;
+            },
             img({ alt, src }) {
               return (
                 <Image
