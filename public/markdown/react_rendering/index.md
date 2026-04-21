@@ -18,6 +18,10 @@ isPublished: true
   - [createElement 변환과 Virtual DOM 생성](#createelement-변환과-virtual-dom-생성)
 - [조건부 렌더링 방식 비교](#조건부-렌더링-방식-비교)
   - [요소 숨김 방법 비교](#요소-숨김-방법-비교)
+- [리스트 렌더링(List Rendering)](#리스트-렌더링list-rendering)
+  - [key prop](#key-prop)
+  - [key 선택 전략](#key-선택-전략)
+  - [`<Fragment>`와 리스트](#fragment와-리스트)
 
 ## 리액트 렌더링(React Rendering) 과정
 
@@ -44,7 +48,7 @@ isPublished: true
 
 ## 가상 DOM(Virtual DOM)
 
-![img](images/virtual_dom.png)
+![img](images/virtual_dom.webp)
 
 가상 DOM은 실제 DOM 구조를 반영한 경량 JavaScript 객체 트리다. React는 UI 상태가 변경될 때 실제 DOM을 직접 조작하는 대신, 가상 DOM 트리 두 벌(이전/현재)을 비교하여 최소한의 변경 사항만 실제 DOM에 반영한다.
 
@@ -142,3 +146,70 @@ React와 CSS에서 요소를 숨기는 방법은 여러 가지이며, DOM 유지
 - `display: none`: DOM은 유지되므로 ref 접근이나 포커스 관리가 필요한 컴포넌트에 적합함. 단, 탭 순서에서 제외되지 않으므로 접근성 처리가 필요할 수 있음.
 - `visibility: hidden`: 레이아웃 공간을 차지하므로 요소 크기를 유지하면서 내용만 감출 때 사용함.
 - 조건부 렌더링: 언마운트 시 내부 상태가 초기화되므로, 상태 보존이 필요한 경우에는 CSS 숨김 방식이 적합함.
+
+## 리스트 렌더링(List Rendering)
+
+배열 데이터를 UI 요소 목록으로 변환할 때는 `Array.prototype.map()`을 사용한다. 각 항목에는 `key` prop을 반드시 지정해야 한다.
+
+```tsx
+const items = ['사과', '바나나', '체리'];
+
+function FruitList() {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### key prop
+
+`key`는 React가 리스트 항목을 식별하는 데 사용하는 특수 prop이다. 재조정(Reconciliation) 과정에서 어떤 항목이 추가·변경·삭제되었는지 파악하는 기준이 된다.
+
+- `key`는 같은 부모 아래에서 고유해야 하며, 전체 애플리케이션에서 고유할 필요는 없음.
+- `key`는 자식 컴포넌트의 props로 전달되지 않으므로, 컴포넌트 내부에서 `props.key`로 접근할 수 없음.
+- `key`가 변경되면 React는 해당 컴포넌트 인스턴스를 언마운트하고 새 인스턴스를 마운트함.
+
+### key 선택 전략
+
+| 상황                     | 권장 key                 | 이유                         |
+| :----------------------- | :----------------------- | :--------------------------- |
+| 서버에서 내려오는 데이터 | 데이터베이스 ID          | 고유하고 안정적임            |
+| 로컬 생성 데이터         | `crypto.randomUUID()` 등 | 항목 생성 시 한 번만 할당    |
+| 고정 순서의 정적 목록    | 배열 인덱스              | 순서가 바뀌지 않을 때만 허용 |
+
+배열의 인덱스를 `key`로 사용하면 항목 순서가 바뀌거나 중간 삽입·삭제가 발생할 때 재조정 과정에서 불필요한 DOM 변경과 상태 오류가 발생할 수 있다.
+
+```tsx
+// ❌ incorrect: 인덱스를 key로 사용하면 재정렬 시 상태 오류 발생 가능
+{
+  items.map((item, index) => <Item key={index} value={item} />);
+}
+
+// ✅ correct: 안정적인 고유 ID를 key로 사용
+{
+  items.map((item) => <Item key={item.id} value={item} />);
+}
+```
+
+인풋 요소가 포함된 항목처럼 내부 상태를 가지는 컴포넌트에서 인덱스를 `key`로 사용하면, 순서 변경 후 이전 항목의 상태가 엉뚱한 컴포넌트에 남아 있는 버그가 생긴다.
+
+### `<Fragment>`와 리스트
+
+여러 요소를 반환해야 하는데 래퍼 태그를 추가하고 싶지 않을 때는 `<Fragment>`를 사용한다. 리스트 렌더링에서 `key`를 전달할 때는 단축 문법(`<>...</>`) 대신 `<Fragment key={...}>`를 사용해야 한다.
+
+```tsx
+import { Fragment } from 'react';
+
+{
+  items.map((item) => (
+    <Fragment key={item.id}>
+      <dt>{item.term}</dt>
+      <dd>{item.description}</dd>
+    </Fragment>
+  ));
+}
+```

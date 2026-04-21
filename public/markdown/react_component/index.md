@@ -5,457 +5,272 @@ tag: react
 isPublished: true
 ---
 
-# Component
+# React 컴포넌트(React Component)
 
-- [개인적으로 생각한 컴포넌트의 종류](#개인적으로-생각한-컴포넌트의-종류)
-- [`Map()`으로 요소를 뿌리는 두가지 방식](#map으로-요소를-뿌리는-두가지-방식)
-- [제어 컴포넌트](#제어-컴포넌트)
-- [비제어 컴포넌트](#비제어-컴포넌트)
-- [바닐라 자바스크립트 폼 제어](#바닐라-자바스크립트-폼-제어)
+- [컴포넌트 설계 원칙](#컴포넌트-설계-원칙)
+- [아토믹 디자인(Atomic Design)](#아토믹-디자인atomic-design)
+- [프레젠테이셔널/컨테이너 패턴](#프레젠테이셔널컨테이너-패턴)
+- [복합 컴포넌트(Compound Component) 패턴](#복합-컴포넌트compound-component-패턴)
+- [렌더 프롭(Render Prop) 패턴](#렌더-프롭render-prop-패턴)
+- [폴리모픽(Polymorphic) 패턴](#폴리모픽polymorphic-패턴)
+- [훅과 렌더링 컴포넌트 분리](#훅과-렌더링-컴포넌트-분리)
+- [asChild와 Slot 패턴](#aschild와-slot-패턴)
+- [제어 컴포넌트(Controlled Component)](#제어-컴포넌트controlled-component)
+- [비제어 컴포넌트(Uncontrolled Component)](#비제어-컴포넌트uncontrolled-component)
 
-## 개인적으로 생각한 컴포넌트의 종류
+## 컴포넌트 설계 원칙
 
-1. 디자인 컴포넌트
-   - MUI 라이브러리와 같이 `variant`와 여러가지 속성을 통해 디자인의 변화만을 주는 컴포넌트
-   - 재사용성이 높다.
+- 컴포넌트는 UI를 구성하는 독립적이고 재사용 가능한 단위다.
+- 단일 책임 원칙(SRP)에 따라 하나의 컴포넌트는 하나의 역할만 수행해야 한다.
+- 분기가 복잡해질 경우 새로운 컴포넌트로 분리하는 것이 유지보수에 유리하다.
 
-2. 레이아웃 컴포넌트
-   - `flex`, `grid`를 이용해 레이아웃을 잡는 박스를 의미한다.
-   - 페이지 레이아웃을 잡거나, 디자인 컴포넌트를 조합할 때 사용한다.
-   - 재사용성이 높다.
+## 아토믹 디자인(Atomic Design)
 
-3. 데이터 출력 컴포넌트
-   - 단일 또는 다중 디자인 컴포넌트의 조합으로 구성된다.
-   - `props`로 비동기 데이터가 넘어올 경우, 비동기 데이터 상태도 넘겨 받아 UI로 표현해준다.
-   - 재사용성이 낮다.
+아토믹 디자인은 Brad Frost가 2013년에 제안한 디자인 시스템 방법론으로, UI를 화학 원소의 계층처럼 5단계로 분류한다.
 
-4. 데이터 입력 컴포넌트
-   - 단일 또는 다중 디자인 컴포넌트의 조합으로 구성된다.
-   - 입력 값의 포맷과 해당 입력 값이 서버를 거쳐 나온 응답값의 포맷이 동일하지 않은 경우, 응답값을 출력하는 UI도 같이 작성한다.
-   - 재사용성이 낮다.
+1. Atoms(원자)
+   - 더 이상 분리할 수 없는 가장 작은 UI 단위다.
+   - `Button`, `Input`, `Label` 등 HTML 기본 요소에 스타일을 적용한 컴포넌트가 해당한다.
+2. Molecules(분자)
+   - 2개 이상의 원자가 결합하여 하나의 기능을 수행하는 단위다.
+   - `Label` + `Input` + `Button`이 결합된 검색 폼이 예시다.
+3. Organisms(유기체)
+   - 분자들이 결합하여 독립적인 UI 섹션을 구성하는 단위다.
+   - 헤더, 네비게이션 바, 카드 목록이 해당한다.
+4. Templates(템플릿)
+   - 유기체를 배치하여 페이지의 레이아웃 구조만을 정의한다.
+   - 실제 데이터 없이 와이어프레임 수준의 뼈대 역할을 한다.
+5. Pages(페이지)
+   - 템플릿에 실제 데이터를 채운 최종 결과물이다.
+   - React에서는 라우트 단위 컴포넌트가 이 레벨에 해당한다.
 
-5. 데이터 출력 + 입력 컴포넌트
-   - 단일 또는 다중 디자인 컴포넌트의 조합으로 구성된다.
-   - `props`로 비동기 데이터가 넘어올 경우, 비동기 데이터 상태도 넘겨 받아 UI로 표현해준다.
-   - 입력 값의 포맷과 해당 입력 값이 서버를 거쳐 나온 응답값의 포맷이 동일하지 않은 경우, 응답값을 출력하는 UI도 같이 작성한다.
-   - 재사용성이 낮다.
+실무에서는 Atoms, Molecules, Organisms 3단계를 중심으로 적용하는 경우가 많다.
 
-- 컴포넌트에 대한 개인적인 생각
-  - 도메인과 권한과 같은 분기되는 로직은 최대한 들어가지 않게 작성하고, 분기가 필요하다면 새로운 컴포넌트를 생성하는 것이 옳다고 생각한다.
+## 프레젠테이셔널/컨테이너 패턴
 
-## `Map()`으로 요소를 뿌리는 두가지 방식
+Dan Abramov가 2015년에 제안한 패턴으로, 컴포넌트를 역할에 따라 두 종류로 분리한다.
 
-`Map()`으로 요소를 뿌려줄 때, 컴포넌트에 뿌려줄 객체 데이터를 정의한 객체 배열을 이용하는 방식과 컴포넌트 자체를 배열에 담아서 이용하는 방식이 있다. 개인적으로 두 방식 중 전자 방식을 선호하며, 이유는 아래와 같이 성능 향상이 주 요인이다.
-
-- 컴포넌트를 직접 배열에 담고 이를 맵핑할 경우, 매번 리렌더링 시 컴포넌트 인스턴스가 다시 생성된다. 이는 불필요한 성능 저하를 초래할 수 있다.
-- 객체 데이터를 배열에 담아 컴포넌트를 생성하면, 리렌더링 시 변경된 데이터에 대해서만 렌더링을 수행할 수 있어 성능이 향상된다.
-
-## 제어 컴포넌트
-
-- 제어 컴포넌트는 `value`, `checked`와 상태를 연결하고 `onChange`에 상태 핸들링 함수를 넘겨 값을 제어할 수 있다.
-- 값의 초기값은 상태값의 초기값으로 설정 가능하다.
-- 리액트에서 `onchange`는 `oninput`과 동일한 방식으로 동작하며 기본 `onchange`의 동작은 지원하지 않는다. 이유는 불분명하고 설계상 이슈일 확률이 크다.
-- 라디오, 체크박스 입력은 `value` 값을 할당하지 않으면 자동으로 `'on'` 값을 할당 받는다.
+- 프레젠테이셔널(Presentational) 컴포넌트는 UI 렌더링만 담당하고, 데이터와 콜백을 props로 받는다.
+- 컨테이너(Container) 컴포넌트는 데이터 페칭, 상태 관리, 비즈니스 로직을 담당하고 프레젠테이셔널 컴포넌트에 props를 전달한다.
 
 ```tsx
-import { ChangeEvent, FormEvent, useState } from 'react';
-
-function App() {
-  const [form, setForm] = useState({
-    text: '',
-    textarea: '',
-    select: 'select2',
-    files: {},
-    radio: 'radio2',
-    checkboxAll: false,
-    checkbox: [
-      { id: 1, checked: false },
-      { id: 2, checked: false },
-      { id: 3, checked: false },
-    ],
-    range: '0',
-    color: '#ffffff',
-    date: new Date().toISOString().split('T')[0],
-  });
-
-  function handleInputForm(e: ChangeEvent<HTMLInputElement>) {
-    const name = e.target.name;
-    const value = e.target.value;
-    let result = {};
-
-    switch (name) {
-      case 'text':
-        // Enter 입력 시 제출 이벤트 방지
-        e.preventDefault();
-
-        result = { text: value };
-        break;
-      case 'radio':
-        result = { radio: value };
-        break;
-      case 'range':
-        result = { range: value };
-        break;
-      case 'color':
-        result = { color: value };
-        break;
-      case 'date':
-        result = { date: value };
-        break;
-      default:
-        break;
-    }
-
-    setForm((prev) => ({
-      ...prev,
-      ...result,
-    }));
-  }
-
-  function handleFileForm(e: ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files != null ? e.target.files : {};
-
-    setForm((prev) => ({
-      ...prev,
-      files: files,
-    }));
-  }
-
-  function handleCheckboxForm(e: ChangeEvent<HTMLInputElement>) {
-    const name = e.target.name;
-    const value = e.target.value;
-    const checked = e.target.checked;
-
-    if (name === 'checkboxAll') {
-      setForm((prev) => ({
-        ...prev,
-        checkboxAll: checked,
-        checkbox: prev.checkbox.map((cb) => ({ ...cb, checked: checked })),
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        checkbox: prev.checkbox.map((cb) => (cb.id === parseInt(value) ? { ...cb, checked: checked } : cb)),
-      }));
-      setForm((prev) => ({
-        ...prev,
-        checkboxAll: prev.checkbox.every((cb) => cb.checked),
-      }));
-    }
-  }
-
-  function handleSelectForm(e: ChangeEvent<HTMLSelectElement>) {
-    const value = e.target.value;
-
-    setForm((prev) => ({
-      ...prev,
-      select: value,
-    }));
-  }
-
-  function handleTextareaForm(e: ChangeEvent<HTMLTextAreaElement>) {
-    const value = e.target.value;
-
-    setForm((prev) => ({
-      ...prev,
-      textarea: value,
-    }));
-  }
-
-  function isValid() {
-    // 상태 값으로 유효성 판단
-    if (true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    // 제출 이벤트 방지
-    e.preventDefault();
-
-    if (isValid()) {
-      // 상태 값으로 HTTP 요청
-      const body = {
-        text: form.text,
-        textarea: form.textarea,
-        select: form.select,
-        files: form.files,
-        radio: form.radio,
-        checkbox: form.checkbox.filter((cb) => cb.checked).map((cb) => cb.id),
-        range: form.range,
-        color: form.color,
-        date: form.date,
-      };
-
-      console.log(body);
-    } else {
-      // 유효성 실패
-    }
-  }
-
+// 프레젠테이셔널: UI만 담당
+function UserList({ users, onSelect }: { users: User[]; onSelect: (id: string) => void }) {
   return (
-    <form onSubmit={handleSubmit}>
-      <input type='text' name='text' value={form.text} onChange={handleInputForm} />
-      <textarea value={form.textarea} onChange={handleTextareaForm} />
-      <input type='file' onChange={handleFileForm} multiple />
-      <select value={form.select} onChange={handleSelectForm}>
-        <option value=''>-</option>
-        <option value='select1'>select1</option>
-        <option value='select2'>select2</option>
-        <option value='select3'>select3</option>
-      </select>
-      <input type='radio' name='radio' value='radio1' checked={form.radio === 'radio1'} onChange={handleInputForm} />
-      <input type='radio' name='radio' value='radio2' checked={form.radio === 'radio2'} onChange={handleInputForm} />
-      <input type='radio' name='radio' value='radio3' checked={form.radio === 'radio3'} onChange={handleInputForm} />
-      <input type='checkbox' name='checkboxAll' checked={form.checkboxAll} onChange={handleCheckboxForm} />
-      {form.checkbox.map((cb) => (
-        <input
-          key={`checkbox_${cb.id}`}
-          type='checkbox'
-          name={`checkbox_${cb.id}`}
-          value={cb.id.toString()}
-          checked={cb.checked}
-          onChange={handleCheckboxForm}
-        />
+    <ul>
+      {users.map((user) => (
+        <li key={user.id} onClick={() => onSelect(user.id)}>
+          {user.name}
+        </li>
       ))}
-      <input type='range' name='range' value={form.range} min={0} max={50} step={0.5} onChange={handleInputForm} />
-      <input type='color' name='color' value={form.color} onChange={handleInputForm} />
-      <input type='date' name='date' value={form.date} onChange={handleInputForm} />
-      <button type='submit'>Submit</button>
-    </form>
+    </ul>
   );
 }
 
-export default App;
-```
-
-## 비제어 컴포넌트
-
-- 비제어 컴포넌트는 `useRef`로 요소 객체를 가져와 직접 요소 객체의 `value`, `checked` 값을 사용한다.
-- 상태 값으로 제어되지 않고 기존 Javascript에서 제어하는 방식과 동일한 것이 비제어 컴포넌트이다.
-- 값의 초기값은 `defaultValue`, `defaultChecked`로 설정이 가능하다. 이는 React에서 `value`와 `checked`가 상태 제어용으로 쓰이기 때문에 만들어졌다.
-- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
-- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
-- 라디오, 체크박스 입력은 `value` 값을 할당하지 않으면 자동으로 `'on'` 값을 할당 받는다.
-
-```tsx
-import { FormEvent, useEffect, useMemo, useRef } from 'react';
-
-function App() {
-  const form = useRef<HTMLFormElement>(null);
-  const text = useRef<HTMLInputElement>(null);
-  const textarea = useRef<HTMLTextAreaElement>(null);
-  const select = useRef<HTMLSelectElement>(null);
-  const files = useRef<HTMLInputElement>(null);
-  const checkboxAll = useRef<HTMLInputElement>(null);
-  const checkbox = useRef<(HTMLInputElement | null)[]>([]);
-  const range = useRef<HTMLInputElement>(null);
-  const color = useRef<HTMLInputElement>(null);
-  const date = useRef<HTMLInputElement>(null);
-
-  const ids = useMemo(() => [1, 2, 3], []);
-
-  function isValid() {
-    // ref 값으로 유효성 판단
-    if (true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    // 제출 이벤트 방지
-    e.preventDefault();
-
-    if (isValid()) {
-      // ref 값으로 HTTP 요청
-      const body = {
-        text: text.current?.value ?? '',
-        textarea: textarea.current?.value ?? '',
-        select: select.current?.value ?? 'select2',
-        files: files.current?.files ?? null,
-        radio: (form.current?.elements.namedItem('radio') as RadioNodeList).value ?? 'radio2',
-        checkbox: checkbox.current?.filter((cb) => cb?.checked).map((cb) => cb?.value && parseInt(cb.value)),
-        range: range.current?.value ?? '0',
-        color: color.current?.value ?? '#ffffff',
-        date: date.current?.value ?? new Date().toISOString().split('T')[0],
-      };
-
-      console.log(body);
-    } else {
-      // 유효성 실패
-    }
-  }
+// 컨테이너: 데이터와 로직을 담당
+function UserListContainer() {
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    if (checkboxAll.current == null) return;
-    if (checkbox.current == null) return;
-
-    const checkboxAllRef = checkboxAll.current;
-    const checkboxRef = checkbox.current;
-
-    function handleCheckboxForm(this: HTMLInputElement, e: Event) {
-      const name = this.name;
-      const checked = this.checked;
-
-      if (name === 'checkboxAll') {
-        checkbox.current.forEach((cb) => cb && (cb.checked = checked));
-      } else {
-        if (checkboxAll.current == null) return;
-
-        checkboxAll.current.checked = checkbox.current.every((cb) => cb && cb.checked);
-      }
-    }
-
-    checkboxAllRef.addEventListener('input', handleCheckboxForm);
-    checkboxRef.forEach((ref) => ref?.addEventListener('input', handleCheckboxForm));
-
-    return () => {
-      checkboxAllRef.removeEventListener('input', handleCheckboxForm);
-      checkboxRef.forEach((ref) => ref?.removeEventListener('input', handleCheckboxForm));
-    };
+    fetchUsers().then(setUsers);
   }, []);
 
+  const handleSelect = (id: string) => {
+    console.log('selected:', id);
+  };
+
+  return <UserList users={users} onSelect={handleSelect} />;
+}
+```
+
+Dan Abramov 본인이 React Hooks 도입(2019년) 이후 이 패턴을 더 이상 권장하지 않는다고 밝혔으며, 현재는 커스텀 훅을 이용한 로직 분리 패턴으로 대체된다.
+
+## 복합 컴포넌트(Compound Component) 패턴
+
+복합 컴포넌트(Compound Component)는 여러 하위 컴포넌트들이 협력하여 하나의 기능을 완성하는 패턴이다.
+
+- 부모 컴포넌트가 상태를 관리하고, 하위 컴포넌트들이 Context를 통해 이를 공유한다.
+- `props drilling`을 방지하고 유연한 UI 구조를 제공한다.
+- 사용자가 컴포넌트의 내부 구조를 자유롭게 배치할 수 있다.
+
+```tsx
+const Select = ({ children }: { children: React.ReactNode }) => {
+  const [selected, setSelected] = useState('');
   return (
-    <form ref={form} onSubmit={onSubmit}>
-      <input type='text' name='text' ref={text} />
-      <textarea name='textarea' ref={textarea} />
-      <input type='file' name='files' ref={files} multiple />
-      <select name='select' ref={select} defaultValue={'select2'}>
-        <option value=''>-</option>
-        <option value='select1'>select1</option>
-        <option value='select2'>select2</option>
-        <option value='select3'>select3</option>
-      </select>
-      <input type='radio' name='radio' value='radio1' />
-      <input type='radio' name='radio' value='radio2' defaultChecked />
-      <input type='radio' name='radio' value='radio3' />
-      <input type='checkbox' name='checkboxAll' ref={checkboxAll} />
-      {ids.map((id, index) => (
-        <input
-          key={`checkbox_${id}`}
-          type='checkbox'
-          name='checkbox'
-          value={id.toString()}
-          ref={(elem) => (checkbox.current[index] = elem)}
-        />
-      ))}
-      <input type='range' name='range' min={0} max={50} step={0.5} ref={range} defaultValue={'0'} />
-      <input type='color' name='color' ref={color} defaultValue={'#ffffff'} />
-      <input type='date' name='date' ref={date} defaultValue={new Date().toISOString().split('T')[0]} />
-      <button type='submit'>Submit</button>
-    </form>
+    <SelectContext.Provider value={{ selected, setSelected }}>
+      <div>{children}</div>
+    </SelectContext.Provider>
   );
+};
+
+Select.Option = ({ value, children }: { value: string; children: React.ReactNode }) => {
+  const { setSelected } = useContext(SelectContext);
+  return <button onClick={() => setSelected(value)}>{children}</button>;
+};
+
+// 사용
+<Select>
+  <Select.Option value='a'>항목 A</Select.Option>
+  <Select.Option value='b'>항목 B</Select.Option>
+</Select>;
+```
+
+## 렌더 프롭(Render Prop) 패턴
+
+렌더 프롭은 컴포넌트가 함수 형태의 prop을 받아 렌더링 로직을 외부에서 제어하도록 하는 패턴이다.
+
+- 컴포넌트의 내부 상태나 데이터를 호출부에서 직접 활용할 수 있다.
+- 훅이 도입되기 전 로직 재사용의 주요 수단이었으며, 현재는 커스텀 훅으로 대체되는 경우가 많다.
+- `children`을 함수로 전달하는 방식이 일반적이다.
+
+```tsx
+type MousePosition = { x: number; y: number };
+
+function MouseTracker({ children }: { children: (pos: MousePosition) => React.ReactNode }) {
+  const [position, setPosition] = useState<MousePosition>({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setPosition({ x: e.clientX, y: e.clientY });
+  };
+
+  return <div onMouseMove={handleMouseMove}>{children(position)}</div>;
 }
 
-export default App;
+// 사용
+<MouseTracker>
+  {({ x, y }) => (
+    <p>
+      마우스 위치: {x}, {y}
+    </p>
+  )}
+</MouseTracker>;
 ```
 
-## 바닐라 자바스크립트 폼 제어
+## 폴리모픽(Polymorphic) 패턴
 
-- `document.querySelector` 메서드로 요소 객체를 가져와 직접 요소 객체의 `value`, `checked` 값을 사용한다.
-- `value`, `checked`, `selected` 속성으로 초기값을 설정한다.
-- `oninput`: 사용자가 입력을 생성하고 수정하는 매 순간 이벤트가 발생
-- `onchange`: 사용자가 입력을 생성하고 수정한 후 포커스를 잃을 때 발생
-- 라디오, 체크박스 입력은 `value` 값을 할당하지 않으면 자동으로 `'on'` 값을 할당 받는다.
+폴리모픽 패턴은 `as` prop으로 렌더링할 HTML 요소나 컴포넌트를 동적으로 지정하는 패턴이다.
 
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form>
-      <input type="text" name="text" />
-      <textarea name="textarea"></textarea>
-      <input type="file" name="files" multiple />
-      <select name="select">
-        <option value="">-</option>
-        <option value="select1">select1</option>
-        <option value="select2" selected>select2</option>
-        <option value="select3">select3</option>
-      </select>
-      <input type="radio" name="radio" value="radio1" />
-      <input type="radio" name="radio" value="radio2" checked />
-      <input type="radio" name="radio" value="radio3" />
-      <input type="checkbox" name="checkboxAll" />
-      <input type="range" name="range" value="0" min="0" max="50" step="0.5" />
-      <input type="color" name="color" value="#ffffff" />
-      <input type="date" name="date" />
-      <button type="submit">Submit</button>
-    </form>
-  </body>
-  <script>
-    const form = document.querySelector('form');
-    const text = document.querySelector('input[type="text"]');
-    const textarea = document.querySelector('textarea');
-    const select = document.querySelector('select');
-    const files = document.querySelector('input[type="file"]');
-    const checkboxAll = document.querySelector('input[name="checkboxAll"]');
-    const range = document.querySelector('input[type="range"]');
-    const color = document.querySelector('input[type="color"]');
-    const date = document.querySelector('input[type="date"]');
+- 동일한 스타일과 동작을 유지하면서 의미론적으로 올바른 HTML 요소를 선택할 수 있다.
+- TypeScript와 함께 사용하면 지정된 요소의 prop 타입을 자동으로 추론할 수 있다.
 
-    date.value = new Date().toISOString().split('T')[0];
+```tsx
+import { ComponentPropsWithoutRef, ElementType } from 'react';
 
-    const ids = [1, 2, 3];
+type TextProps<T extends ElementType> = {
+  as?: T;
+} & ComponentPropsWithoutRef<T>;
 
-    ids.map((id) => {
-      const checkbox = document.createElement('input');
-      checkbox.setAttribute('type', 'checkbox');
-      checkbox.setAttribute('name', 'checkbox');
-      checkbox.setAttribute('value', id.toString());
-      form.insertBefore(checkbox, range);
+function Text<T extends ElementType = 'span'>({ as, ...props }: TextProps<T>) {
+  const Component = as || 'span';
+  return <Component {...props} />;
+}
+
+// 사용
+<Text as='h1'>제목</Text>
+<Text as='p'>문단</Text>
+<Text as='label' htmlFor='input-id'>라벨</Text>
+```
+
+## 훅과 렌더링 컴포넌트 분리
+
+React 16.8(2019년)에서 Hooks가 도입된 이후, 로직을 커스텀 훅으로 추출하고 컴포넌트는 렌더링에만 집중하는 패턴이 정착되었다.
+
+- 비즈니스 로직과 UI를 분리하여 각각 독립적으로 테스트하고 재사용할 수 있다.
+- 커스텀 훅은 상태 관리, 사이드 이펙트, 데이터 페칭을 담당한다.
+- Presentational/Container 패턴의 현대적 대안으로 사용된다.
+
+```tsx
+// 로직: 커스텀 훅
+function useUserList() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchUsers().then((data) => {
+      setUsers(data);
+      setIsLoading(false);
     });
+  }, []);
 
-    const checkbox = document.querySelectorAll('input[name="checkbox"]');
+  return { users, isLoading };
+}
 
-    function handleCheckboxForm(e) {
-      const name = e.target.name;
-      const checked = e.target.checked;
+// 렌더링: 컴포넌트
+function UserList() {
+  const { users, isLoading } = useUserList();
 
-      if (name === 'checkboxAll') {
-        checkbox.forEach((cb) => cb && (cb.checked = checked));
-      } else {
-        checkboxAll.checked = Array.from(checkbox).every((cb) => cb && cb.checked);
-      }
-    }
-
-    function onSubmit(e) {
-      e.preventDefault();
-
-      const body = {
-        text: text.value,
-        textarea: textarea.value,
-        select: select.value,
-        files: files.files,
-        radio: form.elements.namedItem('radio').value,
-        checkbox: Array.from(checkbox)
-          .filter((cb) => cb.checked)
-          .map((cb) => parseInt(cb.value)),
-        range: range.value,
-        color: color.value,
-        date: date.value,
-      };
-
-      console.log(body);
-    }
-
-    function register() {
-      checkboxAll.addEventListener('input', handleCheckboxForm);
-      checkbox.forEach((cb) => {
-        cb.addEventListener('input', handleCheckboxForm);
-      });
-      form.addEventListener('submit', onSubmit);
-    }
-
-    register();
-  </script>
-</html>
+  if (isLoading) return <Spinner />;
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
 ```
+
+## asChild와 Slot 패턴
+
+`asChild` prop은 컴포넌트의 루트 HTML 요소를 자식 컴포넌트로 교체하는 패턴이다. Radix UI가 2021년경 폴리모픽 패턴의 대안으로 고안하여 널리 알려졌다.
+
+- `as` prop과 달리 실제 자식 컴포넌트가 루트 역할을 하므로, 불필요한 래퍼 DOM 노드가 생기지 않는다.
+- 부모의 props(이벤트 핸들러, `className` 등)가 자식 컴포넌트에 병합(merge)된다.
+- 이 병합 로직을 담당하는 컴포넌트가 `Slot`이다.
+
+```tsx
+import { Slot } from '@radix-ui/react-slot';
+
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  asChild?: boolean;
+};
+
+function Button({ asChild, ...props }: ButtonProps) {
+  const Component = asChild ? Slot : 'button';
+  return <Component {...props} />;
+}
+
+// button 대신 a 태그로 렌더링되면서 Button의 스타일·이벤트를 유지
+<Button asChild>
+  <a href='/home'>홈으로</a>
+</Button>;
+```
+
+`Slot`은 단일 자식의 props를 자신의 props와 병합하여 자식 요소로 렌더링한다.
+
+```tsx
+// Slot 직접 사용 예
+<Slot onClick={handleClick} className='btn'>
+  <a href='/home'>홈으로</a>
+</Slot>
+// 렌더링 결과: <a href="/home" onClick={handleClick} className="btn">홈으로</a>
+```
+
+## 제어 컴포넌트(Controlled Component)
+
+제어 컴포넌트(Controlled Component)는 React의 `state`가 입력 양식의 값을 제어하는 방식이다.
+
+- 입력값과 상태가 항상 동기화되어 실시간 유효성 검사 등에 유리하다.
+- React의 `onChange`는 브라우저의 `oninput`과 유사하게 동작하여 입력 시마다 상태를 업데이트한다.
+
+```tsx
+import { ChangeEvent, useState } from 'react';
+
+function ControlledInput() {
+  const [value, setValue] = useState('');
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  return <input type='text' value={value} onChange={handleChange} />;
+}
+```
+
+## 비제어 컴포넌트(Uncontrolled Component)
+
+비제어 컴포넌트(Uncontrolled Component)는 DOM 자체에서 폼 데이터를 관리하는 방식이다.
+
+- `useRef`를 사용하여 필요할 때만 DOM 요소에서 직접 값을 읽어온다.
+- 리렌더링 횟수를 줄일 수 있어 성능 최적화가 필요한 대규모 폼에 적합하다.
+- `defaultValue`나 `defaultChecked` 속성으로 초기값을 설정한다.
