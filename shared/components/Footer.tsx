@@ -9,8 +9,8 @@ export function Footer() {
   return (
     <footer
       className={twJoin(
-        'w-full border-t border-t-gray-300 bg-white',
-        'dark:border-t-gray-800 dark:bg-gray-950',
+        'w-full border-t border-t-gray-300 bg-white/80 backdrop-blur-sm',
+        'dark:border-t-gray-700 dark:bg-gray-950/80',
         `${pathname === '/llm' && 'hidden'}`,
       )}
     >

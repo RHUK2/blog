@@ -5,7 +5,7 @@ interface TreeProps {
 }
 
 export function Tree({ children }: TreeProps) {
-  return <div className='flex flex-col gap-8 border-l border-l-gray-400 pl-4 dark:border-l-gray-600'>{children}</div>;
+  return <div className='flex flex-col gap-8 border-l border-l-gray-300 pl-4 dark:border-l-gray-700'>{children}</div>;
 }
 
 interface LeafProps {
@@ -13,7 +13,7 @@ interface LeafProps {
   children: React.ReactNode;
 }
 export function Leaf({ top = 0, children }: LeafProps) {
-  const circleTop = top - 2;
+  const circleTop = top - 2.5;
   const left = 32;
   const circleLeft = left + 4;
 
@@ -24,7 +24,7 @@ export function Leaf({ top = 0, children }: LeafProps) {
         style={{ transform: `translate(-${circleLeft}px, ${circleTop}px)` }}
       />
       <div
-        className={`absolute w-5 border-b border-b-gray-400 dark:border-b-gray-600`}
+        className={`absolute w-5 border-b border-b-gray-300 dark:border-b-gray-700`}
         style={{ transform: `translate(-${left}px, ${top}px)` }}
       />
       {children}

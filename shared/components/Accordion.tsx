@@ -56,7 +56,7 @@ export function AccordionTrigger({ icon, children }: AccordionTriggerProps) {
       <motion.button
         initial='hidden'
         whileHover='visible'
-        className='flex cursor-pointer self-start overflow-hidden'
+        className='flex cursor-pointer self-start overflow-hidden transition-opacity hover:opacity-70'
         onClick={toggle}
         aria-expanded={isOpen}
       >

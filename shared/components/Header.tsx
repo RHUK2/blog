@@ -14,7 +14,7 @@ export function Header() {
         duration: 0.1,
       }}
     >
-      <header className='fixed z-50 w-full border-b border-b-gray-300 bg-white dark:border-b-gray-800 dark:bg-gray-950'>
+      <header className='fixed z-50 w-full border-b border-b-gray-300 bg-white/80 backdrop-blur-sm dark:border-b-gray-700 dark:bg-gray-950/80'>
         <div className='m-auto flex h-12 w-full max-w-[1024px] min-w-[320px] items-center justify-between px-5 text-lg tracking-tighter'>
           <MotionLink
             href='/'

@@ -80,7 +80,7 @@ export function TabsForm() {
                 paddingBottom: '12px',
               }}
               className={
-                'flex cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-3 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
+                'flex cursor-pointer items-center justify-between gap-2 rounded-t-md border border-b-0 border-gray-300 bg-gray-100 px-3 dark:border-gray-700 dark:bg-gray-800'
               }
               onClick={() => {
                 moveTab(tab.id);
@@ -103,7 +103,7 @@ export function TabsForm() {
             </motion.li>
           ))}
 
-          <motion.li className='rounded-none rounded-t-md border border-b-0 border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'>
+          <motion.li className='rounded-none rounded-t-md border border-b-0 border-gray-300 bg-gray-100 dark:border-gray-700 dark:bg-gray-800'>
             <motion.button
               aria-label='add-tab'
               className='cursor-pointer rounded-none rounded-t-md px-4 pt-2.5 pb-2 text-2xl leading-none hover:bg-black/20 hover:dark:bg-white/20'

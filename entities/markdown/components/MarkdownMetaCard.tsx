@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge } from '@/shared/components';
 import dayjs from 'dayjs';
 import { HTMLMotionProps, motion } from 'motion/react';
 import Link from 'next/link';
@@ -23,10 +24,12 @@ export function MarkdownMetaCard({ data, ...liProps }: Props) {
     >
       <Link
         href={`/markdown/${data.folderName}/detail`}
-        className='flex flex-col gap-1 rounded-lg border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 p-4 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800'
+        className='flex items-center gap-2 rounded-lg border border-gray-300 bg-gray-100 p-4 dark:border-gray-700 dark:bg-gray-800'
       >
-        <p className='text-xl'>{data.title ?? '-'}</p>
-        <p className='text-gray-600 dark:text-gray-400'>{`tag: ${data.tag ?? '-'}`}</p>
+        <p className='flex flex-1 gap-2 overflow-hidden'>
+          <span className='text-md overflow-lg text-ellipsis whitespace-nowrap'>{data.title ?? '-'}</span>
+          <Badge as={'span'}>{data.tag ?? '-'}</Badge>
+        </p>
         <p className='text-sm text-gray-600 dark:text-gray-400'>
           {dayjs(data.updatedAt).isValid() ? dayjs(data.updatedAt).fromNow() : '-'}
         </p>

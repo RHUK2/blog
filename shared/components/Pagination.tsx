@@ -1,6 +1,7 @@
 'use client';
 
 import { useDebounce } from '@/utils/hooks';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { Button } from './Button';
@@ -73,11 +74,21 @@ export function Pagination({ totalCount, size }: Props) {
   return (
     <>
       <div className='flex justify-between gap-3'>
-        <Button onClick={() => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0'))}>{'<'}</Button>
+        <Button
+          className='flex items-center justify-center'
+          onClick={() => handlePreviousPageQuery(parseInt(searchParams.get('page') || '0'))}
+        >
+          <ChevronLeft size={16} />
+        </Button>
         <Button ref={ref} onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
         </Button>
-        <Button onClick={() => handleNextPageQuery(parseInt(searchParams.get('page') || '0'))}>{'>'}</Button>
+        <Button
+          className='flex items-center justify-center'
+          onClick={() => handleNextPageQuery(parseInt(searchParams.get('page') || '0'))}
+        >
+          <ChevronRight size={16} />
+        </Button>
       </div>
 
       <Menu anchorEl={ref.current} open={isMenuOpen} onClose={handleMenuClose}>

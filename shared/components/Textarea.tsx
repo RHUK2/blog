@@ -42,7 +42,7 @@ export const Textarea = forwardRef(function Textarea(
         if (onKeyUp) onKeyUp(event);
       }}
       className={twMerge(
-        'resize-none rounded-md border border-gray-400 bg-transparent bg-gradient-to-br from-gray-50 to-gray-100 px-3 py-2 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+        'resize-none rounded-md border border-gray-300 bg-gray-100 px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:focus-visible:ring-gray-500',
         `${className ?? ''}`,
       )}
       {...textareaProps}

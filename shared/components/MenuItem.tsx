@@ -19,7 +19,10 @@ export const MenuItem = forwardRef(function MenuItem(
     <li>
       <button
         ref={buttonRef}
-        className={twMerge('m-auto min-w-12 cursor-pointer py-1 text-center', ` ${className ?? ''}`)}
+        className={twMerge(
+          'min-w-16 cursor-pointer px-3 py-1 text-center whitespace-nowrap hover:bg-gray-100 dark:hover:bg-gray-800',
+          ` ${className ?? ''}`,
+        )}
         {...buttonProps}
       >
         {children}

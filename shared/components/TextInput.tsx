@@ -17,8 +17,9 @@ export const TextInput = forwardRef(function TextInput(
       ref={textInputRef}
       className={twMerge(
         twJoin([
-          'min-h-8 rounded-md border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 px-2',
-          'dark:border-gray-700 dark:from-gray-900 dark:to-gray-800',
+          'min-h-8 rounded-md border border-gray-300 bg-gray-100 px-2',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400',
+          'dark:border-gray-700 dark:bg-gray-800 dark:focus-visible:ring-gray-500',
         ]),
         `${className ?? ''}`,
       )}
