@@ -52,12 +52,14 @@ export default async function Page({ params }: Props) {
             img({ alt, src }) {
               return (
                 <Image
-                  className='not-prose rounded-md object-contain'
+                  className='not-prose rounded-md'
                   alt={alt ?? ''}
                   src={`/markdown/${folderName}/${src ?? ''}`}
                   unoptimized={unoptimzed(src)}
-                  width={800}
-                  height={600}
+                  sizes='(max-width: 768px) calc(100vw - 2rem), 736px'
+                  width={0}
+                  height={0}
+                  style={{ width: '100%', height: 'auto' }}
                 />
               );
             },

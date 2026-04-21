@@ -4,7 +4,7 @@ import { Badge, CategoryBox, Leaf, SvgrIcon, Tree } from '@/shared/components';
 
 export default function RootPage() {
   return (
-    <main className='m-auto min-h-full max-w-[768px] min-w-[320px] bg-white pt-12 dark:bg-gray-950'>
+    <main className='m-auto min-h-full max-w-3xl min-w-xs bg-white pt-12 dark:bg-gray-950'>
       <section className='flex flex-col gap-12 px-4 py-10'>
         <Profile />
 

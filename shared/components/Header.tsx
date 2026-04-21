@@ -2,8 +2,8 @@
 
 import { motion, MotionConfig } from 'motion/react';
 import Link from 'next/link';
-import { DarkLightButton } from './DarkLightButton';
 import { navList } from '../data';
+import { DarkLightButton } from './DarkLightButton';
 
 export function Header() {
   const MotionLink = motion.create(Link);
@@ -15,7 +15,7 @@ export function Header() {
       }}
     >
       <header className='fixed z-50 w-full border-b border-b-gray-300 bg-white/80 backdrop-blur-sm dark:border-b-gray-700 dark:bg-gray-950/80'>
-        <div className='m-auto flex h-12 w-full max-w-[1024px] min-w-[320px] items-center justify-between px-5 text-lg tracking-tighter'>
+        <div className='m-auto flex h-12 w-full max-w-3xl min-w-xs items-center justify-between px-5 text-lg tracking-tighter'>
           <MotionLink
             href='/'
             className='origin-bottom-left leading-none font-bold'

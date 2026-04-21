@@ -14,7 +14,7 @@ export function Footer() {
         `${pathname === '/llm' && 'hidden'}`,
       )}
     >
-      <div className='m-auto flex h-16 max-w-[1024px] min-w-[320px] items-center justify-center px-5'>
+      <div className='m-auto flex h-16 max-w-3xl min-w-xs items-center justify-center px-5'>
         <p className='text-xs tracking-tighter'>ⓒ 2024. RHUK2 All rights reserved.</p>
       </div>
     </footer>
