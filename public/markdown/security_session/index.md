@@ -8,6 +8,7 @@ isPublished: true
 # 세션(Session) 기반 인증
 
 - [세션(Session) 인증이란?](#세션session-인증이란)
+- [세션 인증 플로우](#세션-인증-플로우)
 - [세션 인증의 특징](#세션-인증의-특징)
 - [쿠키(Cookie) 보안 속성](#쿠키cookie-보안-속성)
 - [세션 저장소(Session Store) 비교](#세션-저장소session-store-비교)
@@ -20,6 +21,37 @@ isPublished: true
   - 서버가 모든 인증 상태를 직접 관리하므로 보안 제어가 용이함.
   - 사용자가 많아질수록 서버 메모리나 DB 부하가 증가함.
   - 서버 확장 시 세션 불일치 문제를 해결하기 위해 세션 클러스터링(Session Clustering)이나 공유 저장소(Redis 등)가 필요함.
+
+## 세션 인증 플로우
+
+```mermaid
+sequenceDiagram
+    actor Client as 클라이언트
+    participant Server as 서버
+    participant Store as 세션 저장소
+
+    Note over Client, Store: 로그인
+
+    Client->>Server: POST /login (아이디, 비밀번호)
+    Server->>Server: 자격 증명 검증
+    Server->>Store: 세션 생성 및 저장 (session_id → 사용자 정보)
+    Store-->>Server: 저장 완료
+    Server-->>Client: 응답 (Set-Cookie: session_id=abc123 HttpOnly Secure)
+
+    Note over Client, Store: 인증이 필요한 요청
+
+    Client->>Server: GET /profile (Cookie: session_id=abc123)
+    Server->>Store: 세션 조회 (session_id=abc123)
+    Store-->>Server: 사용자 정보 반환
+    Server-->>Client: 응답 (보호된 리소스)
+
+    Note over Client, Store: 로그아웃
+
+    Client->>Server: POST /logout (Cookie: session_id=abc123)
+    Server->>Store: 세션 삭제 (session_id=abc123)
+    Store-->>Server: 삭제 완료
+    Server-->>Client: 응답 (Set-Cookie: session_id= Max-Age=0)
+```
 
 ## 세션 인증의 특징
 

@@ -17,6 +17,7 @@ isPublished: true
 - [JSX(JavaScript XML)](#jsxjavascript-xml)
   - [createElement 변환과 Virtual DOM 생성](#createelement-변환과-virtual-dom-생성)
 - [조건부 렌더링 방식 비교](#조건부-렌더링-방식-비교)
+  - [요소 숨김 방법 비교](#요소-숨김-방법-비교)
 
 ## 리액트 렌더링(React Rendering) 과정
 
@@ -126,3 +127,18 @@ const element = React.createElement(Button, { color: 'red' }, '클릭');
   !!count && <Item />;
 }
 ```
+
+### 요소 숨김 방법 비교
+
+React와 CSS에서 요소를 숨기는 방법은 여러 가지이며, DOM 유지 여부와 애니메이션 가능 여부에서 차이가 있다.
+
+| 방법                                    | DOM 잔류 | 공간 점유 | 렌더링 | 애니메이션             | 주 용도                       |
+| --------------------------------------- | -------- | --------- | ------ | ---------------------- | ----------------------------- |
+| 조건부 렌더링 (`{condition && <El />}`) | 제거됨   | 없음      | 안 함  | 라이브러리 필요        | 성능 최적화, 간단한 토글      |
+| `display: none`                         | 유지됨   | 없음      | 안 함  | 불가                   | 간단한 숨김, DOM 유지 필요 시 |
+| `visibility: hidden`                    | 유지됨   | 있음      | 함     | `opacity` 등 일부 가능 | 공간 유지, 부드러운 전환      |
+| Framer Motion `AnimatePresence`         | 제거됨   | 없음      | 안 함  | 가능 (`exit` 등)       | 애니메이션과 함께 요소 제거   |
+
+- `display: none`: DOM은 유지되므로 ref 접근이나 포커스 관리가 필요한 컴포넌트에 적합함. 단, 탭 순서에서 제외되지 않으므로 접근성 처리가 필요할 수 있음.
+- `visibility: hidden`: 레이아웃 공간을 차지하므로 요소 크기를 유지하면서 내용만 감출 때 사용함.
+- 조건부 렌더링: 언마운트 시 내부 상태가 초기화되므로, 상태 보존이 필요한 경우에는 CSS 숨김 방식이 적합함.

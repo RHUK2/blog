@@ -20,6 +20,9 @@ isPublished: true
 - [정규화 (Normalization)](#정규화-normalization)
   - [정규화 단계 요약](#정규화-단계-요약)
 - [관계형 데이터베이스의 관계](#관계형-데이터베이스의-관계)
+  - [일대일](#일대일)
+  - [일대다](#일대다)
+  - [다대다](#다대다)
 
 ## 데이터 조회 및 별칭
 
@@ -109,8 +112,6 @@ SELECT age, COUNT(*) FROM user GROUP BY age HAVING COUNT(*) > 1;
 
 ## 인덱스 (Index)
 
-![img](images/erd_example.png)
-
 인덱스(Index)는 데이터베이스에서 검색 속도를 향상시키기 위해 사용하는 자료구조다.
 
 ### B-Tree 인덱스 원리
@@ -137,3 +138,65 @@ SELECT age, COUNT(*) FROM user GROUP BY age HAVING COUNT(*) > 1;
 - 일대일 (1:1): 두 테이블의 레코드가 서로 하나씩만 연결됨
 - 일대다 (1:N): 한 테이블의 레코드가 다른 테이블의 여러 레코드와 연결됨 (가장 일반적인 형태)
 - 다대다 (N:M): 양쪽 테이블 모두 서로 여러 레코드와 연결될 수 있으며, 조인 테이블(매개 테이블)이 필요함
+
+### 일대일
+
+`user` 한 명은 하나의 `user_profile`을 가지며, 반대로 `user_profile`도 하나의 `user`에만 속한다. `user_profile`의 외래키 `userId`에 `UNIQUE` 제약을 걸어 중복 연결을 방지한다.
+
+```mermaid
+erDiagram
+  user {
+    int id PK
+    string name
+    string email
+  }
+  user_profile {
+    int id PK
+    int userId FK
+    string bio
+    string avatarUrl
+  }
+  user ||--|| user_profile : "has"
+```
+
+### 일대다
+
+`user` 한 명은 여러 `post`를 작성할 수 있고, 각 `post`는 반드시 하나의 `user`에 속한다. `post` 테이블의 `userId` 외래키가 `user.id`를 참조한다.
+
+```mermaid
+erDiagram
+  user {
+    int id PK
+    string name
+    string email
+  }
+  post {
+    int id PK
+    int userId FK
+    string title
+    string content
+  }
+  user ||--o{ post : "writes"
+```
+
+### 다대다
+
+`post`는 여러 `tag`를 가질 수 있고, `tag`도 여러 `post`에 붙을 수 있다. 이 관계는 `post_tag` 조인 테이블로 분해하여 표현한다.
+
+```mermaid
+erDiagram
+  post {
+    int id PK
+    string title
+  }
+  tag {
+    int id PK
+    string name
+  }
+  post_tag {
+    int postId FK
+    int tagId FK
+  }
+  post ||--o{ post_tag : ""
+  tag ||--o{ post_tag : ""
+```

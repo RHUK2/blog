@@ -54,11 +54,54 @@ JWT는 점(`.`)으로 구분된 세 부분으로 구성된다.
 - Access Token: 실제 리소스 접근 권한을 증명함. 보안을 위해 유효 기간을 짧게(예: 15분) 설정함.
 - Refresh Token: 새로운 Access Token을 발급받기 위해 사용함. 보안이 강화된 저장소에 보관하며 유효 기간을 길게(예: 2주) 설정함.
 
-![img](images/jwt_auth_1.png)
+```mermaid
+sequenceDiagram
+    participant C as 클라이언트
+    participant A as 인증 서버
+    participant R as 리소스 서버
+
+    C->>A: 로그인 요청 (ID/PW)
+    A-->>C: Access Token + Refresh Token 발급
+
+    C->>R: API 요청 (Access Token)
+    R-->>C: 응답
+
+    Note over C,R: Access Token 만료
+
+    C->>A: 토큰 갱신 요청 (Refresh Token)
+    A-->>C: 새 Access Token 발급
+
+    C->>R: API 요청 (새 Access Token)
+    R-->>C: 응답
+```
 
 - Refresh Token Rotation: Refresh Token 사용 시마다 새로운 토큰을 재발급하여 탈취된 토큰의 재사용을 방지하는 기법임.
 
-![img](images/jwt_auth_2.png)
+```mermaid
+sequenceDiagram
+    participant C as 클라이언트
+    participant A as 인증 서버
+    participant R as 리소스 서버
+
+    C->>A: 로그인 요청 (ID/PW)
+    A-->>C: Access Token + Refresh Token(v1) 발급
+
+    C->>R: API 요청 (Access Token)
+    R-->>C: 응답
+
+    Note over C,R: Access Token 만료
+
+    C->>A: 토큰 갱신 요청 (Refresh Token v1)
+    A-->>C: 새 Access Token + Refresh Token(v2) 발급 — v1 무효화
+
+    C->>R: API 요청 (새 Access Token)
+    R-->>C: 응답
+
+    Note over C,A: 탈취자가 구 토큰으로 갱신 시도
+
+    C->>A: 토큰 갱신 요청 (Refresh Token v1)
+    A-->>C: 오류 반환 — 전체 세션 만료 처리
+```
 
 ## 구현 예제(Node.js)
 

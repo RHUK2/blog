@@ -95,7 +95,12 @@ Host bitbucket.org
 
 ## 초기화(Initialization)
 
-![img](images/git_init.png)
+```mermaid
+flowchart LR
+    D[디렉토리] -->|"git init"| LR["로컬 저장소 (.git)"]
+    LR <-->|"git remote add / remove"| RR[원격 저장소]
+    RR -->|"git clone"| LR
+```
 
 ### git init
 
@@ -134,7 +139,16 @@ git clone <원격 저장소 주소>
 
 ## 소스 제어(Source Control)
 
-![img](images/git_source_control.png)
+```mermaid
+flowchart LR
+    WD[워킹 디렉토리] -->|"git add"| SA[스테이징 영역]
+    SA -->|"git restore --staged"| WD
+    SA -->|"git commit"| LR[로컬 저장소]
+    LR -->|"git restore"| WD
+    LR -->|"git push"| RR[원격 저장소]
+    RR -->|"git fetch"| LR
+    RR -->|"git pull"| WD
+```
 
 ### git add
 

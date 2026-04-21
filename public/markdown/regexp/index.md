@@ -1,5 +1,5 @@
 ---
-folderName: regexp_note
+folderName: regexp
 title: Regexp
 tag: regexp
 isPublished: true
