@@ -154,7 +154,7 @@ server {
 
 ## CDN(Content Delivery Network)
 
-![img](images/cdn.png)
+![img](images/cdn.webp)
 
 지리적으로 분산된 엣지 서버(Edge Server)를 활용하여 정적 콘텐츠를 빠르게 전송하는 기술이다.
 

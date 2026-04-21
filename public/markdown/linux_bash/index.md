@@ -404,7 +404,7 @@ greet "World"  # 함수 호출
 
 ## vi 에디터
 
-![img](images/vi.png)
+![img](images/vi.webp)
 
 - 명령 모드: 기본 상태, 이동 및 삭제 명령 수행.
 - 입력 모드: `i`, `a`, `o` 키로 진입하여 텍스트 입력.

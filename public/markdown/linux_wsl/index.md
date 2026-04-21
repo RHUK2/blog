@@ -17,7 +17,7 @@ isPublished: true
 
 ## WSL 아키텍처 및 네트워크
 
-![img](images/wsl_network.png)
+![img](images/wsl_network.webp)
 
 - WSL은 Windows 환경에서 리눅스 바이너리를 실행할 수 있게 해주는 하위 시스템임.
 - 기본적으로 가상 이더넷 어댑터를 통해 호스트(Windows)와 통신하며, 각각 고유한 IP 주소를 가짐.

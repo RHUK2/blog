@@ -18,7 +18,7 @@ isPublished: true
 
 ## 암호화(Encryption) 개요
 
-![img](images/crpyto_1.png)
+![img](images/crpyto_1.webp)
 
 암호화는 평문(Plaintext) 데이터를 수학적 알고리즘을 사용하여 권한이 없는 사용자가 읽을 수 없는 암호문(Ciphertext)으로 변환하는 기술임. 복호화(Decryption)는 암호문을 다시 원래의 평문으로 복원하는 과정을 의미함.
 
@@ -34,7 +34,7 @@ isPublished: true
 
 ## 단방향 알고리즘: 해시 함수(Hash Function)
 
-![img](images/crpyto_2.png)
+![img](images/crpyto_2.webp)
 
 해시 함수는 임의의 길이를 가진 데이터를 고정된 길이의 해시값으로 변환함. 한 번 암호화하면 원래 데이터를 찾아낼 수 없는 단방향성을 가짐.
 
@@ -44,7 +44,7 @@ isPublished: true
 
 ## 양방향 알고리즘: 대칭키 암호화(Symmetric-Key Encryption)
 
-![img](images/crpyto_4.png)
+![img](images/crpyto_4.webp)
 
 암호화와 복호화에 동일한 비밀키(Secret Key)를 사용하는 방식임. 속도가 빠르지만 키를 안전하게 전달하는 과정이 복잡하다는 단점이 있음.
 
@@ -59,7 +59,7 @@ isPublished: true
 
 ## 양방향 알고리즘: 비대칭키 암호화(Asymmetric-Key Encryption)
 
-![img](images/crpyto_5.png)
+![img](images/crpyto_5.webp)
 
 서로 수학적으로 연결된 공개키(Public Key)와 개인키(Private Key) 쌍을 사용하는 방식임. 공개키는 누구나 알 수 있지만, 개인키는 소유자만 안전하게 보관함.
 

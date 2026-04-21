@@ -38,11 +38,11 @@ isPublished: true
 
 ### 전체 아키텍처
 
-![img](images/frontend_design.jpg)
+![img](images/frontend_design.webp)
 
 ### 웹 성능 최적화
 
-![img](images/frontend_optimization.jpg)
+![img](images/frontend_optimization.webp)
 
 ## 브라우저 성능 최적화(CRP)
 

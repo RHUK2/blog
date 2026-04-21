@@ -24,7 +24,7 @@ isPublished: true
 
 ### 요소 좌표
 
-![img](images/coordinate_element.png)
+![img](images/coordinate_element.webp)
 
 `getBoundingClientRect()` 메서드를 사용하여 요소의 크기와 브라우저 창(Viewport)을 기준으로 한 상대적 위치 정보를 가져온다.
 
@@ -48,7 +48,7 @@ function getCoords(elem) {
 
 ### 마우스 좌표
 
-![img](images/coordinate_mouse.png)
+![img](images/coordinate_mouse.webp)
 
 이벤트 객체에서 제공하는 마우스 위치 정보는 다음과 같은 기준으로 나뉜다.
 
@@ -107,7 +107,7 @@ element.addEventListener('pointermove', (e) => {
 
 ### 요소 사이즈
 
-![img](images/geometry_element.png)
+![img](images/geometry_element.webp)
 
 | 속성                 | 설명                                                               |
 | :------------------- | :----------------------------------------------------------------- |

@@ -39,7 +39,7 @@ isPublished: true
 
 데이터가 평균으로부터 얼마나 퍼져 있는지를 나타내는 척도임.
 
-![img](images/standard_deviation.png)
+![img](images/standard_deviation.webp)
 
 - 분산(Variance): 편차(각 데이터와 평균의 차이) 제곱의 합을 데이터 개수로 나눈 값.
 - 표준편차(Standard Deviation): 분산의 제곱근. 데이터의 산포도를 원래 단위로 표현함.
@@ -180,7 +180,7 @@ $$\text{국어} \; z = \frac{85 - 70}{10} = 1.5 \qquad \text{수학} \; z = \fra
 
 ## 지수 • 로그 • 루트
 
-![img](images/triangle_of_power.png)
+![img](images/triangle_of_power.webp)
 
 - 지수(Exponent): 거듭제곱의 횟수를 나타냄.
 - 로그(Logarithm): 어떤 수를 만들기 위해 밑을 몇 번 거듭제곱해야 하는지 나타냄.

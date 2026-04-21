@@ -29,7 +29,7 @@ getEventListeners(document);
 
 또는 개발자 도구의 Elements 탭에서 요소를 선택 후 우측 패널의 Event Listeners 탭을 통해 시각적으로 확인할 수 있다.
 
-![img](images/devtool_tab.png)
+![img](images/devtool_tab.webp)
 
 ## 네트워크 이슈
 
@@ -41,7 +41,7 @@ getEventListeners(document);
 
 개발자 도구의 Network 탭에서 Timing 탭을 자세히 살펴보니 진입점 파일인 `index.html`을 불러오는데 약 20초가 걸렸다. 원인은 Initial connection 단계에서의 지연이었다.
 
-![img](images/initial_connection.png)
+![img](images/initial_connection.webp)
 
 이는 프론트엔드 코드 수정으로 해결될 문제가 아니라 네트워크/인프라 이슈였다. 도메인 연결을 검토한 결과, 연결한 도메인이 유효하지 않은 IP나 여러 IP에 잘못 연결되어 있어 타임아웃이 발생한 후 올바른 IP를 찾는 과정에서 지연이 발생한 것이었다.
 
@@ -70,7 +70,7 @@ HTTPS 사이트에서 HTTP 리소스(이미지, 스크립트, API 요청 등)를
 
 ### 이미지 미리보기가 안 되는 경우
 
-![img](images/preview_image.png)
+![img](images/preview_image.webp)
 
 ```ts
 async function getResource() {

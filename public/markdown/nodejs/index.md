@@ -133,7 +133,7 @@ Node.js는 브라우저 외부 환경이지만 개발 편의를 위해 다양한
 
 ## Express 미들웨어(Middleware)
 
-![img](images/express_middleware.png)
+![img](images/express_middleware.webp)
 
 미들웨어는 요청(req)과 응답(res) 사이에서 실행되는 함수다. `next()`를 호출하여 다음 미들웨어로 제어를 넘기며, 호출하지 않으면 요청 처리가 그 시점에서 멈춤.
 

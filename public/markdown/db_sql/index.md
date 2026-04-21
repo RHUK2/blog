@@ -38,7 +38,7 @@ SELECT post.id AS postId, user.name FROM user, post; -- 별칭 지정
 
 조인(Join)은 두 개 이상의 테이블을 결합하여 데이터를 조회하는 연산이다.
 
-![img](images/join_cheat_sheet.jpg)
+![img](images/join_cheat_sheet.webp)
 
 ### 조인 종류
 

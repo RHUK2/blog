@@ -181,11 +181,11 @@ A → U+0041 → 65 → glyphIndex: 4
 
 글리프:
 
-![img](images/glyph.png)
+![img](images/glyph.webp)
 
 cmap(Character To Glyph Index Mapping Table):
 
-![img](images/cmap.png)
+![img](images/cmap.webp)
 
 ### 아이콘 폰트 동작 원리
 
@@ -211,9 +211,9 @@ cmap(Character To Glyph Index Mapping Table):
 - FOUT (Flash of Unstyled Text): 폰트 로드 전 시스템 글꼴이 보이다가 교체되는 현상임. `font-display: swap` 사용 시 발생함.
 - FOIT (Flash of Invisible Text): 폰트 로딩이 완료될 때까지 텍스트가 보이지 않는 현상임. `font-display: block` 사용 시 발생함.
 
-![img](images/font_1.png)
+![img](images/font_1.webp)
 
-![img](images/font_2.png)
+![img](images/font_2.webp)
 
 해결 방안:
 

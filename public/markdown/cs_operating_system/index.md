@@ -25,7 +25,7 @@ isPublished: true
 
 ## 커널 vs 하이퍼바이저
 
-![img](images/hypervisor.png)
+![img](images/hypervisor.webp)
 
 운영체제(Operating System)의 핵심인 커널(Kernel)과 가상화 환경을 관리하는 하이퍼바이저(Hypervisor)는 자원 관리 방식에서 차이가 있다.
 

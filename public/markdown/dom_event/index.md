@@ -26,13 +26,13 @@ isPublished: true
 
 이벤트 객체는 계층적인 상속 구조를 가진다. 모든 이벤트의 최상위에는 `Event` 인터페이스가 존재하며, 발생한 이벤트의 종류에 따라 구체적인 하위 인터페이스를 상속받는다.
 
-![img](images/event_inheritance.png)
+![img](images/event_inheritance.webp)
 
 ## 이벤트 전파(Event Propagation)
 
 이벤트가 발생했을 때 DOM 트리를 따라 전파되는 과정을 말한다. 브라우저는 표준 이벤트 흐름에 따라 3단계로 이벤트를 전파한다.
 
-![img](images/event_propagation.png)
+![img](images/event_propagation.webp)
 
 ### 버블링(Bubbling)
 
@@ -109,7 +109,7 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
 
 터치 인터페이스에서 발생하는 이벤트들의 발생 순서와 흐름을 나타낸다.
 
-![img](images/sequence_of_touch_event.png)
+![img](images/sequence_of_touch_event.webp)
 
 ## Observer API
 

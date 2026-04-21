@@ -54,7 +54,7 @@ HTTP 응답 헤더를 통해 브라우저가 자원을 얼마나 오래, 어떤 
 
 ## 메모리 캐시(Memory Cache) • 디스크 캐시(Disk Cache)
 
-![img](images/cache_size.png)
+![img](images/cache_size.webp)
 
 브라우저는 자원의 크기와 사용 빈도에 따라 저장 위치를 자동으로 결정한다.
 

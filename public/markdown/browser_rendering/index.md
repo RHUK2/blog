@@ -16,13 +16,13 @@ isPublished: true
 
 ## 웹 브라우저(Web Browser)란?
 
-![img](images/BOM.png)
+![img](images/BOM.webp)
 
 브라우저는 사용자가 요청한 자원(HTML, CSS, JS, 이미지 등)을 서버로부터 받아와 화면에 표시하는 소프트웨어다. HTTP 프로토콜을 통해 통신하며, 렌더링 엔진과 JavaScript 엔진을 통해 코드를 해석하고 실행한다.
 
 ### 렌더링 파이프라인(Rendering Pipeline)
 
-![img](images/browser_rendering.png)
+![img](images/browser_rendering.webp)
 
 브라우저가 HTML 데이터를 픽셀로 변환하여 화면에 그리는 과정은 다음과 같은 단계를 거친다.
 

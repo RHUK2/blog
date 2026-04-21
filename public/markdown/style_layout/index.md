@@ -145,7 +145,7 @@ h1 {
 
 `flex`의 모든 속성은 메인 축을 기준으로 작동하며, `flex-direction`으로 메인 축을 변경할 수 있다.
 
-![img](images/flex_axis.png)
+![img](images/flex_axis.webp)
 
 |               | `flex-direction: row`        | `flex-direction: column`     |
 | ------------- | ---------------------------- | ---------------------------- |
@@ -160,7 +160,7 @@ h1 {
 
 `flex-basis`는 아이템이 남은 공간(Free space)을 나누기 전의 기본 크기를 결정한다.
 
-![img](images/flex_basis.jpg)
+![img](images/flex_basis.webp)
 
 위 사진처럼 여백을 정확한 비율로 나누기 위해서는 `flex-basis: 0`을 사용한다. `flex-basis: auto`일 경우 아이템의 내용물(Content) 너비만큼 미리 차지하므로 정확한 비율로 나누지 못한다.
 
@@ -534,7 +534,7 @@ place-self: end center; /* align-self justify-self */
 
 `<img>`나 `<video>`, `<iframe>` 요소와 같은 대체 요소의 콘텐츠 크기를 어떤 방식으로 조절해 요소에 맞출 것인지 지정한다.
 
-![img](images/object_fit.png)
+![img](images/object_fit.webp)
 
 | `object-fit` | 설명                                                                   |
 | ------------ | ---------------------------------------------------------------------- |

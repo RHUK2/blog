@@ -21,13 +21,13 @@ isPublished: true
 - 노드(Node)로 구성되며, 각 노드는 요소, 텍스트, 속성 등을 나타냄.
 - JavaScript를 통해 이 모델을 조작하여 웹 페이지의 내용과 구조를 동적으로 변경할 수 있음.
 
-![img](images/dom_tree.png)
+![img](images/dom_tree.webp)
 
 ## 노드 상속(Node Inheritance)
 
 DOM의 모든 노드는 특정 인터페이스를 상속받는다. 이 계층 구조를 이해하면 각 노드에서 사용할 수 있는 메서드와 속성을 파악하기 용이하다.
 
-![img](images/node_inheritance.png)
+![img](images/node_inheritance.webp)
 
 ## 속성(Attribute • Property)
 

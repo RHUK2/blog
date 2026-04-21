@@ -31,7 +31,7 @@ isPublished: true
 
 ## 브라우저의 주소 표시창에 URL을 입력했을 때 발생하는 동작
 
-![img](images/browser_url_input.jpg)
+![img](images/browser_url_input.webp)
 
 1. URL 해석: 브라우저가 입력된 텍스트가 검색어인지 URL인지 확인한다.
 2. DNS 조회: 도메인 이름을 IP 주소로 변환하기 위해 DNS 서버에 요청한다.
@@ -99,18 +99,18 @@ isPublished: true
 - 각 파트에 `Content-Type` 및 `Content-Disposition` 헤더가 부여된다.
 - 자바스크립트에서 바이너리 데이터를 다룰 때 `blob` 객체로 다뤄지는데 `multipart/form-data`를 사용하면 해당 객체를 자동으로 바이너리 데이터로 변환하고 서버로 전송한다.
 
-![img](images/payload_multipart1.png)
-![img](images/payload_multipart2.png)
+![img](images/payload_multipart1.webp)
+![img](images/payload_multipart2.webp)
 
 ### `application/json`
 
 - HTTP 요청의 `body` 값으로 JSON 데이터를 보낼 때 사용한다.
 
-![img](images/payload_json1.png)
+![img](images/payload_json1.webp)
 
 - 바이너리 데이터를 Base64 형식으로 인코딩해서 보내는 경우는 아래와 같다.
 
-![img](images/payload_json2.png)
+![img](images/payload_json2.webp)
 
 ### `application/octet-stream`
 
@@ -118,14 +118,14 @@ isPublished: true
 - 어떤 종류의 파일인지 알 수 있는 바이너리 데이터는 다른 MIME 타입을 사용해서 명시해준다.
 - 자바스크립트에서 바이너리 데이터를 다룰 때 `blob` 객체로 다뤄지는데 `application/octet-stream`을 사용하면 해당 객체를 바이너리 데이터로 변환 후에 서버로 전송해야 한다.
 
-![img](images/payload_octet_stream.png)
+![img](images/payload_octet_stream.webp)
 
 ### `application/x-www-form-urlencoded`
 
 - HTML 폼 방식으로 HTTP 요청을 할 때 기본값으로 설정되며, HTTP 요청의 `body` 값으로 데이터를 URL 인코딩하여 보낼 때 사용한다. (`key=value&key2=value2` 형태)
 
-![img](images/payload_form_urlencoded1.png)
-![img](images/payload_form_urlencoded2.png)
+![img](images/payload_form_urlencoded1.webp)
+![img](images/payload_form_urlencoded2.webp)
 
 ### 기타 MIME 타입
 

@@ -37,7 +37,7 @@ SOP는 3~4 단계에서 교차 출처 읽기를 차단하여 이러한 공격을
 
 출처는 프로토콜(Protocol) · 호스트(Host) · 포트(Port)의 조합으로 결정된다. 세 가지 요소가 모두 일치해야 동일 출처로 간주한다.
 
-![img](images/origin.gif)
+![img](images/origin.webp)
 
 ### 동일 출처 vs 교차 출처 예시
 
