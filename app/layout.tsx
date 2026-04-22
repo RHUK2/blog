@@ -1,6 +1,6 @@
-import { Footer, Header } from '@/shared/components';
-import { GlobalClientConfig } from '@/store/GlobalClientConfig';
-import { ReactQueryProvider } from '@/store/ReactQueryProvider';
+import { GlobalClientConfig, ReactQueryProvider } from '@/app/_providers';
+import { Header } from '@/widgets/site-header';
+import { Footer } from '@/widgets/site-footer';
 import '@/styles/globals.css';
 import '@/styles/highlight.css';
 import dayjs from 'dayjs';

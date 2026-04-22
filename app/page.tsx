@@ -1,6 +1,5 @@
-import { CareerContentItem, Profile, ProjectContentItem } from '@/entities/profile/components';
-import { careerList, projectList, skillList } from '@/entities/profile/data';
-import { Badge, CategoryBox, Leaf, SvgrIcon, Tree } from '@/shared/components';
+import { CareerContentItem, Profile, ProjectContentItem, careerList, projectList, skillList } from '@/entities/profile';
+import { Badge, CategoryBox, Leaf, SvgrIcon, Tree } from '@/shared/ui';
 
 export default function RootPage() {
   return (

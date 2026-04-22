@@ -1,4 +1,4 @@
-import { ChatListRequest } from '@/entities/chat/types';
+import { ChatListRequest } from '@/entities/chat';
 import OpenAI from 'openai';
 import type { Stream } from 'openai/streaming';
 

@@ -1,7 +1,6 @@
-import { MarkdownMetaCard, TagNavigation } from '@/entities/markdown/components';
-import { readMarkdownMetaList } from '@/entities/markdown/data';
-import { Divider, Pagination } from '@/shared/components';
-import { PAGE_SIZE } from '@/utils/constants';
+import { MarkdownMetaCard, TagNavigation, readMarkdownMetaList } from '@/entities/markdown';
+import { PAGE_SIZE } from '@/shared/config/constants';
+import { Divider, Pagination } from '@/shared/ui';
 
 interface Props {
   searchParams: Promise<{

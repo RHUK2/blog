@@ -1,6 +1,6 @@
-import { readMarkdownContent } from '@/entities/markdown/data';
-import markdownMetaList from '@/entities/markdown/list.json';
-import { MermaidDiagram, ScrollTopFloatingButton } from '@/shared/components';
+import { readMarkdownContent } from '@/entities/markdown';
+import markdownMetaList from '@/entities/markdown/api/list.json';
+import { MermaidDiagram, ScrollTopFloatingButton } from '@/shared/ui';
 import Image from 'next/image';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';

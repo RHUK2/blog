@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function Layout({ children }: Readonly<Props>) {
-  return <main className='m-auto h-full max-w-[768px] min-w-[320px] bg-white pt-12 dark:bg-gray-950'>{children}</main>;
+  return <main className='m-auto h-full max-w-3xl min-w-xs bg-white pt-12 dark:bg-gray-950'>{children}</main>;
 }

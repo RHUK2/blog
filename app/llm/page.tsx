@@ -1,4 +1,4 @@
-import { TabsForm } from '@/entities/chat/components';
+import { TabsForm } from '@/features/llm-chat';
 
 export default function Page() {
   return (
