@@ -1,12 +1,14 @@
 'use client';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
 export function useRequestAnimationFrame<T extends Callback>(callback: T) {
   const rafId = useRef<number | null>(null);
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
 
   useEffect(() => {
     return () => {
@@ -16,14 +18,12 @@ export function useRequestAnimationFrame<T extends Callback>(callback: T) {
     };
   }, []);
 
-  // 외부에서 호출될 때 받아지는 args
-  return (...args: Parameters<T>) => {
+  return useCallback((...args: Parameters<T>) => {
     if (rafId.current == null) {
-      rafId.current = requestAnimationFrame((t) => {
-        callback(...args);
-
+      rafId.current = requestAnimationFrame(() => {
+        callbackRef.current(...args);
         rafId.current = null;
       });
     }
-  };
+  }, []);
 }

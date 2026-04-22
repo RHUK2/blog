@@ -13,6 +13,10 @@ isPublished: true
   - [구현 예시](#구현-예시-1)
 - [RequestAnimationFrame(rAF)](#requestanimationframeraf)
   - [구현 예시](#구현-예시-2)
+- [안정적인 참조와 최신 콜백 유지](#안정적인-참조와-최신-콜백-유지)
+  - [문제 1: 반환 함수의 참조 불안정](#문제-1-반환-함수의-참조-불안정)
+  - [문제 2: 클로저 안에 갇힌 콜백](#문제-2-클로저-안에-갇힌-콜백)
+  - [해결: callbackRef](#해결-callbackref)
 
 ## 쓰로틀링(Throttling)
 
@@ -28,8 +32,9 @@ isPublished: true
 ### 구현 예시
 
 ```ts
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
 interface ThrottleOptions {
@@ -42,39 +47,56 @@ export function useThrottle<T extends Callback>(
   delay: number,
   options: ThrottleOptions = { leading: true, trailing: false },
 ) {
-  const { leading, trailing } = options;
-  const timerId = useRef<ReturnType<typeof setTimeout>>();
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+  const delayRef = useRef(delay);
+  delayRef.current = delay;
+  const leadingRef = useRef(options.leading ?? true);
+  leadingRef.current = options.leading ?? true;
+  const trailingRef = useRef(options.trailing ?? false);
+  trailingRef.current = options.trailing ?? false;
+
+  const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);
-  const lastArgs = useRef<Parameters<T>>();
+  const lastArgs = useRef<Parameters<T>>(null);
 
   useEffect(() => {
     return () => {
-      clearTimeout(timerId.current);
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
     };
   }, []);
 
-  return (...args: Parameters<T>) => {
-    lastArgs.current = args;
+  return useCallback((...args: Parameters<T>) => {
+    if (trailingRef.current) {
+      lastArgs.current = args;
+    }
 
     if (isReady.current) {
-      if (leading) {
-        callback(...args);
+      if (leadingRef.current) {
+        callbackRef.current(...args);
       }
 
       isReady.current = false;
 
-      clearTimeout(timerId.current);
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
 
       timerId.current = setTimeout(() => {
-        if (trailing && lastArgs.current) {
-          callback(...lastArgs.current);
+        if (trailingRef.current && lastArgs.current) {
+          callbackRef.current(...lastArgs.current);
         }
 
         isReady.current = true;
-        lastArgs.current = undefined;
-      }, delay);
+
+        if (trailingRef.current) {
+          lastArgs.current = null;
+        }
+      }, delayRef.current);
     }
-  };
+  }, []);
 }
 ```
 
@@ -92,8 +114,9 @@ export function useThrottle<T extends Callback>(
 ### 구현 예시
 
 ```ts
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
 interface DebounceOptions {
@@ -106,37 +129,54 @@ export function useDebounce<T extends Callback>(
   delay: number,
   options: DebounceOptions = { leading: true, trailing: false },
 ) {
-  const { leading, trailing } = options;
-  const timerId = useRef<ReturnType<typeof setTimeout>>();
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+  const delayRef = useRef(delay);
+  delayRef.current = delay;
+  const leadingRef = useRef(options.leading ?? true);
+  leadingRef.current = options.leading ?? true;
+  const trailingRef = useRef(options.trailing ?? false);
+  trailingRef.current = options.trailing ?? false;
+
+  const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);
-  const lastArgs = useRef<Parameters<T>>();
+  const lastArgs = useRef<Parameters<T>>(null);
 
   useEffect(() => {
     return () => {
-      clearTimeout(timerId.current);
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
     };
   }, []);
 
-  return (...args: Parameters<T>) => {
-    lastArgs.current = args;
+  return useCallback((...args: Parameters<T>) => {
+    if (trailingRef.current) {
+      lastArgs.current = args;
+    }
 
     if (timerId.current) {
       clearTimeout(timerId.current);
     }
 
-    if (leading && isReady.current) {
-      callback(...args);
+    if (leadingRef.current && isReady.current) {
+      callbackRef.current(...args);
     }
 
     isReady.current = false;
 
     timerId.current = setTimeout(() => {
-      if (trailing && lastArgs.current) {
-        callback(...lastArgs.current);
+      if (trailingRef.current && lastArgs.current) {
+        callbackRef.current(...lastArgs.current);
       }
+
       isReady.current = true;
-    }, delay);
-  };
+
+      if (trailingRef.current) {
+        lastArgs.current = null;
+      }
+    }, delayRef.current);
+  }, []);
 }
 ```
 
@@ -154,29 +194,76 @@ export function useDebounce<T extends Callback>(
 ### 구현 예시
 
 ```ts
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
 export function useRequestAnimationFrame<T extends Callback>(callback: T) {
   const rafId = useRef<number | null>(null);
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
 
   useEffect(() => {
     return () => {
-      if (rafId.current != null) {
+      if (rafId.current) {
         cancelAnimationFrame(rafId.current);
       }
     };
   }, []);
 
-  return (...args: Parameters<T>) => {
+  return useCallback((...args: Parameters<T>) => {
     if (rafId.current == null) {
       rafId.current = requestAnimationFrame(() => {
-        callback(...args);
-
+        callbackRef.current(...args);
         rafId.current = null;
       });
     }
-  };
+  }, []);
 }
 ```
+
+## 안정적인 참조와 최신 콜백 유지
+
+세 훅은 공통적으로 `useCallback`과 `callbackRef` 패턴을 함께 사용한다. 이 두 가지가 해결하는 문제는 서로 다르며, 하나만으로는 충분하지 않다.
+
+### 문제 1: 반환 함수의 참조 불안정
+
+훅이 반환하는 함수는 렌더마다 새로 생성된다. 이를 `useEffect`의 의존성 배열에 포함하면 렌더마다 클린업과 재실행이 반복되어 무한 루프가 발생할 수 있다.
+
+```ts
+const throttled = useThrottle(handleScroll, 300);
+
+useEffect(() => {
+  window.addEventListener('scroll', throttled);
+  return () => window.removeEventListener('scroll', throttled);
+}, [throttled]); // throttled가 렌더마다 바뀌면 이벤트 등록/해제가 반복됨
+```
+
+`useCallback(..., [])`으로 반환 함수를 감싸면 마운트 시 한 번만 생성되어 참조가 안정된다.
+
+### 문제 2: 클로저 안에 갇힌 콜백
+
+`useCallback(..., [])`을 사용하면 내부 클로저는 최초 렌더의 값만 기억한다. `callback`이 렌더마다 새 함수로 교체되더라도 훅 내부는 초기 버전을 계속 호출하게 된다.
+
+```ts
+// deps []이므로 callback은 마운트 시점 값에 고정됨
+return useCallback((...args) => {
+  callback(...args); // 항상 초기 렌더의 callback
+}, []);
+```
+
+### 해결: callbackRef
+
+`callbackRef`는 매 렌더마다 현재 `callback`을 ref에 덮어쓴다. 반환 함수는 ref를 통해 호출하므로 클로저가 고정되어도 실행 시점에는 항상 최신 콜백이 사용된다.
+
+```ts
+const callbackRef = useRef(callback);
+callbackRef.current = callback; // 렌더마다 최신값으로 갱신
+
+return useCallback((...args) => {
+  callbackRef.current(...args); // 실행 시점에 최신 callback 호출
+}, []); // deps []로 참조 안정 유지
+```
+
+`useCallback(..., [])`이 참조 안정성을 보장하고, `callbackRef`가 stale closure 문제를 해소한다. 같은 이유로 `delay`, `leading`, `trailing`도 ref로 관리하여 타이머 내부에서 항상 최신 값을 읽도록 한다.

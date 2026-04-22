@@ -1,8 +1,8 @@
 'use client';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
 interface DebounceOptions {
@@ -10,15 +10,20 @@ interface DebounceOptions {
   trailing?: boolean;
 }
 
-// 해당 훅이 컴포넌트에서 호출될 경우 리렌더링 시 마다 새로운 클로저 환경을 가진 새로운 함수를 반환
-// 하지만, useRef를 이용해 값을 유지할 수 있음
-// 이전 클로저는 참조가 사라지면서 가비지 컬렉션에 의해 정리되기 때문에 메모리를 낭비하지 않음
 export function useDebounce<T extends Callback>(
   callback: T,
   delay: number,
   options: DebounceOptions = { leading: true, trailing: false },
 ) {
-  const { leading, trailing } = options;
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+  const delayRef = useRef(delay);
+  delayRef.current = delay;
+  const leadingRef = useRef(options.leading ?? true);
+  leadingRef.current = options.leading ?? true;
+  const trailingRef = useRef(options.trailing ?? false);
+  trailingRef.current = options.trailing ?? false;
+
   const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);
   const lastArgs = useRef<Parameters<T>>(null);
@@ -31,8 +36,8 @@ export function useDebounce<T extends Callback>(
     };
   }, []);
 
-  return (...args: Parameters<T>) => {
-    if (trailing) {
+  return useCallback((...args: Parameters<T>) => {
+    if (trailingRef.current) {
       lastArgs.current = args;
     }
 
@@ -40,22 +45,22 @@ export function useDebounce<T extends Callback>(
       clearTimeout(timerId.current);
     }
 
-    if (leading && isReady.current) {
-      callback(...args);
+    if (leadingRef.current && isReady.current) {
+      callbackRef.current(...args);
     }
 
     isReady.current = false;
 
     timerId.current = setTimeout(() => {
-      if (trailing && lastArgs.current) {
-        callback(...lastArgs.current);
+      if (trailingRef.current && lastArgs.current) {
+        callbackRef.current(...lastArgs.current);
       }
 
       isReady.current = true;
 
-      if (trailing) {
+      if (trailingRef.current) {
         lastArgs.current = null;
       }
-    }, delay);
-  };
+    }, delayRef.current);
+  }, []);
 }
