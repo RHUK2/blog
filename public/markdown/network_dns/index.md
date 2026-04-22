@@ -69,7 +69,7 @@ flowchart LR
   end
 
   subgraph Server[서버 - 공인 IP 1개]
-    N[Nginx\n리버스 프록시\n:80 / :443]
+    N[Nginx\n리버스 프록시\n:80\n:443]
 
     subgraph Docker[Docker 네트워크]
       D1[web 컨테이너\n:8081]

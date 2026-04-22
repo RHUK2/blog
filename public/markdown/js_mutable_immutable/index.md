@@ -1,241 +1,110 @@
 ---
 folderName: js_mutable_immutable
-title: Mutable vs Immutable
+title: 가변성(Mutable)과 불변성(Immutable)
 tag: javascript
 isPublished: true
 ---
 
-# Mutable vs Immutable
+# 가변성(Mutable)과 불변성(Immutable)
 
-- [Immutable(Pass By Value)](#immutablepass-by-value)
-- [Mutable(Pass By Reference)](#mutablepass-by-reference)
-- [Mutable 데이터를 Immutable 데이터처럼 다루기](#mutable-데이터를-immutable-데이터처럼-다루기)
-  - [Append (뒤에 추가)](#append-뒤에-추가)
-  - [Prepend (앞에 추가)](#prepend-앞에-추가)
-  - [Remove (삭제)](#remove-삭제)
-  - [Insert (중간 삽입)](#insert-중간-삽입)
-  - [Swap (위치 교환)](#swap-위치-교환)
-  - [Move (이동)](#move-이동)
-  - [Update (부분 수정)](#update-부분-수정)
-  - [Replace (교체)](#replace-교체)
-  - [얕은 복사](#얕은-복사)
-  - [깊은 복사](#깊은-복사)
-    - [직렬화(`JSON.stringify()`)가 불가능한 객체](#직렬화jsonstringify가-불가능한-객체)
-    - [`null` • `undefined` 직렬화 차이](#null--undefined-직렬화-차이)
-  - [2차원 배열 생성](#2차원-배열-생성)
-- [Immutable 데이터를 사용하는 이유](#immutable-데이터를-사용하는-이유)
+- [원시 타입과 참조 타입의 메모리 할당](#원시-타입과-참조-타입의-메모리-할당)
+  - [불변 객체(Immutable Object)](#불변-객체immutable-object)
+  - [가변 객체(Mutable Object)](#가변-객체mutable-object)
+- [불변성을 유지하며 데이터 조작하기](#불변성을-유지하며-데이터-조작하기)
+  - [배열 조작 (추가, 삭제, 삽입, 교환)](#배열-조작-추가-삭제-삽입-교환)
+  - [객체 및 배열 수정 (Update, Replace)](#객체-및-배열-수정-update-replace)
+  - [객체 불변성 강제 (Object.freeze / Object.seal)](#객체-불변성-강제-objectfreeze--objectseal)
+- [복사(Copy)의 종류](#복사copy의-종류)
+  - [얕은 복사(Shallow Copy)](#얕은-복사shallow-copy)
+  - [깊은 복사(Deep Copy)](#깊은-복사deep-copy)
+- [불변성이 중요한 이유](#불변성이-중요한-이유)
 
-## Immutable(Pass By Value)
+## 원시 타입과 참조 타입의 메모리 할당
 
-![img](images/pass_by_value_1.png)
-![img](images/pass_by_value_2.png)
-![img](images/pass_by_value_3.png)
-![img](images/pass_by_value_4.png)
+자바스크립트에서 데이터 타입은 메모리에 저장되는 방식에 따라 크게 두 가지로 나뉜다.
 
-## Mutable(Pass By Reference)
+### 불변 객체(Immutable Object)
 
-![img](images/pass_by_reference_1.png)
-![img](images/pass_by_reference_2.png)
-![img](images/pass_by_reference_3.png)
-![img](images/pass_by_reference_4.png)
+원시 타입(Primitive Type)은 한 번 생성되면 그 값을 변경할 수 없다. 변수에 새로운 값을 할당하면 기존 메모리 공간의 값을 바꾸는 것이 아니라, 새로운 메모리 공간을 확보하여 값을 저장하고 변수가 그곳을 가리키게 한다.
 
-## Mutable 데이터를 Immutable 데이터처럼 다루기
+- 종류: `Number`, `String`, `Boolean`, `null`, `undefined`, `Symbol`, `BigInt`
+- 특징: 값 자체가 복사되어 전달됨(Pass by Value)
 
-### Append (뒤에 추가)
+### 가변 객체(Mutable Object)
 
-기존 배열을 펼치고(`...`) 맨 뒤에 새 요소를 붙인다.
+참조 타입(Reference Type)은 객체의 내용이 변경되어도 메모리 주소(참조값)는 그대로 유지될 수 있다. 프로퍼티를 추가하거나 삭제할 때 기존 객체 자체가 수정된다.
 
-```ts
-const append = (arr, newItem) => [...arr, newItem];
-```
+- 종류: `Object`, `Array`, `Function`, `RegExp` 등 모든 객체
+- 특징: 주소값이 복사되어 전달됨(Pass by Reference)
 
-### Prepend (앞에 추가)
+## 불변성을 유지하며 데이터 조작하기
 
-새 요소를 먼저 놓고, 그 뒤에 기존 배열을 펼친다.
+원본 데이터를 직접 수정하지 않고, 새로운 객체나 배열을 생성하여 반환하는 방식이다.
 
-```ts
-const prepend = (arr, newItem) => [newItem, ...arr];
-```
+### 배열 조작 (추가, 삭제, 삽입, 교환)
 
-### Remove (삭제)
+- 추가(Append/Prepend): 전개 연산자(`...`)를 사용해 새 배열을 생성함
+  - `const append = (arr, item) => [...arr, item];`
+  - `const prepend = (arr, item) => [item, ...arr];`
+- 삭제(Remove): `filter` 메서드를 사용해 조건에 맞는 요소만 제외한 새 배열을 생성함
+  - `const remove = (arr, id) => arr.filter(item => item.id !== id);`
+- 삽입(Insert): `slice`로 분할한 뒤 결합함
+  - `const insert = (arr, index, item) => [...arr.slice(0, index), item, ...arr.slice(index)];`
+- 교환(Swap): 복사본에서 구조 분해 할당을 사용함
+  - `const swap = (arr, i, j) => { const next = [...arr]; [next[i], next[j]] = [next[j], next[i]]; return next; };`
 
-`filter`를 사용하여 특정 조건(인덱스나 ID)에 맞지 않는 요소만 남긴다.
+전통적인 방법은 임시 변수에 한쪽 값을 먼저 보관한 뒤 순서대로 덮어쓴다.
 
 ```ts
-// 인덱스로 삭제
-const removeByIndex = (arr, indexToRemove) => arr.filter((_, index) => index !== indexToRemove);
-
-// ID로 삭제
-const removeById = (arr, id) => arr.filter((item) => item.id !== id);
+const temp = next[i]; // 1. next[i] 값을 임시 저장
+next[i] = next[j]; // 2. next[i] 자리에 next[j] 값을 씀
+next[j] = temp; // 3. next[j] 자리에 보관해둔 원래 next[i] 값을 씀
 ```
 
-### Insert (중간 삽입)
-
-`slice`를 사용하여 삽입할 위치 앞부분과 뒷부분을 자르고 그 사이에 새 요소를 넣는다.
+구조 분해 할당을 사용하면 임시 변수 없이 한 줄로 같은 결과를 얻을 수 있다.
 
 ```ts
-const insert = (arr, index, newItem) => [...arr.slice(0, index), newItem, ...arr.slice(index)];
+[next[i], next[j]] = [next[j], next[i]];
 ```
 
-### Swap (위치 교환)
+우변 `[next[j], next[i]]`는 새 배열 리터럴로, 평가 시점에 `next[j]`와 `next[i]`의 현재 값을 순서대로 읽어 **임시 배열**을 생성한다. 이후 좌변 패턴에 따라 첫 번째 값이 `next[i]`에, 두 번째 값이 `next[j]`에 각각 할당된다. 우변이 먼저 완전히 평가되므로, 할당 도중 원래 값이 덮어써지는 문제가 발생하지 않는다.
 
-배열을 복사한 후, 구조 분해 할당을 이용해 두 인덱스의 값을 맞바꾼다.
+### 객체 및 배열 수정 (Update, Replace)
 
-```ts
-const swap = (arr, indexA, indexB) => {
-  const next = [...arr]; // 복사
-  [next[indexA], next[indexB]] = [next[indexB], next[indexA]]; // 교환
-  return next;
-};
-```
+- 부분 수정(Update): `map`과 객체 전개 연산자를 조합함
+  - `const update = (arr, id, newName) => arr.map((item) => (item.id === id ? { ...item, name: newName } : item));`
+- 전체 교체(Replace): ES2023에 추가된 배열 전용 메서드인 `Array.prototype.with()`를 사용하면 간결하게 특정 인덱스의 값을 교체한 새 배열을 얻을 수 있음
+  - `const replace = (arr, index, newItem) => arr.with(index, newItem);`
 
-### Move (이동)
+### 객체 불변성 강제 (Object.freeze / Object.seal)
 
-배열을 복사한 후, 요소를 잘라내고(`splice`) 새로운 위치에 다시 끼워 넣는다(`splice`).
+새 객체를 생성하는 방식과 달리, 런타임에서 기존 객체의 변경 자체를 차단하는 방법이다.
 
-```ts
-const move = (arr, fromIndex, toIndex) => {
-  const next = [...arr];
-  const [item] = next.splice(fromIndex, 1); // 추출
-  next.splice(toIndex, 0, item); // 삽입
-  return next;
-};
-```
+- `Object.freeze(obj)`: 속성 추가·삭제·수정을 모두 차단함. 단, 중첩 객체에는 적용되지 않는 얕은 동결(Shallow Freeze)임
+- `Object.seal(obj)`: 속성 추가·삭제는 차단하지만 기존 속성 값의 수정은 허용함
 
-### Update (부분 수정)
+| 동작           | `Object.freeze`    | `Object.seal` |
+| -------------- | ------------------ | ------------- |
+| 속성 추가      | 불가               | 불가          |
+| 속성 삭제      | 불가               | 불가          |
+| 속성 값 수정   | 불가               | 가능          |
+| 중첩 객체 적용 | 미적용 (얕은 동결) | 미적용        |
 
-배열 내 객체의 특정 속성만 변경하고 나머지 속성은 유지할 때 사용한다.
-`map`을 순회하며 조건에 맞는 요소를 찾고, 전개 연산자(`...item`)를 사용하여 기존 값을 복사한 뒤 변경할 속성만 덮어쓴다.
+## 복사(Copy)의 종류
 
-```ts
-// id가 targetId인 요소의 name만 변경
-const update = (arr, targetId, newName) =>
-  arr.map((item) =>
-    item.id === targetId
-      ? { ...item, name: newName } // 기존 속성 유지(...item) + name만 변경
-      : item,
-  );
-```
+### 얕은 복사(Shallow Copy)
 
-### Replace (교체)
+객체의 최상위 속성만 복사하며, 내부에 중첩된 객체는 참조 주소를 공유한다. 전개 연산자나 `Object.assign()`이 이 방식에 해당한다.
 
-배열 내의 요소를 완전히 새로운 값으로 대체할 때 사용한다.
-이전 객체의 속성을 유지할 필요가 없을 때 유용하다.
+### 깊은 복사(Deep Copy)
 
-방법 A: 조건으로 교체 (`map` 사용)
+중첩된 객체까지 모두 새로운 메모리 공간에 복사한다.
 
-```ts
-// id가 targetId인 요소를 newItem으로 통째로 교체
-const replaceById = (arr, targetId, newItem) => arr.map((item) => (item.id === targetId ? newItem : item));
-```
+- `JSON.parse(JSON.stringify(obj))`: 간편하지만 함수, `Symbol`, `undefined` 등은 유실됨
+- `structuredClone(obj)`: 최신 브라우저 표준 API로, 대부분의 데이터 타입을 안전하게 깊은 복사함
 
-방법 B: 인덱스로 교체 (복사 후 할당)
-인덱스를 이미 알고 있다면 배열을 복사한 후 직접 할당하는 것이 직관적이다.
+## 불변성이 중요한 이유
 
-```ts
-const replaceAt = (arr, index, newItem) => {
-  const next = [...arr]; // 1. 배열 복사
-  next[index] = newItem; // 2. 해당 인덱스 값 교체
-  return next; // 3. 반환
-};
-```
-
-방법 C: 인덱스로 교체 (ES2023 `with` 메서드)
-최신 자바스크립트 환경에서는 `with`를 사용하여 더 간결하게 작성할 수 있다. (불변성 자동 유지)
-
-```ts
-const replaceAt = (arr, index, newItem) => arr.with(index, newItem);
-```
-
-### 얕은 복사
-
-객체의 최상위 수준만 복사, 내부 객체는 참조로 복사된다.
-
-```ts
-const arr = [1, 2, 3];
-const copyArr = [...originalArr, 4];
-
-const obj = { name: 'Alice', age: 25 };
-const copyObj = { ...originalObj, age: 26 };
-
-console.log(arr === copyArr); // false
-console.log(obj === copyObj); // false
-```
-
-### 깊은 복사
-
-객체의 모든 수준을 재귀적으로 복사, 내부 객체도 새로 생성된다.
-
-```ts
-const object = {
-  person: {
-    age: 20,
-    name: 'Tomas',
-  },
-  country: 'Korea',
-};
-
-const copyObject = JSON.parse(JSON.stringify(object));
-
-console.log(object === copyObject); // false
-```
-
-#### 직렬화(`JSON.stringify()`)가 불가능한 객체
-
-- 함수
-  - 함수는 직렬화할 수 없다. 함수는 코드와 상태를 가지고 있어 일련의 바이트로 단순히 표현하기 어렵다.
-
-- 심볼
-  - ES6에서 추가된 심볼(Symbol)은 직렬화할 수 없다.
-
-- 특별한 객체
-  - 일부 브라우저나 환경에서 제공하는 특수한 객체들은 직렬화가 불가능할 수 있다.
-
-- 일부 자바스크립트 내장 객체
-  - 특정 내장 객체들은 직렬화가 어려울 수 있다. 예를 들어, `Error` 객체와 같은 것들은 일부 직렬화 형식에서는 문제를 일으킬 수 있다.
-
-#### `null` • `undefined` 직렬화 차이
-
-```ts
-console.log(
-  JSON.stringfy({
-    name: null,
-    age: 30,
-    gender: undefine,
-  }),
-); // {"name":null,"age":30}
-```
-
-`null`의 경우 값으로 인정되고, `undefined`의 경우 삭제해버린다.
-
-### 2차원 배열 생성
-
-```ts
-Array.from({ length: 5 }, () => Array.from({ length: 5 }, (_, index) => ({ id: index })));
-```
-
-- `Array.from`을 사용하여 외부 배열과 내부 배열을 각각 독립적으로 생성함.
-- 내부 배열의 요소는 새로운 객체로, 각 객체는 독립적인 메모리 공간을 가짐.
-- `arr[0][0].id = 1`과 같이 특정 요소를 수정해도 다른 요소에는 영향을 미치지 않음.
-
-## Immutable 데이터를 사용하는 이유
-
-- 예측 가능성
-  - 데이터가 변경되지 않으므로, 프로그램의 동작을 예측하기 쉬움.
-  - 버그 발생 가능성이 줄어듦.
-
-- 성능 최적화
-  - 변경 불가능한 데이터는 메모리에서 재사용 가능(예: 문자열 풀링).
-  - React 등의 라이브러리에서 상태 변경 감지 시, 얕은 비교(shallow comparison)만으로도 변경 여부를 판단 가능.
-
-- 동시성 및 멀티스레딩
-  - 데이터가 변경되지 않으므로, 동시성 문제(예: 경쟁 조건)가 발생하지 않음.
-  - 멀티스레드 환경에서 안전하게 사용 가능.
-
-- 디버깅 및 테스트 용이성
-  - 데이터가 변경되지 않으므로, 디버깅 시 상태 추적이 용이.
-  - 테스트 케이스 작성이 간편해짐.
-
-- 함수형 프로그래밍 지원
-  - 순수 함수와 조합하여 사용하기 적합.
-  - 부수 효과(side effect)가 없어, 코드의 신뢰성이 높아짐.
+- 예측 가능성: 데이터가 변하지 않으므로 부수 효과(Side Effect)를 방지하고 디버깅을 쉽게 만듦
+- 동시성 안전: 여러 곳에서 동시에 데이터를 참조해도 값이 변할 염려가 없어 안전함
+- 이력 관리: 이전 상태의 참조를 유지할 수 있어 실행 취소(Undo) 기능을 구현하기 쉬움
