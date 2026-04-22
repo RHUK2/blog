@@ -25,7 +25,24 @@ isPublished: true
 
 TypeScript의 타입 시스템은 집합론을 기반으로 설계되었다. 상위 집합(Supertype)에는 하위 집합(Subtype)을 할당할 수 있지만, 반대의 경우는 불가능함.
 
-![img](images/type_hierarchy.webp)
+```mermaid
+graph TD
+    U["unknown\n(최상위 타입 · 전체 집합)"]
+    A["any\n(타입 검사 비활성화)"]
+    P["string · number · boolean\nsymbol · bigint"]
+    NL["null · undefined"]
+    OBJ["object · Array · Function · ..."]
+    NV["never\n(최하위 타입 · 공집합)"]
+
+    U -->|Subtype| P
+    U -->|Subtype| NL
+    U -->|Subtype| OBJ
+    P -->|Subtype| NV
+    NL -->|Subtype| NV
+    OBJ -->|Subtype| NV
+    A <-->|"양방향 할당 가능"| U
+    A <-->|"양방향 할당 가능"| NV
+```
 
 ### any vs unknown
 

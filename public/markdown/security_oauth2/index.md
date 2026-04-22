@@ -138,7 +138,7 @@ sequenceDiagram
     participant C as 클라이언트
     participant A as 권한 부여 서버
 
-    Note over C: code_verifier 생성<br/>code_challenge = Base64URL(SHA-256(code_verifier))
+    Note over C: code_verifier 생성\ncode_challenge = Base64URL(SHA-256(code_verifier))
     C->>A: GET /authorize (code_challenge, code_challenge_method=S256)
     A->>U: 로그인 및 동의 화면
     U->>A: 인증 완료 및 권한 동의

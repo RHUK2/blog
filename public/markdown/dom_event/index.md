@@ -26,7 +26,21 @@ isPublished: true
 
 이벤트 객체는 계층적인 상속 구조를 가진다. 모든 이벤트의 최상위에는 `Event` 인터페이스가 존재하며, 발생한 이벤트의 종류에 따라 구체적인 하위 인터페이스를 상속받는다.
 
-![img](images/event_inheritance.webp)
+```mermaid
+flowchart LR
+    object --> Event
+    Event --> AnimationEvent
+    Event --> UIEvent
+    Event --> ClipboardEvent
+    Event --> CustomEvent
+    UIEvent --> FocusEvent
+    UIEvent --> MouseEvent
+    UIEvent --> KeyboardEvent
+    UIEvent --> InputEvent
+    UIEvent --> TouchEvent
+    MouseEvent --> DragEvent
+    MouseEvent --> WheelEvent
+```
 
 ## 이벤트 전파(Event Propagation)
 
@@ -145,13 +159,29 @@ useEffect(() => {
 
 ### ResizeObserver vs resize 이벤트
 
-| 항목 | resize 이벤트 | ResizeObserver |
-| --- | --- | --- |
-| 감지 대상 | `window` (브라우저 창) | 특정 DOM 요소 |
-| 감지 범위 | 전역 창 크기 변화 | 개별 요소의 모든 크기 변화 |
-| 성능 | 빈번한 호출, debounce/throttle 필요 | 효율적, 필요한 시점에만 호출 |
-| 용도 | 전역 레이아웃 조정 | 특정 컴포넌트의 반응형 처리 |
-| API 형태 | 이벤트 리스너 | 객체 인스턴스, 콜백 함수 |
+| 항목      | resize 이벤트                       | ResizeObserver               |
+| --------- | ----------------------------------- | ---------------------------- |
+| 감지 대상 | `window` (브라우저 창)              | 특정 DOM 요소                |
+| 감지 범위 | 전역 창 크기 변화                   | 개별 요소의 모든 크기 변화   |
+| 성능      | 빈번한 호출, debounce/throttle 필요 | 효율적, 필요한 시점에만 호출 |
+| 용도      | 전역 레이아웃 조정                  | 특정 컴포넌트의 반응형 처리  |
+| API 형태  | 이벤트 리스너                       | 객체 인스턴스, 콜백 함수     |
+
+```ts
+useEffect(() => {
+  const observer = new ResizeObserver((entries) => {
+    entries.forEach((entry) => {
+      const { width, height } = entry.contentRect;
+      console.log('크기 변화:', width, height);
+    });
+  });
+
+  const el = ref.current;
+  if (el) observer.observe(el);
+
+  return () => observer.disconnect();
+}, []);
+```
 
 ## Web Worker
 
