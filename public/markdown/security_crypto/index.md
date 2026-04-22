@@ -1,6 +1,6 @@
 ---
 folderName: security_crypto
-title: 암호화 기술(Cryptography)
+title: 암호화(Cryptography)
 tag: security
 isPublished: true
 ---

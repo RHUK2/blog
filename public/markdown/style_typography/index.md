@@ -1,6 +1,6 @@
 ---
 folderName: style_typography
-title: Typography
+title: 타이포그래피(Typography)
 tag: style
 isPublished: true
 ---

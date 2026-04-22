@@ -1,6 +1,6 @@
 ---
 folderName: regexp
-title: Regexp
+title: 정규 표현식(RegExp)
 tag: regexp
 isPublished: true
 ---

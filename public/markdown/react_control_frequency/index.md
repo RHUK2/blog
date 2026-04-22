@@ -5,7 +5,7 @@ tag: react
 isPublished: true
 ---
 
-# 이벤트 호출 주기 제어(Event Frequency Control)
+# 이벤트 호출 주기 제어
 
 - [쓰로틀링(Throttling)](#쓰로틀링throttling)
   - [구현 예시](#구현-예시)

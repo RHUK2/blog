@@ -1,6 +1,6 @@
 ---
 folderName: frontend_design
-title: 프론트엔드 설계(Frontend Design)
+title: 프론트엔드 설계
 tag: design
 isPublished: true
 ---

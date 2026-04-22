@@ -1,6 +1,6 @@
 ---
 folderName: linux_wsl
-title: WSL(Windows Subsystem for Linux) 활용
+title: WSL(Windows Subsystem for Linux)
 tag: linux
 isPublished: true
 ---

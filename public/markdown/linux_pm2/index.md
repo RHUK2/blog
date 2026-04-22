@@ -1,6 +1,6 @@
 ---
 folderName: linux_pm2
-title: PM2 프로세스 관리
+title: PM2
 tag: linux
 isPublished: true
 ---

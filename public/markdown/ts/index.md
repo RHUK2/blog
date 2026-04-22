@@ -1,11 +1,11 @@
 ---
-folderName: ts_note
-title: Typescript Note
+folderName: ts
+title: TypeScript
 tag: typescript
 isPublished: true
 ---
 
-# TypeScript 핵심 노트(TypeScript Core Note)
+# 타입스크립트(Typescript)
 
 - [타입 시스템과 집합론](#타입-시스템과-집합론)
   - [any vs unknown](#any-vs-unknown)

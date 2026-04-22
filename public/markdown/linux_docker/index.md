@@ -1,6 +1,6 @@
 ---
 folderName: linux_docker
-title: Docker 컨테이너 기술
+title: Docker
 tag: linux
 isPublished: true
 ---

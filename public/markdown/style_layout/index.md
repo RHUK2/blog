@@ -1,6 +1,6 @@
 ---
 folderName: style_layout
-title: Layout
+title: 레이아웃(Layout)
 tag: style
 isPublished: true
 ---

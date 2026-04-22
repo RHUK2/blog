@@ -1,6 +1,6 @@
 ---
 folderName: linux_bash
-title: Bash 셸(Shell) 사용법
+title: Bash 셸(Shell)
 tag: linux
 isPublished: true
 ---

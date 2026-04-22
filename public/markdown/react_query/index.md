@@ -5,7 +5,7 @@ tag: react
 isPublished: true
 ---
 
-# React Query(TanStack Query)
+# React Query
 
 - [캐시 수명 관리(staleTime • gcTime)](#캐시-수명-관리staletime--gctime)
   - [1. 상태 전환 흐름](#1-상태-전환-흐름)

@@ -1,11 +1,11 @@
 ---
 folderName: react_rendering
-title: 리액트 렌더링(React Rendering)
+title: React 렌더링
 tag: react
 isPublished: true
 ---
 
-# 리액트 렌더링(React Rendering)
+# React Rendering
 
 - [리액트 렌더링(React Rendering) 과정](#리액트-렌더링react-rendering-과정)
   - [1. 렌더 단계(Render Phase)](#1-렌더-단계render-phase)

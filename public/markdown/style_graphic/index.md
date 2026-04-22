@@ -1,6 +1,6 @@
 ---
 folderName: style_graphic
-title: Graphic
+title: 그래픽(Graphic)
 tag: style
 isPublished: true
 ---

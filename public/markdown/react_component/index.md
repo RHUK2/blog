@@ -1,11 +1,11 @@
 ---
 folderName: react_component
-title: React Component
+title: React 컴포넌트
 tag: react
 isPublished: true
 ---
 
-# React 컴포넌트(React Component)
+# React Component
 
 - [컴포넌트 설계 원칙](#컴포넌트-설계-원칙)
 - [아토믹 디자인(Atomic Design)](#아토믹-디자인atomic-design)

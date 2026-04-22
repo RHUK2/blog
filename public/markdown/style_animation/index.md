@@ -1,6 +1,6 @@
 ---
 folderName: style_animation
-title: Animation
+title: 애니메이션(Animation)
 tag: style
 isPublished: true
 ---

@@ -1,11 +1,11 @@
 ---
 folderName: db_sql
-title: SQL 기록하기
+title: SQL
 tag: db
 isPublished: true
 ---
 
-# SQL 기록하기
+# SQL
 
 - [데이터 조회 및 별칭](#데이터-조회-및-별칭)
 - [조인 (Join)](#조인-join)

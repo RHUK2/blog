@@ -1,6 +1,6 @@
 ---
 folderName: browser_network
-title: Browser Network
+title: 브라우저 네트워크
 tag: browser
 isPublished: true
 ---
