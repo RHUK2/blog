@@ -1,1 +1,1 @@
-export { MarkdownSearchButton, MarkdownSearchInput } from './ui';
+export { MarkdownSearchButton, MarkdownSearch as MarkdownSearchInput } from './ui';

@@ -1,5 +1,6 @@
 'use client';
 
+import { MarkdownSearchButton } from '@/features/search-markdown';
 import { navList } from '@/shared/config/nav';
 import { DarkLightButton } from '@/shared/ui';
 import { motion, MotionConfig } from 'motion/react';
@@ -31,6 +32,7 @@ export function Header() {
 
           <div className='flex items-center gap-4'>
             <DarkLightButton />
+            <MarkdownSearchButton />
             {navList.map((navItem) => (
               <MotionLink
                 key={navItem.id}

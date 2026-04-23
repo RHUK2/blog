@@ -1,17 +1,16 @@
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { readTagList } from '../api';
+import type { MarkdownTagList } from '../model/types';
 
 interface Props {
   currentTag?: string;
+  tagList: MarkdownTagList;
 }
 
-export async function TagNavigation({ currentTag }: Props) {
-  const tagList = await readTagList();
-
+export function TagNavigation({ currentTag, tagList }: Props) {
   return (
     <nav className='flex flex-wrap items-center gap-2'>
-      {tagList.markdownTagList.map((tag) => (
+      {tagList.map((tag) => (
         <Link
           key={tag.id}
           href={tag.name ? `/markdown?tag=${tag.name}` : '/markdown'}

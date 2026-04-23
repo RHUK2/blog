@@ -14,4 +14,4 @@ export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
 export { Leaf, Tree } from './Tree';
 export { MermaidDiagram } from './MermaidDiagram';
-export { Modal, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from './Modal';
+export { Modal } from './Modal';

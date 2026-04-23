@@ -1,4 +1,4 @@
-import { MarkdownMetaCard, TagNavigation, readMarkdownMetaList } from '@/entities/markdown';
+import { MarkdownMetaCard, TagNavigation, readMarkdownMetaList, readTagList } from '@/entities/markdown';
 import { PAGE_SIZE } from '@/shared/config/constants';
 import { Divider, Pagination } from '@/shared/ui';
 
@@ -13,11 +13,11 @@ interface Props {
 export default async function Page({ searchParams }: Props) {
   const { tag, page, size } = await searchParams;
 
-  const markdownMetaList = await readMarkdownMetaList(tag, page, size);
+  const [markdownMetaList, tagList] = await Promise.all([readMarkdownMetaList(tag, page, size), readTagList()]);
 
   return (
     <section className='flex flex-col gap-8 px-4 py-10'>
-      <TagNavigation currentTag={tag} />
+      <TagNavigation currentTag={tag} tagList={tagList.markdownTagList} />
 
       <Divider />
 

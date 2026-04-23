@@ -1,6 +1,5 @@
 'use client';
 
-import { useDebounce } from '@/shared/lib/hooks';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
@@ -45,23 +44,32 @@ export function Pagination({ totalCount, size }: Props) {
     [searchParams],
   );
 
-  const handlePreviousPageQuery = useDebounce((index: number) => {
-    const query = createQueryString('page', String(circularQueue(0, pageCount, index - 1)));
+  const handlePreviousPageQuery = useCallback(
+    (index: number) => {
+      const query = createQueryString('page', String(circularQueue(0, pageCount, index - 1)));
 
-    router.push(`${pathname}?${query}`);
-  }, 300);
+      router.push(`${pathname}?${query}`);
+    },
+    [createQueryString, pageCount, pathname, router],
+  );
 
-  const handlePageQuery = useDebounce((index: number) => {
-    const query = createQueryString('page', String(index));
+  const handlePageQuery = useCallback(
+    (index: number) => {
+      const query = createQueryString('page', String(index));
 
-    router.push(`${pathname}?${query}`);
-  }, 300);
+      router.push(`${pathname}?${query}`);
+    },
+    [createQueryString, pathname, router],
+  );
 
-  const handleNextPageQuery = useDebounce((index: number) => {
-    const query = createQueryString('page', String(circularQueue(0, pageCount, index + 1)));
+  const handleNextPageQuery = useCallback(
+    (index: number) => {
+      const query = createQueryString('page', String(circularQueue(0, pageCount, index + 1)));
 
-    router.push(`${pathname}?${query}`);
-  }, 300);
+      router.push(`${pathname}?${query}`);
+    },
+    [createQueryString, pageCount, pathname, router],
+  );
 
   function handleMenuToggle(event: MouseEvent<HTMLButtonElement>) {
     setIsMenuOpen((prev) => !prev);
@@ -93,7 +101,11 @@ export function Pagination({ totalCount, size }: Props) {
 
       <Menu anchorEl={ref.current} open={isMenuOpen} onClose={handleMenuClose}>
         {new Array(pageCount).fill('0').map((item, index) => (
-          <MenuItem key={`page_${index}`} onClick={() => handlePageQuery(index)}>
+          <MenuItem
+            key={`page_${index}`}
+            active={index === parseInt(searchParams.get('page') || '0')}
+            onClick={() => handlePageQuery(index)}
+          >
             {index + 1}
           </MenuItem>
         ))}

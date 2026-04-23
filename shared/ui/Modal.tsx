@@ -1,14 +1,7 @@
 'use client';
 
-import { createContext, useContext } from 'react';
-import invariant from 'tiny-invariant';
-
-interface ModalContext {
-  isOpen: boolean;
-  close: () => void;
-}
-
-const ModalContext = createContext<ModalContext | null>(null);
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,48 +10,26 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, close, children }: ModalProps) {
-  return (
-    <ModalContext.Provider value={{ isOpen, close }}>
-      <div>{children}</div>
-    </ModalContext.Provider>
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') close();
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, close]);
+
+  if (!isOpen) return null;
+
+  return createPortal(
+    <>
+      <div className='fixed inset-0 z-40 h-full bg-black/50' onClick={close} />
+      <div className='fixed top-1/4 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-900'>
+        {children}
+      </div>
+    </>,
+    document.body,
   );
-}
-
-function useModal() {
-  const context = useContext(ModalContext);
-
-  invariant(context, 'useModal must be used within a Modal');
-
-  return context;
-}
-
-export function ModalHeader() {
-  const { isOpen, close } = useModal();
-
-  return (
-    <div className={`modal-header ${isOpen ? 'open' : ''}`}>
-      <h2>Modal Title</h2>
-      <button onClick={close} className='close-button'>
-        &times;
-      </button>
-    </div>
-  );
-}
-
-export function ModalContent() {
-  const { isOpen, close } = useModal();
-
-  return <div></div>;
-}
-
-export function ModalFooter() {
-  const { isOpen, close } = useModal();
-
-  return <div></div>;
-}
-
-export function ModalOverlay() {
-  const { isOpen, close } = useModal();
-
-  return <div></div>;
 }

@@ -99,7 +99,7 @@ export const Menu = forwardRef(function Menu({ anchorEl, open, onClose, children
               {children}
             </ul>
             {showFade && (
-              <div className='pointer-events-none absolute right-0 bottom-0 left-0 h-12 rounded-b-md bg-gradient-to-t from-gray-100 from-40% to-transparent dark:from-gray-800' />
+              <div className='pointer-events-none absolute right-0 bottom-0 left-0 h-12 rounded-b-md bg-linear-to-t from-gray-100 from-40% to-transparent dark:from-gray-800' />
             )}
           </div>,
           document.body,
