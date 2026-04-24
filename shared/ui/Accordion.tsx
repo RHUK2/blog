@@ -74,15 +74,25 @@ export function AccordionTrigger({ icon, children }: AccordionTriggerProps) {
   );
 }
 
+const motionComponents = {
+  div: motion.div,
+  ul: motion.ul,
+  ol: motion.ol,
+  section: motion.section,
+  article: motion.article,
+} as const;
+
+type MotionTag = keyof typeof motionComponents;
+
 interface AccordionContentProps {
   children: React.ReactNode;
-  as?: React.ElementType;
+  as?: MotionTag;
 }
 
-export function AccordionContent({ as, children }: AccordionContentProps) {
+export function AccordionContent({ as = 'div', children }: AccordionContentProps) {
   const { isOpen } = useAccordion();
 
-  const Component = motion.create(as || 'div');
+  const Component = motionComponents[as];
 
   return (
     <AnimatePresence>

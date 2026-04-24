@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { navList } from '@/shared/config/nav';
 import { DarkLightButton } from './DarkLightButton';
 
+const MotionLink = motion.create(Link);
+
 export function Header() {
-  const MotionLink = motion.create(Link);
 
   return (
     <MotionConfig

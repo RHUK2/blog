@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
@@ -16,13 +16,16 @@ export function useDebounce<T extends Callback>(
   options: DebounceOptions = { leading: true, trailing: false },
 ) {
   const callbackRef = useRef(callback);
-  callbackRef.current = callback;
   const delayRef = useRef(delay);
-  delayRef.current = delay;
   const leadingRef = useRef(options.leading ?? true);
-  leadingRef.current = options.leading ?? true;
   const trailingRef = useRef(options.trailing ?? false);
-  trailingRef.current = options.trailing ?? false;
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+    delayRef.current = delay;
+    leadingRef.current = options.leading ?? true;
+    trailingRef.current = options.trailing ?? false;
+  });
 
   const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);

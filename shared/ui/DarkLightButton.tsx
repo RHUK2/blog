@@ -5,43 +5,25 @@ import { Moon, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 
+function getInitialTheme(): 'dark' | 'light' | undefined {
+  if (typeof window === 'undefined') return undefined;
+  const cookieTheme = Cookies.get('theme');
+  if (cookieTheme === 'dark' || cookieTheme === 'light') return cookieTheme;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 export function DarkLightButton() {
-  const [theme, setTheme] = useState<'dark' | 'light' | undefined>();
-
-  function updateTheme() {
-    setTheme((prev) => {
-      const updateValue = prev === 'dark' ? 'light' : 'dark';
-      Cookies.set('theme', updateValue);
-
-      if (updateValue === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-
-      return updateValue;
-    });
-  }
+  const [theme, setTheme] = useState<'dark' | 'light' | undefined>(getInitialTheme);
 
   useEffect(() => {
-    let systemTheme: 'dark' | 'light' = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (!theme) return;
+    Cookies.set('theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
 
-    const theme = Cookies.get('theme');
-
-    if (theme === 'dark' || theme === 'light') {
-      systemTheme = theme;
-    }
-
-    if (systemTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-
-    Cookies.set('theme', systemTheme);
-
-    setTheme(systemTheme);
-  }, []);
+  function updateTheme() {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  }
 
   return (
     <>

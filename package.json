@@ -2,10 +2,13 @@
   "name": "blog",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3003",
-    "build": "next build",
+    "dev": "rm -rf .next && next dev --port 3003",
+    "audit": "pnpm audit --audit-level=high",
+    "type": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 10",
+    "prebuild": "pnpm run audit && pnpm run type && pnpm run lint",
+    "build": " next build",
     "start": "next start",
-    "lint": "next lint",
     "prettier": "prettier --write './**/*.tsx'"
   },
   "dependencies": {
@@ -48,6 +51,7 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
     "eslint-config-prettier": "^10",
+    "eslint-plugin-only-warn": "^1.2.1",
     "postcss": "^8.5.10",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.7.2",

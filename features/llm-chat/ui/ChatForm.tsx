@@ -1,8 +1,7 @@
 'use client';
 
+import { Chat, ChatForm as ChatFormType, useChatMutation } from '@/entities/chat';
 import { Button, Textarea } from '@/shared/ui';
-import { useChatMutation } from '@/entities/chat';
-import { Chat, ChatForm as ChatFormType } from '@/entities/chat';
 import { Copy, CopyCheck } from 'lucide-react';
 import React, {
   DetailedHTMLProps,
@@ -136,7 +135,7 @@ export const ChatForm = forwardRef(function ChatForm(
     setIsStreaming(false);
   }
 
-  function onClick(event: React.MouseEvent<HTMLButtonElement>) {
+  function onClick() {
     if (isStreaming) {
       abortChat();
       return;

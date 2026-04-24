@@ -19,7 +19,7 @@ export const MenuItem = forwardRef(function MenuItem(
     if (active) {
       buttonRef.current?.scrollIntoView({ block: 'center' });
     }
-  }, []);
+  }, [active]);
 
   return (
     <li>

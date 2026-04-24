@@ -6,8 +6,9 @@ import { DarkLightButton } from '@/shared/ui';
 import { motion, MotionConfig } from 'motion/react';
 import Link from 'next/link';
 
+const MotionLink = motion.create(Link);
+
 export function Header() {
-  const MotionLink = motion.create(Link);
 
   return (
     <MotionConfig

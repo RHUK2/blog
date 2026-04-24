@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
@@ -8,7 +8,10 @@ type Callback = (...args: any[]) => void;
 export function useRequestAnimationFrame<T extends Callback>(callback: T) {
   const rafId = useRef<number | null>(null);
   const callbackRef = useRef(callback);
-  callbackRef.current = callback;
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+  });
 
   useEffect(() => {
     return () => {

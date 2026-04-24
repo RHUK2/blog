@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { MouseEvent, useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button } from './Button';
 import { Menu } from './Menu';
 import { MenuItem } from './MenuItem';
@@ -29,7 +29,7 @@ export function Pagination({ totalCount, size }: Props) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const ref = useRef<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const pageCount = Math.ceil(totalCount / size);
 
@@ -71,7 +71,7 @@ export function Pagination({ totalCount, size }: Props) {
     [createQueryString, pageCount, pathname, router],
   );
 
-  function handleMenuToggle(event: MouseEvent<HTMLButtonElement>) {
+  function handleMenuToggle() {
     setIsMenuOpen((prev) => !prev);
   }
 
@@ -88,7 +88,7 @@ export function Pagination({ totalCount, size }: Props) {
         >
           <ChevronLeft size={16} />
         </Button>
-        <Button ref={ref} onClick={handleMenuToggle}>
+        <Button ref={setAnchorEl} onClick={handleMenuToggle}>
           {parseInt(searchParams.get('page') || '0') + 1}
         </Button>
         <Button
@@ -99,7 +99,7 @@ export function Pagination({ totalCount, size }: Props) {
         </Button>
       </div>
 
-      <Menu anchorEl={ref.current} open={isMenuOpen} onClose={handleMenuClose}>
+      <Menu anchorEl={anchorEl} open={isMenuOpen} onClose={handleMenuClose}>
         {new Array(pageCount).fill('0').map((item, index) => (
           <MenuItem
             key={`page_${index}`}
