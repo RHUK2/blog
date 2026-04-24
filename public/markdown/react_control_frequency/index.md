@@ -16,7 +16,7 @@ isPublished: true
 - [안정적인 참조와 최신 콜백 유지](#안정적인-참조와-최신-콜백-유지)
   - [문제 1: 반환 함수의 참조 불안정](#문제-1-반환-함수의-참조-불안정)
   - [문제 2: 클로저 안에 갇힌 콜백](#문제-2-클로저-안에-갇힌-콜백)
-  - [해결: callbackRef](#해결-callbackref)
+  - [해결: callbackRef + useLayoutEffect](#해결-callbackref--uselayouteffect)
 
 ## 쓰로틀링(Throttling)
 
@@ -32,7 +32,7 @@ isPublished: true
 ### 구현 예시
 
 ```ts
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
@@ -48,13 +48,16 @@ export function useThrottle<T extends Callback>(
   options: ThrottleOptions = { leading: true, trailing: false },
 ) {
   const callbackRef = useRef(callback);
-  callbackRef.current = callback;
   const delayRef = useRef(delay);
-  delayRef.current = delay;
   const leadingRef = useRef(options.leading ?? true);
-  leadingRef.current = options.leading ?? true;
   const trailingRef = useRef(options.trailing ?? false);
-  trailingRef.current = options.trailing ?? false;
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+    delayRef.current = delay;
+    leadingRef.current = options.leading ?? true;
+    trailingRef.current = options.trailing ?? false;
+  });
 
   const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);
@@ -114,7 +117,7 @@ export function useThrottle<T extends Callback>(
 ### 구현 예시
 
 ```ts
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
@@ -130,13 +133,16 @@ export function useDebounce<T extends Callback>(
   options: DebounceOptions = { leading: true, trailing: false },
 ) {
   const callbackRef = useRef(callback);
-  callbackRef.current = callback;
   const delayRef = useRef(delay);
-  delayRef.current = delay;
   const leadingRef = useRef(options.leading ?? true);
-  leadingRef.current = options.leading ?? true;
   const trailingRef = useRef(options.trailing ?? false);
-  trailingRef.current = options.trailing ?? false;
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+    delayRef.current = delay;
+    leadingRef.current = options.leading ?? true;
+    trailingRef.current = options.trailing ?? false;
+  });
 
   const timerId = useRef<ReturnType<typeof setTimeout>>(null);
   const isReady = useRef(true);
@@ -194,7 +200,7 @@ export function useDebounce<T extends Callback>(
 ### 구현 예시
 
 ```ts
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
@@ -202,7 +208,10 @@ type Callback = (...args: any[]) => void;
 export function useRequestAnimationFrame<T extends Callback>(callback: T) {
   const rafId = useRef<number | null>(null);
   const callbackRef = useRef(callback);
-  callbackRef.current = callback;
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+  });
 
   useEffect(() => {
     return () => {
@@ -253,17 +262,26 @@ return useCallback((...args) => {
 }, []);
 ```
 
-### 해결: callbackRef
+### 해결: callbackRef + useLayoutEffect
 
-`callbackRef`는 매 렌더마다 현재 `callback`을 ref에 덮어쓴다. 반환 함수는 ref를 통해 호출하므로 클로저가 고정되어도 실행 시점에는 항상 최신 콜백이 사용된다.
+렌더 중 직접 `callbackRef.current = callback`을 할당하는 방식은 React Concurrent Mode에서 문제가 생길 수 있다. 렌더가 중단되고 재실행될 때, 다른 코드가 변경 중인 ref를 읽으면 이전 콜백과 새 콜백이 뒤섞인 상태를 보게 된다.
+
+`useLayoutEffect` (의존성 배열 없음)는 렌더가 확정된 후 동기적으로 실행되며, 브라우저 paint 전에 완료된다. 따라서 다음 이벤트 핸들러나 effect가 실행되기 전에 ref가 반드시 최신값을 갖는다.
 
 ```ts
 const callbackRef = useRef(callback);
-callbackRef.current = callback; // 렌더마다 최신값으로 갱신
+const delayRef = useRef(delay);
+
+useLayoutEffect(() => {
+  callbackRef.current = callback; // 렌더 확정 후 동기 갱신
+  delayRef.current = delay;
+});
 
 return useCallback((...args) => {
-  callbackRef.current(...args); // 실행 시점에 최신 callback 호출
-}, []); // deps []로 참조 안정 유지
+  callbackRef.current(...args); // 실행 시점에 항상 최신 callback
+}, []);
 ```
 
-`useCallback(..., [])`이 참조 안정성을 보장하고, `callbackRef`가 stale closure 문제를 해소한다. 같은 이유로 `delay`, `leading`, `trailing`도 ref로 관리하여 타이머 내부에서 항상 최신 값을 읽도록 한다.
+`useEffect` 대신 `useLayoutEffect`를 선택하는 이유는, `useEffect`가 paint 이후 비동기로 실행되기 때문이다. paint와 effect 실행 사이의 짧은 틈에 이벤트 핸들러가 stale ref를 읽을 가능성이 있다. `useLayoutEffect`는 paint 전에 실행되므로 그 틈이 없다.
+
+`useCallback(..., [])`이 반환 함수의 참조 안정성을 보장하고, `useLayoutEffect`로 동기화한 ref가 stale closure 문제를 해소한다. 같은 이유로 `delay`, `leading`, `trailing`도 ref로 관리하여 타이머 내부에서 항상 최신값을 읽는다.

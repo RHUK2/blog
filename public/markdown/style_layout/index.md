@@ -34,6 +34,8 @@ isPublished: true
   - [`min-width: auto`](#min-width-auto-1)
   - [정렬 속성](#정렬-속성-1)
 - [`position`](#position)
+  - [`sticky`](#sticky)
+  - [`fixed`의 컨테이닝 블록 예외](#fixed의-컨테이닝-블록-예외)
 - [`box-sizing`](#box-sizing)
 - [`object-fit` • `object-position`](#object-fit--object-position)
 - [`@media`](#media)
@@ -487,37 +489,65 @@ place-self: end center; /* align-self justify-self */
 
 ## `position`
 
-| `position` | 컨테이닝 블록                                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------------------------------------- |
-| `static`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                             |
-| `relative` | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                             |
-| `absolute` | 가장 가까운 `position` 값이 `static`이 아닌 부모 요소의 패딩 경계(Padding edge), 부모가 없으면 초기 컨테이닝 블록   |
-| `fixed`    | 뷰포트(단, 조상 중 `transform`, `filter`, `perspective` 중 하나라도 `none`이 아니면 해당 조상이 컨테이닝 블록이 됨) |
-| `sticky`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                                                             |
+| `position` | 컨테이닝 블록                                                                        | 문서 흐름 유지 | offset · z-index |
+| ---------- | ------------------------------------------------------------------------------------ | :------------: | :--------------: |
+| `static`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                              |       O        |        X         |
+| `relative` | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                              |       O        |        O         |
+| `absolute` | 가장 가까운 `position`이 `static`이 아닌 조상의 패딩 경계, 없으면 초기 컨테이닝 블록 |       X        |        O         |
+| `fixed`    | 뷰포트 (조상에 특정 속성이 있으면 해당 조상 — 하단 참고)                             |       X        |        O         |
+| `sticky`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                              |       O        |        O         |
 
-| `position` | 일반적인 문서 흐름 유지 | `top`, `bottom`, `left`, `right`, `z-index` |
-| ---------- | :---------------------: | :-----------------------------------------: |
-| `static`   |            O            |                      X                      |
-| `relative` |            O            |                      O                      |
-| `absolute` |            X            |                      O                      |
-| `fixed`    |            X            |                      O                      |
-| `sticky`   |            O            |                      O                      |
+`top`, `bottom`, `left`, `right` 쓰임새:
 
-| `position` | `top`, `bottom`, `left`, `right` 쓰임새      |
+| `position` | 쓰임새                                       |
 | ---------- | -------------------------------------------- |
-| `static`   | X                                            |
+| `static`   | 적용되지 않음                                |
 | `relative` | 원래 위치 기준 요소 이동                     |
 | `absolute` | 컨테이닝 블록의 패딩 경계 기준 요소 이동     |
 | `fixed`    | 컨테이닝 블록(뷰포트 등) 기준 요소 이동      |
 | `sticky`   | 가장 가까운 스크롤 가능한 부모 영역의 임계값 |
 
-`sticky`는 초기에 `relative`처럼 동작하다가 스크롤 시 요소의 컨테이닝 블록이 임계값에 도달하면 `fixed`처럼 동작하고 컨테이닝 블록의 반대편 가장자리를 만나면 `relative`처럼 다시 동작한다.
+### `sticky`
 
-`sticky` 속성이 적용되지 않는 경우:
+`sticky`는 초기에 `relative`처럼 동작하다가 스크롤 시 요소의 컨테이닝 블록이 임계값에 도달하면 `fixed`처럼 동작하고, 컨테이닝 블록의 반대편 가장자리를 만나면 다시 `relative`처럼 동작한다.
 
-- 임계점 위치를 지정하는 `top`, `bottom`, `left`, `right` 속성 값 중 적어도 하나는 `auto`가 아닌 값으로 지정되어 있어야 한다.
-- 가장 가까운 스크롤이 가능한 부모 요소의 영역 내에 `sticky`가 설정된 요소가 있어야 한다.
-- 가장 가까운 스크롤이 가능한 부모 요소(scrollport)의 자손이면서 `sticky`가 설정된 요소의 부모 사이의 요소에는 `overflow` 속성의 값이 `auto`, `scroll` 및 `hidden`으로 설정되어 있지 않아야 한다.
+`sticky`가 적용되지 않는 경우:
+
+- `top`, `bottom`, `left`, `right` 중 적어도 하나가 `auto`가 아닌 값으로 지정되어 있어야 한다.
+- `sticky` 요소가 가장 가까운 스크롤 가능한 부모 요소의 영역 내에 있어야 한다.
+- `sticky` 요소와 스크롤 가능한 부모 사이의 요소에 `overflow: auto`, `scroll`, `hidden`이 설정되어 있지 않아야 한다.
+
+### `fixed`의 컨테이닝 블록 예외
+
+`fixed`는 기본적으로 뷰포트를 컨테이닝 블록으로 사용한다. 단, 조상 요소에 아래 속성이 적용되면 해당 조상이 컨테이닝 블록이 된다.
+
+| 속성              | 예외 조건                        |
+| ----------------- | -------------------------------- |
+| `transform`       | 값이 `none`이 아닌 경우          |
+| `filter`          | 값이 `none`이 아닌 경우          |
+| `backdrop-filter` | 값이 `none`이 아닌 경우          |
+| `perspective`     | 값이 `none`이 아닌 경우          |
+| `will-change`     | 위 속성 중 하나를 값으로 가질 때 |
+
+이 현상은 의도치 않게 발생하는 경우가 많다. 예를 들어 `backdrop-filter: blur()`가 적용된 헤더 내부에 `fixed` 모달을 렌더링하면, 모달의 `inset: 0`이 뷰포트가 아닌 헤더 영역을 기준으로 동작한다.
+
+```css
+.header {
+  position: fixed;
+  backdrop-filter: blur(8px); /* 새로운 컨테이닝 블록 생성 */
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0; /* 뷰포트가 아닌 .header 기준으로 동작 */
+}
+```
+
+해결책은 `fixed` 요소를 해당 조상의 DOM 서브트리 밖으로 이동시키는 것이다. React에서는 `createPortal`로 `document.body`에 직접 마운트한다.
+
+```jsx
+createPortal(<div className='fixed inset-0' />, document.body);
+```
 
 ## `box-sizing`
 

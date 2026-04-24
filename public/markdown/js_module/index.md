@@ -1,243 +1,180 @@
 ---
 folderName: js_module
-title: 모듈 시스템
-tag: javascript, browser, node
+title: 모듈 시스템(Module System)
+tag: javascript
 isPublished: true
 ---
 
-# 모듈 번들러(Module Bundler)
+# 모듈 시스템(Module System)
 
-- [그림으로 보는 모듈 시스템과 모듈 번들러의 역사](#그림으로-보는-모듈-시스템과-모듈-번들러의-역사)
-- [ESM 이전 Node.js 환경 모듈 시스템](#esm-이전-nodejs-환경-모듈-시스템)
-  - [CommonJS](#commonjs)
-  - [NPM(Node Package Manager)의 등장](#npmnode-package-manager의-등장)
-- [ESM 이전 브라우저 환경 모듈 시스템](#esm-이전-브라우저-환경-모듈-시스템)
-- [ESM의 등장](#esm의-등장)
-  - [브라우저 환경 • Node.js 환경에서 ESM 공통 특징](#브라우저-환경--nodejs-환경에서-esm-공통-특징)
-  - [Node.js 환경에서 ESM 특징](#nodejs-환경에서-esm-특징)
-  - [브라우저 환경에서 ESM 특징](#브라우저-환경에서-esm-특징)
-- [모듈 번들러(Module Bundler)](#모듈-번들러module-bundler-1)
-  - [ESM의 등장에도 불구하고 모듈 번들러가 필요한 이유](#esm의-등장에도-불구하고-모듈-번들러가-필요한-이유)
-- [Barrel 파일](#barrel-파일)
+- [Node.js 환경](#nodejs-환경)
+  - [CommonJS(CJS)](#commonjscjs)
+  - [의존성 관리](#의존성-관리)
+  - [ESM 전환](#esm-전환)
+- [브라우저 환경](#브라우저-환경)
+  - [script 태그 방식](#script-태그-방식)
+  - [ESM 도입](#esm-도입)
+  - [모듈 번들러(Module Bundler)](#모듈-번들러module-bundler)
+- [CJS와 ESM의 결정적 차이](#cjs와-esm의-결정적-차이)
+- [배럴 파일(Barrel File)](#배럴-파일barrel-file)
 
-## 그림으로 보는 모듈 시스템과 모듈 번들러의 역사
+## Node.js 환경
 
-![img](images/module_history.png)
+2009년 Node.js가 등장하면서 자바스크립트를 서버 사이드에서 실행할 수 있게 됐지만, 파일 단위로 코드를 분리하고 불러올 표준 방법이 없었다. 파일 시스템에 직접 접근할 수 있는 환경임에도 모듈화 메커니즘 자체가 부재했다. 이 문제는 CommonJS 도입 → NPM 생태계 확장 → ESM 공식 지원 순으로 전개됐다.
 
-## ESM 이전 Node.js 환경 모듈 시스템
+### CommonJS(CJS)
 
-### CommonJS
+Node.js 환경의 모듈 부재 문제를 해결하기 위해 등장한 모듈 시스템이다. Node.js가 공식 채택하면서 서버 사이드 자바스크립트의 사실상 표준이 됐다. 파일 시스템에서 동기적으로 파일을 읽는 서버 환경의 특성에 최적화되어 있어 브라우저에서는 기본적으로 동작하지 않는다.
 
-- Node.js는 파일 시스템을 기반으로 자원에 접근한다.
-- Node.js는 모듈을 구조화하고 재사용할 방법이 필요하여 커뮤니티 주도 하에 CommonJS 모듈 시스템을 채택했다.
-- `require()` 함수로 모듈을 불러오고 `module.exports`, `exports`로 모듈을 내보낼 수 있다.
-- 동기적으로 모듈을 로드한다.
-- 런타임 환경에서 동적으로 모듈을 로드할 수 있다.
+- `require()` 함수로 모듈을 불러오고 `module.exports`로 내보냄
+- 동기적 로드(Synchronous Load): 파일을 즉시 읽어서 실행하므로 로드 중 스크립트 실행이 차단됨
+- 런타임 평가: 코드를 실행하는 시점에 모듈을 해석하므로 조건문 안에서 `require`를 호출하는 등 동적 로딩이 가능함
+- 값의 복사: 내보낸 값을 복사하여 가져오므로 원본 모듈의 변수가 변해도 가져온 값은 변하지 않음
 
-### NPM(Node Package Manager)의 등장
+### 의존성 관리
 
-개발자들이 모듈을 공유하고 재사용하려는 요구에 따라 NPM이 등장했고, Node.js의 기본 패키지로 제공되었다.
+#### NPM 등장 이전
 
-NPM 등장 이전:
+NPM이 등장하기 전에는 외부 라이브러리를 프로젝트에 통합하는 표준화된 방법이 없었다.
 
-- 수동으로 파일을 구해 `lib/` 같은 폴더에 넣고, `require('./lib/something')`로 경로 기반 참조.
-- 라이브러리가 다른 라이브러리에 의존하면, 해당 라이브러리를 수동으로 찾아야 했다(의존성 관리 어려움).
-- 업데이트된 코드를 반영하려면 직접 다시 다운로드해야 했다(버전 관리 부재).
-- 팀원 간 프로젝트를 공유할 때 모든 파일을 함께 넘겨야 했다(공유의 비효율성).
+- 수동 다운로드: 라이브러리를 공식 사이트나 GitHub에서 직접 내려받아 프로젝트 폴더에 복사하거나 저장소에 커밋함
+- 버전 추적 부재: 어떤 버전을 사용하는지 `README`에 수동으로 기재하거나 파일명에 버전을 포함하는 방식에 의존했으며, 팀원 간 환경 불일치가 빈번하게 발생함
+- 의존성 전이 문제: 라이브러리 A가 라이브러리 B에 의존할 경우, B도 직접 찾아 설치해야 했음
+- 업데이트 부담: 새 버전이 출시되면 직접 확인하고 파일을 수동으로 교체해야 했음
 
-NPM 등장 이후:
+#### NPM의 등장
 
-- `npm install`로 NPM 레지스트리에서 다운로드하여 `node_modules`에 저장한다.
-- `node_modules`가 표준 디렉토리가 되어 모듈 로딩 방식이 `node_modules`를 탐색해서 `require('something')`처럼 경로 없이 이름만으로 참조 가능하도록 표준화되었다.
-- `package.json`에 의존성을 기록하면 `npm install`로 한 번에 설치 가능(의존성 자동화).
-- `"express": "^4.17.1"`처럼 버전을 명시해 호환성 유지(버전 관리).
-- 누구나 `npm publish`로 패키지를 공유할 수 있어 라이브러리 수가 폭발적으로 증가(생태계 확장).
+NPM(Node Package Manager)은 패키지 공유와 의존성 해결을 자동화하며 생태계를 폭발적으로 확장시켰다.
 
-## ESM 이전 브라우저 환경 모듈 시스템
+- `package.json`: 프로젝트의 의존성과 버전 정보를 명시적으로 기록함
+- `node_modules`: 표준화된 외부 라이브러리 저장소로, 경로 없이 이름만으로 모듈 참조를 가능하게 함
+- 의존성 그래프 분석: 필요한 라이브러리와 그 라이브러리가 의존하는 다른 라이브러리들을 자동으로 설치하고 관리함
 
-- 브라우저는 네트워크를 기반으로 자원에 접근한다.
-- JavaScript는 공식적인 모듈 시스템이 존재하지 않았다.
-- 일반 스크립트는 `<script>` 태그를 통해 로드되며, CORS 제약이 없다.
-- 일반 스크립트는 브라우저에서 `file://`과 같이 파일 시스템을 이용해 직접 읽는 방식이 허용된다.
-- 일반 스크립트는 전역 스코프에서 실행되어 변수나 함수가 전역 객체(`window`)에 추가될 때 이름 충돌이 빈번했다.
-- 일반 스크립트는 로드 순서를 수동으로 관리해야 했기 때문에 의존성 관리가 어려웠다.
+### ESM 전환
 
-  ```html
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8" />
-      <script src="https://unpkg.com/lodash@4.17.20"></script>
-    </head>
-    <body>
-      <script src="index.js"></script>
-    </body>
-  </html>
-  ```
+ES6(2015)에서 자바스크립트 공식 표준 모듈 시스템인 ESM이 등장하면서, CJS를 기본으로 사용하던 Node.js도 호환 필요성이 생겼다. Node.js v12(2019)에서 실험적으로 지원을 시작했고, v14 이후 안정화됐다.
 
-  ```ts
-  // index.js
-  console.log(_.join(['a', 'b', 'c'], '~'));
-  ```
+ESM 모드를 활성화하는 방법은 두 가지다.
 
-  - 해당 일반 스크립트가 외부 라이브러리에 의존한다는 것이 명확하지 않다.
-  - 의존성을 잃어버렸거나 잘못된 순서로 포함되었으면 앱이 제대로 작동하지 않는다.
-  - 의존성이 포함되었지만 사용되지 않는 경우에도 브라우저는 필요 없는 코드를 강제로 다운로드한다.
-  - AMD(Asynchronous Module Definition)나 RequireJS 같은 도구가 사용되기도 했으나, 공식 표준은 아니었다.
+- `.mjs` 확장자 사용
+- `package.json`에 `"type": "module"` 필드 추가
 
-## ESM의 등장
+CJS와 ESM은 모듈 해석 방식이 달라 상호 호환에 주의가 필요하다. 현재도 많은 패키지가 CJS와 ESM 형식을 모두 제공한다(Dual Package). Node.js 생태계는 ESM으로의 전환이 진행 중이나, CJS 패키지가 방대하게 쌓여 있어 두 형식의 공존은 당분간 지속될 전망이다.
 
-JavaScript는 브라우저와 서버 환경에서 모듈 시스템이 달라 호환성 문제가 있었다. ES6에서 ESM이 도입되며 표준화된 모듈 시스템을 제공해 이러한 간극을 줄이고자 했다.
+## 브라우저 환경
 
-### 브라우저 환경 • Node.js 환경에서 ESM 공통 특징
+브라우저는 Node.js와 달리 파일 시스템이 없고 모든 파일을 네트워크로 내려받아야 한다. 초기에는 모듈 시스템 자체가 없었고, ESM 도입 이후에도 네트워크 특성에서 비롯된 한계가 남아 번들러가 자리잡게 됐다.
 
-- `import`로 모듈을 불러오고 `export`로 모듈을 내보낼 수 있다.
-- ESM은 모듈 시스템을 코드 실행 전에 정적으로 관리하므로 `import`와 `export`는 최상위 스코프에 선언되어야 한다.
-- ESM은 코드 실행 전에 의존성을 분석하여 의존성 그래프를 생성한다.
-- `import()`를 통해 비동기적으로 동적 모듈 로드를 지원한다.
-- 모듈은 로드 시 단 한 번만 평가되어 그 결과를 메모리에 저장한다(싱글톤 패턴).
+### script 태그 방식
 
-  ```ts
-  // counter.js
-  console.log('counter 모듈 평가 시작');
-  export let count = 0;
-  export function increment() {
-    count++;
-    console.log(`count: ${count}`);
-  }
+모듈 시스템이 없던 초기 브라우저에서는 `<script>` 태그로 파일을 나열하는 것이 유일한 방법이었다. 모든 스크립트가 전역 스코프를 공유했고, 파일 간 의존 관계는 언어가 아닌 태그 순서로만 표현됐다.
 
-  // main.js
-  import { count, increment } from './counter.js';
-  console.log(`초기 count: ${count}`); // 0
-  increment(); // count: 1
+예를 들어 `app.js`가 `utils.js`의 함수를 사용할 때, `utils.js`가 먼저 로드되어야 한다는 것을 브라우저는 알 수 없었다. 개발자가 직접 파악해 태그 순서를 맞춰야 했다.
 
-  // another.js
-  import { count, increment } from './counter.js';
-  console.log(`another에서 count: ${count}`); // 1 (0이 아님!)
-  increment(); // count: 2
-  ```
-
-### Node.js 환경에서 ESM 특징
-
-- `*.mjs` 확장자로 ESM 파일임을 명시하거나 `package.json`에 `"type": "module"`을 추가해 기본 모듈 시스템을 ESM으로 설정 가능. 이 외에는 CommonJS 방식으로 동작한다.
-- 정적 `import` 선언은 동기적으로 동작한다.
-
-### 브라우저 환경에서 ESM 특징
-
-과거와 비교하여 개선된 점:
-
-- 모듈 스크립트는 독립적인 모듈 스코프에서 실행되어 전역 스코프의 변수 충돌 문제를 해결할 수 있다.
-- `import`로 필요한 모듈을 선언하여 의존성 관리가 쉬워졌다.
-
-특징:
-
-- `<script>` 태그에 `type="module"` 속성 유무에 따라 일반 스크립트와 모듈 스크립트를 구분한다(`*.js`, `*.mjs` 등 확장자와 상관없음).
-
-  ```html
-  <script type='module' src='./module.js' >
-  ```
-
-- 정적 `import` 선언은 비동기적으로 동작한다.
-- 모듈 스크립트는 비동기로 로드된다.
-
-  ![img](images/script_difference.png)
-
-- 일반 스크립트에서 `async` 속성은 외부 스크립트를 불러올 때만 유효하다. 반면, 모듈 스크립트에선 `async` 속성을 인라인 스크립트에도 적용할 수 있다.
-- `src` 속성값이 동일한 외부 스크립트는 한 번만 실행된다.
-- ESM은 모듈 경로를 URL 기반으로 해석하여 `import { foo } from 'module.js';`를 HTTP 요청으로 변환한다. 그러므로 `file://`에서 동작하지 않는다.
-  - 모듈 스크립트는 보안을 위해 CORS 정책을 강제한다.
-
-  ![img](images/module_cors.png)
-
-- 모듈 해석 방식이 URL 기반이기 때문에 경로 없는 모듈은 에러가 발생한다.
-
-  ```ts
-  import { foo } from 'module.js'; // Success
-  import { foo } from 'module'; // Error
-  ```
-
-- 각 모듈은 개별로 로드되어 파일이 많아질수록 네트워크 요청이 증가한다.
-
-  ```html
-  <script type="module" src="module.js"></script>
-  ```
-
-  ```ts
-  // module1.js
-  export let foo = 'foo';
-
-  // module2.js
-  export let bar = 'bar';
-
-  // module3.js
-  export let baz = 'baz';
-
-  // index.js
-  import { foo } from './module1.js';
-  import { bar } from './module2.js';
-  import { baz } from './module3.js';
-  ```
-
-  ![img](images/import_request.png)
-
-## 모듈 번들러(Module Bundler)
-
-- 모듈 번들러는 여러 개의 자바스크립트 파일(모듈)을 하나의 파일로 묶어주는 도구이다.
-- 모듈 번들러는 주로 브라우저 환경의 모듈 시스템이 가진 한계를 극복하기 위해 개발되어 모듈 시스템과 함께 발전하고 있다.
-
-### ESM의 등장에도 불구하고 모듈 번들러가 필요한 이유
-
-- 브라우저 호환성 문제
-  - ESM은 모던 브라우저에서는 잘 지원되지만, 여전히 구형 브라우저(예: IE)나 특정 환경에서는 ESM을 제대로 처리하지 못한다.
-  - 모듈 번들러는 코드를 단일 파일로 묶고 트랜스파일(transpile)하여 더 넓은 호환성을 보장한다.
-
-- 성능 최적화
-  - ESM은 개별 모듈을 HTTP 요청으로 로드하는데, 파일이 많아질수록 요청 수가 증가하여 성능 저하가 발생할 수 있다.
-  - 모듈 번들러는 모든 모듈을 하나의 파일(또는 최소한의 파일)로 통합해 초기 로드 시간을 줄인다.
-  - Tree Shaking(사용하지 않는 코드 제거) 같은 최적화를 통해 불필요한 코드를 제거한다.
-
-- 의존성 관리
-  - ESM은 `import`와 `export`를 사용해 의존성을 명시하지만, 복잡한 프로젝트에서는 수많은 파일과 의존성을 수동으로 관리하기 어렵다.
-  - 모듈 번들러는 의존성 그래프를 자동으로 분석하고, 필요한 모듈을 적절히 묶어준다.
-
-- 빌드 프로세스 통합
-  - 모듈 번들러는 모듈 결합 외에도 TypeScript, Sass, JSX 같은 전처리(preprocessing), 코드 압축(minification), 소스 맵 생성 등 개발과 배포에 필요한 다양한 작업을 한 번에 처리할 수 있다.
-
-- 개발 경험 개선
-  - Webpack, Vite 같은 모듈 번들러는 Hot Module Replacement(HMR) 같은 기능을 제공해 개발 중 코드 변경 사항을 즉시 반영한다.
-
-- 프로덕션 환경 요구사항
-  - 프로덕션에서는 보안, 캐싱, CDN 배포 등 추가적인 요구사항이 생긴다.
-  - 모듈 번들러는 파일 이름을 해싱하거나 청크(chunk)로 분할해 요구사항을 충족시킬 수 있다.
-
-## Barrel 파일
-
-Barrel 파일은 여러 모듈을 한 곳에서 모아서 내보내는 역할을 하는 파일을 의미한다.
-
-```text
-components/
-├── Button.js
-├── Input.js
-└── index.js
+```js
+// utils.js — 다른 파일에 의존하지 않음
+function greet(name) {
+  return 'Hello, ' + name;
+}
 ```
 
+```js
+// app.js — utils.js의 greet()에 의존함
+const message = greet('World');
+console.log(message);
+```
+
+```html
+<!-- 잘못된 순서: app.js 실행 시점에 greet()가 없어 에러 -->
+<script src="app.js"></script>
+<script src="utils.js"></script>
+
+<!-- 올바른 순서: utils.js를 먼저 로드해 greet()를 전역에 등록 -->
+<script src="utils.js"></script>
+<script src="app.js"></script>
+```
+
+의존 관계가 복잡해질수록 어떤 파일이 먼저 로드되어야 하는지 파악하기 어려웠고, 파일이 늘어날수록 관리 부담도 커졌다.
+
+### ESM 도입
+
+ES6(2015)에서 ESM이 도입되고 브라우저가 `<script type="module">`을 지원하면서, `import` 구문으로 의존 관계를 코드 안에 명시할 수 있게 됐다. 브라우저가 이를 파싱해 필요한 파일을 자동으로 가져오고 실행 순서를 결정한다.
+
+```js
+// utils.js
+export function greet(name) {
+  return 'Hello, ' + name;
+}
+```
+
+```js
+// app.js
+import { greet } from './utils.js'; // 브라우저가 utils.js를 먼저 가져와야 함을 파악
+
+const message = greet('World');
+console.log(message);
+```
+
+```html
+<!-- 진입점만 선언하면 브라우저가 의존성을 따라가며 자동 로드 -->
+<script type="module" src="app.js"></script>
+```
+
+| | script 태그 | ESM (`type="module"`) |
+|---|---|---|
+| 의존성 파악 | 개발자가 수동으로 나열 | 브라우저가 import를 따라가며 자동 수집 |
+| 로드 순서 | 태그 순서 = 실행 순서, 직접 관리 | 의존성 그래프 분석 후 자동 결정 |
+| 스코프 | 전역 공유 | 파일마다 독립 스코프 |
+| 중복 로드 | 같은 파일을 여러 번 선언하면 여러 번 실행 | URL 기준으로 한 번만 로드 |
+
+ESM은 script 태그 방식의 핵심 문제를 해소했지만, 네이티브 ESM만으로 해결되지 않는 한계도 남았다.
+
+- 요청 수 증가: 의존성이 깊을수록 수십~수백 건의 모듈 파일 요청이 발생하며, HTTP 요청 오버헤드가 누적됨
+- 구형 브라우저 미지원: IE 등 오래된 브라우저는 ESM을 지원하지 않음
+- 비자바스크립트 자원: CSS, 이미지 등은 `import` 문법 밖에서 별도 처리가 필요함
+
+### 모듈 번들러(Module Bundler)
+
+번들러는 ESM 이전, CJS 기반 Node.js 생태계와 브라우저 사이의 간격을 메우기 위해 탄생했다. 브라우저는 CJS의 `require()`를 이해하지 못했고, NPM에 쌓인 방대한 패키지를 브라우저에서도 활용하려는 수요가 커졌다.
+
+- Browserify(2011): CJS 모듈의 의존성 그래프를 분석해 하나의 파일로 합치는 첫 번째 번들러. NPM 패키지를 브라우저에서 그대로 사용할 수 있게 했다.
+- Webpack(2012): CSS, 이미지 등 비자바스크립트 자원도 모듈로 관리할 수 있도록 확장하며 사실상 표준 번들러로 자리잡았다.
+
+ESM 도입 이후에도 번들러는 다음 이유로 계속 사용된다.
+
+- HTTP 요청 최적화: 수백 개의 모듈 파일을 하나로 합쳐 요청 수를 줄임
+- 호환성 보장: 구형 브라우저를 위해 폴리필을 추가하거나 Babel, TypeScript 같은 트랜스파일러와 연계해 코드를 변환함
+- 자원 통합: 자바스크립트 외에 CSS, 이미지, 폰트 등을 모듈처럼 관리하고 함께 빌드함
+- 고급 최적화: 코드 압축(Minification), 난독화(Uglification), 청크 분할(Code Splitting), 트리 쉐이킹 등을 수행함
+
+대표 도구로는 Webpack, Rollup, Vite, esbuild 등이 있다.
+
+## CJS와 ESM의 결정적 차이
+
+| 항목        | CommonJS (CJS)              | ECMAScript Modules (ESM)             |
+| ----------- | --------------------------- | ------------------------------------ |
+| 로드 방식   | 동기적 (런타임)             | 비동기적 (파싱 타임)                 |
+| 로딩 시점   | 실제 실행 중 호출 시 로드   | 실행 전 정적으로 의존성 파악 후 로드 |
+| 동적 로딩   | `require()`로 자유롭게 가능 | `import()` 함수로만 비동기 지원      |
+| 트리 쉐이킹 | 어려움 (동적 구조 때문)     | 용이함 (정적 구조 덕분)              |
+| 파일 확장자 | `.js`, `.cjs`               | `.js`, `.mjs`                        |
+
+- 트리 쉐이킹(Tree Shaking): 사용하지 않는 코드를 제거하여 번들 크기를 줄이는 최적화 기법임. ESM은 정적 분석이 가능하여 어떤 코드가 사용되는지 빌드 타임에 확신할 수 있어 트리 쉐이킹에 매우 유리함.
+
+## 배럴 파일(Barrel File)
+
+여러 모듈을 한 곳에서 모아서 다시 내보내는(Re-export) 중간 매개체 역할을 하는 파일이다. 주로 `index.js`라는 이름을 사용한다.
+
 ```ts
+// components/index.ts
 export * from './Button';
 export * from './Input';
+export * from './Modal';
 ```
 
-```ts
-import { Button, Input } from './components';
-```
-
-장점:
-
-- 가져오기(`import`) 구문이 깔끔해져 코드가 더 읽기 쉬워진다(가독성 향상).
-- 폴더 내에서 외부로 노출할 모듈만 선택적으로 내보낼 수 있어 불필요한 노출을 줄인다(캡슐화).
-- 모듈이 추가되거나 변경될 때 barrel 파일만 수정하면 되므로 관리하기 편리하다(유지보수 용이).
-
-단점:
-
-- 프로젝트가 커질수록 barrel 파일이 많아지면 구조가 복잡해질 수 있다(복잡성 증가).
-- 아주 미세하지만, 추가 파일을 로드해야 하므로 약간의 오버헤드가 발생할 수 있다(성능 영향).
-- 모듈의 출처를 바로 알기 어려워 디버깅이 살짝 까다로울 수 있다(추적 어려움).
+- 장점:
+  - 외부에서 가져올 때 경로가 단순해져 가독성이 향상됨
+  - 내부 구조를 숨기고 공개할 API만 선택적으로 노출하는 캡슐화가 가능함
+- 단점:
+  - 잘못 구성하면 사용하지 않는 모듈까지 로드될 수 있어 트리 쉐이킹 효율이 떨어질 수 있음
+  - 순환 참조(Circular Dependency) 문제가 발생할 위험이 있음
