@@ -50,15 +50,35 @@ isPublished: true
 
 ### text-overflow
 
-텍스트가 오버플로우되는 상황은 부모 박스의 너비를 초과하는 경우에 발생한다. `white-space: nowrap`으로 자동 줄바꿈을 제거하여 오버플로우를 유도하고, `overflow: hidden`으로 가린 뒤 `text-overflow: ellipsis`를 적용한다.
+말줄임표(`...`)를 표시하려면 다음 세 속성이 같은 요소에 모두 있어야 한다. 상속되지 않으므로 텍스트를 직접 담는 요소에 적용한다.
+
+| 속성 | 역할 |
+| --- | --- |
+| `display: block` (또는 `inline-block`) | 너비 기준이 생겨야 overflow가 발생함 |
+| `overflow: hidden` | 요소 경계를 벗어난 텍스트를 잘라냄 |
+| `white-space: nowrap` | 줄바꿈을 막아 한 줄로 유지함 (줄바꿈하면 overflow가 안 생김) |
 
 ```css
-div {
-  white-space: nowrap; /* 자동 줄바꿈 제거 */
-  overflow: hidden; /* 오버플로우 숨김 */
-  text-overflow: ellipsis; /* 말줄임표 적용 */
+span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 ```
+
+N줄에서 자르는 멀티라인 말줄임은 webkit 방식을 사용한다. 이 경우 `white-space: nowrap`은 쓰지 않는다.
+
+```css
+span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+```
+
+Tailwind에서는 `truncate`(한 줄)와 `line-clamp-{n}`(멀티라인) 유틸리티가 위 조건들을 자동으로 적용한다.
 
 ## line-height 단위 차이
 

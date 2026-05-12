@@ -11,6 +11,7 @@ isPublished: true
 - [기본값 설정(Default Values)](#기본값-설정default-values)
 - [유효성 검증(Validation)](#유효성-검증validation)
   - [Zod 연동](#zod-연동)
+- [setValue vs field.onChange](#setvalue-vs-fieldonchange)
 - [useFieldArray 활용](#usefieldarray-활용)
   - [key prop 설정](#key-prop-설정)
   - [리렌더링 동작 비교](#리렌더링-동작-비교)
@@ -54,6 +55,108 @@ Zod의 `transform`/`trim`은 RHF에서 두 가지 시점에만 작동한다.
 
 필드 자체 표시값(input에 보이는 값)은 건드리지 않는다. 그래서 사용자 입력 경험은 그대로 유지되고, 실제
 처리 시점에만 정제된 값을 쓰는 구조다.
+
+## setValue vs field.onChange
+
+`setValue`와 `field.onChange`는 둘 다 필드 값을 변경하는 함수지만, 사용 맥락과 동작 방식이 다르다.
+
+### field.onChange
+
+`Controller` 컴포넌트 또는 `useController` 훅을 사용할 때 `field` 객체를 통해 제공되는 함수다. 입력 이벤트에 직접 바인딩하여 사용하며, RHF 내부적으로 `isDirty`, `isTouched` 등 `formState`를 자동으로 갱신한다.
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+function App() {
+  const { control, handleSubmit } = useForm({ defaultValues: { name: '' } });
+
+  return (
+    <form onSubmit={handleSubmit(console.log)}>
+      <Controller
+        control={control}
+        name="name"
+        render={({ field }) => (
+          // field.onChange를 onChange에 연결하면 dirty, touched, 유효성 상태가 자동 갱신된다.
+          <input {...field} />
+        )}
+      />
+    </form>
+  );
+}
+```
+
+### setValue
+
+`useForm()`이 반환하는 함수로, 폼 외부 또는 이벤트 핸들러와 무관한 시점에 명령형으로 값을 변경할 때 사용한다. 기본적으로 `formState`를 갱신하지 않으며, 옵션을 명시해야 원하는 상태가 함께 업데이트된다.
+
+| 옵션             | 기본값  | 설명                                            |
+| :--------------- | :------ | :---------------------------------------------- |
+| `shouldValidate` | `false` | `true`이면 값 변경 후 유효성 검사를 즉시 실행함 |
+| `shouldDirty`    | `false` | `true`이면 `dirtyFields`와 `isDirty`를 갱신함   |
+| `shouldTouch`    | `false` | `true`이면 해당 필드를 touched 상태로 표시함    |
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, setValue } = useForm({ defaultValues: { city: '' } });
+
+  const handleFillAddress = () => {
+    // 옵션 없이 호출하면 값만 변경되고 formState는 갱신되지 않는다.
+    setValue('city', '서울');
+
+    // 옵션을 명시하면 dirty, touched, 유효성 상태가 함께 갱신된다.
+    setValue('city', '서울', { shouldValidate: true, shouldDirty: true, shouldTouch: true });
+  };
+
+  return (
+    <form>
+      <input {...register('city')} />
+      <button type="button" onClick={handleFillAddress}>
+        주소 자동 완성
+      </button>
+    </form>
+  );
+}
+```
+
+### 비교
+
+| 구분                | `field.onChange`                            | `setValue`                                       |
+| :------------------ | :------------------------------------------ | :----------------------------------------------- |
+| 사용 위치           | `Controller` / `useController` 내부         | `useForm()`을 호출한 컴포넌트 어디서든 사용 가능 |
+| formState 자동 갱신 | dirty, touched, 유효성 자동 갱신            | 옵션을 명시하지 않으면 갱신되지 않음             |
+| 주요 사용 사례      | 입력 이벤트를 직접 바인딩하는 제어 컴포넌트 | 외부 이벤트, API 응답, 연동 필드 값 설정         |
+| RHF 권장 방식       | Controller 사용 시 setValue 대신 권장       | register 방식이나 외부 트리거 시 사용            |
+
+RHF 공식 문서는 `Controller`를 사용할 때 `field.onChange` 대신 `setValue`를 직접 호출하는 방식을 지양하도록 안내한다. `field.onChange`는 필드 상태 전체를 일관되게 관리하지만, `setValue`를 직접 호출하면 `isDirty`나 `isTouched`가 누락되어 `formState`가 실제 입력 상태와 어긋날 수 있다.
+
+반대로 `register` 방식으로 등록한 필드를 프로그램적으로 변경하거나, 다른 필드 값의 변화에 반응하여 별도 필드를 채워야 하는 경우에는 `setValue`가 적합하다.
+
+```tsx
+import { useEffect } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+
+function App() {
+  const { register, control, setValue } = useForm({
+    defaultValues: { country: '', region: '' },
+  });
+
+  // country 값이 바뀌면 region을 초기화하는 연동 예시
+  const country = useWatch({ control, name: 'country' });
+
+  useEffect(() => {
+    setValue('region', '', { shouldDirty: false });
+  }, [country, setValue]);
+
+  return (
+    <form>
+      <input {...register('country')} />
+      <input {...register('region')} />
+    </form>
+  );
+}
+```
 
 ## useFieldArray 활용
 
@@ -107,25 +210,25 @@ function FieldArrayExample() {
 
 1. RHF per step + Zustand 누적 저장
 
-| 구분 | 내용                                                               |
-| ---- | ------------------------------------------------------------------ |
-| 장점 | 스텝별 RHF 인스턴스가 독립적 → 이전 스텝 언마운트 시 메모리 정리   |
-| 장점 | 스텝별 schema가 분리되어 있어 유지보수 쉬움                        |
-| 장점 | 스텝 순서 변경/추가/제거가 쉬움                                    |
-| 단점 | Zustand에 저장하는 시점(`handleSubmit`)과 실제 입력 사이 간극 존재 |
-| 단점 | `getValues()`가 아닌 Zustand에서 읽어야 해서 데이터 출처가 두 곳   |
-| 단점 | 최종 제출 시 Zustand 데이터가 최신인지 보장 로직 필요              |
+   | 구분 | 내용                                                               |
+   | ---- | ------------------------------------------------------------------ |
+   | 장점 | 스텝별 RHF 인스턴스가 독립적 → 이전 스텝 언마운트 시 메모리 정리   |
+   | 장점 | 스텝별 schema가 분리되어 있어 유지보수 쉬움                        |
+   | 장점 | 스텝 순서 변경/추가/제거가 쉬움                                    |
+   | 단점 | Zustand에 저장하는 시점(`handleSubmit`)과 실제 입력 사이 간극 존재 |
+   | 단점 | `getValues()`가 아닌 Zustand에서 읽어야 해서 데이터 출처가 두 곳   |
+   | 단점 | 최종 제출 시 Zustand 데이터가 최신인지 보장 로직 필요              |
 
 2. FormProvider 단일 인스턴스 + Zustand UI 상태
 
-| 구분 | 내용                                                              |
-| ---- | ----------------------------------------------------------------- |
-| 장점 | 폼 데이터 출처가 단일 (form 하나)                                 |
-| 장점 | 어느 스텝에서든 `getValues()`로 전체 데이터 접근 가능             |
-| 장점 | `form.reset(apiData)`로 서버 데이터 초기화 자연스러움             |
-| 단점 | 전체 폼 schema를 하나로 합쳐야 해서 커지면 복잡해짐               |
-| 단점 | 스텝이 많을수록 FormProvider 하위 컴포넌트 리렌더링 관리 필요     |
-| 단점 | 스텝별 독립 검증이 `trigger(['field1', 'field2'])` 직접 지정 필요 |
+   | 구분 | 내용                                                              |
+   | ---- | ----------------------------------------------------------------- |
+   | 장점 | 폼 데이터 출처가 단일 (form 하나)                                 |
+   | 장점 | 어느 스텝에서든 `getValues()`로 전체 데이터 접근 가능             |
+   | 장점 | `form.reset(apiData)`로 서버 데이터 초기화 자연스러움             |
+   | 단점 | 전체 폼 schema를 하나로 합쳐야 해서 커지면 복잡해짐               |
+   | 단점 | 스텝이 많을수록 FormProvider 하위 컴포넌트 리렌더링 관리 필요     |
+   | 단점 | 스텝별 독립 검증이 `trigger(['field1', 'field2'])` 직접 지정 필요 |
 
 ---
 

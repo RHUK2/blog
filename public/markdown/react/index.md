@@ -27,6 +27,7 @@ isPublished: true
   - [useCallback + memo](#usecallback--memo)
 - [컨텍스트 API(Context API)](#컨텍스트-apicontext-api)
 - [상태 설계 패턴](#상태-설계-패턴)
+  - [파생 상태(Derived State)](#파생-상태derived-state)
 - [dangerouslySetInnerHTML](#dangerouslysetinnerhtml)
   - [기본 사용법](#기본-사용법)
   - [XSS 위험과 보안 고려사항](#xss-위험과-보안-고려사항)
@@ -249,6 +250,102 @@ function List() {
 
 - 상태 끌어올리기(Lifting State Up): 하위 컴포넌트들의 공통 상태를 가장 가까운 공통 조상으로 옮겨 관리함.
 - 제어권 위임: 자식은 콜백 함수를 통해 데이터를 전달하고, 부모는 이를 받아 전체적인 비즈니스 로직과 상태를 결정한다.
+
+## 파생 상태(Derived State)
+
+파생 상태는 기존 상태(state)나 props에서 계산할 수 있는 값을 별도의 상태로 관리하지 않고, 렌더링 중 직접 계산하는 패턴이다. 단일 진실 원천(Single Source of Truth)을 유지하는 것이 핵심이다.
+
+### 안티패턴: 중복 상태 동기화
+
+파생 가능한 값을 별도 `useState`로 관리하면 두 상태 간 동기화 버그가 발생한다.
+
+```tsx
+// ❌ incorrect: selectedIds로부터 계산 가능한 selectedCount를 별도 상태로 관리
+function List({ items }: { items: string[] }) {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [selectedCount, setSelectedCount] = useState(0);
+
+  function toggle(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      setSelectedCount(next.size); // 두 상태의 동기화를 수동으로 관리해야 함
+      return next;
+    });
+  }
+
+  return <span>{selectedCount}개 선택됨</span>;
+}
+```
+
+### 올바른 패턴: 렌더링 중 계산
+
+파생 상태는 렌더링 시점에 직접 계산하여 상태 수를 줄이고 동기화 문제를 원천 차단한다.
+
+```tsx
+// ✅ correct: selectedCount를 렌더링 중 selectedIds에서 직접 파생
+function List({ items }: { items: string[] }) {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const selectedCount = selectedIds.size; // 별도 상태 불필요
+
+  function toggle(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  return <span>{selectedCount}개 선택됨</span>;
+}
+```
+
+### 비용이 큰 계산에는 useMemo
+
+계산량이 많은 파생 값은 `useMemo`로 메모이제이션한다. 의존성이 바뀔 때만 재계산되므로 불필요한 연산을 방지한다.
+
+```tsx
+function ProductList({ products, filterText }: { products: Product[]; filterText: string }) {
+  const filtered = useMemo(
+    () => products.filter((p) => p.name.includes(filterText)),
+    [products, filterText],
+  );
+
+  return (
+    <ul>
+      {filtered.map((p) => (
+        <li key={p.id}>{p.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### useEffect로 동기화하는 안티패턴
+
+`useEffect`로 파생 값을 다른 상태에 쓰는 방식은 렌더링을 한 번 더 유발하고, 코드 흐름도 복잡해진다.
+
+```tsx
+// ❌ incorrect: useEffect로 파생 상태를 동기화 — 렌더링 2회 발생
+function SearchList({ items }: { items: string[] }) {
+  const [query, setQuery] = useState('');
+  const [filtered, setFiltered] = useState(items);
+
+  useEffect(() => {
+    setFiltered(items.filter((item) => item.includes(query)));
+  }, [items, query]);
+
+  return <ul>{filtered.map((item) => <li key={item}>{item}</li>)}</ul>;
+}
+
+// ✅ correct: 렌더링 중 직접 계산
+function SearchList({ items }: { items: string[] }) {
+  const [query, setQuery] = useState('');
+  const filtered = items.filter((item) => item.includes(query));
+
+  return <ul>{filtered.map((item) => <li key={item}>{item}</li>)}</ul>;
+}
+```
 
 ## dangerouslySetInnerHTML
 

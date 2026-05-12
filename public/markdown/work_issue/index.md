@@ -19,6 +19,8 @@ isPublished: true
   - [문제 상황](#문제-상황)
   - [원인 분석: SameSite 속성에 따른 동작 차이](#원인-분석-samesite-속성에-따른-동작-차이)
   - [해결 방법](#해결-방법)
+- [TypeScript 경로 해석 이슈](#typescript-경로-해석-이슈)
+  - [JSON 파일이 디렉터리 배럴을 가로막는 경우](#json-파일이-디렉터리-배럴을-가로막는-경우)
 
 ## 렌더링 이슈
 
@@ -91,3 +93,28 @@ SNS, 이메일, 타 블로그 등 외부 사이트에 공유된 링크를 통해
 ### 해결 방법
 
 인증 쿠키의 `SameSite` 속성을 `Strict`에서 `Lax`로 변경했다. 외부 링크를 통한 접속에서도 브라우저가 인증 쿠키를 함께 전송하게 되어, 서버 측에서 정상적으로 인증 상태를 확인하고 페이지 분기를 처리할 수 있게 됐다.
+
+## TypeScript 경로 해석 이슈
+
+### JSON 파일이 디렉터리 배럴을 가로막는 경우
+
+`tsconfig.json`에 `resolveJsonModule: true`가 설정된 상태에서 `"@/*": ["./*"]` 와일드카드 경로 별칭을 사용할 때 발생할 수 있다.
+
+모듈 리졸버는 `@/components`를 해석할 때 다음 순서로 파일을 탐색한다.
+
+```text
+1. ./components.ts / .tsx / .js / .jsx  → 없음
+2. ./components.json                    → 있으면 여기서 멈춤
+3. ./components/index.ts                → 여기까지 도달하지 못함
+```
+
+shadcn CLI를 실행하면 프로젝트 루트에 `components.json`(shadcn 설정 파일)이 생성된다. 이 파일이 존재하면 `@/components` import가 설정 객체로 해석되어, 가져오려던 컴포넌트가 모두 `undefined`가 된다. React에서 `undefined`를 JSX 엘리먼트로 사용하면 "Element type is invalid" 에러가 발생하고 해당 라우트 전체가 500을 반환한다.
+
+해결 방법은 `paths`에 더 구체적인 경로를 와일드카드보다 먼저 등록하는 것이다. TypeScript는 `paths` 항목을 위에서 아래 순서로 매칭하므로, 구체적인 경로가 먼저 오면 JSON 파일 탐색 단계 자체를 건너뛴다.
+
+```json
+"paths": {
+  "@/components": ["./components/index"],
+  "@/*": ["./*"]
+}
+```

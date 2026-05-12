@@ -17,6 +17,7 @@ isPublished: true
   - [태그드 템플릿 리터럴(Tagged Template Literal)](#태그드-템플릿-리터럴tagged-template-literal)
 - [자료구조와 내장 메서드](#자료구조와-내장-메서드)
   - [데이터 구조 비교 (유사 배열 • 이터러블)](#데이터-구조-비교-유사-배열--이터러블)
+  - [엔트리(Entry)](#엔트리entry)
   - [sort 메서드와 다국어 정렬](#sort-메서드와-다국어-정렬)
   - [숫자 변환 함수 비교](#숫자-변환-함수-비교)
 - [바이너리 데이터 객체](#바이너리-데이터-객체)
@@ -94,6 +95,47 @@ const result = highlight`Hello, ${name}!`;
 | 순회 | `for...of` 사용 불가 (배열 변환 필요) | `for...of`, 전개 연산자 사용 가능    |
 | 예시 | `arguments`, `NodeList`, `String`     | `Array`, `Map`, `Set`, `String`      |
 | 특징 | 배열 메서드를 직접 호출할 수 없음     | 순회(Iteration) 프로토콜을 준수함    |
+
+### 엔트리(Entry)
+
+엔트리(Entry)는 키-값 쌍(key-value pair)을 나타내는 단위다. 자바스크립트에서는 객체, `Map`, 배열 등 다양한 자료구조에서 엔트리 개념이 사용된다.
+
+`Object.entries()`는 객체의 열거 가능한 자체 속성을 `[key, value]` 쌍의 배열로 반환한다.
+
+```ts
+const obj = { a: 1, b: 2, c: 3 };
+
+Object.entries(obj); // [['a', 1], ['b', 2], ['c', 3]]
+```
+
+`Object.fromEntries()`는 `[key, value]` 쌍의 이터러블을 다시 객체로 변환한다. `Object.entries()`의 역연산에 해당한다.
+
+```ts
+const entries = [['a', 1], ['b', 2]];
+
+Object.fromEntries(entries); // { a: 1, b: 2 }
+```
+
+`Map`도 `entries()` 메서드를 지원하며, 삽입 순서가 보장된 `[key, value]` 이터레이터를 반환한다.
+
+```ts
+const map = new Map([['x', 10], ['y', 20]]);
+
+for (const [key, value] of map.entries()) {
+  console.log(key, value); // 'x' 10, 'y' 20
+}
+```
+
+두 메서드를 조합하면 객체의 값을 일괄 변환하는 패턴을 간결하게 표현할 수 있다.
+
+```ts
+const prices = { apple: 1000, banana: 500, cherry: 2000 };
+
+const discounted = Object.fromEntries(
+  Object.entries(prices).map(([key, value]) => [key, value * 0.9]),
+);
+// { apple: 900, banana: 450, cherry: 1800 }
+```
 
 ### sort 메서드와 다국어 정렬
 

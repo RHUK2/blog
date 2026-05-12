@@ -17,6 +17,7 @@ isPublished: true
   - [git clone](#git-clone)
 - [소스 제어(Source Control)](#소스-제어source-control)
   - [git add](#git-add)
+  - [git mv](#git-mv)
   - [git commit](#git-commit)
   - [git push](#git-push)
   - [git pull](#git-pull)
@@ -157,6 +158,22 @@ flowchart LR
 ```sh
 git add . # 모든 변경 파일 추가
 git add <파일경로> # 특정 파일 추가
+```
+
+### git mv
+
+파일 또는 디렉토리를 이동하거나 이름을 변경함. 변경 내용이 스테이징 영역에 자동으로 등록됨.
+
+```sh
+git mv <기존경로> <새경로>
+```
+
+`mv` 명령어로 직접 파일명을 바꾸면 Git은 기존 파일 삭제와 새 파일 추가로 인식할 수 있다. `git mv`를 사용하면 인덱스에 이름 변경이 명시적으로 기록되어 히스토리 추적이 보장된다.
+
+이름이 변경된 파일의 변경 이력을 조회할 때는 `--follow` 옵션이 필요함.
+
+```sh
+git log --follow <파일경로>
 ```
 
 ### git commit
