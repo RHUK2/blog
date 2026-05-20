@@ -17,6 +17,7 @@ isPublished: true
 - [`flex`](#flex)
   - [`flex-direction`](#flex-direction)
   - [`flex-basis`](#flex-basis)
+  - [`flex: 1`이 `height`를 덮어쓰는 경우](#flex-1이-height를-덮어쓰는-경우)
   - [`gap`](#gap)
   - [`min-width: auto`](#min-width-auto)
   - [정렬 속성](#정렬-속성)
@@ -190,6 +191,33 @@ div.flex-item-2 {
 ```
 
 `align-items: baseline` 옵션은 글자 밑을 기준으로 정렬한다.
+
+### `flex: 1`이 `height`를 덮어쓰는 경우
+
+`flex: 1`은 `flex: 1 1 0%`의 단축이며, 여기 포함된 `flex-basis: 0%`가 메인 축 크기에서 `width`/`height`를 덮어쓴다. 따라서 `flex-direction: column` 컨테이너의 자식에 `flex: 1`과 명시적 `height`(예: Tailwind `h-120`)를 동시에 지정하면 `flex: 1`이 우선되어 `height`가 무시된다.
+
+```html
+<!-- ❌ h-120이 동작하지 않음. flex-basis: 0%가 height를 덮어씀 -->
+<div class="flex flex-col">
+  <div class="flex-1 h-120">콘텐츠</div>
+</div>
+
+<!-- ✅ flex-1 제거 시 h-120 적용 -->
+<div class="flex flex-col">
+  <div class="h-120">콘텐츠</div>
+</div>
+
+<!-- ✅ 고정 높이를 유지하면서 가로 정렬만 필요한 경우 -->
+<div class="flex flex-col">
+  <div class="shrink-0 basis-auto h-120">콘텐츠</div>
+</div>
+```
+
+라이브러리 컴포넌트에 `flex-1`이 기본으로 포함된 경우 주의가 필요하다. shadcn UI의 `Empty` 컴포넌트(`data-slot="empty"`)는 카드 내부에서 "남은 공간 채우기" 용도로 설계되어 `flex-1`이 박혀 있다. 카드 안에서는 의도대로 동작하지만, 카드 밖 독립 블록으로 쓰면서 명시적 높이를 적용하려면 `flex-1`을 무력화하는 override가 필요하다.
+
+```tsx
+<Empty className='!flex-none h-120'>데이터가 없습니다.</Empty>
+```
 
 ### `gap`
 
