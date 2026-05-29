@@ -267,6 +267,30 @@ function ControlledInput() {
 }
 ```
 
+### 제어/비제어 구분 원리
+
+React는 `value` prop이 `undefined`이면 비제어, `undefined`가 아닌 값이면 제어 컴포넌트로 판단한다. React DOM 내부에서 `value != null` 조건으로 `null`과 `undefined`를 동시에 체크하여 제어 여부를 구분한다.
+
+`null`은 특수 케이스다. `value={null}`을 전달하면 비제어로 전환되면서 React가 경고를 발생시킨다.
+
+### 흔한 버그 패턴
+
+`useState()` 초기값을 생략하면 초기 상태가 `undefined`가 되어 비제어 컴포넌트로 시작한다. 이후 입력 이벤트로 상태가 갱신되면 비제어에서 제어로 전환이 발생하고 React가 경고를 낸다. 제어 컴포넌트 의도라면 반드시 `useState('')`처럼 초기값을 명시해야 한다.
+
+```tsx
+function BadInput() {
+  const [value, setValue] = useState(); // undefined → 비제어로 시작, 입력 시 경고 발생
+
+  return <input value={value} onChange={(e) => setValue(e.target.value)} />;
+}
+
+function GoodInput() {
+  const [value, setValue] = useState(''); // 빈 문자열로 초기화 → 처음부터 제어 컴포넌트
+
+  return <input value={value} onChange={(e) => setValue(e.target.value)} />;
+}
+```
+
 ## 비제어 컴포넌트(Uncontrolled Component)
 
 비제어 컴포넌트(Uncontrolled Component)는 DOM 자체에서 폼 데이터를 관리하는 방식이다.
