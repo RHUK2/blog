@@ -4,7 +4,7 @@ import prettier from 'eslint-config-prettier';
 import onlyWarn from 'eslint-plugin-only-warn';
 
 const config = [
-  { ignores: ['dist/**', '.next/**', 'node_modules/**'] },
+  { ignores: ['dist/**', '.next/**', 'node_modules/**', 'public/**'] },
   ...coreWebVitals,
   ...typescript,
   prettier,
