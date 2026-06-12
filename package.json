@@ -11,9 +11,9 @@
     "deps:check": "pnpm -r outdated",
     "deps:update": "pnpm -r update && pnpm build",
     "deps:update:major": "pnpm -r up -iL",
-    "type": "tsc --noEmit",
+    "type": "next typegen && tsc --noEmit",
     "lint": "eslint . --max-warnings 10",
-    "prebuild": "next typegen && pnpm run type && pnpm run lint",
+    "prebuild": "pnpm run type && pnpm run lint",
     "build": " next build",
     "start": "next start",
     "prettier": "prettier --write './**/*.tsx'"
