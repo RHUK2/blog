@@ -13,7 +13,7 @@
     "deps:update:major": "pnpm -r up -iL",
     "type": "tsc --noEmit",
     "lint": "eslint . --max-warnings 10",
-    "prebuild": "pnpm run type && pnpm run lint",
+    "prebuild": "next typegen && pnpm run type && pnpm run lint",
     "build": " next build",
     "start": "next start",
     "prettier": "prettier --write './**/*.tsx'"
