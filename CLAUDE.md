@@ -81,10 +81,8 @@ Tailwind CSS v4와 마크다운 prose를 위한 `@tailwindcss/typography`를 사
 
 ## 아티클 작성
 
-전체 작성 규칙은 저장소 루트의 `markdown.md`를 참고한다. 주요 사항은 다음과 같다.
+아티클을 작성하거나 수정할 때는 반드시 `markdown-writer` 스킬을 사용한다. 전체 작성 규칙(프론트매터, 문서 구조, 말투, 금지 사항 등)은 `.claude/skills/markdown-writer/SKILL.md`에 정의되어 있다.
 
-- 프론트매터 필드: `folderName` (snake_case, 폴더명과 동일), `title`, `tag` (쉼표 구분), `isPublished`
-- `public/markdown/` 하위 폴더마다 `index.md` 하나; 이미지는 `public/markdown/{folderName}/images/`에 저장
-- 아티클 추가/수정 후 `writeMarkdownMetaList()`를 실행하여 `list.json`을 재생성하고 커밋
-- 말투: 한국어 기술 문서 스타일, 평서형 종결어미(`-다`), 볼드체(`**`)·이모지·인용문(`>`) 사용 금지
-- 다이어그램은 Mermaid로 표현; 코드 블록에 언어 태그 필수 (언어 불명확 시 `text` 사용)
+스킬 외에 추가로 지켜야 할 사항은 다음과 같다.
+
+- 아티클 추가/수정 후 `writeMarkdownMetaList()`를 실행하여 `entities/markdown/api/list.json`을 재생성하고 커밋한다.
