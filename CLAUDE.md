@@ -5,12 +5,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 명령어
 
 ```bash
-pnpm dev        # 개발 서버 실행 (포트 3003)
-pnpm build      # 프로덕션 빌드
-pnpm lint       # ESLint 실행
-pnpm prettier   # 모든 .tsx 파일 포맷
-pnpm test       # Jest 실행
-pnpm test:watch # Jest watch 모드
+pnpm dev          # 개발 서버 실행 (포트 3000)
+pnpm build        # 프로덕션 빌드 (prebuild에서 type, lint 자동 실행)
+pnpm type         # TypeScript 타입 체크
+pnpm lint         # ESLint 실행
+pnpm prettier     # 모든 .tsx 파일 포맷
+pnpm audit        # 보안 취약점 검사 (high 이상)
+pnpm deps:check   # 의존성 업데이트 확인
+pnpm deps:update  # 의존성 업데이트 후 빌드
 ```
 
 ## 아키텍처
