@@ -6,17 +6,21 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "rm -rf .next && next dev",
-    "audit": "pnpm audit --audit-level=high",
-    "deps:check": "pnpm -r outdated",
-    "deps:update": "pnpm -r update && pnpm build",
-    "deps:update:major": "pnpm -r up -iL",
-    "type": "next typegen && tsc --noEmit",
+    "dev": "next dev",
+    "dev:clean": "rm -rf .next && next dev",
+    "doctor": "npx -y react-doctor@latest .",
+    "doctor:changed": "npx -y react-doctor@latest . --scope changed",
+    "type": "tsc --noEmit",
     "lint": "eslint . --max-warnings 10",
     "prebuild": "pnpm run type && pnpm run lint",
     "build": " next build",
     "start": "next start",
-    "prettier": "prettier --write './**/*.tsx'"
+    "clean": "rm -rf .next node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "audit": "pnpm audit --audit-level=high",
+    "deps:check": "pnpm -r outdated",
+    "deps:update": "pnpm -r update && pnpm build",
+    "deps:update:major": "pnpm -r up -iL"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
