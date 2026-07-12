@@ -79,11 +79,11 @@ console.log(__dirname); // /home/user/project/src
 console.log(__filename); // /home/user/project/src/app.js
 console.log(process.cwd()); // /home/user/project (실행 위치 기준)
 
-// ESM — Node.js 20.11+
+// ESM (Node.js 20.11+)
 console.log(import.meta.dirname); // /home/user/project/src
 console.log(import.meta.filename); // /home/user/project/src/app.js
 
-// ESM — Node.js 20.11 미만 (수동 구성)
+// ESM (Node.js 20.11 미만, 수동 구성)
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 

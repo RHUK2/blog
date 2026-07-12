@@ -50,8 +50,8 @@ React Hook Form에서 `defaultValues`는 폼의 초기 상태를 정의하며, �
 
 Zod의 `transform`/`trim`은 RHF에서 두 가지 시점에만 작동한다.
 
-1. 유효성 검사 — 입력값 기준으로 에러 판단 (" " → trim → "" → min(1) 실패)
-2. handleSubmit 데이터 — 콜백으로 넘어오는 data가 transform 적용된 값
+1. 유효성 검사: 입력값 기준으로 에러 판단 (" " → trim → "" → min(1) 실패)
+2. handleSubmit 데이터: 콜백으로 넘어오는 data가 transform 적용된 값
 
 필드 자체 표시값(input에 보이는 값)은 건드리지 않는다. 그래서 사용자 입력 경험은 그대로 유지되고, 실제
 처리 시점에만 정제된 값을 쓰는 구조다.

@@ -92,7 +92,7 @@ sequenceDiagram
     Note over C,R: Access Token 만료
 
     C->>A: 토큰 갱신 요청 (Refresh Token v1)
-    A-->>C: 새 Access Token + Refresh Token(v2) 발급 — v1 무효화
+    A-->>C: 새 Access Token + Refresh Token(v2) 발급 (v1 무효화)
 
     C->>R: API 요청 (새 Access Token)
     R-->>C: 응답
@@ -100,7 +100,7 @@ sequenceDiagram
     Note over C,A: 탈취자가 구 토큰으로 갱신 시도
 
     C->>A: 토큰 갱신 요청 (Refresh Token v1)
-    A-->>C: 오류 반환 — 전체 세션 만료 처리
+    A-->>C: 오류 반환 (전체 세션 만료 처리)
 ```
 
 ## 구현 예제(Node.js)

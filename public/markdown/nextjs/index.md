@@ -75,7 +75,7 @@ Next.js 15부터는 `fetch` 요청의 캐싱 기본값이 `no-store`로 변경�
 
 ### 해결 방법
 
-1. `next/dynamic`으로 클라이언트 전용 렌더링 — `ssr: false` 설정으로 서버 렌더링에서 제외:
+1. `next/dynamic`으로 클라이언트 전용 렌더링(`ssr: false` 설정으로 서버 렌더링에서 제외):
 
    ```tsx
    import dynamic from 'next/dynamic';
@@ -83,7 +83,7 @@ Next.js 15부터는 `fetch` 요청의 캐싱 기본값이 `no-store`로 변경�
    const ClientOnlyComponent = dynamic(() => import('./MyComponent'), { ssr: false });
    ```
 
-2. `useEffect`와 상태로 클라이언트 렌더링 제어 — 서버에서는 `null`을 반환하므로 불일치를 방지:
+2. `useEffect`와 상태로 클라이언트 렌더링 제어(서버에서는 `null`을 반환하므로 불일치를 방지):
 
    ```tsx
    function MyComponent() {
@@ -94,7 +94,7 @@ Next.js 15부터는 `fetch` 요청의 캐싱 기본값이 `no-store`로 변경�
    }
    ```
 
-3. `typeof window === 'undefined'` 조건 분기 — 서버 환경에서는 렌더링하지 않음:
+3. `typeof window === 'undefined'` 조건 분기(서버 환경에서는 렌더링하지 않음):
 
    ```tsx
    function MyComponent() {

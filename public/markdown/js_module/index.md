@@ -72,14 +72,14 @@ CJS와 ESM은 모듈 해석 방식이 달라 상호 호환에 주의가 필요�
 예를 들어 `app.js`가 `utils.js`의 함수를 사용할 때, `utils.js`가 먼저 로드되어야 한다는 것을 브라우저는 알 수 없었다. 개발자가 직접 파악해 태그 순서를 맞춰야 했다.
 
 ```js
-// utils.js — 다른 파일에 의존하지 않음
+// utils.js (다른 파일에 의존하지 않음)
 function greet(name) {
   return 'Hello, ' + name;
 }
 ```
 
 ```js
-// app.js — utils.js의 greet()에 의존함
+// app.js (utils.js의 greet()에 의존함)
 const message = greet('World');
 console.log(message);
 ```

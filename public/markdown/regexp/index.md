@@ -102,7 +102,7 @@ const pos = /\d+(?=px)/g;
 
 const neg = /\d+(?!px)/g;
 '100px 200em 300px'.match(neg); // ['10', '200', '30']
-// 주의: '100px'에서 '10'이 매칭됨 — '0' 뒤에는 'px'가 없기 때문
+// 주의: '100px'에서 '10'이 매칭됨, '0' 뒤에는 'px'가 없기 때문
 ```
 
 전방 탐색은 패턴 맨 앞에 위치시킬 수도 있다. 문자를 소비하지 않는 특성을 이용해 동일한 시작 위치에서 여러 조건을 동시에 검사할 때 유용함.
@@ -117,8 +117,8 @@ const neg = /\d+(?!px)/g;
 
 const password = /(?=.*[A-Z])(?=.*\d).{8,}/;
 
-password.test('abcdefgh'); // false — 대문자, 숫자 없음
-password.test('Abcdefgh'); // false — 숫자 없음
+password.test('abcdefgh'); // false (대문자, 숫자 없음)
+password.test('Abcdefgh'); // false (숫자 없음)
 password.test('Abcdefg1'); // true
 ```
 

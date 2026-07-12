@@ -59,7 +59,7 @@ graph TD
 
 ```ts
 let a: any = 'hello';
-a.toFixed(); // 컴파일 에러 없음 — 런타임 에러 발생 가능
+a.toFixed(); // 컴파일 에러 없음, 런타임 에러 발생 가능
 
 let u: unknown = 'hello';
 // ❌ incorrect: 타입 좁히기 없이 접근 불가

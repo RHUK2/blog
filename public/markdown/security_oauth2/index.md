@@ -98,7 +98,7 @@ sequenceDiagram
     U->>A: 인증 완료 및 권한 동의
     A-->>C: 302 redirect (code, state)
     Note over C: state 값 검증 (CSRF 방지)
-    C->>A: POST /token (code, client_secret) — 서버 간 직접 통신
+    C->>A: POST /token (code, client_secret), 서버 간 직접 통신
     A-->>C: access_token + refresh_token
     C->>R: GET /api (Authorization: Bearer access_token)
     R-->>C: 보호된 자원

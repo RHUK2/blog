@@ -88,7 +88,7 @@ Tailwind에서는 `truncate`(한 줄)와 `line-clamp-{n}`(멀티라인) 유틸�
 - `em` 단위 (`line-height: 1.5em`): 부모의 `font-size`를 기준으로 계산된 고정 픽셀값이 상속됨. 자식 요소의 `font-size`가 달라도 고정값이 적용되어 예상치 못한 결과가 나올 수 있다.
 
 ```css
-/* 단위 없는 값 — 권장 */
+/* 단위 없는 값 (권장) */
 body {
   font-size: 16px;
   line-height: 1.5; /* 자식에서 각자 font-size × 1.5로 계산됨 */
@@ -99,7 +99,7 @@ h1 {
   /* line-height: 1.5 상속 → 32px × 1.5 = 48px */
 }
 
-/* em 단위 — 주의 */
+/* em 단위 (주의) */
 body {
   font-size: 16px;
   line-height: 1.5em; /* 16px × 1.5 = 24px로 고정되어 상속됨 */

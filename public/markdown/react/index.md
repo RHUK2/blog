@@ -326,7 +326,7 @@ function ProductList({ products, filterText }: { products: Product[]; filterText
 `useEffect`로 파생 값을 다른 상태에 쓰는 방식은 렌더링을 한 번 더 유발하고, 코드 흐름도 복잡해진다.
 
 ```tsx
-// ❌ incorrect: useEffect로 파생 상태를 동기화 — 렌더링 2회 발생
+// ❌ incorrect: useEffect로 파생 상태를 동기화, 렌더링 2회 발생
 function SearchList({ items }: { items: string[] }) {
   const [query, setQuery] = useState('');
   const [filtered, setFiltered] = useState(items);
@@ -383,7 +383,7 @@ function Article({ htmlContent }: { htmlContent: string }) {
 React는 JSX 표현식 내의 값을 자동으로 이스케이프하여 XSS(Cross-Site Scripting) 공격을 방지한다. 그러나 `dangerouslySetInnerHTML`은 이 보호를 우회하여 HTML을 그대로 삽입하므로, 사용자 입력이 포함된 경우 XSS 취약점이 발생한다.
 
 ```tsx
-// ❌ incorrect: 사용자 입력을 그대로 삽입 — XSS 취약점
+// ❌ incorrect: 사용자 입력을 그대로 삽입 (XSS 취약점)
 const userInput = '<img src=x onerror="alert(document.cookie)">';
 <div dangerouslySetInnerHTML={{ __html: userInput }} />;
 

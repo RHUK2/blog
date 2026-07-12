@@ -522,7 +522,7 @@ place-self: end center; /* align-self justify-self */
 | `static`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                              |       O        |        X         |
 | `relative` | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                              |       O        |        O         |
 | `absolute` | 가장 가까운 `position`이 `static`이 아닌 조상의 패딩 경계, 없으면 초기 컨테이닝 블록 |       X        |        O         |
-| `fixed`    | 뷰포트 (조상에 특정 속성이 있으면 해당 조상 — 하단 참고)                             |       X        |        O         |
+| `fixed`    | 뷰포트 (조상에 특정 속성이 있으면 해당 조상, 하단 참고)                             |       X        |        O         |
 | `sticky`   | 가장 가까운 블록 컨테이너의 콘텐츠 영역                                              |       O        |        O         |
 
 `top`, `bottom`, `left`, `right` 쓰임새:

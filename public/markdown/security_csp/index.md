@@ -168,7 +168,7 @@ Content-Security-Policy: script-src 'sha256-계산된해시값'
 
 ## 사용 예시
 
-엄격한 SPA 정책 — 외부 스크립트 차단, nonce로 인라인만 허용:
+엄격한 SPA 정책(외부 스크립트 차단, nonce로 인라인만 허용):
 
 ```http
 Content-Security-Policy:

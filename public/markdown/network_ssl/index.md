@@ -13,7 +13,7 @@ isPublished: true
   - [TLS 핸드셰이크](#tls-핸드셰이크)
   - [ECDHE와 Forward Secrecy](#ecdhe와-forward-secrecy)
   - [핸드셰이크 후 암호화 통신](#핸드셰이크-후-암호화-통신)
-  - [인증서 폐기 확인 — OCSP](#인증서-폐기-확인--ocsp)
+  - [인증서 폐기 확인: OCSP](#인증서-폐기-확인-ocsp)
   - [인증서의 본질](#인증서의-본질)
 
 ## SSL/TLS
@@ -115,7 +115,7 @@ Ephemeral이 중요한 이유는 Forward Secrecy(전방 비밀성) 때문이다.
 
 TLS 1.3에서는 AES-GCM(AEAD) 방식으로 암호화와 무결성 검증을 동시에 처리한다. Nonce(일회성 난수)를 레코드마다 달리하여 같은 데이터도 매번 다른 암호문을 생성한다.
 
-### 인증서 폐기 확인 — OCSP
+### 인증서 폐기 확인: OCSP
 
 Certificate를 받은 후 클라이언트가 CA에 인증서 유효성을 확인하는 과정이다.
 
