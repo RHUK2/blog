@@ -38,7 +38,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <section className='min-h-full px-4 py-10'>
-      <div className='prose dark:prose-invert max-w-none'>
+      <div className='typeset max-w-none'>
         <Markdown
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[rehypeHighlight, rehypeSlug, rehypeKatex]}
@@ -49,10 +49,17 @@ export default async function Page({ params }: Props) {
               }
               return <code className={className}>{children}</code>;
             },
+            table({ children }) {
+              return (
+                <div className='typeset-scroll'>
+                  <table>{children}</table>
+                </div>
+              );
+            },
             img({ alt, src }) {
               return (
                 <Image
-                  className='not-prose rounded-md'
+                  className='not-typeset rounded-md'
                   alt={alt ?? ''}
                   src={`/markdown/${folderName}/${src ?? ''}`}
                   unoptimized={unoptimzed(src)}
