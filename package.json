@@ -7,7 +7,8 @@
     "start": "next start",
     "type": "tsc --noEmit",
     "lint": "eslint . --max-warnings 10 --cache --cache-strategy content",
-    "inspect": "pnpm type && pnpm lint",
+    "fsd": "steiger .",
+    "inspect": "pnpm type && pnpm lint && pnpm fsd",
     "clean:caches": "rm -rf .next",
     "clean:modules": "rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
@@ -49,6 +50,7 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
+    "@feature-sliced/steiger-plugin": "^0.7.0",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/js-cookie": "^3.0.6",
@@ -67,6 +69,7 @@
     "postcss": "^8.5.15",
     "prettier": "^3.8.4",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "steiger": "^0.6.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
     "ts-node": "^10.9.2",

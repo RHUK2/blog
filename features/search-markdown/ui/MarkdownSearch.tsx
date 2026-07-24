@@ -1,8 +1,6 @@
 'use client';
 
-import markdownMetaList from '@/entities/markdown/api/list.json';
-import type { MarkdownMetaList } from '@/entities/markdown/model/types';
-import { MarkdownMetaCard } from '@/entities/markdown/ui';
+import { MarkdownMetaCard, markdownMetaList, type MarkdownMetaList } from '@/entities/markdown';
 import { Dialog, DialogContent, DialogTitle, Input } from '@/shared/ui';
 import Fuse from 'fuse.js';
 import { Search } from 'lucide-react';

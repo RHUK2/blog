@@ -1,7 +1,6 @@
 'use client';
 
-import { useRequestAnimationFrame } from '@/shared/hooks';
-import { cn } from '@/shared/lib/utils';
+import { cn, useRequestAnimationFrame } from '@/shared/lib';
 import { useEffect, useState } from 'react';
 
 interface HeadingItem {

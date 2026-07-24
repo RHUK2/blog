@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from '@/shared/config/constants';
+import { PAGE_SIZE } from '@/shared/config';
 import { readdir, readFile, stat, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';

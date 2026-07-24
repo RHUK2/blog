@@ -1,7 +1,7 @@
 'use client';
 
 import { MarkdownSearchButton } from '@/features/search-markdown';
-import { navList } from '@/shared/config/nav';
+import { navList } from '@/shared/config';
 import { DarkLightButton } from '@/shared/ui';
 import { motion, MotionConfig } from 'motion/react';
 import Link from 'next/link';

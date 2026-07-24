@@ -1,4 +1,4 @@
-import { iconMap } from '@/shared/config/icons';
+import { iconMap } from '@/shared/config';
 
 export interface Career {
   id: string;
