@@ -4,6 +4,7 @@ import { Badge } from '@/shared/ui';
 import dayjs from 'dayjs';
 import { HTMLMotionProps, motion } from 'motion/react';
 import Link from 'next/link';
+import { getTagColor } from '../lib/tagColor';
 import { MarkdownMeta } from '../model/types';
 
 interface Props extends Omit<HTMLMotionProps<'li'>, 'ref'> {
@@ -24,15 +25,20 @@ export function MarkdownMetaCard({ data, ...liProps }: Props) {
     >
       <Link
         href={`/markdown/${data.folderName}/detail`}
-        className='flex items-center gap-2 rounded-lg border border-gray-300 bg-gray-100 p-4 dark:border-gray-700 dark:bg-gray-800'
+        className='border-border bg-muted flex h-full flex-col overflow-hidden rounded-lg border'
       >
-        <p className='flex flex-1 gap-2 overflow-hidden'>
-          <span className='text-md overflow-lg text-ellipsis whitespace-nowrap'>{data.title ?? '-'}</span>
-          <Badge as={'span'}>{data.tag ?? '-'}</Badge>
-        </p>
-        <p className='text-sm text-gray-600 dark:text-gray-400'>
-          {dayjs(data.updatedAt).isValid() ? dayjs(data.updatedAt).fromNow() : '-'}
-        </p>
+        <span className={`h-1.5 w-full ${getTagColor(data.tag ?? '')}`} />
+
+        <div className='flex flex-1 flex-col gap-2 p-4'>
+          <span className='text-md flex-1'>{data.title ?? '-'}</span>
+
+          <div className='flex items-center justify-between gap-2'>
+            <Badge>{data.tag ?? '-'}</Badge>
+            <p className='text-muted-foreground text-sm'>
+              {dayjs(data.updatedAt).isValid() ? dayjs(data.updatedAt).fromNow() : '-'}
+            </p>
+          </div>
+        </div>
       </Link>
     </motion.li>
   );

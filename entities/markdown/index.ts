@@ -1,5 +1,5 @@
 export { readMarkdownContent, readMarkdownMetaList, readTagList, writeMarkdownMetaList } from './api';
-export { MarkdownMetaCard, TagNavigation } from './ui';
+export { ArticleTableOfContents, MarkdownMetaCard, TagNavigation } from './ui';
 export type {
   MarkdownMeta,
   MarkdownMetaList,
