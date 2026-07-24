@@ -15,8 +15,9 @@ export function TagNavigation({ currentTag, tagList }: Props) {
           key={tag.id}
           href={tag.name ? `/markdown?tag=${tag.name}` : '/markdown'}
           className={twMerge(
-            'rounded-xl border border-gray-300 bg-gray-100 px-2 py-1 text-xs font-medium dark:border-gray-700 dark:bg-gray-800',
-            `${currentTag === tag.name ? 'border-gray-700 bg-gray-900 text-white dark:border-gray-400 dark:bg-gray-100 dark:text-black' : (currentTag == null || currentTag === '') && tag.name === '' ? 'border-gray-700 bg-gray-900 text-white dark:border-gray-400 dark:bg-gray-100 dark:text-black' : ''}`,
+            'border-border bg-muted rounded-xl border px-2 py-1 text-xs font-medium',
+            (currentTag === tag.name || ((currentTag == null || currentTag === '') && tag.name === '')) &&
+              'border-primary bg-primary text-primary-foreground',
           )}
         >
           {`${tag.name || 'ALL'} (${tag.postCount})`}

@@ -9,18 +9,17 @@ import Link from 'next/link';
 const MotionLink = motion.create(Link);
 
 export function Header() {
-
   return (
     <MotionConfig
       transition={{
         duration: 0.1,
       }}
     >
-      <header className='fixed z-50 w-full border-b border-b-gray-300 bg-white/80 backdrop-blur-sm dark:border-b-gray-700 dark:bg-gray-950/80'>
+      <header className='border-b-border bg-background/80 fixed z-50 w-full border-b backdrop-blur-sm'>
         <div className='m-auto flex h-12 w-full max-w-3xl min-w-xs items-center justify-between px-5 text-lg tracking-tighter'>
           <MotionLink
             href='/'
-            className='origin-bottom-left leading-none font-bold'
+            className='hover:text-primary origin-bottom-left leading-none font-bold transition-colors'
             whileHover={{
               scale: 1.1,
             }}
@@ -38,7 +37,7 @@ export function Header() {
               <MotionLink
                 key={navItem.id}
                 href={navItem.href}
-                className='origin-bottom-left leading-none'
+                className='hover:text-primary origin-bottom-left leading-none transition-colors'
                 whileHover={{
                   scale: 1.1,
                 }}

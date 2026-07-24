@@ -1,9 +1,14 @@
 'use client';
 
 import { Project } from '../model/types';
-import { Accordion, AccordionContent, AccordionTrigger, Badge, SvgrIcon } from '@/shared/ui';
-import { motion } from 'motion/react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Badge, SvgrIcon } from '@/shared/ui';
+import { MotionConfig, motion } from 'motion/react';
 import { ContributionsBadge } from './ContributionsBadge';
+
+const iconVariants = {
+  hidden: { x: -10, opacity: 0, width: 0 },
+  visible: { x: 0, opacity: 1, width: 26 },
+};
 
 interface Props {
   data: Project;
@@ -22,8 +27,8 @@ export function ProjectContentItem({ data }: Props) {
           <p className='text-xl'>{data.title}</p>
           <ContributionsBadge contribution={data.contributions} />
         </div>
-        <p className='text-gray-500 dark:text-gray-400'>{`${data.startDate} - ${data.endDate}`}</p>
-        <p className='text-gray-700 dark:text-gray-300'>{data.description}</p>
+        <p className='text-muted-foreground'>{`${data.startDate} - ${data.endDate}`}</p>
+        <p className='text-muted-foreground'>{data.description}</p>
       </div>
 
       <div className='flex flex-wrap gap-2'>
@@ -35,16 +40,31 @@ export function ProjectContentItem({ data }: Props) {
         ))}
       </div>
 
-      <Accordion>
-        <AccordionTrigger icon={'🔎'}>경험 살펴보기</AccordionTrigger>
-        <AccordionContent as='ul'>
-          {data.experienceList.map((item) => (
-            <li className='pb-2' key={item.behavior}>
-              <p>{`• ${item.behavior}`}</p>
-              {item.result && <p className='pl-2 text-gray-600 dark:text-gray-400'>{`→ ${item.result}`}</p>}
-            </li>
-          ))}
-        </AccordionContent>
+      <Accordion type='single' collapsible>
+        <AccordionItem value='experience'>
+          <AccordionTrigger>
+            <MotionConfig transition={{ duration: 0.2 }}>
+              <motion.span
+                initial='hidden'
+                whileHover='visible'
+                className='flex flex-1 items-center gap-1 overflow-hidden'
+              >
+                <motion.span variants={iconVariants}>🔎</motion.span>
+                경험 살펴보기
+              </motion.span>
+            </MotionConfig>
+          </AccordionTrigger>
+          <AccordionContent>
+            <ul>
+              {data.experienceList.map((item) => (
+                <li className='pb-2' key={item.behavior}>
+                  <p>{`• ${item.behavior}`}</p>
+                  {item.result && <p className='text-muted-foreground pl-2'>{`→ ${item.result}`}</p>}
+                </li>
+              ))}
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </motion.li>
   );

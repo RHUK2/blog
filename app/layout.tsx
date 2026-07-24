@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: Readonly<Props>) {
 
   return (
     <html lang='en' className={`h-full ${theme}`}>
-      <body className='h-full dark:bg-gray-950 dark:text-white'>
+      <body className='h-full'>
         <ReactQueryProvider>
           <GlobalClientConfig />
           <Header />

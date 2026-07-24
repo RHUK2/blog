@@ -3,7 +3,7 @@
 import markdownMetaList from '@/entities/markdown/api/list.json';
 import type { MarkdownMetaList } from '@/entities/markdown/model/types';
 import { MarkdownMetaCard } from '@/entities/markdown/ui';
-import { Modal, TextInput } from '@/shared/ui';
+import { Dialog, DialogContent, DialogTitle, Input } from '@/shared/ui';
 import Fuse from 'fuse.js';
 import { Search } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -35,9 +35,12 @@ export function MarkdownSearchButton() {
       >
         <Search size={20} />
       </motion.button>
-      <Modal isOpen={isOpen} close={close}>
-        <MarkdownSearch onClose={close} />
-      </Modal>
+      <Dialog open={isOpen} onOpenChange={(open) => !open && close()}>
+        <DialogContent>
+          <DialogTitle className='sr-only'>마크다운 검색</DialogTitle>
+          <MarkdownSearch onClose={close} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
@@ -70,11 +73,11 @@ export function MarkdownSearch({ onClose }: MarkdownSearchInputProps) {
 
   return (
     <div className='flex flex-col gap-4'>
-      <TextInput className='w-full placeholder:text-sm' placeholder='검색어 입력(최소 2자)' onChange={handleSearch} />
+      <Input className='w-full placeholder:text-sm' placeholder='검색어 입력(최소 2자)' onChange={handleSearch} />
       {results.length === 0 && (
-        <div className='flex min-h-100 flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-gray-300 py-8 dark:border-gray-700'>
-          <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>검색 결과가 없습니다.</p>
-          <p className='text-xs text-gray-400 dark:text-gray-500'>다른 키워드로 검색해보세요.</p>
+        <div className='border-border flex min-h-100 flex-col items-center justify-center gap-1 rounded-lg border border-dashed py-8'>
+          <p className='text-muted-foreground text-sm font-medium'>검색 결과가 없습니다.</p>
+          <p className='text-muted-foreground text-xs'>다른 키워드로 검색해보세요.</p>
         </div>
       )}
       {results.length > 0 && (
