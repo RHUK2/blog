@@ -82,11 +82,10 @@ pnpm deps:update  # 의존성 업데이트 후 빌드
 
 ## 아키텍처
 
-Next.js 16 (App Router) 기반 개인 블로그로, 주요 라우트는 세 가지다.
+Next.js 16 (App Router) 기반 개인 블로그로, 주요 라우트는 두 가지다.
 
 - `/markdown` — 태그 필터링 및 페이지네이션이 있는 아티클 목록
 - `/markdown/[folderName]/detail` — 정적 마크다운 아티클 상세 페이지 (`generateStaticParams`로 SSG)
-- `/llm` — 멀티 모델 LLM 채팅 인터페이스 (OpenAI + DeepSeek 스트리밍)
 
 ### FSD 레이어 구조
 
@@ -99,7 +98,7 @@ flowchart LR
 
 각 슬라이스 내부는 표준 세그먼트로 구성된다: `ui/`, `api/`, `model/`, `lib/`, `config/`
 
-외부에서는 반드시 슬라이스 루트 `index.ts`를 통해 import한다 (`@/entities/chat`, `@/features/llm-chat` 등).
+외부에서는 반드시 슬라이스 루트 `index.ts`를 통해 import한다 (`@/entities/markdown`, `@/features/search-markdown` 등).
 
 ### 디렉터리 구조
 
@@ -107,12 +106,10 @@ flowchart LR
   - `_providers/` — ReactQueryProvider, GlobalClientConfig
 - `widgets/` — 복합 UI 블록 (여러 레이어를 조합)
   - `site-header/` — Header (navList + DarkLightButton 조합)
-  - `site-footer/` — Footer (라우트 인식)
+  - `site-footer/` — Footer
 - `features/` — 사용자 인터랙션 및 비즈니스 유스케이스
-  - `llm-chat/` — ChatForm, TabsForm (채팅 전송·탭 관리)
   - `search-markdown/` — MarkdownSearchInput (Fuse.js 검색)
 - `entities/` — 도메인 엔티티 (각 슬라이스: `ui/`, `api/`, `model/`)
-  - `chat/` — useChatMutation, 타입
   - `markdown/` — MarkdownMetaCard, TagNavigation, 마크다운 파일 I/O 함수, 타입
   - `profile/` — Profile, CareerContentItem, ProjectContentItem, 정적 데이터, 타입
 - `shared/` — 재사용 UI 키트 및 공용 유틸
@@ -135,7 +132,6 @@ flowchart LR
 
 ### API 라우트
 
-- `POST /api/chat` — LLM 응답 스트리밍. `body.model` 값에 따라 OpenAI 또는 DeepSeek 클라이언트를 선택한다. `OPENAI_API_KEY`, `DEEPSEEK_API_KEY` 환경 변수가 필요하다.
 - `POST /api/mail` — 스텁 (빈 핸들러).
 
 ### 테마
