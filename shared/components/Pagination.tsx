@@ -3,9 +3,9 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import { Button } from './Button';
-import { Menu } from './Menu';
-import { MenuItem } from './MenuItem';
+import { Button } from '@/shared/components/ui/button';
+import { Menu } from '@/shared/components/Menu';
+import { MenuItem } from '@/shared/components/MenuItem';
 
 interface Props {
   totalCount: number;

@@ -26,8 +26,8 @@ export const MenuItem = forwardRef(function MenuItem(
       <button
         ref={buttonRef}
         className={twMerge(
-          'min-w-16 cursor-pointer px-3 py-2 text-center whitespace-nowrap hover:bg-gray-100 hover:font-bold dark:hover:bg-gray-800',
-          active && 'bg-gray-200 font-medium dark:bg-gray-700',
+          'hover:bg-muted/80 min-w-16 cursor-pointer px-3 py-2 text-center whitespace-nowrap hover:font-bold',
+          active && 'bg-primary text-primary-foreground hover:bg-primary font-medium',
           className,
         )}
         {...buttonProps}

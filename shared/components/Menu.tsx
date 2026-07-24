@@ -85,7 +85,7 @@ export const Menu = forwardRef(function Menu({ anchorEl, open, onClose, children
         createPortal(
           <div
             ref={containerRef}
-            className='absolute top-0 left-0 z-40 rounded-md border border-gray-300 bg-gray-100 shadow-lg shadow-black/5 dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/20'
+            className='border-border bg-muted absolute top-0 left-0 z-40 rounded-md border shadow-lg shadow-black/5 dark:shadow-black/20'
           >
             <ul
               ref={ulRef}
@@ -99,7 +99,7 @@ export const Menu = forwardRef(function Menu({ anchorEl, open, onClose, children
               {children}
             </ul>
             {showFade && (
-              <div className='pointer-events-none absolute right-0 bottom-0 left-0 h-12 rounded-b-md bg-linear-to-t from-gray-100 from-40% to-transparent dark:from-gray-800' />
+              <div className='from-muted pointer-events-none absolute right-0 bottom-0 left-0 h-12 rounded-b-md bg-linear-to-t from-40% to-transparent' />
             )}
           </div>,
           document.body,
