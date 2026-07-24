@@ -1,22 +1,13 @@
-import { CareerContentItem, Profile, ProjectContentItem, careerList, projectList, skillList } from '@/entities/profile';
-import { Badge, CategoryBox, Leaf, SvgrIcon, Tree } from '@/shared/ui';
+import { CareerContentItem, Profile, ProjectContentItem, careerList, projectList } from '@/entities/profile';
+import { CategoryBox, Divider, Leaf, Tree } from '@/shared/ui';
 
 export default function RootPage() {
   return (
-    <main className='m-auto min-h-full max-w-3xl min-w-xs bg-white pt-12 dark:bg-gray-950'>
+    <main className='bg-background m-auto min-h-full max-w-3xl min-w-xs pt-12'>
       <section className='flex flex-col gap-12 px-4 py-10'>
         <Profile />
 
-        <CategoryBox category='기술 스택'>
-          <div className='flex flex-wrap gap-2'>
-            {skillList.map((skill) => (
-              <Badge key={skill.id}>
-                <SvgrIcon icon={skill.icon} />
-                <p>{skill.text}</p>
-              </Badge>
-            ))}
-          </div>
-        </CategoryBox>
+        <Divider />
 
         <CategoryBox category='경력 • 프로젝트'>
           {careerList.map((career) => (

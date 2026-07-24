@@ -1,43 +1,5 @@
 import { v4 } from 'uuid';
-import { CareerList, ProjectList, SkillList } from './types';
-
-export const skillList: SkillList = [
-  {
-    id: v4(),
-    icon: 'NextjsIcon',
-    text: 'Next.js',
-  },
-  {
-    id: v4(),
-    icon: 'TypescriptIcon',
-    text: 'Typescript',
-  },
-  {
-    id: v4(),
-    icon: 'ReactqueryIcon',
-    text: 'React Query',
-  },
-  {
-    id: v4(),
-    icon: 'ReacthookformIcon',
-    text: 'React Hook Form',
-  },
-  {
-    id: v4(),
-    icon: 'MuiIcon',
-    text: 'MUI',
-  },
-  {
-    id: v4(),
-    icon: 'TailwindcssIcon',
-    text: 'Tailwind CSS',
-  },
-  {
-    id: v4(),
-    icon: 'AwsIcon',
-    text: 'AWS',
-  },
-];
+import { CareerList, ProjectList } from './types';
 
 export const careerList: CareerList = [
   {
@@ -116,11 +78,6 @@ export const careerList: CareerList = [
           },
           {
             id: v4(),
-            icon: 'ReacthookformIcon',
-            text: 'React Hook Form',
-          },
-          {
-            id: v4(),
             icon: 'MuiIcon',
             text: 'MUI',
           },
@@ -182,16 +139,6 @@ export const careerList: CareerList = [
             icon: 'ReactqueryIcon',
             text: 'React Query',
           },
-          {
-            id: v4(),
-            icon: 'ReacthookformIcon',
-            text: 'React Hook Form',
-          },
-          {
-            id: v4(),
-            icon: 'cssIcon',
-            text: 'Emotion',
-          },
         ],
         experienceList: [
           {
@@ -247,11 +194,6 @@ export const careerList: CareerList = [
           },
           {
             id: v4(),
-            icon: 'ReacthookformIcon',
-            text: 'React Hook Form',
-          },
-          {
-            id: v4(),
             icon: 'MuiIcon',
             text: 'MUI',
           },
@@ -301,11 +243,6 @@ export const projectList: ProjectList = [
         id: v4(),
         icon: 'ReactqueryIcon',
         text: 'React Query',
-      },
-      {
-        id: v4(),
-        icon: 'ReacthookformIcon',
-        text: 'React Hook Form',
       },
       {
         id: v4(),
