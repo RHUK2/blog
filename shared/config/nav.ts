@@ -7,9 +7,4 @@ export const navList: NavList = [
     href: '/markdown',
     text: 'NOTE',
   },
-  {
-    id: v4(),
-    href: '/llm',
-    text: 'LLM',
-  },
 ];

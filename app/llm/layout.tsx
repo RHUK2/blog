@@ -1,9 +1,0 @@
-import { ReactNode } from 'react';
-
-interface Props {
-  children: ReactNode;
-}
-
-export default function Layout({ children }: Readonly<Props>) {
-  return <main className='m-auto h-full max-w-3xl min-w-xs bg-white pt-12 dark:bg-gray-950'>{children}</main>;
-}
