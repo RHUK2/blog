@@ -26,6 +26,8 @@ export function ArticleTableOfContents({ containerId }: Props) {
 
     const elements = Array.from(container.querySelectorAll<HTMLElement>('h1[id], h2[id], h3[id]'));
 
+    // containerId는 형제 트리(마크다운 렌더러)가 그리는 DOM이라 마운트 이후에만 헤딩을 읽을 수 있음
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHeadings(
       elements.map((element) => ({
         id: element.id,

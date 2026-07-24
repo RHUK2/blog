@@ -1,10 +1,6 @@
 {
   "name": "blog",
   "private": true,
-  "packageManager": "pnpm@11.6.0",
-  "engines": {
-    "node": ">=20"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -64,6 +60,7 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.9",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-better-tailwindcss": "^4.7.0",
     "eslint-plugin-only-warn": "^1.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.1.1",

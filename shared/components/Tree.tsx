@@ -20,7 +20,7 @@ export function Leaf({ top = 0, children }: LeafProps) {
   return (
     <div className='relative pl-4'>
       <div
-        className={`bg-foreground ring-background absolute z-1 h-2.5 w-2.5 rounded-full ring-4`}
+        className={`bg-foreground ring-background absolute z-1 size-2.5 rounded-full ring-4`}
         style={{ transform: `translate(-${circleLeft}px, ${circleTop}px)` }}
       />
       <div

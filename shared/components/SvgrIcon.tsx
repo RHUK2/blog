@@ -9,5 +9,5 @@ interface Props {
 export function SvgrIcon({ icon, className }: Props) {
   const Component = iconMap[icon];
 
-  return <Component className={cn('text-foreground h-4 w-4 fill-current', className)} />;
+  return <Component className={cn('text-foreground size-4 fill-current', className)} />;
 }

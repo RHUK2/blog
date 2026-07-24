@@ -12,7 +12,7 @@ export function ScrollTopFloatingButton() {
     <div className='sticky bottom-8 flex justify-end'>
       <motion.button
         onClick={scrollTop}
-        className='bg-muted ring-border hover:bg-muted/80 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full shadow-md ring-1'
+        className='bg-muted ring-border hover:bg-muted/80 flex size-12 cursor-pointer items-center justify-center rounded-full shadow-md ring-1'
         whileHover={{
           scale: 1.1,
         }}

@@ -30,7 +30,7 @@ export function MarkdownMetaCard({ data, ...liProps }: Props) {
         <span className={`h-1.5 w-full ${getTagColor(data.tag ?? '')}`} />
 
         <div className='flex flex-1 flex-col gap-2 p-4'>
-          <span className='text-md flex-1'>{data.title ?? '-'}</span>
+          <span className='flex-1 text-base'>{data.title ?? '-'}</span>
 
           <div className='flex items-center justify-between gap-2'>
             <Badge>{data.tag ?? '-'}</Badge>
