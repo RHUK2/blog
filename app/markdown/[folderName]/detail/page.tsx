@@ -1,4 +1,5 @@
-import { ArticleTableOfContents, markdownMetaList, readMarkdownContent } from '@/entities/markdown';
+import { ArticleTableOfContents, markdownMetaList } from '@/entities/markdown';
+import { readMarkdownContent } from '@/entities/markdown/api';
 import { MermaidDiagram, ScrollTopFloatingButton } from '@/shared/ui';
 import Image from 'next/image';
 import Markdown from 'react-markdown';

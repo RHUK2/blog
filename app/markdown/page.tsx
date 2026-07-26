@@ -1,4 +1,5 @@
-import { MarkdownMetaCard, TagNavigation, readMarkdownMetaList, readTagList } from '@/entities/markdown';
+import { MarkdownMetaCard, TagNavigation } from '@/entities/markdown';
+import { readMarkdownMetaList, readTagList } from '@/entities/markdown/api';
 import { PAGE_SIZE } from '@/shared/config';
 import { Divider, Pagination } from '@/shared/ui';
 

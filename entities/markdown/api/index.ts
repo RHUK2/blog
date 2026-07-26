@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { PAGE_SIZE } from '@/shared/config';
 import { readdir, readFile, stat, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
@@ -6,7 +8,7 @@ import { v4 } from 'uuid';
 import { MarkdownMeta, MarkdownMetaListResponse, MarkdownTagListResponse } from '../model/types';
 
 const markdown_path = path.join(process.cwd(), 'public', 'markdown');
-const meta_markdown_path = path.join(process.cwd(), 'entities', 'markdown', 'api', 'list.json');
+const meta_markdown_path = path.join(process.cwd(), 'entities', 'markdown', 'model', 'list.json');
 
 export async function writeMarkdownMetaList() {
   try {

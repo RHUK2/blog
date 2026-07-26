@@ -100,6 +100,8 @@ flowchart LR
 
 외부에서는 반드시 슬라이스 루트 `index.ts`를 통해 import한다 (`@/entities/markdown`, `@/features/search-markdown` 등).
 
+예외로 `entities/markdown/api`는 `fs`를 사용하는 서버 전용 모듈이라 슬라이스 공개 API에서 제외했다. 공개 API에 두면 클라이언트 컴포넌트가 슬라이스를 import할 때 `fs`가 브라우저 번들로 끌려와 빌드가 깨진다. 서버 컴포넌트에서는 `@/entities/markdown/api`로 직접 import하며, 해당 예외는 `steiger.config.ts`에서 `app/markdown/**` 범위로만 허용한다.
+
 ### 디렉터리 구조
 
 - `app/` — Next.js App Router 페이지 및 API 라우트 (FSD app 레이어)
@@ -124,7 +126,7 @@ flowchart LR
 
 아티클은 `public/markdown/{folderName}/index.md`에 YAML 프론트매터(`folderName`, `title`, `tag`, `isPublished`)와 함께 저장된다. 임시/초안 아티클은 `public/markdown/@temp/`에 둔다.
 
-메타데이터 인덱스는 `entities/markdown/api/list.json`에 저장되며 저장소에 커밋된다. `entities/markdown/api/index.ts` 하단에 주석 처리된 `writeMarkdownMetaList()` 호출을 해제하고 실행하면 재생성된다. 이후 `list.json`을 다시 커밋해야 한다. 상세 페이지는 `dynamicParams = false`로 설정되어 있고 `generateStaticParams`에서 `list.json`을 읽으므로, 빌드 전에 반드시 최신 상태여야 한다.
+메타데이터 인덱스는 `entities/markdown/model/list.json`에 저장되며 저장소에 커밋된다. `entities/markdown/api/index.ts` 하단에 주석 처리된 `writeMarkdownMetaList()` 호출을 해제하고 실행하면 재생성된다. 이후 `list.json`을 다시 커밋해야 한다. 상세 페이지는 `dynamicParams = false`로 설정되어 있고 `generateStaticParams`에서 `list.json`을 읽으므로, 빌드 전에 반드시 최신 상태여야 한다.
 
 ### 경로 별칭
 
@@ -148,4 +150,4 @@ Tailwind CSS v4와 마크다운 prose를 위한 `@tailwindcss/typography`를 사
 
 스킬 외에 추가로 지켜야 할 사항은 다음과 같다.
 
-- 아티클 추가/수정 후 `writeMarkdownMetaList()`를 실행하여 `entities/markdown/api/list.json`을 재생성하고 커밋한다.
+- 아티클 추가/수정 후 `writeMarkdownMetaList()`를 실행하여 `entities/markdown/model/list.json`을 재생성하고 커밋한다.
