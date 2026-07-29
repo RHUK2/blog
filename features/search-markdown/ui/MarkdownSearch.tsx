@@ -1,7 +1,8 @@
 'use client';
 
 import { MarkdownMetaCard, markdownMetaList, type MarkdownMetaList } from '@/entities/markdown';
-import { Dialog, DialogContent, DialogTitle, Input } from '@/shared/ui';
+import { Dialog, DialogContent, DialogTitle } from '@/shadcn/ui/dialog';
+import { Input } from '@/shadcn/ui/input';
 import Fuse from 'fuse.js';
 import { Search } from 'lucide-react';
 import { motion } from 'motion/react';

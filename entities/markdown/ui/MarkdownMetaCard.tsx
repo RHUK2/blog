@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge } from '@/shared/ui';
+import { Badge } from '@/shadcn/ui/badge';
 import dayjs from 'dayjs';
 import { HTMLMotionProps, motion } from 'motion/react';
 import Link from 'next/link';

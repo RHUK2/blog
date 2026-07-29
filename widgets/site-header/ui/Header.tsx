@@ -1,12 +1,20 @@
 'use client';
 
 import { MarkdownSearchButton } from '@/features/search-markdown';
-import { navList } from '@/shared/config';
 import { DarkLightButton } from '@/shared/ui';
 import { motion, MotionConfig } from 'motion/react';
 import Link from 'next/link';
+import { v4 } from 'uuid';
 
 const MotionLink = motion.create(Link);
+
+const navList = [
+  {
+    id: v4(),
+    href: '/markdown',
+    text: 'NOTE',
+  },
+];
 
 export function Header() {
   return (

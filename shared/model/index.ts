@@ -1,1 +1,1 @@
-export type { Nav, NavList } from './types';
+export { PAGE_SIZE } from './constants';

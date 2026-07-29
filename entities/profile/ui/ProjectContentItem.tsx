@@ -1,7 +1,9 @@
 'use client';
 
 import { Project } from '../model/types';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Badge, SvgrIcon } from '@/shared/ui';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shadcn/ui/accordion';
+import { Badge } from '@/shadcn/ui/badge';
+import { SvgrIcon } from '@/shared/ui';
 import { MotionConfig, motion } from 'motion/react';
 import { ContributionsBadge } from './ContributionsBadge';
 

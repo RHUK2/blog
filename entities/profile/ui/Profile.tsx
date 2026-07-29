@@ -1,6 +1,7 @@
 'use client';
 
-import { Badge, SvgrIcon } from '@/shared/ui';
+import { Badge } from '@/shadcn/ui/badge';
+import { SvgrIcon } from '@/shared/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 

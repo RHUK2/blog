@@ -1,5 +1,5 @@
-import { iconMap } from '@/shared/config/icons';
-import { cn } from '@/shared/lib';
+import { iconMap } from '@/shared/ui/icons';
+import { cn } from '@/shadcn/lib/utils';
 
 interface Props {
   icon: keyof typeof iconMap;

@@ -1,6 +1,7 @@
 'use client';
 
-import { cn, useRequestAnimationFrame } from '@/shared/lib';
+import { cn } from '@/shadcn/lib/utils';
+import { useRequestAnimationFrame } from '@/shared/lib';
 import { useEffect, useState } from 'react';
 
 interface HeadingItem {

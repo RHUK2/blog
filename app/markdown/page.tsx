@@ -1,6 +1,6 @@
 import { MarkdownMetaCard, TagNavigation } from '@/entities/markdown';
 import { readMarkdownMetaList, readTagList } from '@/entities/markdown/api';
-import { PAGE_SIZE } from '@/shared/config';
+import { PAGE_SIZE } from '@/shared/model';
 import { Divider, Pagination } from '@/shared/ui';
 
 interface Props {

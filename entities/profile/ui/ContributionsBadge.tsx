@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge } from '@/shared/ui';
+import { Badge } from '@/shadcn/ui/badge';
 
 interface Props {
   contribution: number;

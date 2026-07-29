@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { PAGE_SIZE } from '@/shared/config';
+import { PAGE_SIZE } from '@/shared/model';
 import { readdir, readFile, stat, writeFile } from 'fs/promises';
 import matter from 'gray-matter';
 import path from 'path';
