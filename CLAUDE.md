@@ -102,12 +102,14 @@ flowchart LR
 
 예외로 `entities/markdown/api`는 `fs`를 사용하는 서버 전용 모듈이라 슬라이스 공개 API에서 제외했다. 공개 API에 두면 클라이언트 컴포넌트가 슬라이스를 import할 때 `fs`가 브라우저 번들로 끌려와 빌드가 깨진다. 서버 컴포넌트에서는 `@/entities/markdown/api`로 직접 import하며, 해당 예외는 `steiger.config.ts`에서 `app/markdown/**` 범위로만 허용한다.
 
+shadcn/ui 컴포넌트는 FSD 레이어 밖의 루트 `shadcn/` 디렉터리에 둔다. shadcn CLI가 관리하는 벤더 코드이므로 FSD 규칙을 적용하지 않고, 사용처에서 파일 경로로 직접 import한다 (`@/shadcn/ui/badge`, `@/shadcn/lib/utils` 등).
+
 ### 디렉터리 구조
 
 - `app/` — Next.js App Router 페이지 및 API 라우트 (FSD app 레이어)
   - `_providers/` — ReactQueryProvider, GlobalClientConfig
 - `widgets/` — 복합 UI 블록 (여러 레이어를 조합)
-  - `site-header/` — Header (navList + DarkLightButton 조합)
+  - `site-header/` — Header (내부 navList + DarkLightButton 조합)
   - `site-footer/` — Footer
 - `features/` — 사용자 인터랙션 및 비즈니스 유스케이스
   - `search-markdown/` — MarkdownSearchInput (Fuse.js 검색)
@@ -115,10 +117,12 @@ flowchart LR
   - `markdown/` — MarkdownMetaCard, TagNavigation, 마크다운 파일 I/O 함수, 타입
   - `profile/` — Profile, CareerContentItem, ProjectContentItem, 정적 데이터, 타입
 - `shared/` — 재사용 UI 키트 및 공용 유틸
-  - `ui/` — Button, Badge, Pagination 등 범용 컴포넌트
-  - `config/` — constants.ts (PAGE_SIZE), nav.ts (navList), icons.ts (iconMap)
-  - `lib/hooks/` — useDebounce, useThrottle, useRequestAnimationFrame
-  - `model/` — 공용 타입 (Nav, NavList)
+  - `ui/` — Pagination, Menu, Tree 등 자체 범용 컴포넌트와 icons.ts (iconMap)
+  - `lib/` — useDebounce, useThrottle, useRequestAnimationFrame
+  - `model/` — constants.ts (PAGE_SIZE)
+- `shadcn/` — shadcn CLI가 관리하는 벤더 코드 (FSD 레이어 밖)
+  - `ui/` — Accordion, Badge, Button, Dialog, Input, RadioGroup, Textarea
+  - `lib/utils.ts` — cn 유틸
 - `public/markdown/` — 아티클 콘텐츠 및 이미지
 - `styles/` — 전역 CSS 및 구문 강조 CSS
 
